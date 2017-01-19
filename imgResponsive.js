@@ -202,44 +202,45 @@ jScaler.isHostedOnCloudImg = function(img, attr) {
 }
 
 jScaler.processImage = function(img) {
+  var source_URL = 'src',
+      startUrlSource = 8, // forget the https:// or http://
+      t,
+      j,
+      endUrlSource;
 
-    var source_URL = "src";
-    this.wrap(img);
+  this.wrap(img);
 
-    if (this.attr(img, 'data-src')) {
-        source_URL = "data-src";
-    }
+  if (this.attr(img, 'data-src')) {
+    source_URL = "data-src";
+  }
 
-    if (!this.isLocalURL(img, source_URL)) {
-        if (this.isHostedOnCloudImg(img, source_URL)) {
-            var startUrlSource = 8; // forget the https:// or http://
-            for (var j = 0; j < 4; j++) { // search the original link of the image
-                var t = this.attr(img, source_URL).indexOf('/', startUrlSource);
-                startUrlSource = t + 1;
-            }
-            var endUrlSource = this.attr(img, source_URL).length;
-            img.setAttribute('src', this.attr(img, source_URL));
-            img.setAttribute('data-src', this.attr(img, source_URL).substring(startUrlSource, endUrlSource));
-        } else {
-            img.setAttribute('data-src', this.attr(img, source_URL));
-            img.setAttribute('src', "https://" + this.config.TOKEN + ".cloudimg.io/cdn/x/n/" + this.attr(img, source_URL));
-        }
-
-        this.addSources(img);
+  if (!this.isLocalURL(img, source_URL)) {
+    if (this.isHostedOnCloudImg(img, source_URL)) {
+      for (j = 0; j < 4; j++) { // search the original link of the image
+        t = this.attr(img, source_URL).indexOf('/', startUrlSource);
+        startUrlSource = t + 1;
+      }
+      endUrlSource = this.attr(img, source_URL).length;
+      img.setAttribute('src', this.attr(img, source_URL));
+      img.setAttribute('data-src', this.attr(img, source_URL).substring(startUrlSource, endUrlSource));
     } else {
-
-	if (this.config.BASE_URL ==='') {
-
+      img.setAttribute('data-src', this.attr(img, source_URL));
+      img.setAttribute('src', "https://" + this.config.TOKEN + ".cloudimg.io/cdn/x/n/" + this.attr(img, source_URL));
+    }
+    this.addSources(img);
+  } else {
+	  if (this.config.BASE_URL ==='') {
 	    img.setAttribute('data-src',img.getAttribute(source_URL));
 	    img.setAttribute('src', img.getAttribute(source_URL));
-
-	} else {
-
-            img.setAttribute('data-src',BASE_URL + img.getAttribute(source_URL))
-            img.setAttribute('src', "https://" + this.config.TOKEN + ".cloudimg.io/cdn/x/n/" + BASE_URL + img.getAttribute(source_URL));
-	}
-    }
-}
+	  } else {
+      img.setAttribute('data-src', this.config.BASE_URL + img.getAttribute(source_URL));
+      img.setAttribute(
+        'src',
+        "https://" + this.config.TOKEN + ".cloudimg.io/cdn/x/n/" + this.config.BASE_URL + img.getAttribute(source_URL)
+      );
+	  }
+  }
+};
 
 jScaler.process = function() {
     var imgs = document.getElementsByTagName('img');
