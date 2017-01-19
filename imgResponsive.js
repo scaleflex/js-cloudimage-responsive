@@ -229,7 +229,8 @@ jScaler.processImage = function(img) {
       startUrlSource = 8, // forget the https:// or http://
       t,
       j,
-      endUrlSource;
+      endUrlSource,
+      actualUrl;
 
   this.wrap(img);
 
@@ -244,8 +245,14 @@ jScaler.processImage = function(img) {
         startUrlSource = t + 1;
       }
       endUrlSource = this.attr(img, source_URL).length;
-      img.setAttribute('src', this.attr(img, source_URL));
-      img.setAttribute('data-src', this.attr(img, source_URL).substring(startUrlSource, endUrlSource));
+      actualUrl = this.attr(img, source_URL).substring(startUrlSource, endUrlSource);
+      if (actualUrl.indexOf('//') === 0) {
+        actualUrl = window.location.protocol + actualUrl;
+        img.setAttribute('src', this.attr(img, source_URL).substring(0, startUrlSource) + actualUrl);
+      } else {
+        img.setAttribute('src', this.attr(img, source_URL));
+      }
+      img.setAttribute('data-src', actualUrl);
     } else {
       img.setAttribute('data-src', this.attr(img, source_URL));
       img.setAttribute('src', 'https://' + this.config.TOKEN + '.cloudimg.io/cdn/x/n/' + this.attr(img, source_URL));
