@@ -192,8 +192,12 @@ jScaler.addSources = function(img) {
 }
 
 jScaler.isLocalURL = function(img, attr) {
-    var val = this.attr(img, attr);
-    return (val.indexOf('http://') !== 0 && val.indexOf('https://') !== 0);
+  var val = this.attr(img, attr);
+  if (val.indexOf('//') === 0) {
+    val = window.location.protocol + val;
+    img.setAttribute('src', val);
+  }
+  return (val.indexOf('http://') !== 0 && val.indexOf('https://') !== 0);
 };
 
 jScaler.isHostedOnCloudImg = function(img, attr) {
