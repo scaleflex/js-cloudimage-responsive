@@ -5,14 +5,51 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      margin: 25px;
+    }
+    .background-image-class {
+      background-image: url('cave-background.jpg');
+    }
+    /*.img-wrapper img {*/
+      /*width: 400px;*/
+    /*}*/
+  </style>
   <title>jsResponsive</title>
 </head>
 <body>
-  <img src="cave-background.jpg" alt="1">
-  <img src="http://cej9drin.cloudimg.io/s/width/300///hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="1">
-  <img src="http://sample.li/ny.jpg" alt="2">
-  <img src="//hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="3">
-  <img src="https://hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="4">
+  <!--<img ci-src="cave-background.jpg" alt="1">-->
+  <!--<img ci-src="//sample.li/boat.jpg" ci-type="cover" ci-size="500x250" ci-params="fgrey">-->
+
+  <!--<img ci-src="//sample.li/boat.jpg"-->
+       <!--ci-type="cover"-->
+       <!--ci-size="{ xs: '100x400', sm:'200x400', md: '300x400', lg:'500x400', xl:'755x400' }"-->
+       <!--ci-responsive>-->
+
+  <img ci-src="//sample.li/boat.jpg"
+       ci-type="cover"
+       ci-size="{ xs: '100x400', sm:'200x400', md: '300x400', lg:'500x400', xl:'755x400' }"
+       ci-responsive>
+
+<!--<img src="http://cej9drin.cloudimg.io/s/width/600///hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="1">-->
+  <!--<img src="http://sample.li/ny.jpg" alt="2">-->
+  <!--<div class="img-wrapper">-->
+    <!--<img ci-src="http://sample.li/ny.jpg" ci-type="width" ci-value="200" alt="2" width="200px">-->
+  <!--</div>-->
+  <!--<picture>-->
+    <!--<source srcset="//sample.li/boat.jpg, //cej9drin.cloudimg.io/width/1000/none/http://sample.li/boat.jpg 3x">-->
+    <!--<img src="//sample.li/boat.jpg">-->
+  <!--</picture>-->
+  <!--<img src="http://cej9drin.cloudimg.io/s/width/1000/http://sample.li/ny.jpg" alt="2">-->
+  <!--<img src="//hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="3">-->
+  <!--<img src="https://hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="4">-->
+
+  <!--<div style="background-image: url('cave-background.jpg')"></div>-->
+  <!--<div class="background-image-class" sf-img-background></div>-->
+  <!--<div sf-img-background="https://hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg"></div>-->
 
   <script src="imgResponsive.js"></script>
 </body>
