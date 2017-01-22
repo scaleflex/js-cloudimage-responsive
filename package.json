@@ -1,0 +1,19 @@
+{
+  "name": "cloudimg-js-plugin",
+  "version": "0.1.0",
+  "description": "cloudimage.io is the easiest way to resize, store, and deliver your images to your customers through a powerful CDN.",
+  "main": "index.html",
+  "scripts": {
+    "start": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "build": "node node_modules/webpack/bin/webpack.js"
+  },
+  "devDependencies": {
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-stream": "^3.1.0",
+    "extract-text-webpack-plugin": "^1.0.1"
+  },
+  "dependencies": {
+    "bootstrap": "=3.3.7"
+  }
+}

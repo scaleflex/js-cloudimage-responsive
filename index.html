@@ -5,125 +5,348 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    ul li {
+      margin-bottom: 25px;
+      border-top: 5px solid #23daff;
+    }
     div {
       width: 400px;
       height: 200px;
-      margin: 25px;
       background-size: cover;
       background-position: center;
+    }
+    header a:hover {
+      text-decoration: none;
     }
   </style>
   <title>jsResponsive</title>
 </head>
 <body>
-  <!--<div ci-img-background="//sample.li/boat.jpg"></div>-->
-  <!--<div ci-img-background="//sample.li/boat.jpg" ci-size="400x200" ci-type="cover" ci-params="fgrey"></div>-->
-  <div ci-img-background="//sample.li/boat.jpg"
-       ci-size="{xs: '100x400', sm:'200x400', md: '300x400', lg:'500x400', xl:'755x400'}"
-       ci-type="cover"
+<ul>
+
+  <li>
+    <h2>Static with support different ratio pixel devices</h2>
+    <code>
+<pre>
+&lt;img ci-src="//sample.li/boat.jpg" ci-size="400"&gt;
+</pre>
+    </code>
+    <code>
+<pre>
+&lt;picture&gt;
+  &lt;source srcset="https://cej9drin.cloudimg.io/width/400/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/width/600/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/width/800/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/width/1200/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;img ci-src="http://sample.li/boat.jpg"
+       ci-size="400"
+       src="https://cej9drin.cloudimg.io/width/400/none/http://sample.li/boat.jpg"&gt;
+&lt;/picture&gt;
+</pre>
+    </code>
+    <img ci-src="//sample.li/boat.jpg" ci-size="400">
+  </li>
+
+
+  <li>
+    <code>
+<pre>
+&lt;img ci-src="//sample.li/boat.jpg"
+     ci-type="crop"
+     ci-size="600x100"
+     ci-params="fgrey"&gt;
+</pre>
+    </code>
+    <code>
+<pre>
+&lt;picture&gt;
+  &lt;source srcset="https://cej9drin.cloudimg.io/crop/600x100/fgrey/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/crop/900x150/fgrey/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/crop/1200x200/fgrey/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/crop/1800x300/fgrey/http://sample.li/boat.jpg 3x"&gt;
+  &lt;img ci-src="http://sample.li/boat.jpg"
+       ci-type="crop"
+       ci-size="600x100"
        ci-params="fgrey"
-       ci-responsive="auto">
-  </div>
+       src="https://cej9drin.cloudimg.io/crop/600x100/fgrey/http://sample.li/boat.jpg"&gt;
+&lt;/picture&gt;
+</pre>
+    </code>
+    <img ci-src="//sample.li/boat.jpg"
+         ci-type="crop"
+         ci-size="600x100"
+         ci-params="fgrey">
+  </li>
 
-  <!--<img ci-src="cave-background.jpg">-->
 
-  <!--<img ci-src="//sample.li/boat.jpg" ci-type="cover" ci-size="500x250" ci-params="fgrey">-->
-  <!--<pre>-->
-    <!--<code>-->
-      <!--<xmp>-->
-        <!--<img ci-src="//sample.li/boat.jpg" ci-type="cover" ci-size="500x250">-->
-      <!--</xmp>-->
-    <!--</code>-->
-  <!--</pre>-->
-  <!--<pre>-->
-    <!--<code>-->
-      <!--<xmp>-->
-        <!--<picture>-->
-          <!--<source srcset="https://cej9drin.cloudimg.io/cover/500x250/none/http://sample.li/boat.jpg 1x,-->
-                          <!--https://cej9drin.cloudimg.io/cover/750x375/none/http://sample.li/boat.jpg 1.5x,-->
-                          <!--https://cej9drin.cloudimg.io/cover/1000x500/none/http://sample.li/boat.jpg 2x,-->
-                          <!--https://cej9drin.cloudimg.io/cover/1500x750/none/http://sample.li/boat.jpg 3x">-->
-          <!--<img ci-src="http://sample.li/boat.jpg"-->
-               <!--ci-type="cover"-->
-               <!--ci-size="500x250"-->
-               <!--src="https://cej9drin.cloudimg.io/cover/500x250/none/http://sample.li/boat.jpg">-->
-        <!--</picture>-->
-      <!--</xmp>-->
-    <!--</code>-->
-  <!--</pre>-->
 
-  <!--<img ci-src="//sample.li/boat.jpg" ci-type="cover" ci-size="500x250">-->
-
-  <!--<pre>
-    <code><xmp>
+  <li>
+    <h2>Responsive</h2>
+    <code>
+<pre>
+&lt;img ci-src="//sample.li/boat.jpg"
+     ci-type="cover"
+     ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+     ci-responsive&gt;
+</pre>
+    </code>
+    <code><pre>
+&lt;picture&gt;
+  &lt;source media="(max-width:576px)"
+          srcset="https://cej9drin.cloudimg.io/cover/50x100/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/75x150/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/100x200/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/150x300/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:768px)"
+          srcset="https://cej9drin.cloudimg.io/cover/100x125/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/150x187/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/200x250/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/300x375/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:992px)"
+          srcset="https://cej9drin.cloudimg.io/cover/150x150/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/225x225/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/300x300/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/450x450/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:1200px)"
+          srcset="https://cej9drin.cloudimg.io/cover/200x175/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/300x262/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/400x350/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/600x525/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:1920px)"
+          srcset="https://cej9drin.cloudimg.io/cover/300x200/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/450x300/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/600x400/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/900x600/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;img ci-src="http://sample.li/boat.jpg"
+       ci-type="cover"
+       ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+       ci-responsive=""
+       src="https://cej9drin.cloudimg.io/cdn/x/none/http://sample.li/boat.jpg"&gt;
+&lt;/picture&gt;
+    </pre></code>
     <img ci-src="//sample.li/boat.jpg"
          ci-type="cover"
-         ci-size="{ xs: '100x400', sm:'200x400', md: '300x400', lg:'500x400', xl:'755x400' }"
-         ci-responsive></xmp>
-    </code>
-  </pre>
-  <pre>
+         ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+         ci-responsive>
+  </li>
+
+
+  <li>
     <code>
-      <xmp>
-        <picture>
-          <source media="(max-width:576px)"
-                  srcset="https://cej9drin.cloudimg.io/cover/100x400/none/http://sample.li/boat.jpg 1x,
-                          https://cej9drin.cloudimg.io/cover/150x600/none/http://sample.li/boat.jpg 1.5x,
-                          https://cej9drin.cloudimg.io/cover/200x800/none/http://sample.li/boat.jpg 2x,
-                          https://cej9drin.cloudimg.io/cover/300x1200/none/http://sample.li/boat.jpg 3x">
-          <source media="(max-width:768px)"
-                  srcset="https://cej9drin.cloudimg.io/cover/200x400/none/http://sample.li/boat.jpg 1x,
-                          https://cej9drin.cloudimg.io/cover/300x600/none/http://sample.li/boat.jpg 1.5x,
-                          https://cej9drin.cloudimg.io/cover/400x800/none/http://sample.li/boat.jpg 2x,
-                          https://cej9drin.cloudimg.io/cover/600x1200/none/http://sample.li/boat.jpg 3x">
-          <source media="(max-width:992px)"
-                  srcset="https://cej9drin.cloudimg.io/cover/300x400/none/http://sample.li/boat.jpg 1x,
-                          https://cej9drin.cloudimg.io/cover/450x600/none/http://sample.li/boat.jpg 1.5x,
-                          https://cej9drin.cloudimg.io/cover/600x800/none/http://sample.li/boat.jpg 2x,
-                          https://cej9drin.cloudimg.io/cover/900x1200/none/http://sample.li/boat.jpg 3x">
-          <source media="(max-width:1200px)"
-                  srcset="https://cej9drin.cloudimg.io/cover/500x400/none/http://sample.li/boat.jpg 1x,
-                          https://cej9drin.cloudimg.io/cover/750x600/none/http://sample.li/boat.jpg 1.5x,
-                          https://cej9drin.cloudimg.io/cover/1000x800/none/http://sample.li/boat.jpg 2x,
-                          https://cej9drin.cloudimg.io/cover/1500x1200/none/http://sample.li/boat.jpg 3x">
-          <source media="(max-width:1920px)"
-                  srcset="https://cej9drin.cloudimg.io/cover/755x400/none/http://sample.li/boat.jpg 1x,
-                          https://cej9drin.cloudimg.io/cover/1132x600/none/http://sample.li/boat.jpg 1.5x,
-                          https://cej9drin.cloudimg.io/cover/1510x800/none/http://sample.li/boat.jpg 2x,
-                          https://cej9drin.cloudimg.io/cover/2265x1200/none/http://sample.li/boat.jpg 3x">
-          <img ci-src="http://sample.li/boat.jpg"
-               ci-type="cover"
-               ci-size="{ xs: '100x400', sm:'200x400', md: '300x400', lg:'500x400', xl:'755x400' }"
-               ci-responsive=""
-               src="https://cej9drin.cloudimg.io/cdn/x/none/http://sample.li/boat.jpg">
-        </picture>
-      </xmp>
+<pre>
+&lt;img ci-src="//sample.li/boat.jpg"
+     ci-type="crop"
+     ci-size="{sm:'100x125', xl:'300x200'}"
+     ci-params="fgrey"
+     ci-responsive&gt;
+</pre>
     </code>
-  </pre>
-  <img ci-src="//sample.li/boat.jpg"
+    <code>
+<pre>
+&lt;picture&gt;
+  &lt;source media="(max-width:768px)"
+          srcset="https://cej9drin.cloudimg.io/crop/100x125/fgrey/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/crop/150x187/fgrey/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/crop/200x250/fgrey/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/crop/300x375/fgrey/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:1920px)"
+          srcset="https://cej9drin.cloudimg.io/crop/300x200/fgrey/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/crop/450x300/fgrey/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/crop/600x400/fgrey/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/crop/900x600/fgrey/http://sample.li/boat.jpg 3x"&gt;
+  &lt;img ci-src="http://sample.li/boat.jpg"
        ci-type="cover"
-       ci-size="{ xs: '100x400', sm:'200x400', md: '300x400', lg:'500x400', xl:'755x400' }"
-       ci-responsive>-->
+       ci-size="{sm:'100x125', xl:'300x200'}"
+       ci-responsive=""
+       src="https://cej9drin.cloudimg.io/cdn/x/fgrey/http://sample.li/boat.jpg"&gt;
+&lt;/picture&gt;
+</pre></code>
+    <img ci-src="//sample.li/boat.jpg"
+         ci-type="crop"
+         ci-size="{sm:'100x125', xl:'300x200'}"
+         ci-params="fgrey"
+         ci-responsive>
+  </li>
 
-<!--<img src="http://cej9drin.cloudimg.io/s/width/600///hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="1">-->
-  <!--<img src="http://sample.li/ny.jpg" alt="2">-->
-  <!--<div class="img-wrapper">-->
-    <!--<img ci-src="http://sample.li/ny.jpg" ci-type="width" ci-value="200" alt="2" width="200px">-->
-  <!--</div>-->
-  <!--<picture>-->
-    <!--<source srcset="//sample.li/boat.jpg, //cej9drin.cloudimg.io/width/1000/none/http://sample.li/boat.jpg 3x">-->
-    <!--<img src="//sample.li/boat.jpg">-->
-  <!--</picture>-->
-  <!--<img src="http://cej9drin.cloudimg.io/s/width/1000/http://sample.li/ny.jpg" alt="2">-->
-  <!--<img src="//hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="3">-->
-  <!--<img src="https://hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg" alt="4">-->
 
-  <!--<div style="background-image: url('cave-background.jpg')"></div>-->
-  <!--<div class="background-image-class" sf-img-background></div>-->
-  <!--<div sf-img-background="https://hsto.org/files/04f/973/42d/04f97342d90645db8d91156bdb660a35.jpg"></div>-->
+
+  <li>
+    <h2>Background Images static with support retina displays</h2>
+    <code>
+<pre>
+&lt;div ci-img-background="//sample.li/boat.jpg"
+     ci-size="400x200"
+     ci-type="cover"
+     ci-params="fgrey"&gt;
+&lt;/div&gt;
+</pre>
+    </code>
+    <code>
+<pre>
+&lt;style&gt;
+  [ci-img-index="0"] {
+    background-image: url(https://cej9drin.cloudimg.io/cover/400x200/fgrey/http://sample.li/boat.jpg);
+  }
+  @media(-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="0"] {
+      background-image: url(https://cej9drin.cloudimg.io/cover/600x300/fgrey/http://sample.li/boat.jpg);
+    }
+  }
+  @media(-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="0"] {
+      background-image: url(https://cej9drin.cloudimg.io/cover/800x400/fgrey/http://sample.li/boat.jpg);
+    }
+  }
+  @media(-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="0"] {
+      background-image: url(https://cej9drin.cloudimg.io/cover/1200x600/fgrey/http://sample.li/boat.jpg);
+    }
+  }
+&lt;/style&gt;
+
+&lt;div ci-img-background="http://sample.li/boat.jpg"
+     ci-size="400x200"
+     ci-type="cover"
+     ci-params="fgrey"
+     ci-img-index="0"&gt;
+&lt;/div&gt;
+</pre>
+    </code>
+    <div ci-img-background="//sample.li/boat.jpg"
+         ci-size="400x200"
+         ci-type="cover"
+         ci-params="fgrey"></div>
+  </li>
+
+
+  <li>
+    <h2>Background Images responsive - mode: auto (full screen)</h2>
+    <code>
+<pre>
+&lt;div ci-img-background="//sample.li/boat.jpg" ci-responsive&gt;&lt;/div&gt;
+</pre>
+    </code>
+    <code>
+<pre>
+&lt;style&gt;
+  @media (max-width: 1920px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1920/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1920px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2880/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1920px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/3840/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1920px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/5760/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1200/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1800/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2400/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/3600/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/992/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1488/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1984/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2976/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/768/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1152/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1536/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2304/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/576/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/864/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1152/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1728/none/http://sample.li/boat.jpg);
+    }
+  }
+&lt;/style&gt;
+
+&lt;div ci-img-background="http://sample.li/boat.jpg" ci-responsive="" ci-img-index="1"&gt;&lt;/div&gt;
+
+</pre>
+    </code>
+    <div style="width: 100%;" ci-img-background="//sample.li/boat.jpg" ci-responsive></div>
+  </li>
+
+
+</ul>
 
   <script src="imgResponsive.js"></script>
 </body>

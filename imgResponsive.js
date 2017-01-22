@@ -40,14 +40,18 @@
       imgs = Array.prototype.slice.call(imgs);
       imgs.forEach(function(img) {
         img.addEventListener('error', onerrorImg, false);  //TODO: check if it works well
-        this.processImage(img);
+        if (!this.attr(img, 'src')) { //TODO: find better way
+          this.processImage(img);
+        }
       }, this);
     }
 
     if (backgroundImgs.length > 0) {
       backgroundImgs = Array.prototype.slice.call(backgroundImgs);
       backgroundImgs.forEach(function(img) {
-        this.processBackgroundImage(img);
+        if (this.attr(img, 'ci-img-index') >= 0) {  //TODO: find better way
+          this.processBackgroundImage(img);
+        }
       }, this);
     }
   };
