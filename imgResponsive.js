@@ -214,7 +214,7 @@
   };
 
   jScaler.addCss = function(elem, imgType, imgSize, imgParams, imgSrc, isResponsive) {
-    var i, shortCut, mediaQuery;
+    var i, size, mediaQuery;
     if (isResponsive) {
       var cssQueries = '';
       if (imgSize === 'full_screen' || imgSize === '' || this.attr(elem, 'ci-size') === null) {
@@ -227,9 +227,13 @@
       } else if (isImgSizeIsObject(imgSize)) {
         imgSize = eval('(' + imgSize + ')');
         for (i = 0; i < this.config.order.length; i++) {
-          shortCut = imgSize[this.config.order[i]];
+          size = imgSize[this.config.order[i]];
           mediaQuery = this.config.presets[this.config.order[i]];
-          cssQueries += this.generateMediaQueries(elem, imgType, shortCut, imgParams, imgSrc, isResponsive, mediaQuery);
+          if (size) {
+            cssQueries += this.generateMediaQueries(
+              elem, imgType, size, imgParams, imgSrc, isResponsive, mediaQuery
+            );
+          }
         }
       } else if (imgSize) {
 
