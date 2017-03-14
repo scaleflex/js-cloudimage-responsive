@@ -12,16 +12,19 @@
       margin: 0;
       padding: 0;
     }
+
     ul li {
       margin-bottom: 25px;
       border-top: 5px solid #23daff;
     }
+
     div {
       width: 400px;
       height: 200px;
       background-size: cover;
       background-position: center;
     }
+
     header a:hover {
       text-decoration: none;
     }
@@ -29,16 +32,25 @@
   <title>jsResponsive</title>
 </head>
 <body>
-<ul>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Hello, world!</h1>
+    <p>...</p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+  </div>
 
-  <li>
-    <h2>Static with support different ratio pixel devices</h2>
-    <code>
+  <ul>
+
+    <li>
+      <h2>Static with support different ratio pixel devices</h2>
+
+      <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg" ci-size="400"&gt;
 </pre>
-    </code>
-    <code>
+      </code>
+
+      <code>
 <pre>
 &lt;picture&gt;
   &lt;source srcset="https://cej9drin.cloudimg.io/width/400/none/http://sample.li/boat.jpg 1x,
@@ -50,21 +62,25 @@
        src="https://cej9drin.cloudimg.io/width/400/none/http://sample.li/boat.jpg"&gt;
 &lt;/picture&gt;
 </pre>
-    </code>
-    <img ci-src="//sample.li/boat.jpg" ci-size="400">
-  </li>
+      </code>
+
+      <img ci-src="//sample.li/boat.jpg" ci-size="400">
+    </li>
 
 
-  <li>
-    <code>
+
+
+
+    <li>
+      <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg"
      ci-type="crop"
      ci-size="600x100"
      ci-params="fgrey"&gt;
 </pre>
-    </code>
-    <code>
+      </code>
+      <code>
 <pre>
 &lt;picture&gt;
   &lt;source srcset="https://cej9drin.cloudimg.io/crop/600x100/fgrey/http://sample.li/boat.jpg 1x,
@@ -78,26 +94,29 @@
        src="https://cej9drin.cloudimg.io/crop/600x100/fgrey/http://sample.li/boat.jpg"&gt;
 &lt;/picture&gt;
 </pre>
-    </code>
-    <img ci-src="//sample.li/boat.jpg"
-         ci-type="crop"
-         ci-size="600x100"
-         ci-params="fgrey">
-  </li>
+      </code>
+      <img ci-src="//sample.li/boat.jpg"
+           ci-type="crop"
+           ci-size="600x100"
+           ci-params="fgrey">
+    </li>
 
 
 
-  <li>
-    <h2>Responsive</h2>
-    <code>
+
+
+    <li>
+      <h2>Responsive</h2>
+      <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg"
      ci-type="cover"
      ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
      ci-responsive&gt;
 </pre>
-    </code>
-    <code><pre>
+      </code>
+      <code>
+<pre>
 &lt;picture&gt;
   &lt;source media="(max-width:576px)"
           srcset="https://cej9drin.cloudimg.io/cover/50x100/none/http://sample.li/boat.jpg 1x,
@@ -130,16 +149,20 @@
        ci-responsive=""
        src="https://cej9drin.cloudimg.io/cdn/x/none/http://sample.li/boat.jpg"&gt;
 &lt;/picture&gt;
-    </pre></code>
-    <img ci-src="//sample.li/boat.jpg"
-         ci-type="cover"
-         ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
-         ci-responsive>
-  </li>
+</pre>
+      </code>
+
+      <img ci-src="//sample.li/boat.jpg"
+           ci-type="cover"
+           ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+           ci-responsive>
+    </li>
 
 
-  <li>
-    <code>
+
+
+    <li>
+      <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg"
      ci-type="crop"
@@ -147,8 +170,8 @@
      ci-params="fgrey"
      ci-responsive&gt;
 </pre>
-    </code>
-    <code>
+      </code>
+      <code>
 <pre>
 &lt;picture&gt;
   &lt;source media="(max-width:768px)"
@@ -167,19 +190,22 @@
        ci-responsive=""
        src="https://cej9drin.cloudimg.io/cdn/x/fgrey/http://sample.li/boat.jpg"&gt;
 &lt;/picture&gt;
-</pre></code>
-    <img ci-src="//sample.li/boat.jpg"
-         ci-type="crop"
-         ci-size="{sm:'100x125', xl:'300x200'}"
-         ci-params="fgrey"
-         ci-responsive>
-  </li>
+</pre>
+      </code>
+      <img ci-src="//sample.li/boat.jpg"
+           ci-type="crop"
+           ci-size="{sm:'100x125', xl:'300x200'}"
+           ci-params="fgrey"
+           ci-responsive>
+    </li>
 
 
 
-  <li>
-    <h2>Background Images static with support retina displays</h2>
-    <code>
+
+
+    <li>
+      <h2>Background Images static with support retina displays</h2>
+      <code>
 <pre>
 &lt;div ci-img-background="//sample.li/boat.jpg"
      ci-size="400x200"
@@ -187,8 +213,8 @@
      ci-params="fgrey"&gt;
 &lt;/div&gt;
 </pre>
-    </code>
-    <code>
+      </code>
+      <code>
 <pre>
 &lt;style&gt;
   [ci-img-index="0"] {
@@ -218,22 +244,25 @@
      ci-img-index="0"&gt;
 &lt;/div&gt;
 </pre>
-    </code>
-    <div ci-img-background="//sample.li/boat.jpg"
-         ci-size="400x200"
-         ci-type="cover"
-         ci-params="fgrey"></div>
-  </li>
+      </code>
+      <div ci-img-background="//sample.li/boat.jpg"
+           ci-size="400x200"
+           ci-type="cover"
+           ci-params="fgrey"></div>
+    </li>
 
 
-  <li>
-    <h2>Background Images responsive - mode: auto (full screen)</h2>
-    <code>
+
+
+
+    <li>
+      <h2>Background Images responsive - mode: auto (full screen)</h2>
+      <code>
 <pre>
 &lt;div ci-img-background="//sample.li/boat.jpg" ci-responsive&gt;&lt;/div&gt;
 </pre>
-    </code>
-    <code>
+      </code>
+      <code>
 <pre>
 &lt;style&gt;
   @media (max-width: 1920px) {
@@ -341,15 +370,17 @@
 &lt;div ci-img-background="http://sample.li/boat.jpg" ci-responsive="" ci-img-index="1"&gt;&lt;/div&gt;
 
 </pre>
-    </code>
-    <div style="width: 100%;" ci-img-background="//sample.li/boat.jpg" ci-responsive></div>
-  </li>
+      </code>
+      <div style="width: 100%;" ci-img-background="//sample.li/boat.jpg" ci-responsive></div>
+    </li>
 
 
 
-  <li>
-    <h2>Background Images responsive - mode: exact</h2>
-    <code>
+
+
+    <li>
+      <h2>Background Images responsive - mode: exact</h2>
+      <code>
 <pre>
 &lt;div ci-img-background="//sample.li/boat.jpg"
      ci-type="crop"
@@ -357,8 +388,8 @@
      ci-responsive&gt;
 &lt;/div&gt;
 </pre>
-    </code>
-    <code>
+      </code>
+      <code>
 <pre>
 &lt;style&gt;
   @media (max-width: 1920px) {
@@ -469,17 +500,20 @@
      ci-img-index="2"&gt;
 &lt;/div&gt;
 </pre>
-    </code>
-    <div style="width: 50%"
-         ci-img-background="//sample.li/boat.jpg"
-         ci-type="crop"
-         ci-size="{xs: '250x250', sm:'300x500', md: '600x200', lg:'700x300', xl:'800x350'}"
-         ci-responsive></div>
-  </li>
+      </code>
+      <div style="width: 50%"
+           ci-img-background="//sample.li/boat.jpg"
+           ci-type="crop"
+           ci-size="{xs: '250x250', sm:'300x500', md: '600x200', lg:'700x300', xl:'800x350'}"
+           ci-responsive></div>
+    </li>
 
 
-</ul>
 
-  <script src="imgResponsive.js"></script>
+
+  </ul>
+</div>
+
+<script src="imgResponsive.js"></script>
 </body>
 </html>

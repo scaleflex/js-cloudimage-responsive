@@ -11,7 +11,7 @@
     DEFAULT_TYPE:   jScaler.config.DEFAULT_TYPE   || 'width',
     DEFAULT_PARAMS: jScaler.config.DEFAULT_PARAMS || 'none',
     BASE_URL:       jScaler.config.BASE_URL       || '',         // For local images
-    presets:        jScaler.config.presets        ||
+    PRESETS:        jScaler.config.PRESETS        ||
     {
       xs: 576,  // 0 - 576      PHONE
       sm: 768,  // 577 - 768    PHABLET
@@ -19,8 +19,8 @@
       lg: 1200, // 993 - 1200   SMALL_LAPTOP_SCREEN
       xl: 1920  // 1200 - 1920  USUALSCREEN
     },
-    order:          jScaler.config.order || [ 'xl', 'lg', 'md', 'sm', 'xs' ],
-    auto:           jScaler.config.auto || [ 1920, 1200, 992, 768, 576 ]
+    ORDER:          jScaler.config.ORDER || [ 'xl', 'lg', 'md', 'sm', 'xs' ],
+    AUTO:           jScaler.config.AUTO || [ 1920, 1200, 992, 768, 576 ]
   };
 
   jScaler.init = function() {
@@ -102,7 +102,7 @@
       for (var size in imgSize) {
         if (imgSize.hasOwnProperty(size)) {
           var srcSet = this.generateSrcset(imgType, imgSize[size], imgParams, imgSrc),
-              mediaQuery = '(max-width:' + this.config.presets[size] + 'px)';
+              mediaQuery = '(max-width:' + this.config.PRESETS[size] + 'px)';
           this.before(img, '<source media="' + mediaQuery + '" srcset="' + srcSet + '">');
         }
       }
@@ -219,16 +219,16 @@
       var cssQueries = '';
       if (imgSize === 'full_screen' || imgSize === '' || this.attr(elem, 'ci-size') === null) {
         //TODO: make it possible to use special config for auto mode
-        for (i = 0; i < this.config.auto.length; i++) {
+        for (i = 0; i < this.config.AUTO.length; i++) {
           //TODO: for now only width method
-          imgSize = this.config.auto[i];
+          imgSize = this.config.AUTO[i];
           cssQueries += this.generateMediaQueries(elem, 'width', imgSize, imgParams, imgSrc, isResponsive, imgSize);
         }
       } else if (isImgSizeIsObject(imgSize)) {
         imgSize = eval('(' + imgSize + ')');
-        for (i = 0; i < this.config.order.length; i++) {
-          size = imgSize[this.config.order[i]];
-          mediaQuery = this.config.presets[this.config.order[i]];
+        for (i = 0; i < this.config.ORDER.length; i++) {
+          size = imgSize[this.config.ORDER[i]];
+          mediaQuery = this.config.PRESETS[this.config.ORDER[i]];
           if (size) {
             cssQueries += this.generateMediaQueries(
               elem, imgType, size, imgParams, imgSrc, isResponsive, mediaQuery
