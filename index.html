@@ -21,7 +21,7 @@
       padding: 0;
     }
 
-    ul li code {
+    ul li code:not(.code) {
       font-size: 0;
       color: white;
       background: white;
@@ -74,7 +74,7 @@
     <div class="row">
       <div class="col-md-offset-3 col-md-9">
         <p class="description">
-          It is the easiest way to make your images( as well as images as backgrounds) responsive and adaptive for every device!
+          It is the easiest way to make your images(as well as backgrounds) responsive and adaptive for every device!
         </p>
       </div>
     </div>
@@ -90,7 +90,7 @@
       <code><pre>&lt;script src="{path to the file}/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre></code>
     </li>
     <li>
-      <h5>Initialize jSaler and pass configuration file into process function in your code:</h5>
+      <h5>Initialize jSaler and pass <a href="#configuration">configuration object</a> into process function in your code:</h5>
       <code>
 <pre>
 document.addEventListener('DOMContentLoaded', function() {
@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
     </li>
     <li>
       <h5>Put attributes to an image and customize them with <a href="#jScaler-params">jSaler params</a>:</h5>
+
+      <p>For <code class="code">&lt;img&gt;</code>:</p>
       <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg"
@@ -111,10 +113,18 @@ document.addEventListener('DOMContentLoaded', function() {
      ci-responsive&gt;
 </pre>
       </code>
+
+      <p>For <code class="code">background</code>:</p>
+      <code>
+<pre>
+&lt;div ci-img-background="//sample.li/boat.jpg" ci-responsive&gt;&lt;/div&gt;
+</pre>
+      </code>
     </li>
   </ul>
   <h2>The result will be the following:</h2>
-  <p>The image will be wrapped with &lt;picture&gt; and &lt;source&gt; tags.
+  <h4>For <code class="code">&lt;img&gt;</code>:</h4>
+  <p>The image will be wrapped with &lt;picture&gt; and &lt;source&gt; tags with <i>media</i> and <i>srcset</i> attributes.
     It gives an opportunity to load the specific image for specified screen(window) widths and according to the device pixel ratio. You can resize the window and see how it works :)</p>
   <code style="font-size: 0; background-color: white;">
 <pre>
@@ -157,6 +167,119 @@ document.addEventListener('DOMContentLoaded', function() {
        ci-type="cover"
        ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
        ci-responsive>
+
+  <h4>For <code class="code">background</code>:</h4>
+  <p>Tag &lt;style&gt; is added to your head with all Media queries you specified with the support of retina screens</p>
+  <code style="font-size: 0; background-color: white;">
+<pre>
+&lt;style&gt;
+  @media (max-width: 1920px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1920/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1920px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2880/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1920px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/3840/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1920px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/5760/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1200/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1800/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2400/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 1200px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/3600/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/992/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1488/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1984/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 992px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2976/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/768/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1152/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1536/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/2304/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/576/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) and (-webkit-min-device-pixel-ratio: 1.5) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/864/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) and (-webkit-min-device-pixel-ratio: 2) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1152/none/http://sample.li/boat.jpg);
+    }
+  }
+  @media (max-width: 576px) and (-webkit-min-device-pixel-ratio: 3) {
+    [ci-img-index="1"] {
+      background-image: url(https://cej9drin.cloudimg.io/width/1728/none/http://sample.li/boat.jpg);
+    }
+  }
+&lt;/style&gt;
+
+&lt;div ci-img-background="http://sample.li/boat.jpg" ci-responsive="" ci-img-index="1"&gt;&lt;/div&gt;
+
+</pre>
+  </code>
+  <div class="image" style="width: 100%;" ci-img-background="//sample.li/boat.jpg" ci-responsive></div>
 </div>
 
 <div class="container">
@@ -224,6 +347,10 @@ document.addEventListener('DOMContentLoaded', function() {
     <dt>ci-responsive <span class="optional">- optional, no params</span></dt>
     <dd>Makes it possible to use different size images according to screen (window) width</dd>
   </dl>
+</div>
+
+<div class="container">
+  <h2>Configuration params</h2>
 </div>
 
 
