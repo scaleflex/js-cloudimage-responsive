@@ -90,6 +90,18 @@
       <code><pre>&lt;script src="{path to the file}/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre></code>
     </li>
     <li>
+      <h5>Initialize jSaler and pass configuration file into process function in your code:</h5>
+      <code>
+<pre>
+document.addEventListener('DOMContentLoaded', function() {
+  jScaler.process({
+    TOKEN: 'your token'
+  });
+});
+</pre>
+      </code>
+    </li>
+    <li>
       <h5>Put attributes to an image and customize them with <a href="#jScaler-params">jSaler params</a>:</h5>
       <code>
 <pre>
@@ -710,6 +722,17 @@
   </ul>
 </div>
 
-<script src="imgResponsive.js"></script>
+<script src="cloudimage.io-responsive.js"></script>
+<script>
+  (function (jScaler) {
+    if (jScaler) {
+      document.addEventListener('DOMContentLoaded', function() {
+        jScaler.process({
+          TOKEN: 'cej9drin'
+        });
+      });
+    }
+  })(jScaler);
+</script>
 </body>
 </html>
