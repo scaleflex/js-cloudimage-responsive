@@ -7,18 +7,49 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <style>
+    .jumbotron {
+      background: url('//www.cloudimage.io/dist/landing/img/sky.jpg ') no-repeat center;
+      text-align: right;
+      color: white;
+    }
+    .jumbotron h1 {
+      font-size: 32px;
+    }
     ul {
       list-style-type: none;
       margin: 0;
       padding: 0;
     }
 
-    ul li {
+    ul li code {
+      font-size: 0;
+      color: white;
+      background: white;
+    }
+
+    ul.examples li {
       margin-bottom: 25px;
       border-top: 5px solid #23daff;
     }
 
-    div {
+    ul.examples li h4 {
+      margin: 20px 0;
+    }
+
+    ul.examples li p {
+      margin: 0;
+    }
+
+    dt {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    dt span {
+      font-size: 14px;
+    }
+
+    .image {
       width: 400px;
       height: 200px;
       background-size: cover;
@@ -28,28 +59,179 @@
     header a:hover {
       text-decoration: none;
     }
+
+    .quick-start {
+      margin: 75px auto;
+    }
   </style>
   <title>jsResponsive</title>
 </head>
 <body>
-<div class="container">
-  <div class="jumbotron">
-    <h1>Hello, world!</h1>
-    <p>...</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-  </div>
 
+<div class="jumbotron container-fluid">
+  <div class="container">
+    <h1><code>jScaler</code> - JS plugin for &lt;cloudimage.io/&gt;</h1>
+    <div class="row">
+      <div class="col-md-offset-3 col-md-9">
+        <p class="description">
+          It is the easiest way to make your images( as well as images as backgrounds) responsive and adaptive for every device!
+        </p>
+      </div>
+    </div>
+    <p><a class="btn btn-success btn-lg disabled" href="#" role="button">Download for free</a></p>
+  </div>
+</div>
+
+<div class="container quick-start">
+  <h2>Quick start</h2>
   <ul>
+    <li>
+      <h5>Download and include <b>cloudimage.io-responsive.js</b> file into your project:</h5>
+      <code><pre>&lt;script src="{path to the file}/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre></code>
+    </li>
+    <li>
+      <h5>Put attributes to an image and customize them with <a href="#jScaler-params">jSaler params</a>:</h5>
+      <code>
+<pre>
+&lt;img ci-src="//sample.li/boat.jpg"
+     ci-type="cover"
+     ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+     ci-responsive&gt;
+</pre>
+      </code>
+    </li>
+  </ul>
+  <h2>The result will be the following:</h2>
+  <p>The image will be wrapped with &lt;picture&gt; and &lt;source&gt; tags.
+    It gives an opportunity to load the specific image for specified screen(window) widths and according to the device pixel ratio. You can resize the window and see how it works :)</p>
+  <code style="font-size: 0; background-color: white;">
+<pre>
+&lt;picture&gt;
+  &lt;source media="(max-width:576px)"
+          srcset="https://cej9drin.cloudimg.io/cover/50x100/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/75x150/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/100x200/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/150x300/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:768px)"
+          srcset="https://cej9drin.cloudimg.io/cover/100x125/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/150x187/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/200x250/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/300x375/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:992px)"
+          srcset="https://cej9drin.cloudimg.io/cover/150x150/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/225x225/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/300x300/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/450x450/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:1200px)"
+          srcset="https://cej9drin.cloudimg.io/cover/200x175/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/300x262/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/400x350/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/600x525/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;source media="(max-width:1920px)"
+          srcset="https://cej9drin.cloudimg.io/cover/300x200/none/http://sample.li/boat.jpg 1x,
+                  https://cej9drin.cloudimg.io/cover/450x300/none/http://sample.li/boat.jpg 1.5x,
+                  https://cej9drin.cloudimg.io/cover/600x400/none/http://sample.li/boat.jpg 2x,
+                  https://cej9drin.cloudimg.io/cover/900x600/none/http://sample.li/boat.jpg 3x"&gt;
+  &lt;img ci-src="http://sample.li/boat.jpg"
+       ci-type="cover"
+       ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+       ci-responsive=""
+       src="https://cej9drin.cloudimg.io/cdn/x/none/http://sample.li/boat.jpg"&gt;
+&lt;/picture&gt;
+</pre>
+  </code>
+
+  <img ci-src="//sample.li/boat.jpg"
+       ci-type="cover"
+       ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+       ci-responsive>
+</div>
+
+<div class="container">
+  <h2 id="jScaler-params">jScaler attributes</h2>
+  <dl>
+    <dt>ci-src <small>or</small> ci-img-background<span class="required"> - required</span></dt>
+    <dd>
+      <b>ci-src</b> - path to a local image or url for <b>&lt;img&gt;</b> tag<br/>
+      <b>ci-img-background</b> - path to a local image or url for <b>background-image</b> style property<br/>
+    </dd>
+    <dt>ci-size <span class="optional">- optional, default: 400px</span></dt>
+    <dd>
+      <p>Size of an image.</p>
+      <p>Possible values:</p>
+      <ul>
+        <li><b>ci-size="500"</b>:
+          <p>500px,750px, 1000px, 1500px width for 1x, 1.5x, 2x, 3x pixel ratio accordingly</p>
+        </li>
+        <li><b>ci-size="300x400"</b>:
+          <p>300px/400px, 450px/600px, 600px/800px, 900px/1200px width/height for 1x, 1.5x, 2x, 3x pixel ratio accordingly</p></li>
+        <li>
+          <b>ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"</b> * requires <b>ci-responsive</b> attribute:
+          <p>
+            Width and height for different screen resolutions </br>
+            for max-width of screen 576px - 50x100, 75x150, 100/ </br>
+            for max-width of screen 768px -</br>
+            for max-width of screen 992px -</br>
+            for max-width of screen 1200px -</br>
+            for max-width of screen 1920px -</br>
+          </p>
+            You can drop some breakpoints, for example <b>ci-size="{sm:'100x125', xl:'300x200'}"</b>: </br>
+            for max-width of screen 768px - 50x100, 75x150, 100/ </br>
+            for max-width of screen 1920px -</br>
+          </p>
+        </li>
+      </ul>
+    </dd>
+    <dt>ci-type <span class="optional">- optional, default: width</span></dt>
+    <dd>
+      <p>Resize operations</p>
+      <p>Possible values:</p>
+      <ul>
+        <li><b>width</b> - to resize with a specific width</li>
+        <li><b>height</b> - to resize with a specific height</li>
+        <li><b>crop</b> - to crop the image at the center</li>
+        <li><b>fit</b> - to resize the image in a box and keeping the proportions of the source image</li>
+        <li><b>cover</b> - to resize the image in a box without keeping the proportions of the source image</li>
+      </ul>
+      <p><a href="https://www.cloudimage.io/en/docs/operations">Here</a>, you can find some description and how they work</p>
+    </dd>
+    <dt>ci-params <span class="optional">- optional, default: none</span></dt>
+    <dd>
+      <p>Parameters are used to apply transformations to the image, or to add options to the result image.</p>
+      <p>Possible values:</p>
+      <ul>
+        <li><b>fgrey</b> - apply a greyscale filter on the image</li>
+        <li><b>fgaussian[0..10]</b> - apply a gaussian blur filter on the image</li>
+        <li><b>fcontrast[-100..100]</b> - apply a contrast filter on the image</li>
+        <li><b>fbright[0..255]</b> - apply a brightness filter on the image</li>
+        <li><b>fpixelate[0..100]</b> - apply a pixelate filter on the image</li>
+        <li><b>fradius[0..500]</b> - create a radius on the corners</li>
+      </ul>
+      <p><a href="https://www.cloudimage.io/en/docs/parameters">Here</a>, you can find some additional description</p>
+    </dd>
+    <dt>ci-responsive <span class="optional">- optional, no params</span></dt>
+    <dd>Makes it possible to use different size images according to screen (window) width</dd>
+  </dl>
+</div>
+
+
+<div class="container">
+
+  <h2>More examples</h2>
+
+  <ul class="examples">
 
     <li>
-      <h2>Static with support different ratio pixel devices</h2>
+      <h4>Static with support different ratio pixel devices</h4>
 
+      <p>Source:</p>
       <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg" ci-size="400"&gt;
 </pre>
       </code>
 
+      <p>Result:</p>
       <code>
 <pre>
 &lt;picture&gt;
@@ -72,6 +254,7 @@
 
 
     <li>
+      <p>Source:</p>
       <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg"
@@ -80,6 +263,7 @@
      ci-params="fgrey"&gt;
 </pre>
       </code>
+      <p>Result:</p>
       <code>
 <pre>
 &lt;picture&gt;
@@ -106,7 +290,8 @@
 
 
     <li>
-      <h2>Responsive</h2>
+      <h4>Responsive</h4>
+      <p>Source</p>
       <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg"
@@ -115,6 +300,7 @@
      ci-responsive&gt;
 </pre>
       </code>
+      <p>Result:</p>
       <code>
 <pre>
 &lt;picture&gt;
@@ -162,6 +348,7 @@
 
 
     <li>
+      <p>Source</p>
       <code>
 <pre>
 &lt;img ci-src="//sample.li/boat.jpg"
@@ -171,6 +358,7 @@
      ci-responsive&gt;
 </pre>
       </code>
+      <p>Result:</p>
       <code>
 <pre>
 &lt;picture&gt;
@@ -204,7 +392,8 @@
 
 
     <li>
-      <h2>Background Images static with support retina displays</h2>
+      <h4>Background Images static with support retina displays</h4>
+      <p>Source</p>
       <code>
 <pre>
 &lt;div ci-img-background="//sample.li/boat.jpg"
@@ -214,6 +403,7 @@
 &lt;/div&gt;
 </pre>
       </code>
+      <p>Result:</p>
       <code>
 <pre>
 &lt;style&gt;
@@ -256,12 +446,14 @@
 
 
     <li>
-      <h2>Background Images responsive - mode: auto (full screen)</h2>
+      <h4>Background Images responsive - mode: auto (full screen)</h4>
+      <p>Source</p>
       <code>
 <pre>
 &lt;div ci-img-background="//sample.li/boat.jpg" ci-responsive&gt;&lt;/div&gt;
 </pre>
       </code>
+      <p>Result:</p>
       <code>
 <pre>
 &lt;style&gt;
@@ -371,7 +563,7 @@
 
 </pre>
       </code>
-      <div style="width: 100%;" ci-img-background="//sample.li/boat.jpg" ci-responsive></div>
+      <div class="image" style="width: 100%;" ci-img-background="//sample.li/boat.jpg" ci-responsive></div>
     </li>
 
 
@@ -379,7 +571,8 @@
 
 
     <li>
-      <h2>Background Images responsive - mode: exact</h2>
+      <h4>Background Images responsive - mode: exact</h4>
+      <p>Source</p>
       <code>
 <pre>
 &lt;div ci-img-background="//sample.li/boat.jpg"
@@ -389,6 +582,7 @@
 &lt;/div&gt;
 </pre>
       </code>
+      <p>Result:</p>
       <code>
 <pre>
 &lt;style&gt;
@@ -502,6 +696,7 @@
 </pre>
       </code>
       <div style="width: 50%"
+           class="image"
            ci-img-background="//sample.li/boat.jpg"
            ci-type="crop"
            ci-size="{xs: '250x250', sm:'300x500', md: '600x200', lg:'700x300', xl:'800x350'}"
