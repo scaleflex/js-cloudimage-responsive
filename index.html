@@ -351,6 +351,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="container">
   <h2>Configuration params</h2>
+  <code style="font-size: 0; background-color: white;">
+<pre>
+      TOKEN:          '******',       - Token
+      PROTOCOL:       'https://',     - Protocol
+      SERVER_NAME:    '.cloudimg.io', - Server name
+      DEFAULT_WIDTH:  '400',          - Default width of images
+      DEFAULT_HEIGHT: '300',          - Default height of images
+      DEFAULT_TYPE:   'width',        - Default resize operation
+      DEFAULT_PARAMS: 'none',         - Default parameters
+      BASE_URL:       '',             - Default url for local images
+      PRESETS:        {
+                        xs: 576,  // 0 - 576      PHONE
+                        sm: 768,  // 577 - 768    PHABLET
+                        md: 992,  // 769 - 992    TABLET
+                        lg: 1200, // 993 - 1200   SMALL_LAPTOP_SCREEN
+                        xl: 1920  // 1200 - 1920  USUALSCREEN
+                      },
+      ORDER:          ['xl', 'lg', 'md', 'sm', 'xs'],
+      AUTO:           [1920, 1200, 992, 768, 576]  - Default images width for responsive background
+
+</pre>
+  </code>
 </div>
 
 
