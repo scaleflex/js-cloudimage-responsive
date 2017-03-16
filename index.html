@@ -375,6 +375,28 @@ document.addEventListener('DOMContentLoaded', function() {
   </code>
 </div>
 
+<div class="container">
+  <h2>Upcoming developments</h2>
+  <ol>
+    <li>
+      Use local images if we don't have them on a server yet.
+    </li>
+    <li>
+      Implement possibility to add your own patterns. <br>
+      (for example: <b>ci-responsive="thubnails"</b> so that in config you will add: <b>jScaler.config.patterns.thubnail = {xs: '150x150', xl:'250x250'}</b>)
+    </li>
+    <li>
+      Add possibility to use dividers for different resolutions(use grid system) <br>
+      for fixed container there will be a param in config - <b>maxContentSize</b> and you can specify sizes like this: <b>ci-size="xs-8 md-6 lg-4"</b> <br>
+      <b>fluid</b> param will tell to calculate sizes for full screen <b>ci-size="fluid md-6"</b>
+    </li>
+    <li>Writing a good spec</li>
+    <li>Make a good demo page</li>
+    <li>Make module for Angular</li>
+  </ol>
+
+</div>
+
 
 <div class="container">
 
@@ -883,5 +905,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   })(jScaler);
 </script>
+
 </body>
 </html>
