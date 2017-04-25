@@ -154,7 +154,9 @@
   };
 
   jScaler.generateMediaQueries = function (elem, imgType, imgSize, imgParams, imgSrc, isResponsive, mediaQuery) {
-    var selector            = '[ci-img-index="' + this.attr(elem, 'ci-img-index') + '"]',
+    var selector_suffix = this.attr(elem, 'ci-selector-suffix') || '',
+        selector            = '[ci-img-index="' + this.attr(elem, 'ci-img-index') + '"]' + selector_suffix,
+        importantStr     = !!this.attr(elem, 'ci-important') ? ' !important' : '',
         imgWidth            = imgSize.toString().split('x')[0],
         imgHeight           = imgSize.toString().split('x')[1],
         mediaQueryComplex   = isResponsive ? ' (max-width: ' + mediaQuery + 'px) and ' : '',
@@ -162,13 +164,13 @@
         singleCloseBrackets = isResponsive ? '} ' : '';
 
     return mediaQuerySingle + selector + ' { background-image: url(' +
-      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 1) + '); } ' + singleCloseBrackets +
+      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 1) + ')' + importantStr + '; } ' + singleCloseBrackets +
       '@media' + mediaQueryComplex + '(-webkit-min-device-pixel-ratio: 1.5) { ' + selector + ' { background-image: url(' +
-      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 1.5) + '); } } ' +
+      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 1.5) + ')' + importantStr + '; } } ' +
       '@media' + mediaQueryComplex + '(-webkit-min-device-pixel-ratio: 2) { ' + selector + ' { background-image: url(' +
-      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 2) + '); } } ' +
+      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 2) + ')' + importantStr + '; } } ' +
       '@media' + mediaQueryComplex + '(-webkit-min-device-pixel-ratio: 3) { ' + selector + ' { background-image: url(' +
-      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 3) + '); } } ';
+      this.generateImgSrc(imgType, imgParams, imgSrc, imgWidth, imgHeight, 3) + ')' + importantStr + '; } } ';
   };
 
   jScaler.getDefaultSize = function (imgType) {
