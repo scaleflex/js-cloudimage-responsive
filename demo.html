@@ -1,0 +1,104 @@
+<!doctype html>
+<title>Cloudimage.JS</title>
+
+<style>
+body { padding: 20px !important; margin: 0 !important;  }
+img { padding: 0px; margin-top: 10px; max-width: 100%; }
+</style>
+
+<!-- bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+<div class="container quick-start">
+
+  <h2>Cloudimage.JS - Quickstart</h2>
+
+
+      <h5>Download and include <b>cloudimage.io-responsive.js</b> file into your project:</h5>
+      <pre>&lt;script src="{path to the file}/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre>
+
+      <br>
+      <h5>Initialize Cloudimage.JS with your token:</h5>
+<pre>
+document.addEventListener('DOMContentLoaded', function() {
+  jScaler.process({
+    TOKEN: 'your token'
+  });
+});
+</pre>
+
+      <br>
+      <h5>Working example:</h5>
+
+      <p>For <code class="code">&lt;img&gt;</code>:</p>
+<pre>
+&lt;img ci-src="http://sample.li/boat.jpg"
+     ci-type="cover"
+     ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
+     ci-responsive&gt;
+</pre>
+
+      <br>
+      <p>For <code class="code">background</code>:</p>
+<pre>
+&lt;div ci-img-background="//sample.li/boat.jpg" ci-responsive&gt;&lt;/div&gt;
+</pre>
+  
+
+
+  <br><hr><br>
+  <h2>Result:</h2>
+
+
+  <h3>Images</h3>
+
+  <img ci-src="http://sample.li/flat1.jpg"
+       ci-type="crop"
+       ci-size="{xs: '400x100', sm:'200x200', md: '250x250', lg:'300x300', xl:'400x400'}"
+       ci-responsive>
+
+  <img ci-src="http://sample.li/flat2.jpg"
+       ci-type="crop"
+       ci-size="{xs: '400x100', sm:'200x200', md: '250x250', lg:'300x300', xl:'400x400'}"
+       ci-responsive>
+
+  <img ci-src="http://www.turbulences-deco.fr/wp-content/uploads/2014/12/francois-Leblanc-appartement-Paris_01.jpg"
+       ci-type="crop"
+       ci-size="{xs: '400x100', sm:'200x200', md: '250x250', lg:'300x300', xl:'400x400'}"
+       ci-responsive>
+
+  <img ci-src="https://static1.squarespace.com/static/55ad10aee4b002ddd8a4984a/55ba3f8ee4b0ea658d2b957b/55ba3fa2e4b0ea658d2b9b59/1438269346668/1000w/"
+       ci-type="crop"
+       ci-size="{xs: '400x100', sm:'200x200', md: '250x250', lg:'300x300', xl:'400x400'}"
+       ci-responsive>
+
+
+  <!-- 
+  <br><br>
+  <h3>Backgrounds</h3>
+
+  <div class="image" style="width: 100%; height: 500px; text-align: center;" ci-img-background="http://sample.li/alps.jpg" ci-responsive>
+      
+      <h1 style="color:white; padding: 140px 0px; font-size: 40px; font-family: Arial;">I touch the sky</h1>
+
+  </div>
+  -->
+
+
+  <script src="cloudimage.io-responsive.js"></script>
+  <script>
+    (function (jScaler) {
+      if (jScaler) {
+        document.addEventListener('DOMContentLoaded', function() {
+          jScaler.process({
+            TOKEN: 'cej9drin'
+          });
+        });
+      }
+    })(jScaler);
+  </script>
+
+</body>
+</html>
