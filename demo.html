@@ -13,14 +13,14 @@ img { padding: 0px; margin-top: 10px; max-width: 100%; }
 
 <div class="container quick-start">
 
-  <h2>Cloudimage.JS - Quickstart</h2>
+<h2>Cloudimage.JS - Quickstart</h2>
 
 
-      <h5>Download and include <b>cloudimage.io-responsive.js</b></h5>
-      <pre>&lt;script src="{path to the file}/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre>
+<h5>Download and include <b>cloudimage.io-responsive.js</b></h5>
+<pre>&lt;script src="{path to the file}/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre>
 
-      <br>
-      <h5>Initialize Cloudimage.JS with your token</h5>
+<br>
+<h5>Initialize Cloudimage.JS with your token</h5>
 
 <pre>
 document.addEventListener('DOMContentLoaded', function() {
@@ -31,11 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </pre>
 
 
+<br>
+<h5>Working example</h5>
 
-      <br>
-      <h5>Working example</h5>
-
-      <p>For <code class="code">&lt;img&gt;</code>:</p>
+<p>For <code class="code">&lt;img&gt;</code>:</p>
 <pre>
 &lt;img ci-src="http://sample.li/boat.jpg"
      ci-type="cover"
@@ -43,66 +42,83 @@ document.addEventListener('DOMContentLoaded', function() {
      ci-responsive&gt;
 </pre>
 
-      <br>
-      <p>Also works for <code class="code">background</code>:</p>
+<br>
+<p>Also works for <code class="code">background</code>:</p>
 <pre>
 &lt;div ci-img-background="//sample.li/boat.jpg" ci-responsive&gt;&lt;/div&gt;
 </pre>
-  
+
+<br><hr><br>
 
 
-  <br><hr><br>
-  <h2>Result:</h2>
 
 
-  <h3>Images Example</h3>
-
-  <img ci-src="http://sample.li/flat1.jpg"
-       ci-type="crop"
-       ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
-       ci-responsive>
-
-  <img ci-src="http://sample.li/flat2.jpg"
-       ci-type="crop"
-       ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
-       ci-responsive>
-
-  <img ci-src="http://www.turbulences-deco.fr/wp-content/uploads/2014/12/francois-Leblanc-appartement-Paris_01.jpg"
-       ci-type="crop"
-       ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
-       ci-responsive>
-
-  <img ci-src="https://static1.squarespace.com/static/55ad10aee4b002ddd8a4984a/55ba3f8ee4b0ea658d2b957b/55ba3fa2e4b0ea658d2b9b59/1438269346668/1000w/"
-       ci-type="crop"
-       ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
-       ci-responsive>
 
 
-  <!-- 
-  <br><br>
-  <h3>Backgrounds</h3>
-
-  <div class="image" style="width: 100%; height: 500px; text-align: center;" ci-img-background="http://sample.li/alps.jpg" ci-responsive>
-      
-      <h1 style="color:white; padding: 140px 0px; font-size: 40px; font-family: Arial;">I touch the sky</h1>
-
-  </div>
-  -->
 
 
-  <script src="cloudimage.io-responsive.js"></script>
-  <script>
-    (function (jScaler) {
-      if (jScaler) {
-        document.addEventListener('DOMContentLoaded', function() {
-          jScaler.process({
-            TOKEN: 'cej9drin',
-            DEFAULT_PARAMS: 'q80'
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Demo starts here !  -->
+
+    <h2>Result:</h2>
+    <h3>Images Example</h3>
+
+    <img ci-src="http://sample.li/flat1.jpg"
+         ci-type="crop"
+         ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
+         ci-responsive>
+
+    <img ci-src="http://sample.li/flat2.jpg"
+         ci-type="crop"
+         ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
+         ci-responsive>
+
+    <img ci-src="http://www.turbulences-deco.fr/wp-content/uploads/2014/12/francois-Leblanc-appartement-Paris_01.jpg"
+         ci-type="crop"
+         ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
+         ci-responsive>
+
+    <img ci-src="https://static1.squarespace.com/static/55ad10aee4b002ddd8a4984a/55ba3f8ee4b0ea658d2b957b/55ba3fa2e4b0ea658d2b9b59/1438269346668/1000w/"
+         ci-type="crop"
+         ci-size="{xs: '400x90', sm:'500x140', md: '280x280', lg:'320x320', xl:'550x450'}"
+         ci-responsive>
+
+
+    <!-- Demo ends here !  -->
+
+
+
+
+
+
+    <!-- This is what need to be included in your code! -->
+    <!-- Only this: -->
+    <script src="cloudimage.io-responsive.js"></script>
+    <script>
+      (function (jScaler) {
+        if (jScaler) {
+          document.addEventListener('DOMContentLoaded', function() {
+            jScaler.process({
+              TOKEN: 'cej9drin',
+              DEFAULT_PARAMS: 'q80'
+            });
           });
-        });
-      }
-    })(jScaler);
-  </script>
+        }
+      })(jScaler);
+    </script>
+    <!-- End of Cloudimage Integration :)  -->
+
 
 </body>
 </html>
