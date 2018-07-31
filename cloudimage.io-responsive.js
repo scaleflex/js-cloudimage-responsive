@@ -11,7 +11,7 @@
       DEFAULT_HEIGHT: config.DEFAULT_HEIGHT || '300',
       DEFAULT_TYPE:   config.DEFAULT_TYPE || 'width',
       DEFAULT_PARAMS: config.DEFAULT_PARAMS || 'none',
-      BASE_URL:       config.BASE_URL || '',         // For local images
+      BASE_URL:       config.BASE_URL || '/',
       PRESETS:        config.PRESETS ||
                       {
                         xs: 576,  // 0 - 576      PHONE
