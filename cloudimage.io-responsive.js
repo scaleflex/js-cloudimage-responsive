@@ -6,8 +6,7 @@
 
     jScaler.config = {
       TOKEN:          config.TOKEN || '',
-      PROTOCOL:       config.PROTOCOL || 'https://',
-      SERVER_NAME:    config.SERVER_NAME || '.cloudimg.io',
+      CONTAINER:      config.CONTAINER || '.cloudimg.io',
       DEFAULT_WIDTH:  config.DEFAULT_WIDTH || '400',
       DEFAULT_HEIGHT: config.DEFAULT_HEIGHT || '300',
       DEFAULT_TYPE:   config.DEFAULT_TYPE || 'width',
@@ -98,7 +97,8 @@
   };
 
   jScaler.generateUrl = function (imgType, imgSize, imgParams, imgSrc) {
-    var cloudUrl = this.config.PROTOCOL + this.config.TOKEN + this.config.SERVER_NAME + '/';
+    var cloudUrl = '//' + this.config.TOKEN + this.config.CONTAINER + '/';
+
     return cloudUrl + imgType + '/' + imgSize + '/' + imgParams + '/' + imgSrc;
   };
 
@@ -118,7 +118,7 @@
 
   jScaler.getImgSrc = function (img, sourceUrl, isLocalUrl) {
     var imgSrc = this.attr(img, sourceUrl);
-    if (isLocalUrl && this.config.BASE_URL !== '') {
+    if (isLocalUrl) {
       img.setAttribute('ci-local-url', imgSrc); //TODO: ask for redo to 404 and send default picture
       imgSrc = this.config.BASE_URL + imgSrc;
     }
@@ -270,7 +270,7 @@
       val = window.location.protocol + val;
       elem.setAttribute(sourceUrl, val);
     }
-    return (val.indexOf('http://') !== 0 && val.indexOf('https://') !== 0);
+    return (val.indexOf('http://') !== 0 && val.indexOf('https://') !== 0 && val.indexOf('//') !== 0);
   };
 
   jScaler.wrap = function (toWrap, wrapper) {

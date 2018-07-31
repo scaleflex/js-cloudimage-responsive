@@ -86,8 +86,8 @@
   <h2>Quick start</h2>
   <ul>
     <li>
-      <h5>Download and include <b>cloudimage.io-responsive.js</b> file into your project:</h5>
-      <code><pre>&lt;script src="{path to the file}/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre></code>
+      <h5>Include <b>cloudimage.io-responsive.js</b> file into your project:</h5>
+      <code><pre>&lt;script src="https://cloudimage.io/plugin/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre></code>
     </li>
     <li>
       <h5>Initialize jScaler and pass <a href="#configuration">configuration object</a> into process function in your code:</h5>
@@ -95,7 +95,8 @@
 <pre>
 document.addEventListener('DOMContentLoaded', function() {
   jScaler.process({
-    TOKEN: 'your token'
+    TOKEN: '[your token]',
+    BASE_URL: '[your image folder on server]' // e.g. "https://gallery.airstore.io/"
   });
 });
 </pre>
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <p>For <code class="code">&lt;img&gt;</code>:</p>
       <code>
 <pre>
-&lt;img ci-src="http://sample.li/boat.jpg"
+&lt;img ci-src="paris.jpg"
      ci-type="cover"
      ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
      ci-responsive&gt;
@@ -117,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <p>For <code class="code">background</code>:</p>
       <code>
 <pre>
-&lt;div ci-img-background="//sample.li/boat.jpg" ci-responsive&gt;&lt;/div&gt;
+&lt;div ci-img-background="birds.jpg" ci-responsive&gt;&lt;/div&gt;
 </pre>
       </code>
     </li>
@@ -163,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </pre>
   </code>
 
-  <img ci-src="http://sample.li/boat.jpg"
+  <img ci-src="paris.jpg"
        ci-type="cover"
        ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
        ci-responsive>
@@ -353,14 +354,12 @@ document.addEventListener('DOMContentLoaded', function() {
   <h2>Configuration params</h2>
   <code style="font-size: 0; background-color: white;">
 <pre>
-      TOKEN:          '******',       - Token
-      PROTOCOL:       'https://',     - Protocol
-      SERVER_NAME:    '.cloudimg.io', - Server name
-      DEFAULT_WIDTH:  '400',          - Default width of images
-      DEFAULT_HEIGHT: '300',          - Default height of images
-      DEFAULT_TYPE:   'width',        - Default resize operation
-      DEFAULT_PARAMS: 'none',         - Default parameters
-      BASE_URL:       '',             - Default url for local images
+      TOKEN:          '******',                  - Token
+      DEFAULT_WIDTH:  '400',                     - Default width of images
+      DEFAULT_HEIGHT: '300',                     - Default height of images
+      DEFAULT_TYPE:   'width',                   - Default resize operation
+      DEFAULT_PARAMS: 'none',                    - Default parameters
+      BASE_URL:       '//gallery.airstore.io/',  - Default url for img folder
       PRESETS:        {
                         xs: 576,  // 0 - 576      PHONE
                         sm: 768,  // 577 - 768    PHABLET
@@ -899,7 +898,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (jScaler) {
       document.addEventListener('DOMContentLoaded', function() {
         jScaler.process({
-          TOKEN: 'cej9drin'
+          TOKEN: 'cej9drin',
+          BASE_URL: '//gallery.airstore.io/'
         });
       });
     }
