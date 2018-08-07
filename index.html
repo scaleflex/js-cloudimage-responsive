@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <style>
     .jumbotron {
-      background: url('//www.cloudimage.io/dist/landing/img/sky.jpg ') no-repeat center;
+      background: url('https://jolipage001.api.airstore.io/v1/get/_/a70e53b4-bc81-59ca-99bb-5388d3aa52b4/47a206c14ecc9d720e0aa39c4b99fbf97c80c061.jpg') no-repeat center;
       text-align: right;
       color: white;
     }
@@ -82,12 +82,19 @@
   </div>
 </div>
 
+<!--<img ci-src="paris.jpg" ci-size="{xs:'300', md:'150x150', lg:'600'}">-->
+
+<img ci-src="paris.jpg" ci-size="{ md:'800', sm:'1000'}">
+<img ci-src="birds.jpg" ci-size="{ md:'800', sm:'1000'}">
+
+<i style="width: 100%; height: 550px; display: block;" ci-size="{sm:'400', md: '600', lg:'800'}" class="item-icon" ci-img-background="https://jolipage001.api.airstore.io/v1/get/_/a70e53b4-bc81-59ca-99bb-5388d3aa52b4/47a206c14ecc9d720e0aa39c4b99fbf97c80c061.jpg"></i>
+
 <div class="container quick-start">
   <h2>Quick start</h2>
   <ul>
     <li>
       <h5>Include <b>cloudimage.io-responsive.js</b> file into your project:</h5>
-      <code><pre>&lt;script src="https://cloudimage.io/plugin/cloudimage.io-responsive.js"/&gt;&lt;/script&gt;</pre></code>
+      <code><pre>&lt;script src="https://cloudimage.io/plugin/cloudimage.io-responsive.min.js"/&gt;&lt;/script&gt;</pre></code>
     </li>
     <li>
       <h5>Initialize jScaler and pass <a href="#configuration">configuration object</a> into process function in your code:</h5>
@@ -164,10 +171,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </pre>
   </code>
 
-  <img ci-src="paris.jpg"
-       ci-type="cover"
-       ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"
-       ci-responsive>
+  <!--<img ci-src="paris.jpg"-->
+       <!--ci-type="cover"-->
+       <!--ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}"-->
+       <!--ci-responsive>-->
 
   <h4>For <code class="code">background</code>:</h4>
   <p>Tag &lt;style&gt; is added to your head with all Media queries you specified with the support of retina screens</p>
@@ -881,9 +888,8 @@ document.addEventListener('DOMContentLoaded', function() {
       <div style="width: 50%"
            class="image"
            ci-img-background="//sample.li/boat.jpg"
-           ci-type="crop"
-           ci-size="{xs: '250x250', sm:'300x500', md: '600x200', lg:'700x300', xl:'800x350'}"
-           ci-responsive></div>
+           ci-size="{xs: '450', sm:'200', md: '600', lg:'750', xl:'800x150'}"
+      ></div>
     </li>
 
 
