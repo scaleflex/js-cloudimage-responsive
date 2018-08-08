@@ -22,7 +22,8 @@
         xl: 1920  // 1200 - 1920  USUALSCREEN
       },
       ORDER: config.ORDER || ['xl', 'lg', 'md', 'sm', 'xs'],
-      AUTO: config.AUTO || [1920, 1200, 992, 768, 576]
+      AUTO: config.AUTO || [1920, 1200, 992, 768, 576],
+      QUERY_STRING: config.QUERY_STRING || ''
     };
   };
 
@@ -70,9 +71,9 @@
 
     var parentContainer = getParentContainerWithWidth(img);
     var currentWidth = parseInt(parentContainer, 10);
-    var computedWidth = parseInt(window.getComputedStyle(img).width);
+    var computedWidth = Number(window.getComputedStyle(img).width);
 
-    if ((computedWidth < currentWidth && computedWidth > 15) || !currentWidth) {
+    if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
       return getSizeLimit(computedWidth);
     } else {
       if (!currentWidth) return img.width || jScaler.config.DEFAULT_WIDTH;
@@ -140,7 +141,7 @@
       cloudimageUrl,
       oldSize = img.getAttribute('data-old-ci-size');
 
-    if (oldSize && isUpdate && imgSize <= oldSize) return ;
+    if (oldSize && isUpdate && imgSize && (parseInt(imgSize) <= parseInt(oldSize))) return ;
 
     img.setAttribute('data-old-ci-size', imgSize);
 
@@ -174,7 +175,12 @@
       imgParams = this.attr(elem, 'ci-params') || this.config.DEFAULT_PARAMS || '',
       imgSrc = this.getBackgroundImgUrl(elem, sourceUrl),
       oldIndex = elem.getAttribute('ci-img-index'),
-      nextIndex = null;
+      nextIndex = null,
+      oldSize = elem.getAttribute('data-old-ci-size');
+
+    if (oldSize && imgSize && (parseInt(imgSize) <= parseInt(oldSize))) return ;
+
+    elem.setAttribute('data-old-ci-size', imgSize);
 
 
     if (!(oldIndex >= 0 && oldIndex !== null)) {
@@ -192,7 +198,7 @@
     var ultraFast = this.config.IS_ULTRA_FAST ? 'https://scaleflex.ultrafast.io/' : 'https://';
     var cloudUrl = ultraFast + this.config.TOKEN + this.config.CONTAINER + '/';
 
-    return cloudUrl + imgType + '/' + imgSize + '/' + imgParams + '/' + imgSrc;
+    return cloudUrl + imgType + '/' + imgSize + '/' + imgParams + '/' + imgSrc + this.config.QUERY_STRING;
   };
 
   jScaler.addSources = function (img, imgType, imgSize, imgParams, imgSrc, isResponsive) {
@@ -225,7 +231,7 @@
   jScaler.getImgSrc = function (img, sourceUrl, isLocalUrl) {
     var imgSrc = this.attr(img, sourceUrl);
     if (isLocalUrl) {
-      img.setAttribute('ci-local-url', imgSrc); //TODO: ask for redo to 404 and send default picture
+      img.setAttribute('ci-local-url', imgSrc);
       imgSrc = this.config.BASE_URL + imgSrc;
     }
     return imgSrc;
@@ -312,8 +318,10 @@
   };
 
   jScaler.setSizeFromElemProperty = function (elem, imgType) {
-    var width  = parseInt(window.getComputedStyle(elem).width),
-      height = parseInt(window.getComputedStyle(elem).height);
+    var width  = Number(window.getComputedStyle(elem).width),
+      height = Number(window.getComputedStyle(elem).height);
+
+    if (!width) width = this.getParentWidth(elem);
 
     if (imgType === 'width') {
       return this.getElementSize(elem, 'width');
