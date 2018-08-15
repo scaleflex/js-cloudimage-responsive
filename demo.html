@@ -16,7 +16,7 @@
 
   <!-- Demo starts here !  -->
 
-  <div class="jumbotron">
+  <div class="jumbotron" style="color: #fff; background: rgb(84,135,255);background: -moz-linear-gradient(left, rgba(84,135,255,1) 0%, rgba(117,158,255,1) 100%);background: -webkit-linear-gradient(left, rgba(84,135,255,1) 0%,rgba(117,158,255,1) 100%);background: linear-gradient(to right, rgba(84,135,255,1) 0%,rgba(117,158,255,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5487ff', endColorstr='#759eff',GradientType=1 );">
     <h1 style="font-size: 42px;">Demo Cloudimage.io Responsive!</h1>
     <p>Cloudimage responsive plugin allows you to load only the exact image size you need
       supporting different pixel ratio devices</p>
@@ -24,7 +24,7 @@
 
   <div style="margin-bottom: 20px">
     <div style="width: 200px; display: inline-block; vertical-align: middle;">
-      <button id="force_update_btn" data-value="off" class="btn btn-primary">FORCE UPDATE (OFF)</button>
+      <button id="force_update_btn" data-value="off" class="btn btn-info">FORCE UPDATE (OFF)</button>
     </div>
     <div style="width: calc(100% - 220px); display: inline-block; vertical-align: middle; font-size: 16px;">
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
@@ -241,8 +241,8 @@
       forceUpdateBtn.setAttribute('data-value', nextValue);
       forceUpdateBtn.innerHTML = value ? 'FORCE UPDATE (OFF)' : 'FORCE UPDATE (ON)';
       forceUpdateBtn.className = value
-        ? forceUpdateBtn.className.replace('btn-primary', 'btn-default')
-        : forceUpdateBtn.className.replace('btn-default', 'btn-primary');
+        ? forceUpdateBtn.className.replace('btn-info', 'btn-default')
+        : forceUpdateBtn.className.replace('btn-default', 'btn-info');
 
       jScaler.setForceUpdate(!value);
     }
