@@ -76,7 +76,7 @@
       DEFAULT_TYPE: config.DEFAULT_TYPE || 'width',
       DEFAULT_PARAMS: config.DEFAULT_PARAMS || 'none',
       BASE_URL: config.BASE_URL || '/',
-      PRESETS: config.PRESETS ||
+      RESULT_PRESETS: config.PRESETS ? getPresets(config.PRESETS, 'presets') :
       {
         xs: 576,  // 0 - 576      PHONE
         sm: 768,  // 577 - 768    PHABLET
@@ -84,7 +84,7 @@
         lg: 1200, // 993 - 1200   SMALL_LAPTOP_SCREEN
         xl: 1920  // 1200 - 1920  USUALSCREEN
       },
-      ORDER: config.ORDER || ['xl', 'lg', 'md', 'sm', 'xs'],
+      ORDER: config.PRESETS ? getPresets(config.PRESETS, 'order') : ['xl', 'lg', 'md', 'sm', 'xs'],
       AUTO: config.AUTO || [1920, 1200, 992, 768, 576],
       QUERY_STRING: config.QUERY_STRING || ''
     };
@@ -103,7 +103,7 @@
     this.setConfig(config);
 
     var imgs = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-src'),
-      backgroundImgs = filterImages(document.querySelectorAll('[ci-img-background]'), 'ci-img-background');
+      backgroundImgs = filterImages(document.querySelectorAll('[ci-background]'), 'ci-background');
 
     if (imgs.length > 0) {
       imgs = Array.prototype.slice.call(imgs);
@@ -195,22 +195,27 @@
   jScaler.processImage = function (img, isUpdate) {
 
     var sourceUrl = 'ci-src',
-      imgType = this.attr(img, 'ci-type') || this.config.DEFAULT_TYPE || '',
-      imgSize = this.attr(img, 'ci-size') || this.getParentWidth(img) || '',
-      imgParams = this.attr(img, 'ci-params') || this.config.DEFAULT_PARAMS || '',
+      imgTypeFromAttr = this.attr(img, 'ci-type') || this.attr(img, 'ci-operation') || this.attr(img, 'ci-o'),
+      imgType = imgTypeFromAttr || this.config.DEFAULT_TYPE || '',
+      imgSizeFromAttr = this.attr(img, 'ci-size') || this.attr(img, 'ci-s'),
+      imgSize = imgSizeFromAttr || this.getParentWidth(img) || '',
+      imgParamsFromAttr = this.attr(img, 'ci-params') || this.attr(img, 'ci-filter') || this.attr(img, 'ci-f'),
+      imgParams = imgParamsFromAttr || this.config.DEFAULT_PARAMS || '',
       isLocalUrl = this.isLocalURL(img, sourceUrl),
       isResponsive = this.checkOnMedia(imgSize),
       imgSrc = this.getImgSrc(img, sourceUrl, isLocalUrl),
       cloudimageUrl,
       oldSize = img.getAttribute('data-old-ci-size');
 
-    if (!this.forceUpdate && (oldSize && isUpdate && imgSize && (parseInt(imgSize) <= parseInt(oldSize)))) return ;
+    if (!imgTypeFromAttr && !imgSizeFromAttr) {
+      if (!this.forceUpdate && (oldSize && isUpdate && imgSize && (parseInt(imgSize) <= parseInt(oldSize)))) return ;
 
-    img.setAttribute('data-old-ci-size', imgSize);
+      img.setAttribute('data-old-ci-size', imgSize);
+    }
 
     if (isResponsive) {
       imgSize = eval('(' + imgSize + ')');
-      cloudimageUrl = this.generateUrl('width', this.updateSizeWithPixelRatio(this.getParentWidth(img)), imgParams, imgSrc);
+      cloudimageUrl = this.generateUrl('width', this.updateSizeWithPixelRatio(imgSize), imgParams, imgSrc);
     } else {
       cloudimageUrl = this.generateUrl(imgType, this.updateSizeWithPixelRatio(imgSize), imgParams, imgSrc);
     }
@@ -242,11 +247,14 @@
   };
 
   jScaler.processBackgroundImage = function(elem) {
-    var sourceUrl = 'ci-img-background',
-      imgType = this.attr(elem, 'ci-type') || this.config.DEFAULT_TYPE || '',
-      imgSize = this.attr(elem, 'ci-size') || this.setSizeFromElemProperty(elem, imgType) || this.getDefaultSize(imgType),
+    var sourceUrl = 'ci-background',
+      imgTypeFromAttr = this.attr(elem, 'ci-type') || this.attr(elem, 'ci-operation') || this.attr(elem, 'ci-o'),
+      imgType = imgTypeFromAttr || this.config.DEFAULT_TYPE || '',
+      imgSizeFromAttr = this.attr(elem, 'ci-size') || this.attr(elem, 'ci-s'),
+      imgSize = imgSizeFromAttr || this.setSizeFromElemProperty(elem, imgType) || this.getDefaultSize(imgType),
       isResponsive = this.checkOnMedia(imgSize),
-      imgParams = this.attr(elem, 'ci-params') || this.config.DEFAULT_PARAMS || '',
+      imgParamsFromAttr = this.attr(elem, 'ci-params') || this.attr(elem, 'ci-filter') || this.attr(elem, 'ci-f'),
+      imgParams = imgParamsFromAttr || this.config.DEFAULT_PARAMS || '',
       imgSrc = this.getBackgroundImgUrl(elem, sourceUrl),
       oldIndex = elem.getAttribute('ci-img-index'),
       nextIndex = null,
@@ -293,7 +301,7 @@
         var nextSize = imgSize[orderFiltered[i]];
 
         var srcSet = this.generateSrcset(imgType, nextSize, imgParams, imgSrc);
-        var mediaQuery = '(' + (isLast ? 'min' : 'max') +'-width: ' + (this.config.PRESETS[nextSizeType] + (isLast ? 1 : 0)) + 'px)';
+        var mediaQuery = '(' + (isLast ? 'min' : 'max') +'-width: ' + (this.config.RESULT_PRESETS[nextSizeType] + (isLast ? 1 : 0)) + 'px)';
 
         this.before(img, '<source media="' + mediaQuery + '" srcset="' + srcSet + '">');
       }
@@ -400,7 +408,8 @@
     var i, size, mediaQuery;
     if (isResponsive) {
       var cssQueries = '';
-      if (imgSize === 'full_screen' || imgSize === '' || this.attr(elem, 'ci-size') === null) {
+      var imgSizeFromAttr = this.attr(elem, 'ci-size') || this.attr(elem, 'ci-s') || null;
+      if (imgSize === 'full_screen' || imgSize === '' || imgSizeFromAttr === null) {
         //TODO: make it possible to use special config for auto mode
         for (i = 0; i < this.config.AUTO.length; i++) {
           //TODO: for now only width method
@@ -421,9 +430,9 @@
         for (i = 0; i < orderFiltered.length; i++) {
           var isFirst = i === 0;
           var prevSize = isFirst && orderFiltered[i + 1];
-          var prevMediaQuery = isFirst && this.config.PRESETS[prevSize]
+          var prevMediaQuery = isFirst && this.config.RESULT_PRESETS[prevSize]
           size = imgSize[orderFiltered[i]];
-          mediaQuery = this.config.PRESETS[this.config.ORDER[i]];
+          mediaQuery = this.config.RESULT_PRESETS[this.config.ORDER[i]];
 
           cssQueries += this.generateMediaQueries(
             elem, imgType, size, imgParams, imgSrc, isResponsive, mediaQuery, isFirst, prevMediaQuery
@@ -525,6 +534,25 @@
     }
 
     return filtered;
+  }
+
+  function getPresets(value, type) {
+    value = value || '';
+    var splittedValues = value.split('|');
+    var result = { presets: {}, order: [] };
+
+    for (var i = 0; i < splittedValues.length; i++) {
+      var splittedParam = splittedValues[i] && splittedValues[i].split(':');
+      var prop = splittedParam[0] && splittedParam[0].trim();
+      var val = splittedParam[1] && splittedParam[1].trim();
+
+      if (prop && val) {
+        result.presets[prop] = val;
+        result.order.unshift(prop);
+      }
+    }
+
+    return result[type];
   }
 
   var resizeTimer;

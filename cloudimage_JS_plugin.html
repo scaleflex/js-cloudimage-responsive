@@ -1,0 +1,181 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="http://jolipage.airstore.io/v3/themes/mobinergy/css/bootstrap.css">
+  <title>Cloudimage JS Plugin - Implement Cloudimage Automatically on your Website</title>
+
+  <!--Styles for demo page-->
+  <style>.device-pixel-ratio-wrapper { position: fixed; bottom: 15px; right: 15px; color: #fff;background: rgb(84,135,255);background: -moz-linear-gradient(left, rgba(84,135,255,1) 0%, rgba(117,158,255,1) 100%);background: -webkit-linear-gradient(left, rgba(84,135,255,1) 0%,rgba(117,158,255,1) 100%);background: linear-gradient(to right, rgba(84,135,255,1) 0%,rgba(117,158,255,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5487ff', endColorstr='#759eff',GradientType=1 );padding: 5px 10px;border-radius: 4px; } #your_device_pixel_ratio { background: #fff; color: #000; display: inline-block; width: 20px; height: 20px; border-radius: 50%; text-align: center;} </style>
+  <style>.note-block,h4,h5{display:inline-block}body{padding:20px!important;margin:0!important}img{padding:10px 0;}.background-styles{ background-repeat: no-repeat; }dt{font-size:18px;margin-top:20px}.note-block{-moz-border-radius:6px;-webkit-border-radius:6px;background-color:#f0f7fb;border:1px solid #3498db;border-radius:6px;line-height:18px;overflow:hidden;padding:12px}.note-block.lg-note{padding:25px;width:100%;font-size:18px}h4,h5{font-family:"Source Code Pro",Menlo,monospace;border-radius:3px;background-color:#F5F7F9;padding:3px 6px;margin:0 1px;font-weight:700;font-size:inherit}ul{padding:10px 20px;list-style-type:none}.width-box{background:#ff8c00;color:#fff;text-align:center}.no-bg{background:0 0!important}.show-width{margin-bottom: 20px;} ol, ul {line-height: 28px;} .jumbotron a { color: #fff; font-weight: bold; }</style>
+  <!-- Styles for demo page bootstrap -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container quick-start">
+
+  <!-- Demo starts here !  -->
+
+  <div class="jumbotron" style="color: #fff; background: rgb(84,135,255);background: -moz-linear-gradient(left, rgba(84,135,255,1) 0%, rgba(117,158,255,1) 100%);background: -webkit-linear-gradient(left, rgba(84,135,255,1) 0%,rgba(117,158,255,1) 100%);background: linear-gradient(to right, rgba(84,135,255,1) 0%,rgba(117,158,255,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5487ff', endColorstr='#759eff',GradientType=1 );">
+    <h1 style="font-size: 42px;">Cloudimage JS - Demo and Plugin</h1>
+    <p>Implementing Cloudimage on your website to resize, compress and accelerate images requires you to change the Image URLs in the <code class="code">img</code> tags in your code. <br /><br /><small>For example:</small> <a href="https://sample.li/birds.jpg">https://sample.li/birds.jpg</a> <small>becomes</small> <a href="https://demo.cloudimg.io/width/350/s/sample.li/birds.jpg">https://demo.cloudimg.io/width/350/s/sample.li/birds.jpg</a><br /><br />The Cloudimage JS Plugin does it automatically for you. It's light (only 10KB), it's simple, it's fast, it's Cloudimage.</p>
+  </div>
+
+  <h2>Quick start</h2>
+  <h5 class="no-bg">Step 1: include <a href="https://scaleflex-global.airstore.io/cloudimg/responsive/plugin.min.js" target="_blank">cloudimage.io-responsive.min.js</a> file into your project (after all your content in body, before other scripts):</h5>
+  <pre>&lt;script src="https://scaleflex-global.airstore.io/cloudimg/responsive/plugin.min.js"/&gt;&lt;/script&gt;</pre>
+  <h5 class="no-bg">Step 2: just under the above line, initialize jScaler with your token information and optional parameters</h5>
+
+  <pre>document.addEventListener('DOMContentLoaded', function() {
+  jScaler.process({
+    TOKEN: '[your token]',                         // required
+    BASE_URL: '[your image folder on server]',     // optional | e.g. "https://s3-eu-west-1.amazonaws.com/bucket/"
+    DEFAULT_TYPE: 'width',                         // default resize operation
+    DEFAULT_PARAMS: 'none',                        // default parameters
+
+    // for advanced use cases
+    // you can change default presets and add more breakpoints to suit all your design
+    PRESETS: 'xs:576|sm:768|md:992|lg:1200|xl:1920' // default breakpoints
+  });
+});</pre>
+  <h5 class="no-bg">Step 3: Replace your <code class="code">img</code> tags from<code class="code">src="[image
+    source]"</code> to <code class="code">ci-src="[image source]"</code> and add the resizing parameters (see below)</code></h5>
+  <pre>&lt;img ci-src="flat1.jpg" ci-size="200"&gt;</pre>
+  <img ci-src="flat1.jpg" ci-size="200" alt="cloudimage js plugin"/>
+  <br /><br />
+  <p>This also works for <code class="code">background</code>, simply add the link to image as <code class="code">ci-img-background</code> attribute):</p>
+  <pre>&lt;div class="background-styles" ci-img-background="flat2.jpg" ci-size="300x100" ci-type="crop" class="background-styles"&gt;&lt;/div&gt;</pre>
+
+  <div
+     class="background-styles"
+     ci-img-background="flat2.jpg"
+     ci-size="300x100"
+     ci-type="crop"
+     alt="cloudimage js plugin"
+     style="width:600px; height: 200px;"
+  ></div>
+
+  <h5 class="no-bg">That's it, the JS plugin will modify all your image URLs for them to be resized and delivered by Cloudimage.</h5>
+  <h2 id="jScaler-params">jScaler attributes</h2>
+
+  <div>
+    <h4>ci-src
+      <small style="font-weight: normal;">or</small>
+      ci-img-background
+    </h4>
+  </div>
+  <div><h5>required</h5></div>
+  <div>
+    jScaler identifier takes as value image path (absolute url or relative to BASE_URL).
+    <br><br>
+    <span class="note-block"><span
+       style="font-weight: bold;">NOTE:</span> Your images should be stored on a server or storage bucket (S3, Google Cloud, Azure Blob...) reachable over HTTP or HTTPS by Cloudimage. You can also upload your images into Cloudimage, more info <a href="https://docs.cloudimage.io/go/cloudimage-documentation/en/storage/" target="_blank">here</a>.</span>
+  </div>
+  <br>
+
+  <div><h4>ci-size</h4></div>
+  <div><h5>optional, default: auto</h5></div>
+  Size of an image which is used as a base for creating retina ready and responsive image element.
+  <br>
+  <br>
+  Possible values:
+  <br>
+  PR - stands for your device Pixel Ratio
+  <br>
+  <ul>
+    <li><b>[width]</b>:
+      <p>e.g. ci-size="<b>250</b>" => width: 250 * PR (px); height: auto;</p>
+      <pre>&lt;img ci-src="flat2.jpg" ci-size="250"&gt;</pre>
+      <img ci-src="flat2.jpg" ci-size="250" alt="cloudimage js plugin"/>
+    </li>
+    <li><b>[width x height]</b>:
+      <p>e.g. ci-size="<b>125x200</b>" => width: 125 * PR (px); height: 200 * PR (px);</p></li>
+    <pre>&lt;img ci-src="flat2.jpg" ci-size="125x200" ci-type="crop"&gt;</pre>
+    <img ci-src="flat2.jpg" ci-size="125x200" ci-type="crop" alt="cloudimage js plugin"/>
+    <li>
+      <b>[Width and height for different screen resolutions]</b>
+      <div>
+        e.g. ci-size="<b>{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}</b>"
+
+        <pre>&lt;img ci-src="flat2.jpg" ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}" ci-type="crop"&gt;</pre>
+        <img ci-src="flat2.jpg" ci-size="{xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200'}" ci-type="crop"alt="cloudimage js plugin"/>
+        </br>
+        for max-width of screen 576px - width: 50 * PR (px); height: 100 * PR;
+        </br>
+        for max-width of screen 768px - width: 100 * PR (px); height: 125 * PR;
+        </br>
+        for max-width of screen 992px - width: 150 * PR (px); height: 150 * PR;
+        </br>
+        for max-width of screen 1200px - width: 200 * PR (px); height: 175 * PR;
+        </br>
+        for min-width of screen 1201px - width: 300 * PR (px); height: 200 * PR;
+        </br>
+      </div>
+      You can drop some breakpoints, for example <b>ci-size="{sm:'100x125', xl:'300x200'}"</b>:
+      <pre>&lt;img ci-src="flat2.jpg" ci-size="{sm:'100x125', xl:'300x200'}" ci-type="crop"&gt;</pre>
+      <img ci-src="flat2.jpg" ci-size="{sm:'100x125', xl:'300x200'}" ci-type="crop" alt="cloudimage js plugin"/>
+      </br>
+      for max-width of screen 768px - width: 50 * PR (px); height: 100 * PR;
+      </br>
+      for min-width of screen 769px - width: 300 * PR (px); height: 200 * PR;
+      </br>
+    </li>
+  </ul>
+
+  <div><h4>ci-operation</h4></div>
+  <div><h5>optional, default: width</h5></div>
+  <p>Possible values:</p>
+  <ul>
+    <li><b>width</b> - to resize with a specific width</li>
+    <li><b>height</b> - to resize with a specific height</li>
+    <li><b>crop</b> - to crop the image at the center</li>
+    <li><b>fit</b> - to resize the image in a box and keeping the proportions of the source image</li>
+    <li><b>cover</b> - to resize the image in a box without keeping the proportions of the source image</li>
+  </ul>
+  <p>You can find <a href="https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/" target="_blank">here</a> the full Operations documentation.</p>
+
+
+  <div><h4>ci-filter</h4></div>
+  <div><h5>optional, default: none</h5></div>
+  <p>Filters allow you to modify the image's apperance and can be added on top of the resizing features above.</p>
+  <dl>
+    <dd>
+      <p>Possible values:</p>
+      <ul>
+        <li><b>fgrey</b> - apply a greyscale filter on the image</li>
+        <li><b>fgaussian[0..10]</b> - apply a gaussian blur filter on the image</li>
+        <li><b>fcontrast[-100..100]</b> - apply a contrast filter on the image</li>
+        <li><b>fbright[0..255]</b> - apply a brightness filter on the image</li>
+        <li><b>fpixelate[0..100]</b> - apply a pixelate filter on the image</li>
+        <li><b>fradius[0..500]</b> - create a radius on the corners</li>
+      </ul>
+        <p>You can find <a href="https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/" target="_blank">here</a> the full Filters documentation.</p>
+    </dd>
+  </dl>
+
+
+  <h2>Any questions?</h2>
+  <p>Contact us at <a href="mailto:hello@cloudimage.io">hello@cloudimage.io</a>, our image resizing experts will be
+    happy to help!</p>
+
+  <div class="device-pixel-ratio-wrapper">Your device pixel ratio: <div id="your_device_pixel_ratio"></div></div>
+</div>
+<!-- This is what need to be included in your code! -->
+<!-- Only this: -->
+
+<!--<script src="./cloudimage.io-responsive-v2.js"></script>-->
+<script>!function(window,document){function getSizeLimit(e){return e<=25?"25":e<=50?"50":e<=100?"100":e<=200?"200":e<=300?"300":e<=400?"400":e<=500?"500":e<=600?"600":e<=700?"700":e<=800?"800":e<=900?"900":e<=1e3?"1000":e<=1100?"1100":e<=1200?"1200":e<=1300?"1300":e<=1400?"1400":e<=1500?"1500":e<=1600?"1600":e<=1700?"1700":e<=1800?"1800":e<=1900?"1900":e<=2400?"2400":e<=2800?"2800":"3600"}function onerrorImg(e){}function getParentContainerWithWidth(e){var i=null,t=0;do{t=(i=i&&i.parentNode||e.parentNode).getBoundingClientRect().width}while(i&&!t);return t}function filterImages(e,i){for(var t=[],r=0;r<e.length;r++){var n=e[r];".svg"!==(n.getAttribute(i)||"").slice(-4).toLowerCase()&&t.push(n)}return t}function getPresets(e,i){for(var t=(e=e||"").split("|"),r={presets:{},order:[]},n=0;n<t.length;n++){var s=t[n]&&t[n].split(":"),a=s[0]&&s[0].trim(),c=s[1]&&s[1].trim();a&&c&&(r.presets[a]=c,r.order.unshift(a))}return r[i]}var resizeTimer;Array.prototype.forEach||(Array.prototype.forEach=function(e){var i,t;if(null==this)throw new TypeError("this is null or not defined");var r=Object(this),n=r.length>>>0;if("function"!=typeof e)throw new TypeError(e+" is not a function");for(arguments.length>1&&(i=arguments[1]),t=0;t<n;){var s;t in r&&(s=r[t],e.call(i,s,t,r)),t++}}),[Element.prototype,CharacterData.prototype,DocumentType.prototype].forEach(function(e){e.hasOwnProperty("remove")||Object.defineProperty(e,"remove",{configurable:!0,enumerable:!0,writable:!0,value:function(){null!==this.parentNode&&this.parentNode.removeChild(this)}})}),window.jScaler=window.jScaler||{},jScaler.forceUpdate=!1,jScaler.setForceUpdate=function(e){jScaler.forceUpdate=e,e&&jScaler.process(jScaler.config)},jScaler.setConfig=function(e){e=e||{},jScaler.config={IS_ULTRA_FAST:e.IS_ULTRA_FAST||!1,TOKEN:e.TOKEN||"",CONTAINER:e.CONTAINER||".cloudimg.io",DEFAULT_WIDTH:e.DEFAULT_WIDTH||"400",DEFAULT_HEIGHT:e.DEFAULT_HEIGHT||"300",DEFAULT_TYPE:e.DEFAULT_TYPE||"width",DEFAULT_PARAMS:e.DEFAULT_PARAMS||"none",BASE_URL:e.BASE_URL||"/",RESULT_PRESETS:e.PRESETS?getPresets(e.PRESETS,"presets"):{xs:576,sm:768,md:992,lg:1200,xl:1920},ORDER:e.PRESETS?getPresets(e.PRESETS,"order"):["xl","lg","md","sm","xs"],AUTO:e.AUTO||[1920,1200,992,768,576],QUERY_STRING:e.QUERY_STRING||""}},jScaler.init=function(){this.backgroundImgIndex=0,this.head=document.head||document.getElementsByTagName("head")[0],"trunc"in Math||(Math.trunc=Math.floor)},jScaler.process=function(e){this.setConfig(e);var i=filterImages(document.querySelectorAll("img[ci-src]"),"ci-src"),t=filterImages(document.querySelectorAll("[ci-img-background]"),"ci-img-background");i.length>0&&(i=Array.prototype.slice.call(i),[].forEach.call(i,function(e){this.attr(e,"src")?this.processImage(e,!0):this.processImage(e)},this)),t.length>0&&(t=Array.prototype.slice.call(t),[].forEach.call(t,function(e){this.attr(e,"ci-img-index")>=0&&this.processBackgroundImage(e)},this))},jScaler.getParentWidth=function(e){if(!(e&&e.parentElement&&e.parentElement.getBoundingClientRect||e&&e.width))return jScaler.config.DEFAULT_WIDTH;var i=getParentContainerWithWidth(e),t=parseInt(i,10),r=Number(window.getComputedStyle(e).width);return r&&r<t&&r>15||!t?getSizeLimit(r):t?getSizeLimit(t):e.width||jScaler.config.DEFAULT_WIDTH},jScaler.getElementSize=function(e,i){return e&&e.getBoundingClientRect?getSizeLimit(parseInt(e.getBoundingClientRect()[i],10)):null},jScaler.checkOnMedia=function(size){try{var object=eval("("+size+")");return object&&"object"==typeof object}catch(e){return!1}},jScaler.processImage=function(img,isUpdate){var sourceUrl="ci-src",imgType=this.attr(img,"ci-type")||this.config.DEFAULT_TYPE||"",imgSize=this.attr(img,"ci-size")||this.getParentWidth(img)||"",imgParams=this.attr(img,"ci-params")||this.config.DEFAULT_PARAMS||"",isLocalUrl=this.isLocalURL(img,sourceUrl),isResponsive=this.checkOnMedia(imgSize),imgSrc=this.getImgSrc(img,sourceUrl,isLocalUrl),cloudimageUrl,oldSize=img.getAttribute("data-old-ci-size");if(!this.attr(img,"ci-type")&&!this.attr(img,"ci-size")){if(!this.forceUpdate&&oldSize&&isUpdate&&imgSize&&parseInt(imgSize)<=parseInt(oldSize))return;img.setAttribute("data-old-ci-size",imgSize)}if(isResponsive?(imgSize=eval("("+imgSize+")"),cloudimageUrl=this.generateUrl("width",this.updateSizeWithPixelRatio(imgSize),imgParams,imgSrc)):cloudimageUrl=this.generateUrl(imgType,this.updateSizeWithPixelRatio(imgSize),imgParams,imgSrc),isUpdate){var wrapper=img.parentNode.parentNode,sources=wrapper.querySelectorAll("source");[].forEach.call(sources,function(e){e.remove()}),img.setAttribute("src",cloudimageUrl),this.addSources(img,imgType,imgSize,imgParams,imgSrc,isResponsive)}else this.wrap(img),img.setAttribute("src",cloudimageUrl),this.addSources(img,imgType,imgSize,imgParams,imgSrc,isResponsive)},jScaler.updateSizeWithPixelRatio=function(e){var i=e.toString().split("x"),t=[];return[].forEach.call(i,function(e){t.push(e*Math.round(window.devicePixelRatio||1))}),t.join("x")},jScaler.processBackgroundImage=function(e){var i=this.attr(e,"ci-type")||this.config.DEFAULT_TYPE||"",t=this.attr(e,"ci-size")||this.setSizeFromElemProperty(e,i)||this.getDefaultSize(i),r=this.checkOnMedia(t),n=this.attr(e,"ci-params")||this.config.DEFAULT_PARAMS||"",s=this.getBackgroundImgUrl(e,"ci-img-background"),a=e.getAttribute("ci-img-index"),c=null,o=e.getAttribute("data-old-ci-size");!this.forceUpdate&&o&&t&&parseInt(t)<=parseInt(o)||(e.setAttribute("data-old-ci-size",t),a>=0&&null!==a?c=a:(c=this.backgroundImgIndex.toString(),e.setAttribute("ci-img-index",c),this.backgroundImgIndex++),this.addCss(e,i,t,n,s,r,c))},jScaler.generateUrl=function(e,i,t,r){return(this.config.IS_ULTRA_FAST?"https://scaleflex.ultrafast.io/":"https://")+this.config.TOKEN+this.config.CONTAINER+"/"+e+"/"+i+"/"+t+"/"+r+this.config.QUERY_STRING},jScaler.addSources=function(e,i,t,r,n,s){if(s){var a=[];for(c=0;c<this.config.ORDER.length;c++){t[this.config.ORDER[c]]&&a.unshift(this.config.ORDER[c])}for(var c=0;c<a.length;c++){var o=!(c<a.length-1),l=o?a[c-1]:a[c],g=t[a[c]],d=this.generateSrcset(i,g,r,n),m="("+(o?"min":"max")+"-width: "+(this.config.RESULT_PRESETS[l]+(o?1:0))+"px)";this.before(e,'<source media="'+m+'" srcset="'+d+'">')}}else this.before(e,'<source srcset="'+this.generateSrcset(i,t,r,n)+'">')},jScaler.getImgSrc=function(e,i,t){var r=this.attr(e,i);return t&&(e.setAttribute("ci-local-url",r),r=this.config.BASE_URL+r),r},jScaler.getBackgroundImgUrl=function(e,i){var t,r=this.attr(e,i)||"";return r||this.setUrlFromElemProperty(e,i),t=this.isLocalURL(e,i),r=this.getImgSrc(e,i,t)},jScaler.generateImgSrc=function(e,i,t,r,n,s){var a=Math.trunc(r*s);return n&&(a+="x"+Math.trunc(n*s)),this.generateUrl(e,this.updateSizeWithPixelRatio(a),i,t).replace("http://scaleflex.ultrafast.io/","").replace("https://scaleflex.ultrafast.io/","").replace("//scaleflex.ultrafast.io/","").replace("///","/")},jScaler.generateSrcset=function(e,i,t,r){var n=i.toString().split("x")[0],s=i.toString().split("x")[1];return this.generateImgSrc(e,t,r,n,s,1)},jScaler.generateMediaQueries=function(e,i,t,r,n,s,a,c,o){var l=this.attr(e,"ci-selector-suffix")||"",g='[ci-img-index="'+this.attr(e,"ci-img-index")+'"]'+l,d=this.attr(e,"ci-important")?" !important":"",m=t.toString().split("x")[0],h=t.toString().split("x")[1],u=s?"} ":"";return(s?"@media ("+(c?"min":"max")+"-width: "+(c?o:a)+"px) {":"")+g+" { background-image: url("+this.generateImgSrc(i,r,n,m,h,1)+")"+d+"; } "+u},jScaler.getDefaultSize=function(e){var i="";switch(e){case"width":i=this.config.DEFAULT_WIDTH;break;case"height":i=this.config.DEFAULT_HEIGHT;break;case"crop":case"fit":case"cover":case"bound":default:i=this.config.DEFAULT_WIDTH+"x"+this.config.DEFAULT_HEIGHT}return i},jScaler.setUrlFromElemProperty=function(e,i){e.setAttribute(i,window.getComputedStyle(e).backgroundImage.slice(5,-2))},jScaler.setSizeFromElemProperty=function(e,i){var t=Number(window.getComputedStyle(e).width),r=Number(window.getComputedStyle(e).height);return t||(t=this.getParentWidth(e)),"width"===i?this.getElementSize(e,"width"):"width"===i?this.getElementSize(e,"height"):t&&r?t+"x"+r:void 0},jScaler.addCss=function(elem,imgType,imgSize,imgParams,imgSrc,isResponsive,nextIndex){var i,size,mediaQuery;if(isResponsive){var cssQueries="";if("full_screen"===imgSize||""===imgSize||null===this.attr(elem,"ci-size"))for(i=0;i<this.config.AUTO.length;i++)imgSize=this.config.AUTO[i],cssQueries+=this.generateMediaQueries(elem,"width",imgSize,imgParams,imgSrc,isResponsive,imgSize);else if(this.checkOnMedia(imgSize)){imgSize=eval("("+imgSize+")");var orderFiltered=[];for(i=0;i<this.config.ORDER.length;i++)size=imgSize[this.config.ORDER[i]],size&&orderFiltered.push(this.config.ORDER[i]);for(i=0;i<orderFiltered.length;i++){var isFirst=0===i,prevSize=isFirst&&orderFiltered[i+1],prevMediaQuery=isFirst&&this.config.RESULT_PRESETS[prevSize];size=imgSize[orderFiltered[i]],mediaQuery=this.config.RESULT_PRESETS[this.config.ORDER[i]],cssQueries+=this.generateMediaQueries(elem,imgType,size,imgParams,imgSrc,isResponsive,mediaQuery,isFirst,prevMediaQuery)}}this.addStyles(cssQueries,nextIndex)}else this.addStyles(this.generateMediaQueries(elem,imgType,imgSize,imgParams,imgSrc,isResponsive),nextIndex)},jScaler.addStyles=function(e,i){var t=document.querySelector(".ci-img-index_"+i);t||((t=document.createElement("style")).classList.add("ci-img-index_"+i),t.type="text/css",t.styleSheet?t.styleSheet.cssText=e:t.appendChild(document.createTextNode(e)),this.head.appendChild(t)),t.innerHTML=e},jScaler.isLocalURL=function(e,i){var t=this.attr(e,i)||"";return 0===t.indexOf("//")&&(t=window.location.protocol+t,e.setAttribute(i,t)),0!==t.indexOf("http://")&&0!==t.indexOf("https://")&&0!==t.indexOf("//")},jScaler.wrap=function(e,i){return i=i||document.createElement("picture"),e.nextSibling?e.parentNode.insertBefore(i,e.nextSibling):e.parentNode.appendChild(i),i.appendChild(e)},jScaler.before=function(e,i){var t,r=document.createElement("template");"content"in r?(r.innerHTML=i,e.parentNode.insertBefore(r.content.firstChild,e)):((t=document.createElement("div")).innerHTML=i,e.parentNode.insertBefore(t.firstChild,e))},jScaler.attr=function(e,i){return e.getAttribute(i)},jScaler.init(),window.addEventListener("resize",function(){clearTimeout(resizeTimer),resizeTimer=setTimeout(function(){jScaler.process(jScaler.config)},350)})}(window,document);</script>
+<script>
+  (function (jScaler) {
+    var devicePixelRatio = Math.round(window.devicePixelRatio || 1);
+    var pixelRatioDiv = document.getElementById('your_device_pixel_ratio');
+    pixelRatioDiv.innerHTML = devicePixelRatio;
+    jScaler.process({ TOKEN: 'demo', BASE_URL: 'http://sample.li/', DEFAULT_PARAMS: 'q80.foil1', QUERY_STRING: '?&size_info=1' + '&ratio=' + devicePixelRatio });
+  })(jScaler);
+</script>
+<!-- End of Cloudimage Integration :)  -->
+
+</body>
+</html>
