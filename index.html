@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <title>Document</title>
+<link href="main.css" rel="stylesheet"></head>
+<body>
+<div class="container">
+  <h1>Cloudimage Plugin</h1>
+  <p>Cloudimage plugin
+    will <strong>resize</strong>, <strong>compress</strong> and <strong>accelerate</strong> images across the World
+    in your site. It leverages the HTML5 &lt;picture&gt; and &lt;srcset&gt; elements to deliver
+    the right image size based on the client's <strong>screen size</strong> and <strong>pixel ratio</strong> (retina
+    vs non-retina). You can find the full extend of image operations in the Cloudimage documentation
+    <a href="https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/"> here</a>.</p>
+
+  <h3 style="margin-top:40px;margin-bottom:20px;">
+    I. Responsive mode, according to image container size
+  </h3>
+</div>
+
+<picture class="ci-image-wrapper" style="padding-bottom:66.6667%;display:block;background:#f4f4f4;">
+  <img ci-src="magnus-lindvall.jpg" ratio="1.5" class="ci-image-animation"/>
+</picture>
+<!--<img src="https://cloudimage.public.airstore.io/demo/magnus-lindvall.jpg" />-->
+
+<div class="container">
+      <pre><code>
+        <p>&lt;ci-img [src]="images[0].src" [ratio]="images[0].ratio"/&gt;</p>
+      </code></pre>
+
+  <p class="description">
+    In this example, image width equals to browser window screen width and is used for calculations.
+    Image will be downloaded according to the closest limit (25px, 50px, 100px, 100px * n ). Limit is used for cache
+    reasons.
+  </p>
+
+  Let's see the numbers:<br/>
+
+  <p class="numbers">
+    <b>original image:</b> <i>4.8mb</i> <a href="https://cloudimage.public.airstore.io/demo/magnus-lindvall.jpg"
+                                           target="_blank"> link</a><br/>
+    mobile sizes:<br/>
+    <b>400px screen</b> with 1x pixel ratio: <i>31.5kb</i> <a
+     href="https://demo.cloudimg.io/width/400/q80.foil1/https://cloudimage.public.airstore.io/demo/magnus-lindvall.jpg"
+     target="_blank"> link</a><br/>
+    <b>400px screen</b> with 2x(Retina) pixel ratio: <i>105kb</i> <a
+     href="https://demo.cloudimg.io/width/800/q80.foil1/https://cloudimage.public.airstore.io/demo/magnus-lindvall.jpg"
+     target="_blank"> link</a><br/>
+    laptop sizes:<br/>
+    <b>1400px screen</b> with 1x pixel ratio: <i>300kb</i> <a
+     href="https://demo.cloudimg.io/width/1400/q80.foil1/https://cloudimage.public.airstore.io/demo/magnus-lindvall.jpg"
+     target="_blank"> link</a><br/>
+    <b>1400px screen</b> with 2x(Retina) pixel ratio: <i>1mb</i> <a
+     href="https://demo.cloudimg.io/width/2800/q80.foil1/https://cloudimage.public.airstore.io/demo/magnus-lindvall.jpg"
+     target="_blank"> link</a><br/>
+  </p>
+
+  <p class="description" style="margin-top:15px;">
+    In the examples below, the images will be downloaded according to the closest limit for their container
+  </p>
+
+  <div class="row images-in-columns">
+    <div class="col-12">
+      <img ci-src="jordan-hubbard.jpg" ratio="1.5"/>
+    </div>
+
+    <div class="col-6">
+      <img ci-src="alain.jpg" ratio="1.5"/>
+      original: <i>5.8mb</i>
+      <a href="https://cloudimage.public.airstore.io/demo/alain.jpg" target="_blank"> link</a><br/>
+    </div>
+    <div class="col-6">
+      <img ci-src="ameen-fahmy.jpg" ratio="1.5"/>
+      original: <i>0.5mb</i>
+      <a href="https://cloudimage.public.airstore.io/demo/ameen-fahmy.jpg" target="_blank"> link</a><br/>
+    </div>
+    <div class="col-6">
+      <img ci-src="dino-reichmuth-9.jpg" ratio="1.5"/>
+      original: <i>9.7mb</i>
+      <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-9.jpg" target="_blank"> link</a><br/>
+    </div>
+    <div class="col-6">
+      <img ci-src="ishan-seefromthesky.jpg" ratio="1.5"/>
+      original: <i>4.2mb</i>
+      <a href="https://cloudimage.public.airstore.io/demo/ishan-seefromthesky.jpg" target="_blank"> link</a><br/>
+    </div>
+    <div class="col-6">
+      <img ci-src="dino-reichmuth.jpg" ratio="1.5"/>
+      original: <i>11.9mb</i>
+      <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth.jpg" target="_blank"> link</a><br/>
+    </div>
+    <div class="col-6">
+      <img ci-src="inma-lesielle.jpg" ratio="1.5"/>
+      original: <i>3.0mb</i>
+      <a href="https://cloudimage.public.airstore.io/demo/inma-lesielle.jpg" target="_blank"> link</a><br/>
+    </div>
+  </div>
+
+  <h3 style="margin-top:40px;margin-bottom:20px;">
+    II. Manual mode
+  </h3>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-7">
+      <img
+         ci-src="dino-reichmuth-1.jpg"
+         operation="crop"
+         size="{ xl: '1600x1000', lg: '1400x1200', md: '1000x1350', sm: '800x400'}"
+      />
+      <small>
+        original: <i>9.2mb</i> <a
+         href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-1.jpg" target="_blank"> link</a><br/>
+      </small>
+    </div>
+    <div class="col-md-6 col-lg-5 desc-wrapper-with-media-query">
+      <h4>You can control your image size/ratio/crop with media query breakpoints</h4>
+      <p>Resize your browser window to see how it works</p>
+      <pre><code>
+&lt;ci-img
+  operation="crop"
+  [src]="images[18].src"
+  [size]="&#123;
+    xl: '1600x1000',
+    lg: '1400x1200',
+    md: '1000x1350',
+    sm: '800x400'
+  &#125;"
+&lt;/ci-img&gt;
+      </code></pre>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <h4>Any questions?</h4>
+    <p>Contact us at <a href="mailto:hello@cloudimage.io">hello@cloudimage.io</a>, our image resizing experts will be
+      happy to help!</p>
+  </div>
+</div>
+
+<script>
+  window.lazySizesConfig = window.lazySizesConfig || {};
+  window.lazySizesConfig.init = false;
+</script>
+<script src="http://afarkas.github.io/lazysizes/lazysizes.min.js"></script>
+
+
+<script type="text/javascript" src="bundle0f480a96f1fb854d63e2.js"></script></body>
+</html>
