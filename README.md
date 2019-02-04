@@ -1,118 +1,163 @@
-<cloud**image**.io>
+![](https://demo.cloudimg.io/width/800/none/sample.li/Cloudimage_diagram.jpeg)
+
+powered by [Cloudimage](https://www.cloudimage.io/)
+([Watch the video here](https://www.youtube.com/watch?time_continue=2&v=JFZSE1vYb0k))
+
+## Cloudimage JS Plugin
+
+Cloudimage Responsive plugin will resize, compress and accelerate images across the World in your application. It leverages the HTML5 `<picture>` and `srcset` elements to deliver the right image size based on the client's screen size and pixel ratio (retina or non-retina).
 
 
-**This documentation is for imgResponsive.js version `1.2`**
+**NOTE:** Your original (master) images should be stored on a server or storage bucket (S3, Google Cloud, Azure Blob...) reachable over HTTP or HTTPS by Cloudimage. If you want to upload your master images to Cloudimage, contact us at [hello@cloudimage.io](mailto:hello@cloudimage.io).
 
+## Demo
 
+To see the Cloudimage Responsive plugin in action, please check out the [Demo page](https://scaleflex.github.io/js-cloudimage-responsive/). Play with your browser's viewport size and observe your Inspector's Network tab to see how Cloudimage delivers the optimal image size to your browser, hence accelerating the overall page loading time.
 
-
-_imgResponsive.js_ is an Open Source Javascript library developed by [<cloud**image**.io/>](https://cloudimage.io), allowing developers to easily generate responsive and resized images using the `picture` element and `srcset` attribute in HTLM5. To make your images responsive, define the target size of your different images and let _imgResponsive.js_ and [cloudimage.io](https://cloudimage.io) do the magic. In addition, all images will be cached on a global Content Delivery Network allowing your images to be delivered at the speed of light to your users.
-
-* [Overview / Resources](#overview-and-resources)
-* [Installation](#installation)
-* [Setup](#setup)
-* [Usage](#usage)
-* [Browser Support](#browser-support)
-* [Meta](#meta)
-
-
-<a name="overview-and-resources"></a>
-## Overview / Resources
-
-Before you get started, we highly recommend that you read the Mozila developer Network article on [Responsive images](https://developer.mozilla.org/en-US/Learn/HTML/Multimedia_and_embedding/Responsive_images). It will help you understand how the Javascript library works and what is injected in the DOM of your page.
-
-<a name="installation"></a>
 ## Installation
 
-Copy and paste _imgResponsive.js_  in a folder of your web server and include following lines in your header.
- 
-	<script src="{PATH}/imgResponsive.js"></script>
+```
+$ npm install --save js-cloudimage-responsive
+```
 
-_NOTE_: Adapt {PATH} to your folder structure.
+## Simple Usage
 
-At the end of your DOM, before the `<\body>` item add the following lines:
-	<script>
-	jScaler.config.TOKEN = 'YOUR_TOKEN';
-	jScaler.config.BASE_URL= 'PATH-TO-LOCAL-FOLDER-IMAGES';
-	</script>
+```javascript
+
+import 'js-cloudimage-responsive';
+
+const ciResponsive = new window.CIResponsive({
+  token: 'demo',
+  baseUrl: 'https://cloudimage.public.airstore.io/demo/'
+});
+
+ciResponsive.init();
+```
+
+```html
+<img ci-src="magnus-lindvall.jpg" ratio="1.5"/>
+```
+Note: as you see, usnig the Cloudimage plugin is very easy - just use the `ci-src` instead of the `src` attribute in image tag.
+
+## Requirements
+
+To use the Cloudimage Responsive plugin, you will need a Cloudimage token. Don't worry, it only takes seconds to get one by registering [here](https://www.cloudimage.io/en/register_page). Once your token is created, you can configure it as described below. This token allows you to use 25GB of image cache and 25GB of worldwide CDN traffic per month for free.
+
+## Config
+
+### token
+
+###### Type: **String** | Default: **"demo"** | _required_
+
+Your Cloudimage customer token. [Subscribe](https://www.cloudimage.io/en/register_page) for a Cloudimage account to get one. The subscription takes less than a minute and is totally free
+
+### lazyLoading
+
+###### Type: **Bool** | Default: **true** | _required_
+
+Only load images close to the viewport
+
+### imgLoadingAnimation
+
+###### Type: **Bool** | Default: **true** | _required_
+
+Nice effect for preview transition
+
+### lazyLoadOffset
+
+###### Type: **Number** | Default: **100** | _required_
+
+Preload an image even if it's e.g. 100px below the viewport
+(user have to scroll 100px more to see this image)
+
+### filters
+
+###### Type: **String** | Default: **'n'** | _optional_
+
+Parameters like fcontrast, fpixelate, fgaussian, backtransparent,
+rotation to apply filters on your image by default
+
+### placeholderBackground
+
+###### Type: **String** | Default: **'#f4f4f4'** | _optional_
+
+Parameters like fcontrast, fpixelate, fgaussian, backtransparent,
+rotation to apply filters on your image by default
+
+### baseUrl
+
+###### Type: **String** | Default: **"/"** | _optional_
+
+Your image folder on server.
 
 
+## Image properties
 
-<a name="setup"></a>
-## Setup
+### src
 
-Follow the steps outlined below by editing _imgResponsive.js_:
+###### Type: **String** | Default: **undefined** | _required_
 
-	
-1. The library comes with a set of pre-defined screen resolutions thresholds which cover most of the devices out there. Devices will select the next larger width resolution available. Feel free to adapt these values if you need higher granularity but we do not advise having more than 10 screen widths. 
-	
-		var PHONE = 668;
-		var PHABLET = 720;
-		var TABLET = 940;
-		var SMALL_LAPTOP_SCREEN = 1140;
-		var USUALSCREEN = 1367;
-		var MAXSCREEN = 1920;
-		//YOUR_CUSTOM_SCREEN_1 = W1;
-		
-	Note: If the screen width is larger than 1920 pixels, the origin image will be displayed.
+Original image hosted on your web server.
 
-2. Set `imgWidth` and `imgHeight` inside the `default_vector`. These represent the default image **width** and **height** applied in case no CSS class names match or there is no class name inside the the `<img>` tags.
+### operation/o
 
-		var vector_default = 
-					[{"screenWidth": YOUR_CUSTOM_SCREEN_1, "imgWidth": 0, "imgHeight": 0},
-					{"screenWidth": PHONE, "imgWidth": 0, "imgHeight": 0},
-                    {"screenWidth": PHABLET, "imgWidth": 0, "imgHeight": 0},
-                    {"screenWidth": TABLET, "imgWidth": 0, "imgHeight": 0)},
-                    {"screenWidth": SMALL_LAPTOP_SCREEN, "imgWidth": 0, "imgHeight": 0},
-                    {"screenWidth": USUALSCREEN, "imgWidth":0, "imgHeight": 0},
-                    {"screenWidth": MAXSCREEN, "imgWidth": 0, "imgHeight": 0}];
-                    
-      _Note_: if you use the Cloudimage **width** width transformation you only need to set `imgWidth`. 
+[see doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/)
 
-3. `vector_classname` allows you to define different image formats in case you need multiple images sizes (thumbnail1, thumbnail2, large, ...) across your web site or web application. You can define as many `vector_classname` as you have different image sizes. See example in _imgResponsive.js_
+###### Type: **String** | Default: **width** | _optional_
 
-4. Add all `vector_classname` to the array `config` by referencing the `VECTOR` , the `OPERATION` for this class as well as it's `PARAMETERS`:
+**width** - to resize with a specific width
 
-		var config = [{
-		    "CLASSNAME": "thumbnail", "VECTOR": vector_thumbnail, "OPERATION":"crop", "PARAMETER": "n"
-		},{
-		    "CLASSNAME": "", "VECTOR": vector_default,"OPERATION": DEFAULT_OPERATION,"PARAMETER": "n"
-		}];
+**height** - to resize with a specific height
 
-5. _(Optional) BUT HIGHLY RECOMANDED_ Make your website load even faster!
-As the DOM is interpreted before the _imgResponsive.js_ JavaScript library, small parts of the origin images are loaded before the `<picture>` tags are injected in the code. This results in a performance hit which you can address by finding and replacing all `src` with `data-src` attributes withing the `<img>` tags of your page.
+**crop** - to crop the image at the center
 
-####Congratulations! 
+**fit** - to resize the image in a box and keeping the proportions of the source image
 
-By carefully following these 5 steps, you made your images become responsive and delivered via a superfast CDN!
+**cover** - to resize the image in a box without keeping the proportions of the source image
 
-<a name="usage"></a>
-## Usage
+### size/s
 
-If you want _imgResponsive.js_ to ignore some of your images and not process them, simply add the class `cloudimg_ignore` to the `<img>` tag.
+###### Type: **String/Object** | Default: **undefined** | _optional_
+
+Size of an image which is used as a base for creating retina ready and responsive image element.
+
+Examples (PR - stands for your device Pixel Ratio):
+
+**[width]**: s="250" => width: 250 * PR (px); height: auto;
+
+**[width x height]**: s="125x200" => width: 125 * PR (px); height: 200 * PR (px);
+
+**[Width and height for different screen resolutions]**:
+
+s={{ xs: '50x100', sm:'100x125', md: '150x150', lg:'200x175', xl:'300x200' }}
+
+*You can drop some breakpoints, for example s={{ sm:'100x125', xl:'300x200' }}
+
+**NOTE:** if size is set to **undefined**, Cloudimage uses a special
+algorithm to detect the width of image container and set the image size
+accordingly.
+
+### filters/f
+
+[see doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
+
+###### Type: **String** | Default: **none** | _optional_
+
+Filters allow you to modify the image's apperance and can be added on top of the resizing features above.
+
+**fgrey** - apply a greyscale filter on the image
+
+**fgaussian[0..10]** - apply a gaussian blur filter on the image
+
+**fcontrast[-100..100]** - apply a contrast filter on the image
+
+**fbright[0..255]** - apply a brightness filter on the image
+
+**fpixelate[0..100]** - apply a pixelate filter on the image
+
+**fradius[0..500]** - create a radius on the corners
 
 
-<a name="browser-support"></a>
-## Browser Support
+***
 
-* By default, browsers that don't support [`srcset`](http://caniuse.com/#feat=srcset) or [`picture`](http://caniuse.com/#feat=picture) will gracefully fall back to the default `img` `src`. 
-* If you have implemented `data-src` browers need to support JavaScript
-
-<a name="meta"></a>
-## Meta
-Cloudimage JavaScript imgResponsive.js was made by [cloudimage.io](https://cloudimage.io) and is availalbe
-
-## Licence
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)

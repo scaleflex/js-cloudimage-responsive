@@ -1,6 +1,6 @@
 {
   "name": "js-cloudimg-responsive",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Cloudimage responsive plugin will make your website load the exact image size you need depending on your user's screen size. Multiple pixel ratios are supported.",
   "main": "dist/index.js",
   "scripts": {
