@@ -1,11 +1,11 @@
-picture.ci-image-wrapper {
+div.ci-image-wrapper {
   display: block;
   width: 100%;
   overflow: hidden;
   position: relative;
 }
 
-picture.ci-image-wrapper-ratio {
+div.ci-image-wrapper-ratio {
 
 }
 
@@ -13,7 +13,6 @@ img.ci-image {
   opacity: 1;
   display: block;
   width: 100%;
-  transition: all 0.3s ease-in-out;
 }
 
 img.ci-image-ratio {
@@ -23,14 +22,18 @@ img.ci-image-ratio {
   height: 100%;
 }
 
-img.ci-image-animation:not(.ci-image-loaded) {
-  transform: scale3d(1.1, 1.1, 1);
-}
+/*img.ci-image-animation {*/
+  /*transition: all 0.3s ease-in-out;*/
+/*}*/
 
-img.ci-image-animation.ci-image-loaded {
-  opacity: 1;
-  transform: translateZ(0) scale3d(1, 1, 1);
-}
+/*img.ci-image-animation:not(.ci-image-loaded) {*/
+  /*transform: scale3d(1.1, 1.1, 1);*/
+/*}*/
+
+/*img.ci-image-animation.ci-image-loaded {*/
+  /*opacity: 1;*/
+  /*transform: translateZ(0) scale3d(1, 1, 1);*/
+/*}*/
 body {
   font-size: 18px;
 }
