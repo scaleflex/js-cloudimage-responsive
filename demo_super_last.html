@@ -32,7 +32,9 @@
   </div>
   <!--<h3>Change your browser's windows size to simulate a smaller screen, images will be automatically adapted:</h3>-->
 
+<!--<div style="min-height: 2000px">-->
 
+<!--</div>-->
 
   <div class="container-fluid">
     <div class="row">
@@ -50,7 +52,7 @@
     <div class="show-width col-xs-10 col-xs-offset-1">
       <div
          style="padding-top: 56.25%; background-size: cover"
-         ci-img-background="https://victoriagroup.bg/wp-content/uploads/2017/12/Marinela_s1_IMG_5279.jpg"
+         ci-background="https://victoriagroup.bg/wp-content/uploads/2017/12/Marinela_s1_IMG_5279.jpg"
       ></div>
     </div>
   </div>
@@ -71,7 +73,7 @@
   <pre>&lt;img ci-src="birds.jpg"&gt;</pre>
   <br>
   <p>Also works for <code class="code">background</code> (just add the link to image as <code class="code">ci-img-background</code> attribute):</p>
-  <pre>&lt;div class="background-styles" ci-img-background="birds.jpg"&gt;&lt;/div&gt;</pre>
+  <pre>&lt;div class="background-styles" ci-background="birds.jpg"&gt;&lt;/div&gt;</pre>
 
   <h2 style="margin-top: 30px;">Configuration params</h2>
   <code style="font-size: 0; background-color: white;">
@@ -101,7 +103,7 @@
   <div>
     <h4>ci-src
       <small style="font-weight: normal;">or</small>
-      ci-img-background
+      ci-background
     </h4>
   </div>
   <div><h5>required</h5></div>
@@ -269,21 +271,21 @@
     jScaler.config = {
       IS_ULTRA_FAST: config.IS_ULTRA_FAST || false,
       TOKEN: config.TOKEN || '',
-      CONTAINER: config.CONTAINER || '.cloudimg.io',
+      CONTAINER: config.CONTAINER || 'cloudimg.io',
       DEFAULT_WIDTH: config.DEFAULT_WIDTH || '400',
       DEFAULT_HEIGHT: config.DEFAULT_HEIGHT || '300',
       DEFAULT_TYPE: config.DEFAULT_TYPE || 'width',
       DEFAULT_PARAMS: config.DEFAULT_PARAMS || 'none',
       BASE_URL: config.BASE_URL || '/',
-      PRESETS: config.PRESETS ||
-      {
-        xs: 576,  // 0 - 576      PHONE
-        sm: 768,  // 577 - 768    PHABLET
-        md: 992,  // 769 - 992    TABLET
-        lg: 1200, // 993 - 1200   SMALL_LAPTOP_SCREEN
-        xl: 1920  // 1200 - 1920  USUALSCREEN
-      },
-      ORDER: config.ORDER || ['xl', 'lg', 'md', 'sm', 'xs'],
+      RESULT_PRESETS: config.PRESETS ? getPresets(config.PRESETS, 'presets') :
+        {
+          xs: 576,  // 0 - 576      PHONE
+          sm: 768,  // 577 - 768    PHABLET
+          md: 992,  // 769 - 992    TABLET
+          lg: 1200, // 993 - 1200   SMALL_LAPTOP_SCREEN
+          xl: 1920  // 1200 - 1920  USUALSCREEN
+        },
+      ORDER: config.PRESETS ? getPresets(config.PRESETS, 'order') : ['xl', 'lg', 'md', 'sm', 'xs'],
       AUTO: config.AUTO || [1920, 1200, 992, 768, 576],
       QUERY_STRING: config.QUERY_STRING || ''
     };
@@ -301,8 +303,8 @@
   jScaler.process = function (config) {
     this.setConfig(config);
 
-    var imgs = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-src'),
-      backgroundImgs = filterImages(document.querySelectorAll('[ci-img-background]'), 'ci-img-background');
+    var imgs = filterImages(document.querySelectorAll('img[data-src]'), 'data-src'),
+      backgroundImgs = filterImages(document.querySelectorAll('[ci-background]'), 'ci-background');
 
     if (imgs.length > 0) {
       imgs = Array.prototype.slice.call(imgs);
@@ -393,39 +395,45 @@
 
   jScaler.processImage = function (img, isUpdate) {
 
-    var sourceUrl = 'ci-src',
-      imgType = this.attr(img, 'ci-type') || this.config.DEFAULT_TYPE || '',
-      imgSize = this.attr(img, 'ci-size') || this.getParentWidth(img) || '',
-      imgParams = this.attr(img, 'ci-params') || this.config.DEFAULT_PARAMS || '',
+    var sourceUrl = 'data-src',
+      imgTypeFromAttr = this.attr(img, 'ci-type') || this.attr(img, 'ci-operation') || this.attr(img, 'ci-o'),
+      imgType = imgTypeFromAttr || this.config.DEFAULT_TYPE || '',
+      imgSizeFromAttr = this.attr(img, 'ci-size') || this.attr(img, 'ci-s'),
+      imgSize = imgSizeFromAttr || this.getParentWidth(img) || '',
+      imgParamsFromAttr = this.attr(img, 'ci-params') || this.attr(img, 'ci-filter') || this.attr(img, 'ci-f'),
+      imgParams = imgParamsFromAttr || this.config.DEFAULT_PARAMS || '',
       isLocalUrl = this.isLocalURL(img, sourceUrl),
       isResponsive = this.checkOnMedia(imgSize),
       imgSrc = this.getImgSrc(img, sourceUrl, isLocalUrl),
       cloudimageUrl,
       oldSize = img.getAttribute('data-old-ci-size');
 
-    if (!this.forceUpdate && (oldSize && isUpdate && imgSize && (parseInt(imgSize) <= parseInt(oldSize)))) return ;
+    if (!imgTypeFromAttr && !imgSizeFromAttr) {
+      if (!this.forceUpdate && (oldSize && isUpdate && imgSize && (parseInt(imgSize) <= parseInt(oldSize)))) return ;
 
-    img.setAttribute('data-old-ci-size', imgSize);
+      img.setAttribute('data-old-ci-size', imgSize);
+    }
 
     if (isResponsive) {
       imgSize = eval('(' + imgSize + ')');
-      cloudimageUrl = this.generateUrl('width', this.updateSizeWithPixelRatio(this.getParentWidth(img)), imgParams, imgSrc);
+      cloudimageUrl = this.generateUrl('width', this.updateSizeWithPixelRatio(imgSize), imgParams, imgSrc);
     } else {
       cloudimageUrl = this.generateUrl(imgType, this.updateSizeWithPixelRatio(imgSize), imgParams, imgSrc);
     }
+
     if (!isUpdate) {
       this.wrap(img);
 
-      img.setAttribute('src', cloudimageUrl);
-      this.addSources(img, imgType, imgSize, imgParams, imgSrc, isResponsive);
+      img.setAttribute('data-src', cloudimageUrl);
+      //this.addSources(img, imgType, imgSize, imgParams, imgSrc, isResponsive);
     } else {
       var wrapper = img.parentNode.parentNode;
       var sources = wrapper.querySelectorAll('source');
 
       [].forEach.call(sources, function (item) { item.remove(); })
 
-      img.setAttribute('src', cloudimageUrl);
-      this.addSources(img, imgType, imgSize, imgParams, imgSrc, isResponsive);
+      img.setAttribute('data-src', cloudimageUrl);
+      //this.addSources(img, imgType, imgSize, imgParams, imgSrc, isResponsive);
     }
   };
 
@@ -441,11 +449,14 @@
   };
 
   jScaler.processBackgroundImage = function(elem) {
-    var sourceUrl = 'ci-img-background',
-      imgType = this.attr(elem, 'ci-type') || this.config.DEFAULT_TYPE || '',
-      imgSize = this.attr(elem, 'ci-size') || this.setSizeFromElemProperty(elem, imgType) || this.getDefaultSize(imgType),
+    var sourceUrl = 'ci-background',
+      imgTypeFromAttr = this.attr(elem, 'ci-type') || this.attr(elem, 'ci-operation') || this.attr(elem, 'ci-o'),
+      imgType = imgTypeFromAttr || this.config.DEFAULT_TYPE || '',
+      imgSizeFromAttr = this.attr(elem, 'ci-size') || this.attr(elem, 'ci-s'),
+      imgSize = imgSizeFromAttr || this.setSizeFromElemProperty(elem, imgType) || this.getDefaultSize(imgType),
       isResponsive = this.checkOnMedia(imgSize),
-      imgParams = this.attr(elem, 'ci-params') || this.config.DEFAULT_PARAMS || '',
+      imgParamsFromAttr = this.attr(elem, 'ci-params') || this.attr(elem, 'ci-filter') || this.attr(elem, 'ci-f'),
+      imgParams = imgParamsFromAttr || this.config.DEFAULT_PARAMS || '',
       imgSrc = this.getBackgroundImgUrl(elem, sourceUrl),
       oldIndex = elem.getAttribute('ci-img-index'),
       nextIndex = null,
@@ -469,7 +480,7 @@
 
   jScaler.generateUrl = function (imgType, imgSize, imgParams, imgSrc) {
     var ultraFast = this.config.IS_ULTRA_FAST ? 'https://scaleflex.ultrafast.io/' : 'https://';
-    var cloudUrl = ultraFast + this.config.TOKEN + this.config.CONTAINER + '/';
+    var cloudUrl = ultraFast + this.config.TOKEN + '.' + this.config.CONTAINER + '/';
 
     return cloudUrl + imgType + '/' + imgSize + '/' + imgParams + '/' + imgSrc + this.config.QUERY_STRING;
   };
@@ -492,7 +503,7 @@
         var nextSize = imgSize[orderFiltered[i]];
 
         var srcSet = this.generateSrcset(imgType, nextSize, imgParams, imgSrc);
-        var mediaQuery = '(' + (isLast ? 'min' : 'max') +'-width: ' + (this.config.PRESETS[nextSizeType] + (isLast ? 1 : 0)) + 'px)';
+        var mediaQuery = '(' + (isLast ? 'min' : 'max') +'-width: ' + (this.config.RESULT_PRESETS[nextSizeType] + (isLast ? 1 : 0)) + 'px)';
 
         this.before(img, '<source media="' + mediaQuery + '" srcset="' + srcSet + '">');
       }
@@ -599,7 +610,8 @@
     var i, size, mediaQuery;
     if (isResponsive) {
       var cssQueries = '';
-      if (imgSize === 'full_screen' || imgSize === '' || this.attr(elem, 'ci-size') === null) {
+      var imgSizeFromAttr = this.attr(elem, 'ci-size') || this.attr(elem, 'ci-s') || null;
+      if (imgSize === 'full_screen' || imgSize === '' || imgSizeFromAttr === null) {
         //TODO: make it possible to use special config for auto mode
         for (i = 0; i < this.config.AUTO.length; i++) {
           //TODO: for now only width method
@@ -620,9 +632,9 @@
         for (i = 0; i < orderFiltered.length; i++) {
           var isFirst = i === 0;
           var prevSize = isFirst && orderFiltered[i + 1];
-          var prevMediaQuery = isFirst && this.config.PRESETS[prevSize]
+          var prevMediaQuery = isFirst && this.config.RESULT_PRESETS[prevSize]
           size = imgSize[orderFiltered[i]];
-          mediaQuery = this.config.PRESETS[this.config.ORDER[i]];
+          mediaQuery = this.config.RESULT_PRESETS[this.config.ORDER[i]];
 
           cssQueries += this.generateMediaQueries(
             elem, imgType, size, imgParams, imgSrc, isResponsive, mediaQuery, isFirst, prevMediaQuery
@@ -726,6 +738,25 @@
     return filtered;
   }
 
+  function getPresets(value, type) {
+    value = value || '';
+    var splittedValues = value.split('|');
+    var result = { presets: {}, order: [] };
+
+    for (var i = 0; i < splittedValues.length; i++) {
+      var splittedParam = splittedValues[i] && splittedValues[i].split(':');
+      var prop = splittedParam[0] && splittedParam[0].trim();
+      var val = splittedParam[1] && splittedParam[1].trim();
+
+      if (prop && val) {
+        result.presets[prop] = val;
+        result.order.unshift(prop);
+      }
+    }
+
+    return result[type];
+  }
+
   var resizeTimer;
 
   window.addEventListener('resize', function () {
@@ -786,6 +817,7 @@
     }
   })();
 </script>
+<script src="http://afarkas.github.io/lazysizes/lazysizes.min.js" async=""></script>
 
 </body>
 </html>

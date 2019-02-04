@@ -70,7 +70,7 @@
     jScaler.config = {
       IS_ULTRA_FAST: config.IS_ULTRA_FAST || false,
       TOKEN: config.TOKEN || '',
-      CONTAINER: config.CONTAINER || '.cloudimg.io',
+      CONTAINER: config.CONTAINER || 'cloudimg.io',
       DEFAULT_WIDTH: config.DEFAULT_WIDTH || '400',
       DEFAULT_HEIGHT: config.DEFAULT_HEIGHT || '300',
       DEFAULT_TYPE: config.DEFAULT_TYPE || 'width',
@@ -219,6 +219,7 @@
     } else {
       cloudimageUrl = this.generateUrl(imgType, this.updateSizeWithPixelRatio(imgSize), imgParams, imgSrc);
     }
+
     if (!isUpdate) {
       this.wrap(img);
 
@@ -278,7 +279,7 @@
 
   jScaler.generateUrl = function (imgType, imgSize, imgParams, imgSrc) {
     var ultraFast = this.config.IS_ULTRA_FAST ? 'https://scaleflex.ultrafast.io/' : 'https://';
-    var cloudUrl = ultraFast + this.config.TOKEN + this.config.CONTAINER + '/';
+    var cloudUrl = ultraFast + this.config.TOKEN + '.' + this.config.CONTAINER + '/';
 
     return cloudUrl + imgType + '/' + imgSize + '/' + imgParams + '/' + imgSrc + this.config.QUERY_STRING;
   };

@@ -1,0 +1,36 @@
+div.ci-image-wrapper {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+div.ci-image-wrapper-ratio {
+
+}
+
+img.ci-image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+}
+
+img.ci-image-ratio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+/*img.ci-image-animation {*/
+  /*transition: all 0.3s ease-in-out;*/
+/*}*/
+
+/*img.ci-image-animation:not(.ci-image-loaded) {*/
+  /*transform: scale3d(1.1, 1.1, 1);*/
+/*}*/
+
+/*img.ci-image-animation.ci-image-loaded {*/
+  /*opacity: 1;*/
+  /*transform: translateZ(0) scale3d(1, 1, 1);*/
+/*}*/

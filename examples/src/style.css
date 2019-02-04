@@ -1,0 +1,59 @@
+body {
+  font-size: 18px;
+}
+
+.container h1 {
+  margin-top: 40px;
+}
+
+.container h1 + p {
+  color: #ababab;
+  font-size: 22px;
+}
+
+p.description {
+  margin-top: 10px;
+}
+
+p.numbers {
+  font-size: 16px;
+  color: #4b4b4b;
+}
+
+@media (max-width: 767px) {
+  .desc-wrapper-with-media-query {
+    margin-top: 20px;
+  }
+}
+
+div.images-in-columns div {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+pre {
+  padding: 1.5rem;
+  margin-right: 0;
+  margin-left: 0;
+  border-width: .2rem;
+  margin: 1rem -15px 0;
+  border: solid #f8f9fa;
+}
+
+pre p {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+}
+
+.logo {
+  display: inline-block;
+  width: auto;
+  margin-left: 5px;
+  position: relative;
+  margin-top: -8px;
+  height: 47px;
+}
