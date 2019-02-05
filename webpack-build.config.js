@@ -3,8 +3,8 @@ const path = require('path');
 module.exports = {
   entry: path.join(__dirname, "src/index.js"),
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "index.js"
+    path: path.join(__dirname, "build"),
+    filename: "js-cloudimage-responsive.v0.0.4.min.js"
   },
   module: {
     rules: [
@@ -19,10 +19,9 @@ module.exports = {
       }
     ]
   },
+  plugins: [],
   resolve: {
     extensions: [".js", ".jsx"]
-  },
-  devServer: {
-    port: 3001
   }
+  //devtool: 'source-map'
 };

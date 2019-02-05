@@ -16,11 +16,32 @@ To see the Cloudimage Responsive plugin in action, please check out the [Demo pa
 
 ## Installation
 
+Add script tag with link to js-cloudimage-responsive
+
+```
+<script src="https://scaleflex.airstore.io/filerobot/plugins/js-cloudimage-responsive.v0.0.4.min.js"></script>
+```
+
+or using npm
+
 ```
 $ npm install --save js-cloudimage-responsive
 ```
 
 ## Simple Usage
+
+```
+<script>
+const ciResponsive = new window.CIResponsive({
+  token: 'demo',
+  baseUrl: 'https://cloudimage.public.airstore.io/demo/'
+});
+
+ciResponsive.init();
+</script>
+```
+
+or in new style with npm
 
 ```javascript
 
@@ -34,10 +55,13 @@ const ciResponsive = new window.CIResponsive({
 ciResponsive.init();
 ```
 
+and just use the `ci-src` instead of the `src` attribute in image tag.
+
 ```html
 <img ci-src="magnus-lindvall.jpg" ratio="1.5"/>
 ```
-Note: as you see, usnig the Cloudimage plugin is very easy - just use the `ci-src` instead of the `src` attribute in image tag.
+
+NOTE: "ratio" is recommended to prevent page layout jumping and to leverage visibility checking and thus lazy loading. Every other means to make the image have a certain height is also ok.
 
 ## Requirements
 
@@ -156,6 +180,12 @@ Filters allow you to modify the image's apperance and can be added on top of the
 **fpixelate[0..100]** - apply a pixelate filter on the image
 
 **fradius[0..500]** - create a radius on the corners
+
+### ratio/r
+
+###### Type: **Number** | _optional_
+
+it is recommended to prevent page layout jumping and to leverage visibility checking and thus lazy loading. Every other means to make the image have a certain height is also ok.
 
 
 ***
