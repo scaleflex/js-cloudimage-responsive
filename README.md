@@ -10,16 +10,29 @@ Cloudimage Responsive plugin will resize, compress and accelerate images across 
 
 **NOTE:** Your original (master) images should be stored on a server or storage bucket (S3, Google Cloud, Azure Blob...) reachable over HTTP or HTTPS by Cloudimage. If you want to upload your master images to Cloudimage, contact us at [hello@cloudimage.io](mailto:hello@cloudimage.io).
 
-## Demo
+## Table of contents
+
+* [Demo](#demo)
+* [Installation](#installation)
+* [Simple Usage](#quick_start)
+* [Requirements](#requirements)
+* [Configuration](#configuration)
+* [Image properties](#image_properties)
+* [Lazy Loading](#lazy_loading)
+* [Browser support](#browser_support)
+* [Contributing](#contributing)
+
+
+## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the [Demo page](https://scaleflex.github.io/js-cloudimage-responsive/). Play with your browser's viewport size and observe your Inspector's Network tab to see how Cloudimage delivers the optimal image size to your browser, hence accelerating the overall page loading time.
 
-## Installation
+## <a name="installation"></a> Installation
 
 Add script tag with link to js-cloudimage-responsive
 
 ```
-<script src="https://scaleflex.airstore.io/filerobot/plugins/js-cloudimage-responsive.v0.0.4.min.js"></script>
+<script src="https://scaleflex.airstore.io/filerobot/plugins/js-cloudimage-responsive.v0.0.5.min.js"></script>
 ```
 
 or using npm
@@ -28,16 +41,16 @@ or using npm
 $ npm install --save js-cloudimage-responsive
 ```
 
-## Simple Usage
+## <a name="quick_start"></a> Simple Usage
 
 ```
 <script>
-const ciResponsive = new window.CIResponsive({
-  token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/'
-});
+    const ciResponsive = new window.CIResponsive({
+      token: 'demo',
+      baseUrl: 'https://cloudimage.public.airstore.io/demo/'
+    });
 
-ciResponsive.init();
+    ciResponsive.init();
 </script>
 ```
 
@@ -63,11 +76,11 @@ and just use the `ci-src` instead of the `src` attribute in image tag.
 
 NOTE: "ratio" is recommended to prevent page layout jumping and to leverage visibility checking and thus lazy loading. Every other means to make the image have a certain height is also ok.
 
-## Requirements
+## <a name="requirements"/> Requirements
 
 To use the Cloudimage Responsive plugin, you will need a Cloudimage token. Don't worry, it only takes seconds to get one by registering [here](https://www.cloudimage.io/en/register_page). Once your token is created, you can configure it as described below. This token allows you to use 25GB of image cache and 25GB of worldwide CDN traffic per month for free.
 
-## Config
+## <a name="configuration"></a> Config
 
 ### token
 
@@ -115,7 +128,7 @@ rotation to apply filters on your image by default
 Your image folder on server.
 
 
-## Image properties
+## <a name="image_properties"></a> Image properties
 
 ### src
 
@@ -187,6 +200,51 @@ Filters allow you to modify the image's apperance and can be added on top of the
 
 it is recommended to prevent page layout jumping and to leverage visibility checking and thus lazy loading. Every other means to make the image have a certain height is also ok.
 
+## <a name="lazy_loading"></a> Lazy Loading
+
+Lazy loading is not included into js-cloudimage-responsive by default. There are a few great libraries to do it.
+
+The example below uses [lazysizes](https://github.com/aFarkas/lazysizes) library using Intersection Observer API.
+
+add the following scripts right after js-cloudimage-responsive script
+
+```
+<script src="https://scaleflex.airstore.io/filerobot/plugins/js-cloudimage-responsive.v0.0.5.min.js"></script>
+<script>
+  window.lazySizesConfig = window.lazySizesConfig || {};
+  window.lazySizesConfig.init = false;
+</script>
+<script src="https://scaleflex.airstore.io/filerobot/plugins/lazysizes-intersection.min.js"></script>
+```
+
+the initialization script
+
+```
+<script>
+    const ciResponsive = new window.CIResponsive({
+      token: 'demo',
+      baseUrl: 'https://cloudimage.public.airstore.io/demo/',
+      filters: 'q35.foil1',
+      lazyLoadOffset: 100,
+      lazyLoading: true
+    });
+
+
+    ciResponsive.init();
+
+    window.lazySizes.init();
+</script>
+ ```
+
+## <a name="browser_support"></a> Browser support
+
+Tested in all modern browsers and IE 11.
+
+NOTE: If you use lazy loading with IntersectionObserver, you must manually add the [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) for cross-browser support.
+
+## <a name="contributing"></a> Contributing!
+
+All contributions are super welcome!
 
 ***
 

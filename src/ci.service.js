@@ -99,11 +99,16 @@ export default class CIResponsive {
       operation = this.config.operation,
       size = (this.config.size || parentContainerWidth),
       filters = this.config.filters,
-      ratio = this.config.ratio,
+      ratio,
       src
     } = getImageProps(image);
     const isAdaptive = checkOnMedia(size);
+    const ratioBySize = getRatioBySize(size, this.config);
+    const imageHeight = Math.floor(parentContainerWidth / (ratioBySize || ratio));
+    const isRatio = !!(ratioBySize || ratio);
+    let wrapper = null;
 
+    ratio = ratio || this.config.ratio;
     size = isAdaptive ? eval('(' + size + ')') : size;
 
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
@@ -114,20 +119,19 @@ export default class CIResponsive {
     const cloudimageUrl = isAdaptive ?
       generateUrl('width', parentContainerWidth, filters, imgSrc, this.config) :
       generateUrl(operation, resultSize, filters, imgSrc, this.config);
-    const ratioBySize = getRatioBySize(size, this.config);
-    const imageHeight = Math.floor(parentContainerWidth / (ratioBySize || ratio));
-    const isRatio = !!(ratioBySize || ratio);
 
     if (this.config.imgLoadingAnimation) {
       this.setAnimation(image, parentContainerWidth);
     }
 
     if (!isUpdate) {
-      this.wrap(image, null, isRatio, ratioBySize, ratio, isPreview);
+      wrapper = this.wrap(image, null, isRatio, ratioBySize, ratio, isPreview);
     } else {
-      const wrapper = this.getWrapper(image);
+      wrapper = this.getWrapper(image);
 
-      wrapper.style.paddingBottom = (100 / (ratioBySize || ratio)) + '%';
+      if (isRatio) {
+        wrapper.style.paddingBottom = (100 / (ratioBySize || ratio)) + '%';
+      }
 
       if (isAdaptive) return;
     }
@@ -143,15 +147,16 @@ export default class CIResponsive {
 
       this.addSources(image, sources);
       this.setSrc(image, cloudimageUrl);
-      //image.setAttribute('src', cloudimageUrl);
+
       if (this.config.imgLoadingAnimation) {
         image.onload = () => {
+          wrapper.style.background = 'transparent';
           this.finishAnimation(image);
         }
       }
     }
 
-    else if (isAdaptive && isPreview) {
+    else if (isAdaptive && isPreview && isRatio) {
       this.wrapWithPicture(image);
 
       let previewImg = null;
@@ -164,7 +169,7 @@ export default class CIResponsive {
         const pictureElem = container.querySelector('picture');
 
         previewImg = document.createElement('img');
-        previewImg.className = 'ci-image-ratio ci-image-preview lazyload';
+        previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''}ci-image-preview lazyload`;
         container.classList.add("ci-with-preview-image");
         container.insertBefore(previewImg, pictureElem);
       }
@@ -175,7 +180,6 @@ export default class CIResponsive {
 
       const config = { ...this.config, queryString: '' };
       const url = generateUrl('width', (parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
-      // create sources as elements not a string
       const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
       const previewSources = generateSources(operation, resultSize, 'q5.foil1', imgSrc, isAdaptive, config, true);
 
@@ -186,11 +190,13 @@ export default class CIResponsive {
       this.setSrc(image, cloudimageUrl);
 
       image.onload = () => {
+        wrapper.style.background = 'transparent';
+        previewImg.style.display = 'none';
         this.finishAnimation(image);
       }
     }
 
-    else if (isPreview) {
+    else if (isPreview && isRatio) {
       const container = image.parentNode;
       const isPreviewImg = container.className.indexOf('ci-with-preview-image') > -1;
       const config = { ...this.config, queryString: '' };
@@ -202,7 +208,7 @@ export default class CIResponsive {
         previewImg = container.querySelector('img.ci-image-preview');
       } else {
         previewImg = document.createElement('img');
-        previewImg.className = 'ci-image-ratio ci-image-preview lazyload';
+        previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''} ci-image-preview lazyload`;
         container.classList.add("ci-with-preview-image");
         image.parentNode.insertBefore(previewImg, image);
       }
@@ -213,16 +219,18 @@ export default class CIResponsive {
       this.setSrc(image, cloudimageUrl, 'data-src');
 
       image.onload = () => {
+        wrapper.style.background = 'transparent';
+        previewImg.style.display = 'none';
         this.finishAnimation(image);
       }
     }
 
     else {
       image.onload = () => {
+        wrapper.style.background = 'transparent';
         this.finishAnimation(image);
       };
       this.setSrc(image, cloudimageUrl);
-      //image.setAttribute('src', cloudimageUrl);
     }
   }
 
@@ -272,7 +280,6 @@ export default class CIResponsive {
 
       if (isRatio) {
         addClass(wrapper, 'ci-image-wrapper-ratio');
-        //wrapper.style.paddingBottom = (100 / (ratioBySize || ratio)) + '%';
       }
 
       return;
@@ -295,6 +302,8 @@ export default class CIResponsive {
     }
 
     wrapper.appendChild(image);
+
+    return wrapper;
   }
 
   wrapWithPicture(image, wrapper) {
@@ -312,12 +321,11 @@ export default class CIResponsive {
   }
 
   addSources (image, previewSources) {
-    previewSources.forEach((previewSources, index) => {
+    previewSources.forEach((previewSources) => {
       const source = document.createElement('source');
 
       source.media = previewSources.mediaQuery;
       this.setSrcset(source, previewSources.srcSet)
-      //source.srcset = previewSources.srcSet;
 
       insertSource(image, source);
     });
@@ -335,6 +343,6 @@ export default class CIResponsive {
   }
 
   processBackgroundImage() {
-
+    // in progress
   }
 }
