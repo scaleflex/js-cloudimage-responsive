@@ -38,7 +38,7 @@
 
 <div class="container">
       <pre><code>
-        <p>&lt;ci-img [src]="images[0].src" [ratio]="images[0].ratio"/&gt;</p>
+        <p>&lt;img ci-src="magnus-lindvall.jpg" ratio="1.5"/&gt;</p>
       </code></pre>
 
   <p class="description">
@@ -132,16 +132,16 @@
       <h4>You can control your image size/ratio/crop with media query breakpoints</h4>
       <p>Resize your browser window to see how it works</p>
       <pre><code>
-&lt;ci-img
+&lt;img
   operation="crop"
-  [src]="images[18].src"
-  [size]="&#123;
+  ci-src="dino-reichmuth-1.jpg"
+  size="&#123;
     xl: '1600x1000',
     lg: '1400x1200',
     md: '1000x1350',
     sm: '800x400'
   &#125;"
-&lt;/ci-img&gt;
+&lt;/&gt;
       </code></pre>
     </div>
   </div>
@@ -162,5 +162,5 @@
 <script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"></script>
 <script type="text/javascript" src="https://scaleflex.airstore.io/filerobot/plugins/lazysizes-intersection.min.js"></script>
 
-<script type="text/javascript" src="bundle072a3708d9c71482e23f.js"></script></body>
+<script type="text/javascript" src="bundlee93db66ff3adaaccb213.js"></script></body>
 </html>
