@@ -100,13 +100,6 @@ Only load images close to the viewport
 
 Nice effect for preview transition
 
-### lazyLoadOffset
-
-###### Type: **Number** | Default: **100** | _required_
-
-Preload an image even if it's e.g. 100px below the viewport
-(user have to scroll 100px more to see this image)
-
 ### filters
 
 ###### Type: **String** | Default: **'n'** | _optional_
@@ -225,7 +218,6 @@ the initialization script
       token: 'demo',
       baseUrl: 'https://cloudimage.public.airstore.io/demo/',
       filters: 'q35.foil1',
-      lazyLoadOffset: 100,
       lazyLoading: true
     });
 
