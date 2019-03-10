@@ -81,10 +81,12 @@ export default class CIResponsive {
 
   process(isUpdate) {
     const images = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-src');
-    const backgroundImages = filterImages(document.querySelectorAll('[ci-background]'), 'ci-background');
+    // in progress
+    //const backgroundImages = filterImages(document.querySelectorAll('[ci-background]'), 'ci-background');
 
     images.forEach((image) => { this.processImage(image, isUpdate); });
-    backgroundImages.forEach((image) => { this.processBackgroundImage(image); });
+    // in progress
+    //backgroundImages.forEach((image) => { this.processBackgroundImage(image); });
   }
 
   processImage(image, isUpdate) {
