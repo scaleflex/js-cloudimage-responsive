@@ -1,9 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  entry: path.join(__dirname, "src/lazysizes-intersection.js"),
+  entry: path.join(__dirname, "../src/lazysizes-intersection.js"),
   output: {
-    path: path.join(__dirname, "build"),
+    path: path.join(__dirname, "../build"),
     filename: "lazysizes-intersection.min.js"
   },
   module: {

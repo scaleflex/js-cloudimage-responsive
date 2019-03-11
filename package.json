@@ -1,17 +1,49 @@
 {
   "name": "js-cloudimg-responsive",
-  "version": "0.0.5",
-  "description": "Cloudimage responsive plugin will make your website load the exact image size you need depending on your user's screen size. Multiple pixel ratios are supported.",
+  "version": "0.0.7",
   "main": "dist/index.js",
+  "description": "Cloudimage responsive plugin will make your website load the exact image size you need depending on your user's screen size. Multiple pixel ratios are supported.",
+  "author": "scaleflex",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scaleflex/js-cloudimage-responsive"
+  },
+  "homepage": "https://github.com/scaleflex/js-cloudimage-responsive#readme",
+  "keywords": [
+    "image",
+    "images",
+    "cloudimage",
+    "responsive images",
+    "lazy loading",
+    "web acceleration",
+    "image management",
+    "image resizing",
+    "image compression",
+    "image optimization",
+    "image CDN",
+    "image CDN",
+    "webp",
+    "jpeg xr",
+    "jpg optimization",
+    "image resizing and CDN",
+    "crop",
+    "resize"
+  ],
   "scripts": {
-    "build": "webpack --mode production --config webpack-build.config.js",
-    "build-lazysizes": "webpack --mode production --config webpack-lazysizes-build.config.js",
-    "transpile": "babel src -d dist --copy-files",
-    "prepublishOnly": "npm run transpile",
-    "start-demo": "webpack-dev-server --mode development --config webpack-demo.config.js",
-    "build-demo": "webpack --mode production  --config webpack-demo.config.js",
+    "start-demo": "webpack-dev-server --mode development --config config/webpack-demo.config.js",
+    "clean-build": "rm -rf build",
+    "build": "npm run clean-build && webpack --mode production --config config/webpack-build.config.js",
+    "build-lazysizes": "webpack --mode production --config config/webpack-lazysizes-build.config.js",
+    "clean-dist": "rm -rf dist",
+    "dist": "npm run clean-dist && babel src -d dist --copy-files",
+    "clean-demo": "rm -rf examples/dist",
+    "build-demo": "npm run clean-demo && webpack --mode production  --config config/webpack-demo.config.js",
     "deploy-demo": "gh-pages -d examples/dist",
     "publish-demo": "npm run build-demo && npm run deploy-demo"
+  },
+  "dependencies": {
+    "throttle-debounce": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -29,13 +61,9 @@
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.5.0",
     "style-loader": "^0.23.1",
-    "throttle-debounce": "^2.0.1",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14",
     "webpack-stream": "^3.1.0"
-  },
-  "dependencies": {
-    "lazysizes": "^4.1.5"
   }
 }

@@ -1,10 +1,11 @@
 const path = require('path');
+const VERSION = require("../package.json").version;
 
 module.exports = {
-  entry: path.join(__dirname, "src/index.js"),
+  entry: path.join(__dirname, "../src/index.js"),
   output: {
-    path: path.join(__dirname, "build"),
-    filename: "js-cloudimage-responsive.v0.0.5.min.js"
+    path: path.join(__dirname, "../build"),
+    filename: `v${VERSION}.min.js`
   },
   module: {
     rules: [

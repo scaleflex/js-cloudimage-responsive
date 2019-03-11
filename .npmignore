@@ -1,7 +1,8 @@
 # .npmignore
 src
 examples
+config
+build
 .babelrc
 .gitignore
 .idea
-webpack.config.js

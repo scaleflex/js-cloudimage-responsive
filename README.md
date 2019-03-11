@@ -32,7 +32,7 @@ To see the Cloudimage Responsive plugin in action, please check out the [Demo pa
 Add script tag with link to js-cloudimage-responsive
 
 ```
-<script src="https://scaleflex.airstore.io/filerobot/plugins/js-cloudimage-responsive.v0.0.5.min.js"></script>
+<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v0.0.7.min.js"></script>
 ```
 
 or using npm
