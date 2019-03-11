@@ -1,7 +1,7 @@
 import {
-  getPresets, filterImages, getImageProps, getParentWidth, checkOnMedia, checkIfRelativeUrlPath,
+  filterImages, getImageProps, getParentWidth, checkOnMedia, checkIfRelativeUrlPath,
   getImgSrc, getSizeAccordingToPixelRatio, generateUrl, generateSources, insertSource, addClass, getRatioBySize,
-  isResponsiveAndLoaded
+  isResponsiveAndLoaded, removeClass, getAdaptiveSize
 } from './ci.utils';
 import { debounce } from 'throttle-debounce';
 
@@ -43,15 +43,14 @@ export default class CIResponsive {
       placeholderBackground,
       baseUrl,
       ratio,
-      presets: presets ? getPresets(presets, 'presets') :
+      presets: presets ? presets :
         {
-          xs: 575,  // up to 576    PHONE
-          sm: 767,  // 577 - 768    PHABLET
-          md: 991,  // 769 - 992    TABLET
-          lg: 1199, // 993 - 1200   SMALL_LAPTOP_SCREEN
-          xl: 3000  // from 1200    USUALSCREEN
+          xs: '(max-width: 575px)',  // to 575       PHONE
+          sm: '(min-width: 576px)',  // 576 - 767    PHABLET
+          md: '(min-width: 768px)',  // 768 - 991    TABLET
+          lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
+          xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
         },
-      order: presets ? getPresets(presets, 'order') : ['xl', 'lg', 'md', 'sm', 'xs'],
       queryString,
       innerWidth: window.innerWidth,
       //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
@@ -97,6 +96,7 @@ export default class CIResponsive {
       addClass(image, 'lazyload');
 
     let parentContainerWidth = getParentWidth(image, this.config);
+
     let {
       operation = this.config.operation,
       size = (this.config.size || parentContainerWidth),
@@ -105,22 +105,22 @@ export default class CIResponsive {
       src
     } = getImageProps(image);
     const isAdaptive = checkOnMedia(size);
+    size = isAdaptive ? getAdaptiveSize(size, this.config) : size;
+
+    if (isAdaptive && isUpdate) return;
+
     const ratioBySize = getRatioBySize(size, this.config);
     const imageHeight = Math.floor(parentContainerWidth / (ratioBySize || ratio));
     const isRatio = !!(ratioBySize || ratio);
     let wrapper = null;
 
     ratio = ratio || this.config.ratio;
-    size = isAdaptive ? eval('(' + size + ')') : size;
 
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
     const resultSize = isAdaptive ? size : getSizeAccordingToPixelRatio(size);
     //const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
     const isPreview = (parentContainerWidth > 400) && this.config.lazyLoading;
-    const cloudimageUrl = isAdaptive ?
-      generateUrl('width', parentContainerWidth, filters, imgSrc, this.config) :
-      generateUrl(operation, resultSize, filters, imgSrc, this.config);
 
     if (this.config.imgLoadingAnimation) {
       this.setAnimation(image, parentContainerWidth);
@@ -142,63 +142,64 @@ export default class CIResponsive {
       addClass(image, 'ci-image-ratio');
     }
 
-    if (isAdaptive && !isPreview) {
+
+    if (isAdaptive) {
+      const fallbackImageUrl =
+        generateUrl('width', getSizeAccordingToPixelRatio(parentContainerWidth), filters, imgSrc, this.config);
       this.wrapWithPicture(image);
+      const onImageLoad = () => {
+        wrapper.style.background = 'transparent';
+        wrapper.style.paddingBottom = '0';
+        removeClass(image, 'ci-image-ratio');
+        removeClass(wrapper, 'ci-image-wrapper-ratio')
+        this.finishAnimation(image);
+      }
 
-      const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
+      if (!isPreview) {
+        const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
 
-      this.addSources(image, sources);
-      this.setSrc(image, cloudimageUrl);
+        this.addSources(image, sources);
+        this.setSrc(image, fallbackImageUrl);
 
-      if (this.config.imgLoadingAnimation) {
-        image.onload = () => {
-          wrapper.style.background = 'transparent';
-          this.finishAnimation(image);
+        if (this.config.imgLoadingAnimation) {
+          image.onload = onImageLoad;
         }
       }
-    }
 
-    else if (isAdaptive && isPreview && isRatio) {
-      this.wrapWithPicture(image);
-
-      let previewImg = null;
-      const container = image.parentNode.parentNode;
-      const isPreviewImg = container.className.indexOf('ci-with-preview-image') > -1;
-
-      if (isPreviewImg) {
-        previewImg = container.querySelector('img.ci-image-preview');
-      } else {
+      else {
+        let previewImg = null;
+        const container = image.parentNode.parentNode;
         const pictureElem = container.querySelector('picture');
 
         previewImg = document.createElement('img');
         previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''}ci-image-preview lazyload`;
         container.classList.add("ci-with-preview-image");
         container.insertBefore(previewImg, pictureElem);
-      }
 
-      this.wrapWithPicture(previewImg);
+        this.wrapWithPicture(previewImg);
 
-      this.setAnimation(previewImg, parentContainerWidth);
+        this.setAnimation(previewImg, parentContainerWidth);
 
-      const config = { ...this.config, queryString: '' };
-      const url = generateUrl('width', (parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
-      const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
-      const previewSources = generateSources(operation, resultSize, 'q5.foil1', imgSrc, isAdaptive, config, true);
+        const config = { ...this.config, queryString: '' };
+        const url = generateUrl('width', (parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
+        const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
+        const previewSources = generateSources(operation, resultSize, 'q5.foil1', imgSrc, isAdaptive, config, true);
 
-      this.addSources(previewImg, previewSources);
-      this.addSources(image, sources);
+        this.addSources(previewImg, previewSources);
+        this.addSources(image, sources);
 
-      this.setSrc(previewImg, url);
-      this.setSrc(image, cloudimageUrl);
+        this.setSrc(previewImg, url);
+        this.setSrc(image, fallbackImageUrl);
 
-      image.onload = () => {
-        wrapper.style.background = 'transparent';
-        previewImg.style.display = 'none';
-        this.finishAnimation(image);
+        image.onload = () => {
+          onImageLoad();
+          previewImg.style.display = 'none';
+        }
       }
     }
 
     else if (isPreview && isRatio) {
+      const cloudimageUrl = generateUrl(operation, resultSize, filters, imgSrc, this.config);
       const container = image.parentNode;
       const isPreviewImg = container.className.indexOf('ci-with-preview-image') > -1;
       const config = { ...this.config, queryString: '' };
@@ -228,6 +229,8 @@ export default class CIResponsive {
     }
 
     else {
+      const cloudimageUrl = generateUrl(operation, resultSize, filters, imgSrc, this.config);
+
       image.onload = () => {
         wrapper.style.background = 'transparent';
         this.finishAnimation(image);
@@ -278,7 +281,7 @@ export default class CIResponsive {
       wrapper = image.parentNode;
 
       addClass(wrapper, 'ci-image-wrapper');
-      wrapper.style.background =  this.config.placeholderBackground;
+      wrapper.style.background = this.config.placeholderBackground;
 
       if (isRatio) {
         addClass(wrapper, 'ci-image-wrapper-ratio');
@@ -290,7 +293,7 @@ export default class CIResponsive {
     wrapper = wrapper || document.createElement('div');
 
     addClass(wrapper, 'ci-image-wrapper');
-    wrapper.style.background =  this.config.placeholderBackground;
+    wrapper.style.background = this.config.placeholderBackground;
 
     if (isRatio) {
       addClass(wrapper, 'ci-image-wrapper-ratio');
@@ -322,15 +325,23 @@ export default class CIResponsive {
     }
   }
 
-  addSources (image, previewSources) {
-    previewSources.forEach((previewSources) => {
-      const source = document.createElement('source');
-
-      source.media = previewSources.mediaQuery;
-      this.setSrcset(source, previewSources.srcSet)
+  addSources(image, previewSources) {
+    [...previewSources.slice(1).reverse()].forEach(({ mediaQuery, srcSet }) => {
+      const source = this.createSrouce(mediaQuery, srcSet);
 
       insertSource(image, source);
     });
+
+    insertSource(image, this.createSrouce(null, previewSources[0].srcSet));
+  }
+
+  createSrouce(mediaQuery, srcSet) {
+    const source = document.createElement('source');
+
+    if (mediaQuery) source.media = mediaQuery;
+    this.setSrcset(source, srcSet)
+
+    return source;
   }
 
   updateSources(image, previewSources, sources) {
