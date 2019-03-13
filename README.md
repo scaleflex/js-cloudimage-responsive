@@ -10,7 +10,7 @@
 	<img
 		height="175"
 		alt="The Lounge"
-		src="https://scaleflex.airstore.io/filerobot/filerobot-cloudimage.png?sanitize=true">
+		src="https://demo.cloudimg.io/height/350/n/https://scaleflex.airstore.io/filerobot/filerobot-cloudimage.png?sanitize=true">
 </p>
 
 <h1 align="center">
@@ -46,7 +46,11 @@ HTTP or HTTPS by Cloudimage. If you want to upload your master images to
 Cloudimage, contact us at
 [hello@cloudimage.io](mailto:hello@cloudimage.io).
 
-![](https://demo.cloudimg.io/width/800/none/sample.li/Cloudimage_diagram.jpeg)
+<p align="center">
+	<img
+		alt="The Lounge"
+		src="https://demo.cloudimg.io/width/1400/n/https://demo.cloudimg.io/width/800/none/sample.li/Cloudimage_diagram.jpeg?sanitize=true">
+</p>
 
 powered by [Cloudimage](https://www.cloudimage.io/)
 ([Watch the video here](https://www.youtube.com/watch?time_continue=2&v=JFZSE1vYb0k))
@@ -269,6 +273,8 @@ Filters allow you to modify the image's apperance and can be added on top of the
 it is recommended to prevent page layout jumping and to leverage
 visibility checking and thus lazy loading.
 
+To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
+
 ## <a name="lazy_loading"></a> Lazy Loading
 
 Lazy loading is not included into js-cloudimage-responsive by default.
@@ -328,6 +334,3 @@ All contributions are super welcome!
 ## <a name="license"></a>License
 Filerobot Uploader is provided under the [MIT License](https://opensource.org/licenses/MIT)
 
-***
-
-To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
