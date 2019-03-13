@@ -83,7 +83,7 @@ loading time.
 
 Add script tag with link to js-cloudimage-responsive
 
-```
+```javascript
 <script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.0.min.js"></script>
 ```
 
@@ -95,7 +95,7 @@ $ npm install --save js-cloudimage-responsive
 
 ## <a name="quick_start"></a> Simple Usage
 
-```
+```javascript
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
@@ -285,7 +285,7 @@ library using Intersection Observer API.
 
 add the following scripts right after js-cloudimage-responsive script
 
-```
+```javascript
 <script src="https://scaleflex.airstore.io/filerobot/plugins/js-cloudimage-responsive.v0.0.5.min.js"></script>
 <script>
   window.lazySizesConfig = window.lazySizesConfig || {};
@@ -296,7 +296,7 @@ add the following scripts right after js-cloudimage-responsive script
 
 the initialization script
 
-```
+```javascript
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
