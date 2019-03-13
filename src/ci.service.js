@@ -122,7 +122,7 @@ export default class CIResponsive {
     //const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
     const isPreview = (parentContainerWidth > 400) && this.config.lazyLoading;
 
-    if (this.config.imgLoadingAnimation) {
+    if (this.config.imgLoadingAnimation && !isUpdate) {
       this.setAnimation(image, parentContainerWidth);
     }
 
@@ -178,7 +178,7 @@ export default class CIResponsive {
 
         this.wrapWithPicture(previewImg);
 
-        this.setAnimation(previewImg, parentContainerWidth);
+        if (!isUpdate) this.setAnimation(previewImg, parentContainerWidth);
 
         const config = { ...this.config, queryString: '' };
         const url = generateUrl('width', (parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
@@ -216,7 +216,7 @@ export default class CIResponsive {
         image.parentNode.insertBefore(previewImg, image);
       }
 
-      this.setAnimation(previewImg, parentContainerWidth);
+      if (!isUpdate) this.setAnimation(previewImg, parentContainerWidth);
       this.setSrc(previewImg, url, 'data-src');
 
       this.setSrc(image, cloudimageUrl, 'data-src');
