@@ -1,11 +1,24 @@
 const path = require('path');
-const VERSION = require("../package.json").version;
+const webpack = require('webpack');
+const pkg = require('../package');
+
+const now = new Date();
+const banner = `
+ ${pkg.name} v${pkg.version}
+ https://github.com/${pkg.repository.url}
+
+ Copyright (c) 2019 ${pkg.author}
+ Released under the ${pkg.license} license
+
+ Date: ${now.toISOString()}
+`;
+
 
 module.exports = {
   entry: path.join(__dirname, "../src/index.js"),
   output: {
     path: path.join(__dirname, "../build"),
-    filename: `v${VERSION}.min.js`
+    filename: `v${pkg.version}.min.js`
   },
   module: {
     rules: [
@@ -20,7 +33,9 @@ module.exports = {
       }
     ]
   },
-  plugins: [],
+  plugins: [
+    new webpack.BannerPlugin(banner),
+  ],
   resolve: {
     extensions: [".js", ".jsx"]
   }
