@@ -279,7 +279,7 @@ To see the full cloudimage documentation [click here](https://docs.cloudimage.io
 
 ## <a name="lazy_loading"></a> Lazy Loading
 
-Lazy loading is not included into js-cloudimage-responsive by default. If you (#lazy_loading) enable lazy loading in the configuration 
+Lazy loading is not included into js-cloudimage-responsive by default. If you [enable lazu loading](#lazy_loading_config) in the configuration, you need to add an additional library.
 
 The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
