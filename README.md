@@ -173,8 +173,8 @@ Applies a nice interlacing effect for preview transition
 
 ###### Type: **String** | Default: **'n'** | _optional_
 
-Applies default Cloudimage filters to your image, e.g.: fcontrast, fpixelate, fgaussian, backtransparent,
-rotation...  
+Applies default Cloudimage filters to your image, e.g. fcontrast, fpixelate, fgaussian, backtransparent,
+rotation...  Multiple filters can be applied, separated by '.'.
 [Full documentaiton here.](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
 
 
@@ -182,7 +182,7 @@ rotation...
 
 ###### Type: **String** | Default: **'#f4f4f4'** | _optional_
 
-Placeholder background while the image or preview image is loading
+Placeholder colored background while the image is loading
 
 ### presets
 
