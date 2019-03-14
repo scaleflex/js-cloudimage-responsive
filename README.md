@@ -55,12 +55,12 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## Table of contents
 
 * [Demo](#demo)
-* [Installation](#installation)
-* [Simple Usage](#quick_start)
 * [Requirements](#requirements)
+* [Installation](#installation)
+* [Simple implementation](#quick_start)
 * [Configuration](#configuration)
 * [Image properties](#image_properties)
-* [Lazy Loading](#lazy_loading)
+* [Lazy loading](#lazy_loading)
 * [Browser support](#browser_support)
 * [Filerobot UI Family](#ui_family)
 * [Contributing](#contributing)
@@ -100,6 +100,8 @@ $ npm install --save js-cloudimage-responsive
 ```
 
 ## <a name="quick_start"></a> Simple Usage
+
+After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseUrl** of your image storage:
 
 ```javascript
 <script>
