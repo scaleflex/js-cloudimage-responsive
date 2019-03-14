@@ -129,7 +129,7 @@ const ciResponsive = new window.CIResponsive({
 ciResponsive.init();
 ```
 
-## <a name="implement"></a>Step 3: Implement in <img> tag
+## <a name="implement"></a>Step 3: Implement in img tag
 
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
