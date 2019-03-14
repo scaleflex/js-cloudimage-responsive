@@ -192,7 +192,7 @@ Default:
 
 ```javascript
 {
-    xs: '(max-width: 575px)', // to 575       PHONE
+    xs: '(max-width: 575px)', // up to 575       PHONE
     sm: '(min-width: 576px)', // 576 - 767    PHABLET
     md: '(min-width: 768px)', // 768 - 991    TABLET
     lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
@@ -200,7 +200,7 @@ Default:
 }
 ```
 
-Breakpoints shortcuts to use in image size property.
+Breakpoints shortcuts to use in image size property, can be overwridden.
 
 ## <a name="image_properties"></a> Image properties
 
