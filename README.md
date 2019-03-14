@@ -213,9 +213,9 @@ Breakpoints shortcuts to use in image size property, can be overwridden.
 
 ## <a name="image_properties"></a> Image properties
 
-Cloudimage responsive plugin will make all images on your page responsive. You can override the default configuration for all images by using image properties in your <img> tags:
+Cloudimage responsive plugin will make image on your page responsive if you replace the `src` with `ci-src` attribute:
 
-### src
+### ci-src
 
 ###### Type: **String** | Default: **undefined** | _required_
 
