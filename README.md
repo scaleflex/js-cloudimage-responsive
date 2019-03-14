@@ -157,7 +157,7 @@ minute and is totally free.
 
 Your image folder on server, this alows to shorten your origin image URLs.
 
-### lazyLoading
+### <a name="lazy_loading_config"></a>lazyLoading
 
 ###### Type: **Bool** | Default: **false** | _optional_
 
@@ -279,8 +279,7 @@ To see the full cloudimage documentation [click here](https://docs.cloudimage.io
 
 ## <a name="lazy_loading"></a> Lazy Loading
 
-Lazy loading is not included into js-cloudimage-responsive by default.
-There are a few great libraries to do it.
+Lazy loading is not included into js-cloudimage-responsive by default. If you (#lazy_loading) enable lazy loading in the configuration 
 
 The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
