@@ -190,8 +190,6 @@ Placeholder colored background while the image is loading
 
 Default:
 
-
-
 ```javascript
 
 <script>
@@ -214,6 +212,8 @@ Default:
 Breakpoints shortcuts to use in image size property, can be overwridden.
 
 ## <a name="image_properties"></a> Image properties
+
+Cloudimage responsive plugin will make all images on your page responsive. You can override the default configuration for all images by using image properties in your <img> tags:
 
 ### src
 
