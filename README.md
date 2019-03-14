@@ -76,6 +76,15 @@ Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
 loading time.
 
+## <a name="requirements"/> Requirements
+
+To use the Cloudimage Responsive plugin, you will need a
+Cloudimage token to deliver your images over CDN. Don't worry, it only takes seconds to get one by
+registering [here](https://www.cloudimage.io/en/register_page).
+Once your token is created, you can configure it as described below.
+This token allows you to use 25GB of image cache and 25GB of worldwide
+CDN traffic per month for free.
+
 ## <a name="installation"></a> Installation
 
 Add script tag with link to js-cloudimage-responsive
@@ -125,15 +134,6 @@ and just use the `ci-src` instead of the `src` attribute in image tag.
 
 NOTE: "ratio" is recommended to prevent page layout jumping and to
 leverage visibility checking and thus lazy loading.
-
-## <a name="requirements"/> Requirements
-
-To use the Cloudimage Responsive plugin, you will need a
-Cloudimage token. Don't worry, it only takes seconds to get one by
-registering [here](https://www.cloudimage.io/en/register_page).
-Once your token is created, you can configure it as described below.
-This token allows you to use 25GB of image cache and 25GB of worldwide
-CDN traffic per month for free.
 
 ## <a name="configuration"></a> Config
 
