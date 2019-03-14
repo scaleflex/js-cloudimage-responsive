@@ -173,9 +173,9 @@ Applies a nice interlacing effect for preview transition
 
 ###### Type: **String** | Default: **'n'** | _optional_
 
-Parameters like fcontrast, fpixelate, fgaussian, backtransparent,
-rotation to apply filters on your image by default
-[see doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
+Applies default Cloudimage filters to your image, e.g.: fcontrast, fpixelate, fgaussian, backtransparent,
+rotation...  
+[Full documentaiton here.](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
 
 
 ### placeholderBackground
