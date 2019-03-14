@@ -100,7 +100,7 @@ or using npm
 $ npm install --save js-cloudimage-responsive
 ```
 
-## <a name="configure"></a>Step 2: Configure
+## <a name="initialize"></a>Step 2: Initialize
 
 After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseUrl** of your image storage:
 
