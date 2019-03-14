@@ -208,7 +208,7 @@ Default:
     });
 
     ciResponsive.init();
-
+</script>
 ```
 
 Breakpoints shortcuts to use in image size property, can be overwridden.
