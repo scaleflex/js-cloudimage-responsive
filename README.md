@@ -149,7 +149,13 @@ leverage visibility checking and thus lazy loading.
 Your Cloudimage customer token.
 [Subscribe](https://www.cloudimage.io/en/register_page) for a
 Cloudimage account to get one. The subscription takes less than a
-minute and is totally free
+minute and is totally free.
+
+### baseUrl
+
+###### Type: **String** | Default: **"/"** | _optional_
+
+Your image folder on server, this alows to shorten your origin image URLs.
 
 ### lazyLoading
 
@@ -177,12 +183,6 @@ rotation to apply filters on your image by default
 ###### Type: **String** | Default: **'#f4f4f4'** | _optional_
 
 Placeholder background while the image or preview image is loading
-
-### baseUrl
-
-###### Type: **String** | Default: **"/"** | _optional_
-
-Your image folder on server.
 
 ### presets
 
