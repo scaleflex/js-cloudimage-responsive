@@ -159,15 +159,15 @@ Your image folder on server, this alows to shorten your origin image URLs.
 
 ### lazyLoading
 
-###### Type: **Bool** | Default: **true** | _required_
+###### Type: **Bool** | Default: **true** | _optional_
 
-Only load images close to the viewport
+Only images close to the client's viewport will be loaded, hence accelerating the page loading time
 
 ### imgLoadingAnimation
 
-###### Type: **Bool** | Default: **true** | _required_
+###### Type: **Bool** | Default: **true** | _optional_
 
-Nice effect for preview transition
+Applies a nice interlacing effect for preview transition
 
 ### filters
 
