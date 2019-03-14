@@ -123,7 +123,7 @@ import 'js-cloudimage-responsive';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/'
+  baseUrl: 'https://cloudimage.public.airstore.io/demo/' # optional
 });
 
 ciResponsive.init();
@@ -279,7 +279,7 @@ To see the full cloudimage documentation [click here](https://docs.cloudimage.io
 
 ## <a name="lazy_loading"></a> Lazy Loading
 
-Lazy loading is not included into js-cloudimage-responsive by default. If you [enable lazu loading](#lazy_loading_config) in the configuration, you need to add an additional library.
+Lazy loading is not included into js-cloudimage-responsive by default. If you [enable lazy loading](#lazy_loading_config) in the configuration, you need to add an additional library.
 
 The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
@@ -301,11 +301,9 @@ the initialization script
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/',
-      filters: 'q35.foil1',
-      lazyLoading: true
+      baseUrl: 'https://cloudimage.public.airstore.io/demo/', # optional
+      lazyLoading: true                                       # optional
     });
-
 
     ciResponsive.init();
     lazySizes.init();
