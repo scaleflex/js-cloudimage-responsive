@@ -29,7 +29,7 @@
 
 This plugin detects the width of any image container as well as the device pixel ratio
 density to load the optimal image size needed.
-Images are resized on-the-fly via the Cloudimage service, thus offering a comprehensive
+Images are resized on-the-fly via the <a href="https://cloudimage.io" target="_blank">Cloudimage service</a>, thus offering a comprehensive
 automated image optimization service.
 
 When an image is first loaded on your website or mobile app,
