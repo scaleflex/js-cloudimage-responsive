@@ -27,18 +27,15 @@
 	</strong>
 </p>
 
-The plugin detects the width of image's container and pixel ratio
-density of your device to load the exact image size you need.
-It processes images via Cloudimage.io service which offers comprehensive
-automated image optimization solutions.
+This plugin detects the width of any image container as well as the device pixel ratio
+density to load the optimal image size needed.
+Images are resized on-the-fly via the <a href="https://cloudimage.io" target="_blank">Cloudimage service</a>, thus offering a comprehensive
+automated image optimization service.
 
 When an image is first loaded on your website or mobile app,
-Cloudimage's resizing servers will download your origin image from
-your origin server, resize it and deliver to your user via lightning-fast
-Content Delivery Networks (CDNs). Once the image is resized
-in the format of your choice, Cloudimage will send it to a Content
-Delivery Network, which will in turn deliver it rocket fast to
-your visitors, responsively across various screen sizes.
+Cloudimage's resizing servers will download the origin image from
+the source, resize it for the client's screen size and deliver to your users through one or multiple
+Content Delivery Networks (CDNs). The generated image formats are cached in the CDN and will be delivered rocket fast on any subsequent request.
 
 **NOTE:** Your original (master) images should be stored on a server
 or storage bucket (S3, Google Cloud, Azure Blob...) reachable over
@@ -58,12 +55,12 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## Table of contents
 
 * [Demo](#demo)
-* [Installation](#installation)
-* [Simple Usage](#quick_start)
 * [Requirements](#requirements)
+* [Installation](#installation)
+* [Simple implementation](#quick_start)
 * [Configuration](#configuration)
 * [Image properties](#image_properties)
-* [Lazy Loading](#lazy_loading)
+* [Lazy loading](#lazy_loading)
 * [Browser support](#browser_support)
 * [Filerobot UI Family](#ui_family)
 * [Contributing](#contributing)
@@ -78,6 +75,15 @@ Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
 loading time.
+
+## <a name="requirements"/> Requirements
+
+To use the Cloudimage Responsive plugin, you will need a
+Cloudimage token to deliver your images over CDN. Don't worry, it only takes seconds to get one by
+registering [here](https://www.cloudimage.io/en/register_page).
+Once your token is created, you can configure it as described below.
+This token allows you to use 25GB of image cache and 25GB of worldwide
+CDN traffic per month for free.
 
 ## <a name="installation"></a> Installation
 
@@ -94,6 +100,8 @@ $ npm install --save js-cloudimage-responsive
 ```
 
 ## <a name="quick_start"></a> Simple Usage
+
+After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseUrl** of your image storage:
 
 ```javascript
 <script>
@@ -128,15 +136,6 @@ and just use the `ci-src` instead of the `src` attribute in image tag.
 
 NOTE: "ratio" is recommended to prevent page layout jumping and to
 leverage visibility checking and thus lazy loading.
-
-## <a name="requirements"/> Requirements
-
-To use the Cloudimage Responsive plugin, you will need a
-Cloudimage token. Don't worry, it only takes seconds to get one by
-registering [here](https://www.cloudimage.io/en/register_page).
-Once your token is created, you can configure it as described below.
-This token allows you to use 25GB of image cache and 25GB of worldwide
-CDN traffic per month for free.
 
 ## <a name="configuration"></a> Config
 
