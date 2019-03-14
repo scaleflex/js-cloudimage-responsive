@@ -85,7 +85,7 @@ Once your token is created, you can configure it as described below.
 This token allows you to use 25GB of image cache and 25GB of worldwide
 CDN traffic per month for free.
 
-## <a name="installation"></a> Installation
+## <a name="installation"></a>Step 1: Installation
 
 Add script tag with link to js-cloudimage-responsive
 
@@ -99,7 +99,7 @@ or using npm
 $ npm install --save js-cloudimage-responsive
 ```
 
-## <a name="quick_start"></a> Simple Usage
+## <a name="quick_start"></a>Step 2: Configure
 
 After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseUrl** of your image storage:
 
@@ -114,7 +114,7 @@ After adding the js-cloudimage-responsive lib, simply iniatialize it with your *
 </script>
 ```
 
-or in new style with npm
+or in new style with npm:
 
 ```javascript
 
@@ -128,7 +128,9 @@ const ciResponsive = new window.CIResponsive({
 ciResponsive.init();
 ```
 
-and just use the `ci-src` instead of the `src` attribute in image tag.
+## <a name="quick_start"></a>Step 3: Replace
+
+Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
 ```html
 <img ci-src="magnus-lindvall.jpg" ratio="1.5"/>
