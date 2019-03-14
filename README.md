@@ -228,25 +228,29 @@ The plugin uses a special algorithm to detect the width of image container and s
 
 Images where `ci-src` is not used will be delivered in a standard, non-responsive way. 
 
-### operation (or o)
-
-[see doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/)
+### operation (or o) 
 
 ###### Type: **String** | Default: **width** | _optional_
+
+Operation allows to customize the behaviour of the plugin for specific images:
 
 **width** - to resize with a specific width. This is useful when you want to have a fixed width, regardless of screen size.
 
 **height** - to resize with a specific height. This is useful when you want to have a fixed height, regardless of screen size.
 
-**crop** - to crop the image at the center
+**crop** - to crop the image around the center
 
 **fit** - to resize the image in a box and keeping the proportions of the source image
 
 **cover** - to resize the image in a box without keeping the proportions of the source image
 
-**NOTE:** when you use an operation, you must specify the size for each screen size, see below.
+**NOTES:** 
 
-### size (or s)
+When you use an operation, you must specify the size for each screen size, see below
+
+Full documentation of all operations available [here](https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/)
+
+### size (or s) 
 
 ###### Type: **String** | Default: **undefined** | _optional_ but _required_ when using operation
 
@@ -267,9 +271,21 @@ s="sm 800x400, (min-width: 620px) 200x20, md 1000x1350, lg 1400x1200, xl 1600x10
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
-### filters/f
+For example:
+```
+<img
+  operation="crop"
+  ci-src="dino-reichmuth-1.jpg"
+  size="
+    sm 800x400,
+    (min-width: 620px) 200x20,
+    md 1000x1350,
+    lg 1400x1200,
+    xl 1600x1000
+"/>
+```
 
-[see doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
+### filters (or f)
 
 ###### Type: **String** | Default: **none** | _optional_
 
@@ -287,7 +303,9 @@ Filters allow you to modify the image's apperance and can be added on top of the
 
 **fradius[0..500]** - create a radius on the corners
 
-### ratio/r
+Full documentation of all filters available [here](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
+
+### ratio (or r)
 
 ###### Type: **Number** | _optional_
 
