@@ -159,9 +159,9 @@ Your image folder on server, this alows to shorten your origin image URLs.
 
 ### lazyLoading
 
-###### Type: **Bool** | Default: **true** | _optional_
+###### Type: **Bool** | Default: **false** | _optional_
 
-Only images close to the client's viewport will be loaded, hence accelerating the page loading time
+Only images close to the client's viewport will be loaded, hence accelerating the page loading time. If set to **true**, an additional script must be included, see [Lazy loading](#lazy_loading)
 
 ### imgLoadingAnimation
 
