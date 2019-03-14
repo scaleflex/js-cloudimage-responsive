@@ -27,18 +27,15 @@
 	</strong>
 </p>
 
-The plugin detects the width of image's container and pixel ratio
-density of your device to load the exact image size you need.
-It processes images via Cloudimage.io service which offers comprehensive
-automated image optimization solutions.
+This plugin detects the width of any image container as well as the device pixel ratio
+density to load the optimal image size needed.
+Images are resized on-the-fly via the Cloudimage service, thus offering a comprehensive
+automated image optimization service.
 
 When an image is first loaded on your website or mobile app,
-Cloudimage's resizing servers will download your origin image from
-your origin server, resize it and deliver to your user via lightning-fast
-Content Delivery Networks (CDNs). Once the image is resized
-in the format of your choice, Cloudimage will send it to a Content
-Delivery Network, which will in turn deliver it rocket fast to
-your visitors, responsively across various screen sizes.
+Cloudimage's resizing servers will download the origin image from
+the source, resize it for the client's screen size and deliver to your users through one or multiple
+Content Delivery Networks (CDNs). The generated image formats are cached in the CDN and will be delivered rocket fast on any subsequent request.
 
 **NOTE:** Your original (master) images should be stored on a server
 or storage bucket (S3, Google Cloud, Azure Blob...) reachable over
