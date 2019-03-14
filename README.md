@@ -213,7 +213,7 @@ Breakpoints shortcuts to use in image size property, can be overwridden.
 
 ## <a name="image_properties"></a> Image properties
 
-Cloudimage responsive plugin will make image on your page responsive if you replace the `src` with `ci-src` attribute:
+Cloudimage responsive plugin will make image on your page responsive if you replace the `src` with `ci-src` attribute in the `<img>` tag:
 
 ### ci-src
 
@@ -221,6 +221,7 @@ Cloudimage responsive plugin will make image on your page responsive if you repl
 
 Original image hosted on your web server. You can use absolute path or
 relative to baseUrl in your config.
+Note: images where `ci-src` is not used will be delivered in a standard, non-responsive way.
 
 ### operation/o
 
