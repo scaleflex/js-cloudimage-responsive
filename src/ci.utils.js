@@ -153,30 +153,10 @@ const generateImgSrc = (operation, filters, imgSrc, imgWidth, imgHeight, factor,
 }
 
 const getSizeLimit = (currentSize) => {
-  return currentSize <= 25 ? '25' :
-    currentSize <= 50 ? '50' :
-      currentSize <= 100 ? '100'
-        : currentSize <= 200 ? '200'
-        : currentSize <= 300 ? '300'
-          : currentSize <= 400 ? '400'
-            : currentSize <= 500 ? '500'
-              : currentSize <= 600 ? '600'
-                : currentSize <= 700 ? '700'
-                  : currentSize <= 800 ? '800'
-                    : currentSize <= 900 ? '900'
-                      : currentSize <= 1000 ? '1000'
-                        : currentSize <= 1100 ? '1100'
-                          : currentSize <= 1200 ? '1200'
-                            : currentSize <= 1300 ? '1300'
-                              : currentSize <= 1400 ? '1400'
-                                : currentSize <= 1500 ? '1500'
-                                  : currentSize <= 1600 ? '1600'
-                                    : currentSize <= 1700 ? '1700'
-                                      : currentSize <= 1800 ? '1800'
-                                        : currentSize <= 1900 ? '1900'
-                                          : currentSize <= 2400 ? '2400'
-                                            : currentSize <= 2800 ? '2800'
-                                              : '3600';
+  if (currentSize <= 25) return '25';
+  if (currentSize <= 50) return '50';
+
+  return (Math.ceil(currentSize / 100) * 100).toString();
 }
 
 const filterImages = (images, type) => {
