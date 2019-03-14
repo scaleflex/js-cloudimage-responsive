@@ -222,17 +222,17 @@ Cloudimage responsive plugin will make image on your page responsive if you repl
 Original image hosted on your web server. You can use absolute path or
 relative to baseUrl in your config.
 
-Note: images where `ci-src` is not used will be delivered in a standard, non-responsive way.
+**NOTE:** images where `ci-src` is not used will be delivered in a standard, non-responsive way.
 
-### operation/o
+### operation (or o)
 
 [see doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/)
 
 ###### Type: **String** | Default: **width** | _optional_
 
-**width** - to resize with a specific width
+**width** - to resize with a specific width. This is useful when you want to have a fixed width, regardless of screen size.
 
-**height** - to resize with a specific height
+**height** - to resize with a specific height. This is useful when you want to have a fixed height, regardless of screen size.
 
 **crop** - to crop the image at the center
 
@@ -240,9 +240,11 @@ Note: images where `ci-src` is not used will be delivered in a standard, non-res
 
 **cover** - to resize the image in a box without keeping the proportions of the source image
 
-### size/s
+**NOTE:** when you use an operation, you must specify the size for each screen size, see below.
 
-###### Type: **String** | Default: **undefined** | _optional_
+### size (or s)
+
+###### Type: **String** | Default: **undefined** | _optional_ but _required_ when using operation
 
 Size of an image which is used as a base for creating retina ready and responsive image element.
 
