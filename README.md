@@ -222,7 +222,11 @@ Cloudimage responsive plugin will make image on your page responsive if you repl
 Original image hosted on your web server. You can use absolute path or
 relative to baseUrl in your config.
 
-**NOTE:** images where `ci-src` is not used will be delivered in a standard, non-responsive way.
+**NOTES:** 
+
+The plugin uses a special algorithm to detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
+
+Images where `ci-src` is not used will be delivered in a standard, non-responsive way. 
 
 ### operation (or o)
 
