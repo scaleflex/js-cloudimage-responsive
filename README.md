@@ -56,8 +56,9 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 
 * [Demo](#demo)
 * [Requirements](#requirements)
-* [Installation](#installation)
-* [Simple implementation](#quick_start)
+* [Step 1: Installation](#installation)
+* [Step 2: Initialize](#initialize)
+* [Step 3: Implement](#implement)
 * [Configuration](#configuration)
 * [Image properties](#image_properties)
 * [Lazy loading](#lazy_loading)
@@ -99,7 +100,7 @@ or using npm
 $ npm install --save js-cloudimage-responsive
 ```
 
-## <a name="quick_start"></a>Step 2: Configure
+## <a name="configure"></a>Step 2: Configure
 
 After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseUrl** of your image storage:
 
@@ -128,7 +129,7 @@ const ciResponsive = new window.CIResponsive({
 ciResponsive.init();
 ```
 
-## <a name="quick_start"></a>Step 3: Replace
+## <a name="implement"></a>Step 3: Implement in <img> tag
 
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
