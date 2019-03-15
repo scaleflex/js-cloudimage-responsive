@@ -137,8 +137,7 @@ Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 <img ci-src="magnus-lindvall.jpg" ratio="1.5"/>
 ```
 
-NOTE: "ratio" is recommended to prevent page layout jumping and to
-leverage visibility checking and thus lazy loading.
+NOTE: "ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 ## <a name="configuration"></a> Config
 
@@ -281,7 +280,7 @@ Examples (PR - stands for your device Pixel Ratio):
 
 **[Width and height for different screen resolutions]**:
 
-```javascript
+```
 <img
   operation="crop"
   ci-src="dino-reichmuth-1.jpg"
