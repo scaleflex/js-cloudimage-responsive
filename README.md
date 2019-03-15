@@ -193,19 +193,19 @@ Default:
 ```javascript
 
 <script>
-    const ciResponsive = new window.CIResponsive({
-      token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/',
-      presets: {
-		    xs: '(max-width: 575px)', // up to 575    PHONE
-		    sm: '(min-width: 576px)', // 576 - 767    PHABLET
-		    md: '(min-width: 768px)', // 768 - 991    TABLET
-		    lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
-		    xl: '(min-width: 1200px)' // from 1200    USUALSCREEN
-		}
-    });
+const ciResponsive = new window.CIResponsive({
+    token: 'demo',
+    baseUrl: 'https://cloudimage.public.airstore.io/demo/',
+    presets: {
+	xs: '(max-width: 575px)', // up to 575    PHONE
+	sm: '(min-width: 576px)', // 576 - 767    PHABLET
+	md: '(min-width: 768px)', // 768 - 991    TABLET
+	lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
+	xl: '(min-width: 1200px)' // from 1200    USUALSCREEN
+    }
+});
 
-    ciResponsive.init();
+ciResponsive.init();
 </script>
 ```
 
@@ -258,21 +258,30 @@ Size of an image which is used as a base for creating retina ready and responsiv
 
 Examples (PR - stands for your device Pixel Ratio):
 
-**[width]**: s="250" => width: 250 * PR (px); height: auto;
+**[width]**: 
 
-**[width x height]**: s="125x200" => width: 125 * PR (px); height: 200 * PR (px);
+```javascript
+<img
+  operation="width"
+  ci-src="dino-reichmuth-1.jpg"
+  size="250"/>
+```
+=> width: 250 * PR (px); height: auto;
+
+**[width x height]**: 
+
+```javascript
+<img
+  operation="width"
+  ci-src="dino-reichmuth-1.jpg"
+  size="125x200"/>
+```
+
+=> width: 125 * PR (px); height: 200 * PR (px);
 
 **[Width and height for different screen resolutions]**:
 
-s="sm 800x400, (min-width: 620px) 200x20, md 1000x1350, lg 1400x1200, xl 1600x1000"
-
-*You can drop some breakpoints, for example s="md 1000x1350, lg 1400x1200
-
-**NOTE:** if size is not set, the plugin uses a special algorithm to
-detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
-
-For example:
-```
+```javascript
 <img
   operation="crop"
   ci-src="dino-reichmuth-1.jpg"
@@ -283,6 +292,24 @@ For example:
     lg 1400x1200,
     xl 1600x1000
 "/>
+```
+
+You can drop some breakpoints, for example:
+
+```javascript
+<img
+  operation="crop"
+  ci-src="dino-reichmuth-1.jpg"
+  size="md 1000x1350, lg 1400x1200"/>
+```
+
+**NOTE:** if size is not set, the plugin uses a special algorithm to
+detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
+
+For example:
+
+```javascript
+<img ci-src="dino-reichmuth-1.jpg"/>
 ```
 
 ### filters (or f)
@@ -309,8 +336,7 @@ Full documentation of all filters available [here](https://docs.cloudimage.io/go
 
 ###### Type: **Number** | _optional_
 
-it is recommended to prevent page layout jumping and to leverage
-visibility checking and thus lazy loading.
+It is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
 
