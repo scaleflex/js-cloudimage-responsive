@@ -173,7 +173,7 @@ Applies a nice interlacing effect for preview transition
 ###### Type: **String** | Default: **'n'** | _optional_
 
 Applies default Cloudimage filters to your image, e.g. fcontrast, fpixelate, fgaussian, backtransparent,
-rotation...  Multiple filters can be applied, separated by ```.```.
+rotation...  Multiple filters can be applied, separated by "```.```" (dot).
 
 [Full documentaiton here.](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
 
