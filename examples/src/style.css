@@ -143,7 +143,7 @@ body, html {
   margin: 0 auto -20px;
   top: 30px;
   padding: 0;
-  max-width: 800px;
+  max-width: 770px;
   display: inline-block;
   overflow: hidden;
   border-radius: 5px;
@@ -474,7 +474,8 @@ img {
 }
 
 .table {
-  margin-top: 30px;
+  margin: 30px auto 30px auto;
+  max-width: 850px;
 }
 
 .table thead {
