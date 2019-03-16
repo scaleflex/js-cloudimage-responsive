@@ -95,6 +95,7 @@
   </section>
 
   <section>
+    <div class="container-width-box">container width: <span>---</span> px</div>
     <img ci-src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/assets/sky.jpg" ratio="2.37"/>
   </section>
 
@@ -239,35 +240,42 @@
     <div class="container-fluid" style="max-width: 1200px; margin-left: auto; margin-right: auto; padding-top: 20px;">
       <div class="row images-in-columns">
         <div class="col-12">
+          <div class="container-width-box">container width: <span>---</span> px</div>
           <img ci-src="jordan-hubbard.jpg" ratio="1.5"/>
         </div>
 
         <div class="col-6">
+          <div class="container-width-box">container width: <span>---</span> px</div>
           <img ci-src="alain.jpg" ratio="1.5"/>
           original: <i>5.8mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/alain.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
+          <div class="container-width-box">container width: <span>---</span> px</div>
           <img ci-src="ameen-fahmy.jpg" ratio="1.5"/>
           original: <i>0.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ameen-fahmy.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
+          <div class="container-width-box">container width: <span>---</span> px</div>
           <img ci-src="dino-reichmuth-9.jpg" ratio="1.5"/>
           original: <i>9.7mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-9.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
+          <div class="container-width-box">container width: <span>---</span> px</div>
           <img ci-src="ishan-seefromthesky.jpg" ratio="1.5"/>
           original: <i>4.2mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ishan-seefromthesky.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
+          <div class="container-width-box">container width: <span>---</span> px</div>
           <img ci-src="dino-reichmuth.jpg" ratio="1.5"/>
           original: <i>11.9mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
+          <div class="container-width-box">container width: <span>---</span> px</div>
           <img
              ci-src="inma-lesielle.jpg"
              ratio="1.5"
@@ -279,6 +287,7 @@
 
       <div class="row">
         <div class="col-md-6 col-lg-7">
+          <!--<div class="container-width-box">container width: <span>-&#45;&#45;</span> px</div>-->
           <img
              ci-src="dino-reichmuth-1.jpg"
              operation="crop"
@@ -337,8 +346,8 @@
           <pre><code class="javascript">&lt;img ci-src="magnus-lindvall.jpg" ratio="1.5"/&gt;</code></pre>
         </figure>
 
-        <p><small>NOTE: "ratio" is recommended to prevent page layout jumping and to leverage visibility checking and thus lazy
-          loading.</small></p>
+        <p><small>NOTE: "ratio" is recommended to prevent page layout jumping.
+          The parameter is used to calculate image height to hold the image position while image is loading.</small></p>
       </div>
 
       <div class="action-wrapper second-action">
@@ -426,6 +435,10 @@ lazySizes.init();
       </div>
     </div>
   </footer>
+
+  <div id="device-pixel-ratio" class="device-pixel-ratio">
+    Your device pixel ratio: <span>---</span>
+  </div>
 </div>
 
 
@@ -437,5 +450,5 @@ lazySizes.init();
 <script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"></script>
 <script src="https://scaleflex.airstore.io/filerobot/plugins/lazysizes-intersection.min.js"></script>
 
-<script type="text/javascript" src="bundle3993d976eba8e83bede2.js"></script></body>
+<script type="text/javascript" src="bundle1e5bfa42206015340915.js"></script></body>
 </html>
