@@ -2,7 +2,7 @@
   "name": "js-cloudimg-responsive",
   "version": "1.0.0",
   "main": "dist/index.js",
-  "description": "Cloudimage responsive plugin will make your website load the exact image size you need depending on your user's screen size. Multiple pixel ratios are supported.",
+  "description": "Cloudimage Responsive will smartly resize, compress and accelerate images across the World in your site for all devices. The plugin supports lazy loading technique with fancy animation on image load.",
   "author": "scaleflex",
   "license": "MIT",
   "repository": {
@@ -43,7 +43,7 @@
     "publish-demo": "npm run build-demo && npm run deploy-demo"
   },
   "dependencies": {
-    "throttle-debounce": "^2.0.1"
+    "throttle-debounce": "^2.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -55,16 +55,16 @@
     "babel-preset-minify": "^0.5.0",
     "babel-preset-stage-2": "^6.24.1",
     "bootstrap": "=3.3.7",
-    "css-loader": "^2.0.0",
+    "css-loader": "^2.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "gh-pages": "^2.0.1",
     "highlight.js": "^9.15.6",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.5.0",
     "style-loader": "^0.23.1",
-    "webpack": "^4.28.4",
-    "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.1.14",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
     "webpack-stream": "^3.1.0"
   }
 }

@@ -394,5 +394,5 @@ All contributions are super welcome!
 
 
 ## <a name="license"></a>License
-Filerobot Uploader is provided under the [MIT License](https://opensource.org/licenses/MIT)
+JS Cloudimage Responsive is provided under the [MIT License](https://opensource.org/licenses/MIT)
 
