@@ -417,14 +417,6 @@ footer .footer-menu ul li {
   vertical-align: top;
 }
 
-
-
-
-
-
-
-
-
 .container h1 {
   margin-top: 40px;
 }
@@ -449,7 +441,7 @@ p.numbers {
   }
 }
 
-div.images-in-columns div {
+div.images-in-columns div:not(.container-width-box) {
   margin-bottom: 15px;
   font-size: 14px;
 }
@@ -496,4 +488,34 @@ img {
 
 .table tbody td {
   font-size: 18px;
+}
+
+.container-width-box {
+  background: #222;
+  color: #fff;
+  border-top: 1px solid #6d6d6d;
+  border-bottom: 1px solid #6d6d6d;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.device-pixel-ratio {
+  background: #222;
+  color: #fff;
+  border: 1px solid #6d6d6d;
+  border-radius: 4px;
+  padding: 4px 8px;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+.device-pixel-ratio span {
+  background: #fff;
+  display: inline-block;
+  border-radius: 50%;
+  width: 21px;
+  height: 21px;
+  color: #222;
+  text-align: center;
 }
