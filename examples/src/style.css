@@ -521,3 +521,17 @@ img {
   color: #222;
   text-align: center;
 }
+
+.ready-to-start.filerobot-ui-family {
+  padding-bottom: 20px;
+}
+
+.ready-to-start.filerobot-ui-family ul {
+  list-style-type: none;
+  max-width: none;
+}
+
+.ready-to-start.filerobot-ui-family ul li {
+  display: inline-block;
+  margin-right: 30px;
+}
