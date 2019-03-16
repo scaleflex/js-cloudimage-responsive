@@ -260,7 +260,7 @@ Examples (PR - stands for your device Pixel Ratio):
 
 **[width]**: 
 
-```javascript
+```jsx
 <img
   operation="width"
   ci-src="dino-reichmuth-1.jpg"
@@ -270,7 +270,7 @@ Examples (PR - stands for your device Pixel Ratio):
 
 **[width x height]**: 
 
-```javascript
+```jsx
 <img
   operation="width"
   ci-src="dino-reichmuth-1.jpg"
@@ -281,7 +281,7 @@ Examples (PR - stands for your device Pixel Ratio):
 
 **[Width and height for different screen resolutions]**:
 
-```
+```jsx
 <img
   operation="crop"
   ci-src="dino-reichmuth-1.jpg"
@@ -296,7 +296,7 @@ Examples (PR - stands for your device Pixel Ratio):
 
 You can drop some breakpoints, for example:
 
-```javascript
+```jsx
 <img
   operation="crop"
   ci-src="dino-reichmuth-1.jpg"
@@ -308,7 +308,7 @@ detect the width of image container and set the image size accordingly. This is 
 
 For example:
 
-```javascript
+```jsx
 <img ci-src="dino-reichmuth-1.jpg"/>
 ```
 
