@@ -68,7 +68,10 @@ const getParentContainerWithWidth = img => {
     width = parentNode.getBoundingClientRect().width;
   } while (parentNode && !width)
 
-  return width;
+  const letPadding = width && parentNode && parseInt(window.getComputedStyle(parentNode).paddingLeft);
+  const rightPadding = parseInt(window.getComputedStyle(parentNode).paddingRight)
+
+  return width + (width ? (- letPadding - rightPadding) : 0);
 }
 
 const generateSources = (operation, size, filters, imgSrc, isAdaptive, config, isPreview) => {
