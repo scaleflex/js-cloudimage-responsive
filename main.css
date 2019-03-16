@@ -557,6 +557,20 @@ img {
   color: #222;
   text-align: center;
 }
+
+.ready-to-start.filerobot-ui-family {
+  padding-bottom: 20px;
+}
+
+.ready-to-start.filerobot-ui-family ul {
+  list-style-type: none;
+  max-width: none;
+}
+
+.ready-to-start.filerobot-ui-family ul li {
+  display: inline-block;
+  margin-right: 30px;
+}
 @font-face {
   font-family: 'Helvetica Neue';
   src: url('https://scaleflex.airstore.io/filerobot/assets/fonts/helvetica-neue/HelveticaNeue-Medium.eot');
