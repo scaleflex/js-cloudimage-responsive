@@ -19,7 +19,7 @@ img.ci-image-ratio {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
+  height: auto;
 }
 
 /*img.ci-image-animation {*/
@@ -515,7 +515,7 @@ img {
 }
 
 .table thead {
-  text-align: center;
+  text-align: left;
 }
 
 .table thead th {
@@ -560,17 +560,37 @@ img {
 
 .ready-to-start.filerobot-ui-family {
   padding-bottom: 20px;
+  text-align: left;
 }
 
 .ready-to-start.filerobot-ui-family ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
   max-width: none;
+  font-size: 16px;
+  text-align: left;
+}
+
+.ready-to-start.filerobot-ui-family h5 {
+  font-weight: lighter;
 }
 
 .ready-to-start.filerobot-ui-family ul li {
   display: inline-block;
   margin-right: 30px;
 }
+
+@media (max-width: 767px) {
+  .filerobot-ui-family-label, .filerobot-ui-family-libs {
+    min-width: 100% !important;
+  }
+
+  .ready-to-start.filerobot-ui-family h5 {
+    margin-bottom: 20px;
+  }
+}
+
 @font-face {
   font-family: 'Helvetica Neue';
   src: url('https://scaleflex.airstore.io/filerobot/assets/fonts/helvetica-neue/HelveticaNeue-Medium.eot');
