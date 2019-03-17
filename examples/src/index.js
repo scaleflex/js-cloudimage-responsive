@@ -16,7 +16,8 @@ const ciResponsive = new window.CIResponsive({
   filters: 'q35.foil1',
   queryString: '?&size_info=1&v2',
   lazyLoadOffset: 100,
-  lazyLoading: true
+  lazyLoading: true,
+  placeholderBackground: '#e1e1e1'
 });
 
 ciResponsive.init();
