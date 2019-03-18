@@ -73,6 +73,11 @@
            class="btn btn-primary btn-lg"
            target="_blank"
         >View on GitHub</a>
+        <a
+           href="https://codesandbox.io/s/6jkovjvkxz"
+           class="btn btn-light btn-lg"
+           target="_blank"
+        >Play on CodeSandbox</a>
         <!--<a href="#" class="btn btn-light btn-lg">Read on Medium</a>-->
       </div>
     </div>
@@ -384,7 +389,7 @@
 // lazy load is a separate feature
 &lt;script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/lazysizes.min.js"&gt;&lt;/script&gt;
 // main core
-&lt;script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.2.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.5.min.js"&gt;&lt;/script&gt;
 </code></pre>
         </figure>
       </div>
@@ -397,15 +402,12 @@
         <pre><code class="javascript">&lt;script/&gt;
   const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/',
-  filters: 'q35',
-  lazyLoading: true
+  baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+  lazyLoading: true                                       // optional
 });
 
-
-ciResponsive.init();
 // lazy load is a separate feature
-lazySizes.init();
+window.lazySizes.init();
 &lt;/script&gt;
 </code></pre>
         </figure>

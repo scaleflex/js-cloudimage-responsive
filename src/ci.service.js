@@ -18,12 +18,13 @@ export default class CIResponsive {
       width = '400',
       height = '300',
       operation = 'width',
-      filters = 'n',
+      filters = 'q35.foil1',
       placeholderBackground = '#f4f4f4',
       baseUrl = '/',
       ratio = 1.5,
       presets,
-      queryString = ''
+      queryString = '',
+      init = true
     } = config;
 
     this.head = document.head || document.getElementsByTagName('head')[0];
@@ -66,6 +67,8 @@ export default class CIResponsive {
     });
 
     window.addEventListener('resize', this.updateDimensions);
+
+    if (init) this.init();
   }
 
   init() {

@@ -20,8 +20,6 @@ const ciResponsive = new window.CIResponsive({
   placeholderBackground: '#e1e1e1'
 });
 
-ciResponsive.init();
-
 window.lazySizes.init();
 
 wrapper.classList.add('active');

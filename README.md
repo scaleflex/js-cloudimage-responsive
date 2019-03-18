@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v1.0.2-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v1.0.5-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -22,6 +22,8 @@
 		<a href="#table_of_contents">Docs</a>
 		•
 		<a href="https://scaleflex.github.io/js-cloudimage-responsive/" target="_blank">Demo</a>
+		•
+		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
 		•
 		<a href="#" target="_blank">Why?</a>
 	</strong>
@@ -91,7 +93,7 @@ CDN traffic per month for free.
 Add script tag with link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.2.min.js"></script>
+<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.5.min.js"></script>
 ```
 
 or using npm
@@ -108,10 +110,8 @@ After adding the js-cloudimage-responsive lib, simply iniatialize it with your *
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/'
+      baseUrl: 'https://cloudimage.public.airstore.io/demo/' // optional
     });
-
-    ciResponsive.init();
 </script>
 ```
 
@@ -123,10 +123,8 @@ import 'js-cloudimage-responsive';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/' # optional
+  baseUrl: 'https://cloudimage.public.airstore.io/demo/' // optional
 });
-
-ciResponsive.init();
 ```
 
 ## <a name="implement"></a>Step 3: Implement in img tag
@@ -347,6 +345,8 @@ Lazy loading is not included into js-cloudimage-responsive by default. If you [e
 The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
 
+[Code Sandbox example](https://codesandbox.io/s/6jkovjvkxz)
+
 add the following scripts right after js-cloudimage-responsive script
 
 ```javascript
@@ -354,7 +354,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://scaleflex.airstore.io/filerobot/plugins/js-cloudimage-responsive.v1.0.2.min.js"></script>
+<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.5.min.js"></script>
 <script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
@@ -364,12 +364,11 @@ the initialization script
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/', # optional
-      lazyLoading: true                                       # optional
+      baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+      lazyLoading: true                                       // optional
     });
 
-    ciResponsive.init();
-    lazySizes.init();
+    window.lazySizes.init();
 </script>
  ```
 
