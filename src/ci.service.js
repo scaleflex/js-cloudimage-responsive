@@ -89,10 +89,12 @@ export default class CIResponsive {
   }
 
   processImage(image, isUpdate) {
+    const isLazy = this.config.lazyLoading;
+
     if (isResponsiveAndLoaded(image) && !(this.config.innerWidth < window.innerWidth)) return;
     addClass(image, 'ci-image');
 
-    if (this.config.lazyLoading)
+    if (isLazy)
       addClass(image, 'lazyload');
 
     let parentContainerWidth = getParentWidth(image, this.config);
@@ -172,7 +174,7 @@ export default class CIResponsive {
         const pictureElem = container.querySelector('picture');
 
         previewImg = document.createElement('img');
-        previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''}ci-image-preview lazyload`;
+        previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''}ci-image-preview${isLazy ? ' lazyload' : ''}`;
         container.classList.add("ci-with-preview-image");
         container.insertBefore(previewImg, pictureElem);
 
@@ -211,7 +213,7 @@ export default class CIResponsive {
         previewImg = container.querySelector('img.ci-image-preview');
       } else {
         previewImg = document.createElement('img');
-        previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''} ci-image-preview lazyload`;
+        previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''} ci-image-preview${isLazy ? ' lazyload' : ''}`;
         container.classList.add("ci-with-preview-image");
         image.parentNode.insertBefore(previewImg, image);
       }
@@ -348,10 +350,7 @@ export default class CIResponsive {
     const sourcesElems = image.parentNode.querySelectorAll('source');
 
     sourcesElems.forEach((elem, index) => {
-      if (this.config.lazyLoading)
-        this.setSrcset(elem, sources[index].srcSet);
-
-      elem.srcset = sources[index].srcSet;
+      this.setSrcset(elem, sources[index].srcSet);
     })
   }
 
