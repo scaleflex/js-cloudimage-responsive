@@ -73,6 +73,11 @@
            class="btn btn-primary btn-lg"
            target="_blank"
         >View on GitHub</a>
+        <a
+           href="https://codesandbox.io/s/6jkovjvkxz"
+           class="btn btn-light btn-lg"
+           target="_blank"
+        >Play on CodeSandbox</a>
         <!--<a href="#" class="btn btn-light btn-lg">Read on Medium</a>-->
       </div>
     </div>
@@ -213,7 +218,7 @@
         <tr>
           <td>2</td>
           <td>1600px</td>
-          <td>1600px×1066 | 200 kb | <a target="_blank"
+          <td>1600×1066 | 200 kb | <a target="_blank"
                                         href="https://demo.cloudimg.io/width/1600/q35.foil1/https://scaleflex.airstore.io/demo/redcharlie.jpg">link</a>
           </td>
         </tr>
@@ -382,9 +387,9 @@
 &lt;/script&gt;
 
 // lazy load is a separate feature
-&lt;script src="https://scaleflex.airstore.io/filerobot/plugins/lazysizes-intersection.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/lazysizes.min.js"&gt;&lt;/script&gt;
 // main core
-&lt;script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.1.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.5.min.js"&gt;&lt;/script&gt;
 </code></pre>
         </figure>
       </div>
@@ -397,15 +402,12 @@
         <pre><code class="javascript">&lt;script/&gt;
   const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/',
-  filters: 'q35',
-  lazyLoading: true
+  baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+  lazyLoading: true                                       // optional
 });
 
-
-ciResponsive.init();
 // lazy load is a separate feature
-lazySizes.init();
+window.lazySizes.init();
 &lt;/script&gt;
 </code></pre>
         </figure>
@@ -445,8 +447,8 @@ lazySizes.init();
             <ul>
               <li><a target="_blank" href="https://github.com/scaleflex/react-cloudimage-responsive">React Cloudimage Responsive</a></li>
               <li><a target="_blank" href="https://github.com/scaleflex/ng-cloudimage-responsive">Angular Cloudimage Responsive</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/filerobot-image-editor">Uploader</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/filerobot-uploader">Image Editor</a></li>
+              <li><a target="_blank" href="https://github.com/scaleflex/filerobot-uploader">Uploader</a></li>
+              <li><a target="_blank" href="https://github.com/scaleflex/filerobot-image-editor">Image Editor</a></li>
             </ul>
           </div>
         </div>
@@ -490,8 +492,6 @@ lazySizes.init();
   window.lazySizesConfig.init = false;
 </script>
 
-<script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"></script>
-<script src="https://scaleflex.airstore.io/filerobot/plugins/lazysizes-intersection.min.js"></script>
-
-<script type="text/javascript" src="bundlee5cc87c9278f6fcedbab.js"></script></body>
+<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
+<script type="text/javascript" src="bundle9c3dee1c56d6eb4f966d.js"></script></body>
 </html>
