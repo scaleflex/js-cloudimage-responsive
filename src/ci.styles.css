@@ -22,6 +22,10 @@ img.ci-image-ratio {
   height: auto;
 }
 
+img.ci-image-ratio.ci-image-preview {
+  height: 100%;
+}
+
 /*img.ci-image-animation {*/
   /*transition: all 0.3s ease-in-out;*/
 /*}*/
