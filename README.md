@@ -137,6 +137,8 @@ Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
 NOTE: "ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
+<a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+
 ## <a name="configuration"></a> Config
 
 ### token
