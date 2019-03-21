@@ -90,10 +90,10 @@ CDN traffic per month for free.
 
 ## <a name="installation"></a>Step 1: Installation
 
-Add script tag with link to js-cloudimage-responsive
+Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
 ```
 
 or using npm
