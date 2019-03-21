@@ -356,8 +356,8 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
-<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
 the initialization script
