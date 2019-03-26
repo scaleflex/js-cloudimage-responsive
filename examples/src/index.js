@@ -33,7 +33,7 @@ spinner.style.display = 'none';
 const containerBox = document.querySelectorAll('.container-width-box');
 const devicePixelRatio = document.querySelector('#device-pixel-ratio span');
 const setBoxSizes = () => {
-  containerBox.forEach(box => {
+  [].slice.call(containerBox).forEach(box => {
     box.querySelector('span').innerText = box.offsetWidth;
   });
 }
