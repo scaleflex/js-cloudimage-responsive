@@ -111,11 +111,11 @@ const getAdaptiveSize = (size, config) => {
   const sizes = [];
 
   arrayOfSizes.forEach(string => {
-    const groups = string.match(/((?<variable>[a-z_][a-z_]*)|(?<media>\([\S\s]*\)))\s*(?<size>[0-9xp]*)/).groups;
-    const media = groups.media ? groups.media : config.presets[groups.variable];
+    const groups = string.match(/(([a-z_][a-z_]*)|(\([\S\s]*\)))\s*([0-9xp]*)/);
+    const media = groups[3] ? groups[3] : config.presets[groups[2]];
 
-    sizes.push({ media, size: groups.size });
-  })
+    sizes.push({ media, size: groups[4] });
+  });
 
   return sizes;
 }
