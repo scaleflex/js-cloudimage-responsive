@@ -25,7 +25,7 @@
 		•
 		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
 		•
-		<a href="#" target="_blank">Why?</a>
+		<a href="https://medium.com/@dmitry_82269/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074" target="_blank">Why?</a>
 	</strong>
 </p>
 
@@ -90,10 +90,10 @@ CDN traffic per month for free.
 
 ## <a name="installation"></a>Step 1: Installation
 
-Add script tag with link to js-cloudimage-responsive
+Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
 ```
 
 or using npm
@@ -356,8 +356,8 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
-<script src="https://scaleflex.airstore.io/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.0.6.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
 the initialization script
