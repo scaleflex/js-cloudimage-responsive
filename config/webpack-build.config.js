@@ -5,7 +5,7 @@ const pkg = require('../package');
 const now = new Date();
 const banner = `
  ${pkg.name} v${pkg.version}
- https://github.com/${pkg.repository.url}
+ ${pkg.repository.url}
 
  Copyright (c) 2019 ${pkg.author}
  Released under the ${pkg.license} license
