@@ -10,7 +10,8 @@ hljs.initHighlightingOnLoad();
 
 const spinner = document.getElementById('spinner');
 const wrapper = document.getElementById('main');
-const ciResponsive = new window.CIResponsive({
+
+window.ciResponsive = new window.CIResponsive({
   token: 'demo',
   baseUrl: 'https://cloudimage.public.airstore.io/demo/',
   filters: 'q35.foil1',
