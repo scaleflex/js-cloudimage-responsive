@@ -386,6 +386,7 @@ for cross-browser support.
 
 * [React Cloudimage Responsive](https://github.com/scaleflex/react-cloudimage-responsive)
 * [Angular Cloudimage Responsive](https://github.com/scaleflex/ng-cloudimage-responsive)
+* [JS Cloudimage 360 view](https://github.com/scaleflex/js-cloudimage-360-view)
 * [Image Editor](https://github.com/scaleflex/filerobot-image-editor)
 * [Uploader](https://github.com/scaleflex/filerobot-uploader)
 
