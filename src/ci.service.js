@@ -1,7 +1,7 @@
 import {
   filterImages, getImageProps, getParentWidth, checkOnMedia, checkIfRelativeUrlPath,
   getImgSrc, getSizeAccordingToPixelRatio, generateUrl, generateSources, insertSource, addClass, getRatioBySize,
-  isResponsiveAndLoaded, removeClass, getAdaptiveSize
+  isResponsiveAndLoaded, removeClass, getAdaptiveSize, getLowQualitySize
 } from './ci.utils';
 import { debounce } from 'throttle-debounce';
 
@@ -27,9 +27,9 @@ export default class CIResponsive {
       init = true
     } = config;
 
-    this.head = document.head || document.getElementsByTagName('head')[0];
-    this.backgroundImgIndex = 0;
-    this.forceUpdate = false;
+    // this.head = document.head || document.getElementsByTagName('head')[0];
+    // this.backgroundImgIndex = 0;
+    // this.forceUpdate = false;
     this.config = {
       token,
       container,
@@ -114,8 +114,8 @@ export default class CIResponsive {
 
     if (isAdaptive && isUpdate) return;
 
-    const ratioBySize = getRatioBySize(size, this.config);
-    const imageHeight = Math.floor(parentContainerWidth / (ratioBySize || ratio));
+    const ratioBySize = getRatioBySize(size, operation);
+    // const imageHeight = Math.floor(parentContainerWidth / (ratioBySize || ratio));
     const isRatio = !!(ratioBySize || ratio);
     let wrapper = null;
 
@@ -123,8 +123,8 @@ export default class CIResponsive {
 
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
-    const resultSize = isAdaptive ? size : getSizeAccordingToPixelRatio(size);
-    //const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
+    const resultSize = isAdaptive ? size : getSizeAccordingToPixelRatio(size, operation);
+    // const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
     const isPreview = (parentContainerWidth > 400) && this.config.lazyLoading;
 
     if (this.config.imgLoadingAnimation && !isUpdate) {
@@ -208,7 +208,7 @@ export default class CIResponsive {
       const container = image.parentNode;
       const isPreviewImg = container.className.indexOf('ci-with-preview-image') > -1;
       const config = { ...this.config, queryString: '' };
-      const size = resultSize.split('x').map(size => size / 5).join('x');
+      const size = getLowQualitySize(resultSize, operation, 5);
       const url = generateUrl(operation, size, 'q5.foil1', imgSrc, config);
       let previewImg = null;
 
