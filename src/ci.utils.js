@@ -1,8 +1,9 @@
+const MEDIA_QUERY_REGEX = /^\s*(?:([a-z_][a-z_]*)|(\([\S\s]*\)))\s*(?:(?:(?:["'])([0-9xp,-]*)(?:["']))|([0-9xp]*))/;
+const MEDIA_QUERY_REGEX_G = /\s*(?:([a-z_][a-z_]*)|(\([\S\s]*\)))\s*(?:(?:(?:["'])([0-9xp,-]*)(?:["']))|([0-9xp]*))/g;
+
 const checkOnMedia = size => {
   try {
-    const array = size.split(',');
-
-    return array.length > 1;
+    return MEDIA_QUERY_REGEX.test(size);
   }
   catch (e) {
     return false;
@@ -23,12 +24,27 @@ const getImgSrc = (src, isRelativeUrlPath = false, baseUrl = '') => {
   return src;
 }
 
-const getSizeAccordingToPixelRatio = size => {
+const getSizeAccordingToPixelRatio = (size, operation) => {
+  if (operation === 'crop_px') {
+    let [ cropSize, finalSize ] = size.split('-');
+
+    finalSize = updateSizeWithPixelRatio(finalSize);
+
+    return cropSize + '-' +  finalSize;
+  } else {
+    return updateSizeWithPixelRatio(size);
+  }
+}
+
+/*
+* possible size values: 200 | 200x400
+* */
+const updateSizeWithPixelRatio = (size) => {
   const splittedSizes = size.toString().split('x');
   const result = [];
 
   [].forEach.call(splittedSizes, size => {
-    result.push(size * Math.round(window.devicePixelRatio || 1));
+    size ? result.push(size * Math.round(window.devicePixelRatio || 1)) : '';
   });
 
   return result.join('x');
@@ -79,16 +95,19 @@ const generateSources = (operation, size, filters, imgSrc, isAdaptive, config, i
 
   if (isAdaptive) {
     size.forEach(({ size: nextSize, media: mediaQuery}) => {
+      const isPositionableCrop = operation === 'crop' && nextSize.split(',').length > 1;
+      const nextOperation = isPositionableCrop ? 'crop_px' : operation;
+
       if (isPreview) {
-        nextSize = nextSize.split('x').map(size => size / 5).join('x');
+        nextSize = getLowQualitySize(nextSize, nextOperation, 5);
         filters = 'q10.foil1';
       }
 
-      sources.push({ mediaQuery, srcSet: generateSrcset(operation, nextSize, filters, imgSrc, config) });
+      sources.push({ mediaQuery, srcSet: generateSrcset(nextOperation, nextSize, filters, imgSrc, config) });
     })
   } else {
     if (isPreview) {
-      size = size.split('x').map(size => size / 5).join('x');
+      size = getLowQualitySize(size, operation, 5);
       filters = 'q10.foil1';
     }
 
@@ -99,28 +118,53 @@ const generateSources = (operation, size, filters, imgSrc, isAdaptive, config, i
   return sources;
 }
 
-const generateSrcset = (operation, size, filters, imgSrc, config) => {
-  const imgWidth = size.toString().split('x')[0]
-  const imgHeight = size.toString().split('x')[1];
+const getLowQualitySize = (size, operation, factor) => {
+  if (operation === 'crop_px') {
+    let [ cropSize, finalSize ] = size.split('-');
 
-  return generateImgSrc(operation, filters, imgSrc, imgWidth, imgHeight, 1, config);
+    finalSize = finalSize.split('x').map(size => size ? size / factor : '').join('x');
+
+    return cropSize + '-' +  finalSize;
+  } else {
+   return size.split('x').map(size => size / factor).join('x');
+  }
+}
+
+const generateSrcset = (operation, size, filters, imgSrc, config) => {
+  let cropParams = '';
+  let imgWidth = '';
+  let imgHeight = '';
+
+  if (operation === 'crop_px') {
+    let [ cropSize, finalSize ] = size.split('-');
+
+    cropParams = cropSize + '-';
+
+    imgWidth = finalSize.toString().split('x')[0];
+    imgHeight = finalSize.toString().split('x')[1];
+  } else {
+    imgWidth = size.toString().split('x')[0];
+    imgHeight = size.toString().split('x')[1];
+  }
+
+  return generateImgSrc(operation, filters, imgSrc, imgWidth, imgHeight, 1, config, cropParams);
 }
 
 const getAdaptiveSize = (size, config) => {
-  const arrayOfSizes = size.split(',');
+  const arrayOfSizes = size.match(MEDIA_QUERY_REGEX_G);
   const sizes = [];
 
   arrayOfSizes.forEach(string => {
-    const groups = string.match(/(([a-z_][a-z_]*)|(\([\S\s]*\)))\s*([0-9xp]*)/);
-    const media = groups[3] ? groups[3] : config.presets[groups[2]];
+    const groups = string.match(MEDIA_QUERY_REGEX);
+    const media = groups[2] ? groups[2] : config.presets[groups[1]];
 
-    sizes.push({ media, size: groups[4] });
+    sizes.push({ media, size: groups[4] || groups[3] });
   });
 
   return sizes;
 }
 
-const getRatioBySize = (size, config) => {
+const getRatioBySize = (size, operation) => {
   let width, height;
 
   if (typeof size === 'object') {
@@ -129,6 +173,11 @@ const getRatioBySize = (size, config) => {
 
     width = breakPointSize.toString().split('x')[0]
     height = breakPointSize.toString().split('x')[1];
+  } else if (operation === 'crop_px') {
+    const sizeParams = size.split('-')[0].split(',');
+
+    width = sizeParams[2] - sizeParams[0];
+    height = sizeParams[3] - sizeParams[1];
   } else {
     width = size.toString().split('x')[0]
     height = size.toString().split('x')[1];
@@ -142,13 +191,16 @@ const getRatioBySize = (size, config) => {
 
 const getBreakPoint = (size) => [...size].reverse().find(item => window.matchMedia(item.media).matches);
 
-const generateImgSrc = (operation, filters, imgSrc, imgWidth, imgHeight, factor, config) => {
-  let imgSize = Math.trunc(imgWidth * factor);
+const generateImgSrc = (operation, filters, imgSrc, imgWidth, imgHeight, factor, config, cropParams = '') => {
+  let imgSize = imgWidth ? Math.trunc(imgWidth * factor) : '';
 
   if (imgHeight)
     imgSize += 'x' + Math.trunc(imgHeight * factor);
 
-  return generateUrl(operation, getSizeAccordingToPixelRatio(imgSize), filters, imgSrc, config)
+  if (cropParams)
+    imgSize = cropParams + imgSize;
+
+  return generateUrl(operation, getSizeAccordingToPixelRatio(imgSize, operation), filters, imgSrc, config)
     .replace('http://scaleflex.ultrafast.io/', '')
     .replace('https://scaleflex.ultrafast.io/', '')
     .replace('//scaleflex.ultrafast.io/', '')
@@ -223,5 +275,6 @@ export {
   insertSource,
   addClass,
   removeClass,
-  getAdaptiveSize
+  getAdaptiveSize,
+  getLowQualitySize
 }

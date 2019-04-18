@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v1.0.10-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v1.1.3-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -93,7 +93,7 @@ CDN traffic per month for free.
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.0.10.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.1.3.min.js"></script>
 ```
 
 or using npm
@@ -240,6 +240,10 @@ Operation allows to customize the behaviour of the plugin for specific images:
 
 **crop** - to crop the image around the center
 
+**crop_px** - to crop an image with a non-centered focal point [doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/crop/positionable-crop)
+
+[see example in Code Sandbox](https://codesandbox.io/s/l530w827lq)
+
 **fit** - to resize the image in a box and keeping the proportions of the source image
 
 **cover** - to resize the image in a box without keeping the proportions of the source image
@@ -279,7 +283,22 @@ Examples (PR - stands for your device Pixel Ratio):
 
 => width: 125 * PR (px); height: 200 * PR (px);
 
-**[Width and height for different screen resolutions]**:
+**[x1, y1, x2, y2, -final_size]**:
+
+_final_size_ can be [width], [width x height], [x height]
+
+```jsx
+<img
+  operation="crop_px"
+  ci-src="dino-reichmuth-1.jpg"
+  size="0,0,500,500-300x300"/>
+```
+
+=> will crop the top-left 500 x 500px square and resize to 300 x 300px;
+
+[see example in Code Sandbox](https://codesandbox.io/s/l530w827lq)
+
+**[preset breakpoint (xs,sm, md,lg,xl) or media query + ' ' + image size]**:
 
 ```jsx
 <img
@@ -356,7 +375,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.0.10.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.1.3.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
