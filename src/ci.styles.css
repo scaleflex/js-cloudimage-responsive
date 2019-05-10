@@ -5,10 +5,6 @@ div.ci-image-wrapper {
   position: relative;
 }
 
-div.ci-image-wrapper-ratio {
-
-}
-
 img.ci-image {
   opacity: 1;
   display: block;
@@ -25,6 +21,29 @@ img.ci-image-ratio {
 
 img.ci-image-ratio.ci-image-preview {
   height: 100%;
+}
+
+.ci-bg {
+  position: relative;
+}
+
+.ci-bg:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  /*z-index: 1;*/
+  background: inherit;
+  filter: blur(0);
+  transition: filter 0.3s ease-in-out;
+  /*transform: scale3d(1, 1, 1);*/
+}
+
+.ci-bg.ci-bg-animation:before {
+  filter: blur(10px);
+  /*transform: scale3d(1.1, 1.1, 1);*/
 }
 
 /*img.ci-image-animation {*/

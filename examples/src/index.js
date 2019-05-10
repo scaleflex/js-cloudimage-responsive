@@ -18,6 +18,7 @@ window.ciResponsive = new window.CIResponsive({
   queryString: '?&size_info=1&v2',
   lazyLoadOffset: 100,
   lazyLoading: true,
+  imgLoadingAnimation: true,
   placeholderBackground: '#e1e1e1'
 });
 

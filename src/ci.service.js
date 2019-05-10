@@ -1,94 +1,104 @@
 import {
-  filterImages, getImageProps, getParentWidth, checkOnMedia, checkIfRelativeUrlPath,
-  getImgSrc, getSizeAccordingToPixelRatio, generateUrl, generateSources, insertSource, addClass, getRatioBySize,
-  isResponsiveAndLoaded, removeClass, getAdaptiveSize, getLowQualitySize
-} from './ci.utils';
+  filterImages, getImageProps, getParentWidth, checkOnMedia, checkIfRelativeUrlPath, getImgSrc,
+  getSizeAccordingToPixelRatio, generateUrl, generateSources, insertSource, addClass, getRatioBySize,
+  isResponsiveAndLoaded, removeClass, getAdaptiveSize, getLowQualitySize, getContainerWidth, getBackgroundImageProps,
+  getBreakPoint, getInitialConfig, createCSSSource, wrapWithPicture, finishAnimation, setAnimation, getWrapper
+}
+  from './ci.utils';
 import { debounce } from 'throttle-debounce';
 
 
 export default class CIResponsive {
+  bgImageIndex = 0;
+
   constructor(config) {
-    const {
-      token = '',
-      container = 'cloudimg.io',
-      ultraFast = false,
-      lazyLoading = false,
-      imgLoadingAnimation = true,
-      lazyLoadOffset = 100,
-      width = '400',
-      height = '300',
-      operation = 'width',
-      filters = 'q35.foil1',
-      placeholderBackground = '#f4f4f4',
-      baseUrl = '/',
-      ratio = 1.5,
-      presets,
-      queryString = '',
-      init = true
-    } = config;
+    this.config = getInitialConfig(config);
 
-    // this.head = document.head || document.getElementsByTagName('head')[0];
-    // this.backgroundImgIndex = 0;
-    // this.forceUpdate = false;
-    this.config = {
-      token,
-      container,
-      ultraFast,
-      lazyLoading,
-      imgLoadingAnimation,
-      lazyLoadOffset,
-      width,
-      height,
-      operation,
-      filters,
-      placeholderBackground,
-      baseUrl,
-      ratio,
-      presets: presets ? presets :
-        {
-          xs: '(max-width: 575px)',  // to 575       PHONE
-          sm: '(min-width: 576px)',  // 576 - 767    PHABLET
-          md: '(min-width: 768px)',  // 768 - 991    TABLET
-          lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
-          xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
-        },
-      queryString,
-      innerWidth: window.innerWidth,
-      //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-    };
-
-    this.updateDimensions = debounce(100, () => {
-      const { innerWidth } = this.config;
-
-      this.process(true);
-
-      if (this.config.innerWidth < window.innerWidth)
-        this.config.innerWidth = window.innerWidth;
-    });
-
-    window.addEventListener('resize', this.updateDimensions);
-
-    if (init) this.init();
+    if (this.config.init) this.init();
   }
 
   init() {
+    document.addEventListener('lazybeforeunveil', this.onLazyBeforeUnveil.bind(this));
+
     this.process();
+
+    window.addEventListener('resize', debounce(100, this.onUpdateDimensions.bind(this)));
   }
 
-  setForceUpdate() {
-    this.forceUpdate = value;
+  onUpdateDimensions() {
+    const { innerWidth } = this.config;
 
-    if (value) this.process(true);
+    this.process(true);
+
+    if (this.config.innerWidth < window.innerWidth) {
+      this.config.innerWidth = window.innerWidth;
+    }
+  }
+
+  onLazyBeforeUnveil(event) {
+    const bgContainer = event.target;
+    const bg = bgContainer.getAttribute('data-bg');
+    const ciOptimizedUrl = bgContainer.getAttribute('ci-optimized-url');
+    const isPreview = bgContainer.getAttribute('ci-preview') === 'true';
+    const responsiveCss = bgContainer.getAttribute('ci-responsive-css');
+
+    if (bg) {
+      let optimizedImage = new Image();
+
+      if (isPreview) {
+        let previewImage = new Image();
+
+        optimizedImage.onload = () => {
+          if (this.config.imgLoadingAnimation) {
+            finishAnimation(bgContainer, true);
+          }
+
+          bgContainer.style.backgroundImage = 'url(' + ciOptimizedUrl + ')';
+          console.log(ciOptimizedUrl)
+          bgContainer.removeAttribute('ci-optimized-url');
+          bgContainer.removeAttribute('data-bg');
+          bgContainer.removeAttribute('ci-preview');
+
+          if (responsiveCss) {
+            this.styleElem.appendChild(document.createTextNode(responsiveCss));
+          }
+        }
+
+        optimizedImage.src = ciOptimizedUrl;
+        previewImage.src = bg;
+      } else {
+        optimizedImage.onload = () => {
+          if (this.config.imgLoadingAnimation) {
+            finishAnimation(bgContainer, true);
+          }
+          bgContainer.removeAttribute('data-bg');
+          bgContainer.removeAttribute('ci-preview');
+
+          if (responsiveCss) {
+            this.styleElem.appendChild(document.createTextNode(responsiveCss));
+          }
+        }
+
+        optimizedImage.src = bg;
+      }
+
+      bgContainer.style.backgroundImage = 'url(' + bg + ')';
+    }
   }
 
   process(isUpdate) {
     const images = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-src');
-    // in progress
-    //const backgroundImages = filterImages(document.querySelectorAll('[ci-background]'), 'ci-background');
+    const backgroundImages = filterImages(document.querySelectorAll('[ci-bg]'), 'ci-bg');
 
-    images.forEach((image) => { this.processImage(image, isUpdate); });
-    // in progress
-    //backgroundImages.forEach((image) => { this.processBackgroundImage(image); });
+    images.forEach(image => { this.processImage(image, isUpdate); });
+
+    if (backgroundImages.length) {
+      this.styleElem = document.createElement('style');
+
+      document.head.appendChild(this.styleElem);
+
+      backgroundImages.forEach(image => { this.processBackgroundImage(image, isUpdate); });
+    }
   }
 
   processImage(image, isUpdate) {
@@ -128,13 +138,13 @@ export default class CIResponsive {
     const isPreview = (parentContainerWidth > 400) && this.config.lazyLoading;
 
     if (this.config.imgLoadingAnimation && !isUpdate) {
-      this.setAnimation(image, parentContainerWidth);
+      setAnimation(image, parentContainerWidth);
     }
 
     if (!isUpdate) {
       wrapper = this.wrap(image, null, isRatio, ratioBySize, ratio, isPreview);
     } else {
-      wrapper = this.getWrapper(image);
+      wrapper = getWrapper(image);
 
       if (isRatio) {
         wrapper.style.paddingBottom = (100 / (ratioBySize || ratio)) + '%';
@@ -147,17 +157,16 @@ export default class CIResponsive {
       addClass(image, 'ci-image-ratio');
     }
 
-
     if (isAdaptive) {
       const fallbackImageUrl =
         generateUrl('width', getSizeAccordingToPixelRatio(parentContainerWidth), filters, imgSrc, this.config);
-      this.wrapWithPicture(image);
+      wrapWithPicture(image);
       const onImageLoad = () => {
         wrapper.style.background = 'transparent';
         wrapper.style.paddingBottom = '0';
         removeClass(image, 'ci-image-ratio');
         removeClass(wrapper, 'ci-image-wrapper-ratio')
-        this.finishAnimation(image);
+        finishAnimation(image);
       }
 
       if (!isPreview) {
@@ -181,9 +190,11 @@ export default class CIResponsive {
         container.classList.add("ci-with-preview-image");
         container.insertBefore(previewImg, pictureElem);
 
-        this.wrapWithPicture(previewImg);
+        wrapWithPicture(previewImg);
 
-        if (!isUpdate) this.setAnimation(previewImg, parentContainerWidth);
+        if (!isUpdate) {
+          setAnimation(previewImg, parentContainerWidth);
+        }
 
         const config = { ...this.config, queryString: '' };
         const url = generateUrl('width', (parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
@@ -221,7 +232,9 @@ export default class CIResponsive {
         image.parentNode.insertBefore(previewImg, image);
       }
 
-      if (!isUpdate) this.setAnimation(previewImg, parentContainerWidth);
+      if (!isUpdate) {
+        setAnimation(previewImg, parentContainerWidth);
+      }
       this.setSrc(previewImg, url, 'data-src');
 
       this.setSrc(image, cloudimageUrl, 'data-src');
@@ -229,7 +242,10 @@ export default class CIResponsive {
       image.onload = () => {
         wrapper.style.background = 'transparent';
         previewImg.style.display = 'none';
-        this.finishAnimation(image);
+
+        if (this.config.imgLoadingAnimation) {
+          finishAnimation(image);
+        }
       }
     }
 
@@ -238,25 +254,155 @@ export default class CIResponsive {
 
       image.onload = () => {
         wrapper.style.background = 'transparent';
-        this.finishAnimation(image);
+
+        if (this.config.imgLoadingAnimation) {
+          finishAnimation(image);
+        }
       };
       this.setSrc(image, cloudimageUrl);
     }
   }
 
-  getWrapper(image) {
-    if ((image.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
-      return image.parentNode;
+  processBackgroundImage(image, isUpdate) {
+    const isLazy = this.config.lazyLoading;
+
+    if (isResponsiveAndLoaded(image) && !(this.config.innerWidth < window.innerWidth)) return;
+
+    addClass(image, 'ci-bg');
+
+    if (isLazy) {
+      addClass(image, 'lazyload');
     }
-    else if ((image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
-      return image.parentNode.parentNode;
+
+    let containerWidth = getContainerWidth(image, this.config);
+
+    let {
+      operation = this.config.operation,
+      size = (this.config.size || containerWidth),
+      filters = this.config.filters,
+      src
+    } = getBackgroundImageProps(image);
+    const isAdaptive = checkOnMedia(size);
+    size = isAdaptive ? getAdaptiveSize(size, this.config) : size;
+
+    if (isAdaptive && isUpdate) return;
+
+    const isRelativeUrlPath = checkIfRelativeUrlPath(src);
+    const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
+    const resultSize = isAdaptive ? size : getSizeAccordingToPixelRatio(size, operation);
+    const isPreview = (containerWidth > 400) && this.config.lazyLoading;
+
+    if (this.config.imgLoadingAnimation && !isUpdate) {
+      setAnimation(image, containerWidth, true);
     }
+
+    if (isPreview) {
+      image.setAttribute('ci-preview', true);
+    }
+
+    image.setAttribute('ci-bg-index', this.bgImageIndex);
+
+    if (isAdaptive) {
+      const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
+      const currentBreakpoint = getBreakPoint(resultSize);
+      const imageToLoad = sources.find(breakPoint => breakPoint.mediaQuery === currentBreakpoint.media).srcSet;
+
+      /* Adaptive without Preview*/
+      if (!isPreview) {
+        if (!isLazy) {
+          this.addBackgroundSources(this.bgImageIndex, sources);
+
+          let tempImage = new Image();
+
+          tempImage.src = imageToLoad;
+
+          tempImage.onload = () => {
+            if (this.config.imgLoadingAnimation) {
+              finishAnimation(image, true);
+            }
+          };
+        } else {
+          const responsiveCSS = this.addBackgroundSources(this.bgImageIndex, sources, true);
+
+          image.setAttribute('ci-responsive-css', responsiveCSS);
+          this.setBackgroundSrc(image, imageToLoad);
+        }
+      }
+      /* Adaptive and Preview*/
+      else {
+        const config = { ...this.config, queryString: '' };
+        const previewSources = generateSources(operation, resultSize, 'q5.foil1', imgSrc, isAdaptive, config, true);
+        const imagePreviewToLoad = previewSources
+          .find(breakPoint => breakPoint.mediaQuery === currentBreakpoint.media).srcSet;
+
+        if (!isLazy) {
+          this.addBackgroundSources(this.bgImageIndex, sources);
+
+          let tempImage = new Image();
+
+          tempImage.src = imageToLoad;
+
+          tempImage.onload = () => {
+            if (this.config.imgLoadingAnimation) {
+              finishAnimation(image, true);
+            }
+          };
+        } else {
+          const responsiveCSS = this.addBackgroundSources(this.bgImageIndex, sources, true);
+
+          image.setAttribute('ci-responsive-css', responsiveCSS);
+          image.setAttribute('ci-optimized-url', imageToLoad);
+          this.setBackgroundSrc(image, imagePreviewToLoad);
+        }
+      }
+    }
+    /* Not Adaptive, Preview and has Ratio*/
+    else if (isPreview) {
+      const cloudimageUrl = generateUrl(operation, resultSize, filters, imgSrc, this.config);
+
+      const config = { ...this.config, queryString: '' };
+      const lowQualitySize = getLowQualitySize(resultSize, operation, 5);
+      const lowQualityUrl = generateUrl(operation, lowQualitySize, 'q5.foil1', imgSrc, config);
+
+      image.className = `${image.className}${isLazy ? ' lazyload' : ''}`;
+
+      if (!isUpdate) {
+        setAnimation(image, containerWidth, true);
+      }
+
+      image.setAttribute('ci-optimized-url', cloudimageUrl);
+      this.setBackgroundSrc(image, lowQualityUrl);
+    }
+
+    /* Not Adaptive and No Preview */
+    else {
+      const cloudimageUrl = generateUrl(operation, resultSize, filters, imgSrc, this.config);
+
+      if (!isLazy) {
+        let tempImage = new Image();
+
+        tempImage.src = cloudimageUrl;
+
+        tempImage.onload = () => {
+          if (this.config.imgLoadingAnimation) {
+            finishAnimation(image, true);
+          }
+        };
+      }
+
+      this.setBackgroundSrc(image, cloudimageUrl);
+    }
+
+    this.bgImageIndex += 1;
   }
 
   setSrc(image, url, propertyName) {
     const { lazyLoading, dataSrcAttr } = this.config;
 
-    image.setAttribute(propertyName ? propertyName : (lazyLoading ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'), url);
+    image.setAttribute(
+      propertyName ? propertyName : (lazyLoading ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
+      url
+    );
   }
 
   setSrcset(source, url) {
@@ -265,19 +411,14 @@ export default class CIResponsive {
     source.setAttribute(lazyLoading ? 'data-srcset' : dataSrcsetAttr ? dataSrcsetAttr : 'srcset', url);
   }
 
-  setAnimation(image, parentContainerWidth) {
-    image.style.filter = `blur(${Math.floor(parentContainerWidth / 100)}px)`;
-    image.style.transform = 'scale3d(1.1, 1.1, 1)';
+  setBackgroundSrc(image, url) {
+    const { lazyLoading, dataSrcAttr } = this.config;
 
-    setTimeout(() => {
-      image.style.transition = 'all 0.3s ease-in-out';
-    })
-  }
-
-  finishAnimation(image) {
-    image.style.filter = 'blur(0px)';
-    image.style.transform = 'translateZ(0) scale3d(1, 1, 1)';
-    addClass(image, 'ci-image-loaded');
+    if (lazyLoading) {
+      image.setAttribute((dataSrcAttr ? dataSrcAttr : 'data-bg'), url);
+    } else {
+      image.style.backgroundImage = `url('${url}')`
+    }
   }
 
   wrap(image, wrapper, isRatio, ratioBySize, ratio) {
@@ -316,34 +457,39 @@ export default class CIResponsive {
     return wrapper;
   }
 
-  wrapWithPicture(image, wrapper) {
-    if ((image.parentNode.nodeName || '').toLowerCase() !== 'picture') {
-      wrapper = wrapper || document.createElement('picture');
-
-      if (image.nextSibling) {
-        image.parentNode.insertBefore(wrapper, image.nextSibling);
-      } else {
-        image.parentNode.appendChild(wrapper);
-      }
-
-      wrapper.appendChild(image);
-    }
-  }
-
   addSources(image, previewSources) {
     [...previewSources.slice(1).reverse()].forEach(({ mediaQuery, srcSet }) => {
-      const source = this.createSrouce(mediaQuery, srcSet);
+      const source = this.createSource(mediaQuery, srcSet);
 
       insertSource(image, source);
     });
 
-    insertSource(image, this.createSrouce(null, previewSources[0].srcSet));
+    insertSource(image, this.createSource(null, previewSources[0].srcSet));
   }
 
-  createSrouce(mediaQuery, srcSet) {
+  addBackgroundSources(bgImageIndex, sources, returnCSSString) {
+    let cssStyle = '';
+
+    cssStyle += createCSSSource(null, sources[0].srcSet, bgImageIndex);
+
+    [...sources.slice(1)].forEach(({ mediaQuery, srcSet }) => {
+      cssStyle += createCSSSource(mediaQuery, srcSet, bgImageIndex);
+    });
+
+    if (returnCSSString) {
+      return cssStyle;
+    }
+
+    this.styleElem.appendChild(document.createTextNode(cssStyle));
+  }
+
+  createSource(mediaQuery, srcSet) {
     const source = document.createElement('source');
 
-    if (mediaQuery) source.media = mediaQuery;
+    if (mediaQuery) {
+      source.media = mediaQuery;
+    }
+
     this.setSrcset(source, srcSet)
 
     return source;
@@ -355,9 +501,5 @@ export default class CIResponsive {
     sourcesElems.forEach((elem, index) => {
       this.setSrcset(elem, sources[index].srcSet);
     })
-  }
-
-  processBackgroundImage() {
-    // in progress
   }
 }

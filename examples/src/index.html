@@ -102,6 +102,7 @@
   <section>
     <div class="container-width-box">container width: <span>---</span> px</div>
     <img ci-src="luca-bravo-121932.jpg" ratio="2.35"/>
+    <!--<div ci-bg="luca-bravo-121932.jpg" ratio="2.35" style="min-height: 200px;background: #e7e7e7 50% 50% / cover no-repeat"></div>-->
   </section>
 
   <div style="background: #fff">
@@ -310,12 +311,18 @@
 
       <div class="row">
         <div class="col-md-6 col-lg-7">
-          <!--<div class="container-width-box">container width: <span>-&#45;&#45;</span> px</div>-->
-          <img
-             ci-src="dino-reichmuth-1.jpg"
+          <!--<div class="container-width-box">container width: <span>---</span> px</div>-->
+          <!--<img-->
+             <!--ci-src="dino-reichmuth-1.jpg"-->
+             <!--operation="crop"-->
+             <!--size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"-->
+          <!--/>-->
+          <div
+             style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"
+             ci-bg="dino-reichmuth-1.jpg"
              operation="crop"
              size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"
-          />
+          ></div>
           <small>
             original: <i>9.2mb</i> <a
              href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-1.jpg" target="_blank"> link</a><br/>

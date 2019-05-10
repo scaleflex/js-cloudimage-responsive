@@ -15,14 +15,14 @@ const checkIfRelativeUrlPath = src => {
     src = window.location.protocol + src;
   }
   return (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0 && src.indexOf('//') !== 0);
-}
+};
 
 const getImgSrc = (src, isRelativeUrlPath = false, baseUrl = '') => {
   if (isRelativeUrlPath)
     return baseUrl + src;
 
   return src;
-}
+};
 
 const getSizeAccordingToPixelRatio = (size, operation) => {
   if (operation === 'crop_px') {
@@ -34,7 +34,7 @@ const getSizeAccordingToPixelRatio = (size, operation) => {
   } else {
     return updateSizeWithPixelRatio(size);
   }
-}
+};
 
 /*
 * possible size values: 200 | 200x400
@@ -48,7 +48,7 @@ const updateSizeWithPixelRatio = (size) => {
   });
 
   return result.join('x');
-}
+};
 
 const generateUrl = (operation, size, filters, imgSrc, config) => {
   const { ultraFast, token, container, queryString } = config;
@@ -56,14 +56,14 @@ const generateUrl = (operation, size, filters, imgSrc, config) => {
   const cloudUrl = isUltraFast + token + '.' + container + '/';
 
   return cloudUrl + operation + '/' + size + '/' + filters + '/' + imgSrc + queryString;
-}
+};
 
 const getParentWidth = (img, config) => {
   if (!(img && img.parentElement && img.parentElement.getBoundingClientRect) && !(img && img.width))
     return config.width;
 
-  const parentContainer = getParentContainerWithWidth(img);
-  const currentWidth = parseInt(parentContainer, 10);
+  const parentContainerWidth = getParentContainerWithWidth(img);
+  const currentWidth = parseInt(parentContainerWidth, 10);
   const computedWidth = parseInt(window.getComputedStyle(img).width);
 
   if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
@@ -73,7 +73,24 @@ const getParentWidth = (img, config) => {
 
     return getSizeLimit(currentWidth);
   }
-}
+};
+
+const getContainerWidth = (elem, config) => {
+  if (!(elem && elem.getBoundingClientRect))
+    return config.width;
+
+  const elementWidth = getContainerWithWidth(elem);
+  const currentWidth = parseInt(elementWidth, 10);
+  const computedWidth = parseInt(window.getComputedStyle(elem).width);
+
+  if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
+    return getSizeLimit(computedWidth);
+  } else {
+    if (!currentWidth) return elem.width || config.width;
+
+    return getSizeLimit(currentWidth);
+  }
+};
 
 const getParentContainerWithWidth = img => {
   let parentNode = null;
@@ -84,11 +101,20 @@ const getParentContainerWithWidth = img => {
     width = parentNode.getBoundingClientRect().width;
   } while (parentNode && !width)
 
-  const letPadding = width && parentNode && parseInt(window.getComputedStyle(parentNode).paddingLeft);
+  const leftPadding = width && parentNode && parseInt(window.getComputedStyle(parentNode).paddingLeft);
   const rightPadding = parseInt(window.getComputedStyle(parentNode).paddingRight)
 
-  return width + (width ? (- letPadding - rightPadding) : 0);
-}
+  return width + (width ? (- leftPadding - rightPadding) : 0);
+};
+
+const getContainerWithWidth = elem => {
+  const computedStyles = window.getComputedStyle(elem);
+  const width = elem.getBoundingClientRect().width;
+  const leftPadding = parseInt(computedStyles.paddingLeft);
+  const rightPadding = parseInt(computedStyles.paddingRight);
+
+  return width + (width ? (- leftPadding - rightPadding) : 0);
+};
 
 const generateSources = (operation, size, filters, imgSrc, isAdaptive, config, isPreview) => {
   const sources = [];
@@ -116,7 +142,7 @@ const generateSources = (operation, size, filters, imgSrc, isAdaptive, config, i
     });
   }
   return sources;
-}
+};
 
 const getLowQualitySize = (size, operation, factor) => {
   if (operation === 'crop_px') {
@@ -128,7 +154,7 @@ const getLowQualitySize = (size, operation, factor) => {
   } else {
    return size.split('x').map(size => size / factor).join('x');
   }
-}
+};
 
 const generateSrcset = (operation, size, filters, imgSrc, config) => {
   let cropParams = '';
@@ -148,7 +174,7 @@ const generateSrcset = (operation, size, filters, imgSrc, config) => {
   }
 
   return generateImgSrc(operation, filters, imgSrc, imgWidth, imgHeight, 1, config, cropParams);
-}
+};
 
 const getAdaptiveSize = (size, config) => {
   const arrayOfSizes = size.match(MEDIA_QUERY_REGEX_G);
@@ -162,7 +188,7 @@ const getAdaptiveSize = (size, config) => {
   });
 
   return sizes;
-}
+};
 
 const getRatioBySize = (size, operation) => {
   let width, height;
@@ -187,7 +213,7 @@ const getRatioBySize = (size, operation) => {
     return width / height;
 
   return null;
-}
+};
 
 const getBreakPoint = (size) => [...size].reverse().find(item => window.matchMedia(item.media).matches);
 
@@ -205,37 +231,47 @@ const generateImgSrc = (operation, filters, imgSrc, imgWidth, imgHeight, factor,
     .replace('https://scaleflex.ultrafast.io/', '')
     .replace('//scaleflex.ultrafast.io/', '')
     .replace('///', '/');
-}
+};
 
 const getSizeLimit = (currentSize) => {
   if (currentSize <= 25) return '25';
   if (currentSize <= 50) return '50';
 
   return (Math.ceil(currentSize / 100) * 100).toString();
-}
+};
 
 const filterImages = (images, type) => {
   const filtered = [];
 
   for (let i = 0; i < images.length; i++) {
     const image = images[i];
-    const size = image.getAttribute(type) || '';
+    const url = image.getAttribute(type) || '';
     const isProcessed = image.getAttribute('data-is-ci-processed') === 'true';
 
-    if (size.slice(-4).toLowerCase() !== '.svg' && !isProcessed) {
+    // todo don't rely on file extension
+    if (url.slice(-4).toLowerCase() !== '.svg' && !isProcessed) {
       filtered.push(image);
     }
   }
 
   return filtered;
-}
+};
 
-const getImageProps = (image) => ({
+const getCommonImageProps = (image) => ({
   operation: attr(image, 'o') || attr(image, 'operation') || attr(image, 'data-operation') || undefined,
   size: attr(image, 's') || attr(image, 'size') || attr(image, 'data-size') || undefined,
   filters: attr(image, 'f') || attr(image, 'filters') || attr(image, 'data-filters') || undefined,
   ratio: attr(image, 'r') || attr(image, 'ratio') || attr(image, 'data-ratio') || undefined,
+});
+
+const getImageProps = (image) => ({
+  ...getCommonImageProps(image),
   src: attr(image, 'ci-src') || attr(image, 'data-src') || undefined,
+});
+
+const getBackgroundImageProps = (image) => ({
+  ...getCommonImageProps(image),
+  src: attr(image, 'ci-bg') || attr(image, 'ci-background') || attr(image, 'data-background') || undefined,
 });
 
 const attr = (element, attribute) => element.getAttribute(attribute);
@@ -252,13 +288,122 @@ const addClass = (elem, className) => {
   if (!elem.classList.contains(className)) {
     elem.classList.add(className);
   }
-}
+};
 
 const removeClass = (elem, className) => {
   if (elem.classList.contains(className)) {
     elem.classList.remove(className);
   }
-}
+};
+
+const getInitialConfig = (config) => {
+  const {
+    token = '',
+    container = 'cloudimg.io',
+    ultraFast = false,
+    lazyLoading = false,
+    imgLoadingAnimation = true,
+    lazyLoadOffset = 100,
+    width = '400',
+    height = '300',
+    operation = 'width',
+    filters = 'q35.foil1',
+    placeholderBackground = '#f4f4f4',
+    baseUrl = '/',
+    ratio = 1.5,
+    presets,
+    queryString = '',
+    init = true
+  } = config;
+
+  return {
+    token,
+    container,
+    ultraFast,
+    lazyLoading,
+    imgLoadingAnimation,
+    lazyLoadOffset,
+    width,
+    height,
+    operation,
+    filters,
+    placeholderBackground,
+    baseUrl,
+    ratio,
+    presets: presets ? presets :
+      {
+        xs: '(max-width: 575px)',  // to 575       PHONE
+        sm: '(min-width: 576px)',  // 576 - 767    PHABLET
+        md: '(min-width: 768px)',  // 768 - 991    TABLET
+        lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
+        xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
+      },
+    queryString,
+    innerWidth: window.innerWidth,
+    init
+    //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+  };
+};
+
+const createCSSSource = (mediaQuery, srcSet, bgImageIndex) => {
+  if (mediaQuery) {
+    return `@media all and ${mediaQuery} { [ci-bg-index="${bgImageIndex}"] { background-image: url('${srcSet}') !important; } }`
+  } else {
+    return `[ci-bg-index="${bgImageIndex}"] { background-image: url('${srcSet}') !important; }`;
+  }
+};
+
+const wrapWithPicture = (image, wrapper) => {
+  if ((image.parentNode.nodeName || '').toLowerCase() !== 'picture') {
+    wrapper = wrapper || document.createElement('picture');
+
+    if (image.nextSibling) {
+      image.parentNode.insertBefore(wrapper, image.nextSibling);
+    } else {
+      image.parentNode.appendChild(wrapper);
+    }
+
+    wrapper.appendChild(image);
+  }
+};
+
+const setAnimation = (image, parentContainerWidth, isBackground) => {
+  if (!isBackground) {
+    image.style.transform = 'scale3d(1.1, 1.1, 1)';
+    image.style.filter = `blur(${Math.floor(parentContainerWidth / 100)}px)`;
+
+    setTimeout(() => {
+      image.style.transition = 'all 0.3s ease-in-out';
+    })
+  } else {
+    image.style.overflow = 'hidden';
+    addClass(image, 'ci-bg-animation');
+  }
+};
+
+const finishAnimation = (image, isBackground) => {
+  if (!isBackground) {
+    image.style.filter = 'blur(0px)';
+    image.style.transform = 'translateZ(0) scale3d(1, 1, 1)';
+  } else {
+    removeClass(image, 'ci-bg-animation');
+
+    setTimeout(() => {
+      image.style.removeProperty('overflow');
+    }, 300)
+  }
+
+  addClass(image, 'ci-image-loaded');
+};
+
+const getWrapper = (image) => {
+  if ((image.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
+    return image.parentNode;
+  }
+  else if ((image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
+    return image.parentNode.parentNode;
+  }
+};
 
 export {
   checkOnMedia,
@@ -267,14 +412,22 @@ export {
   getSizeAccordingToPixelRatio,
   generateUrl,
   getParentWidth,
+  getContainerWidth,
   generateSources,
   getRatioBySize,
   getBreakPoint,
   filterImages,
   getImageProps,
+  getBackgroundImageProps,
   insertSource,
   addClass,
   removeClass,
   getAdaptiveSize,
-  getLowQualitySize
+  getLowQualitySize,
+  getInitialConfig,
+  createCSSSource,
+  wrapWithPicture,
+  setAnimation,
+  finishAnimation,
+  getWrapper
 }
