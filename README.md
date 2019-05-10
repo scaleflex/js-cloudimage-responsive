@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v1.1.3-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v2.0.2-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -93,7 +93,7 @@ CDN traffic per month for free.
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.1.3.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v2.0.2.min.js"></script>
 ```
 
 or using npm
@@ -384,7 +384,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v1.1.3.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v2.0.2.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
