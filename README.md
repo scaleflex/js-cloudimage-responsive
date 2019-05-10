@@ -184,6 +184,15 @@ rotation...  Multiple filters can be applied, separated by "```.```" (dot).
 
 Placeholder colored background while the image is loading
 
+
+### exactSize
+
+###### Type: **Bool** | Default: **false** | _optional_
+
+Forces to load exact size of images.
+By default the plugin rounds container width to next possible value which can be divided by 100 without the remainder.
+It’s done for cache reasons so that not all images are cached by 1px, but only 100px, 200px, 300px …
+
 ### presets
 
 ###### Type: **Object**
