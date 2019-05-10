@@ -67,11 +67,11 @@ const getParentWidth = (img, config) => {
   const computedWidth = parseInt(window.getComputedStyle(img).width);
 
   if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
-    return getSizeLimit(computedWidth);
+    return getSizeLimit(computedWidth, config.exactSize);
   } else {
     if (!currentWidth) return img.width || config.width;
 
-    return getSizeLimit(currentWidth);
+    return getSizeLimit(currentWidth, config.exactSize);
   }
 };
 
@@ -84,11 +84,11 @@ const getContainerWidth = (elem, config) => {
   const computedWidth = parseInt(window.getComputedStyle(elem).width);
 
   if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
-    return getSizeLimit(computedWidth);
+    return getSizeLimit(computedWidth, config.exactSize);
   } else {
     if (!currentWidth) return elem.width || config.width;
 
-    return getSizeLimit(currentWidth);
+    return getSizeLimit(currentWidth, config.exactSize);
   }
 };
 
@@ -233,9 +233,10 @@ const generateImgSrc = (operation, filters, imgSrc, imgWidth, imgHeight, factor,
     .replace('///', '/');
 };
 
-const getSizeLimit = (currentSize) => {
+const getSizeLimit = (currentSize, exactSize) => {
   if (currentSize <= 25) return '25';
   if (currentSize <= 50) return '50';
+  if (exactSize) return currentSize.toString();
 
   return (Math.ceil(currentSize / 100) * 100).toString();
 };
@@ -313,7 +314,8 @@ const getInitialConfig = (config) => {
     ratio = 1.5,
     presets,
     queryString = '',
-    init = true
+    init = true,
+    exactSize = false
   } = config;
 
   return {
@@ -330,6 +332,7 @@ const getInitialConfig = (config) => {
     placeholderBackground,
     baseUrl,
     ratio,
+    exactSize,
     presets: presets ? presets :
       {
         xs: '(max-width: 575px)',  // to 575       PHONE
