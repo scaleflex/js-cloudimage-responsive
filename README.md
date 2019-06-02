@@ -93,7 +93,13 @@ CDN traffic per month for free.
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v2.0.2.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2.0.2/js-cloudimage-responsive.min.js"></script>
+```
+
+You may also use major version number instead of fixed version to have the latest version available.
+
+```javascript
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
