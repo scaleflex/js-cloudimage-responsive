@@ -54,7 +54,7 @@ Cloudimage, contact us at
 powered by [Cloudimage](https://www.cloudimage.io/)
 ([Watch the video here](https://www.youtube.com/watch?time_continue=2&v=JFZSE1vYb0k))
 
-## Table of contents
+## <a name="table_of_contents"></a> Table of contents
 
 * [Demo](#demo)
 * [Requirements](#requirements)
