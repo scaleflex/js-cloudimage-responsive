@@ -310,7 +310,8 @@ const getInitialConfig = (config) => {
     operation = 'width',
     filters = 'q35.foil1',
     placeholderBackground = '#f4f4f4',
-    baseUrl = '/',
+    baseUrl, // to support old name
+    baseURL = '/',
     ratio = 1.5,
     presets,
     queryString = '',
@@ -330,7 +331,7 @@ const getInitialConfig = (config) => {
     operation,
     filters,
     placeholderBackground,
-    baseUrl,
+    baseUrl: baseUrl || baseURL,
     ratio,
     exactSize,
     presets: presets ? presets :
