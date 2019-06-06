@@ -197,7 +197,7 @@ export default class CIResponsive {
         }
 
         const config = { ...this.config, queryString: '' };
-        const url = generateUrl('width', (parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
+        const url = generateUrl('width', Math.floor(parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
         const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
         const previewSources = generateSources(operation, resultSize, 'q5.foil1', imgSrc, isAdaptive, config, true);
 
@@ -304,7 +304,7 @@ export default class CIResponsive {
 
     if (isAdaptive) {
       const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
-      const currentBreakpoint = getBreakPoint(resultSize);
+      const currentBreakpoint = getBreakPoint(resultSize) || resultSize[0];
       const imageToLoad = sources.find(breakPoint => breakPoint.mediaQuery === currentBreakpoint.media).srcSet;
 
       /* Adaptive without Preview*/

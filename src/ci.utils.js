@@ -148,11 +148,11 @@ const getLowQualitySize = (size, operation, factor) => {
   if (operation === 'crop_px') {
     let [ cropSize, finalSize ] = size.split('-');
 
-    finalSize = finalSize.split('x').map(size => size ? size / factor : '').join('x');
+    finalSize = finalSize.split('x').map(size => size ? Math.floor(size / factor) : '').join('x');
 
     return cropSize + '-' +  finalSize;
   } else {
-   return size.split('x').map(size => size / factor).join('x');
+   return size.split('x').map(size => Math.floor(size / factor)).join('x');
   }
 };
 
