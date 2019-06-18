@@ -125,16 +125,14 @@ const generateSources = (operation, size, filters, imgSrc, isAdaptive, config, i
       const nextOperation = isPositionableCrop ? 'crop_px' : operation;
 
       if (isPreview) {
-        nextSize = getLowQualitySize(nextSize, nextOperation, 5);
-        filters = 'q10.foil1';
+        nextSize = getLowQualitySize(nextSize, nextOperation, config.previewQualityFactor);
       }
 
       sources.push({ mediaQuery, srcSet: generateSrcset(nextOperation, nextSize, filters, imgSrc, config) });
     })
   } else {
     if (isPreview) {
-      size = getLowQualitySize(size, operation, 5);
-      filters = 'q10.foil1';
+      size = getLowQualitySize(size, operation, config.previewQualityFactor);
     }
 
     sources.push({
@@ -308,7 +306,7 @@ const getInitialConfig = (config) => {
     width = '400',
     height = '300',
     operation = 'width',
-    filters = 'q35.foil1',
+    filters = 'foil1',
     placeholderBackground = '#f4f4f4',
     baseUrl, // to support old name
     baseURL = '/',
@@ -344,7 +342,8 @@ const getInitialConfig = (config) => {
       },
     queryString,
     innerWidth: window.innerWidth,
-    init
+    init,
+    previewQualityFactor: 10
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };

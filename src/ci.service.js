@@ -197,9 +197,10 @@ export default class CIResponsive {
         }
 
         const config = { ...this.config, queryString: '' };
-        const url = generateUrl('width', Math.floor(parentContainerWidth / 5), 'q5.foil1', imgSrc, config);
+        const { previewQualityFactor } = config;
+        const url = generateUrl('width', Math.floor(parentContainerWidth / previewQualityFactor), filters, imgSrc, config);
         const sources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, this.config);
-        const previewSources = generateSources(operation, resultSize, 'q5.foil1', imgSrc, isAdaptive, config, true);
+        const previewSources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, config, true);
 
         this.addSources(previewImg, previewSources);
         this.addSources(image, sources);
@@ -219,8 +220,9 @@ export default class CIResponsive {
       const container = image.parentNode;
       const isPreviewImg = container.className.indexOf('ci-with-preview-image') > -1;
       const config = { ...this.config, queryString: '' };
-      const size = getLowQualitySize(resultSize, operation, 5);
-      const url = generateUrl(operation, size, 'q5.foil1', imgSrc, config);
+      const { previewQualityFactor } = config;
+      const size = getLowQualitySize(resultSize, operation, previewQualityFactor);
+      const url = generateUrl(operation, size, filters, imgSrc, config);
       let previewImg = null;
 
       if (isPreviewImg) {
@@ -331,7 +333,7 @@ export default class CIResponsive {
       /* Adaptive and Preview*/
       else {
         const config = { ...this.config, queryString: '' };
-        const previewSources = generateSources(operation, resultSize, 'q5.foil1', imgSrc, isAdaptive, config, true);
+        const previewSources = generateSources(operation, resultSize, filters, imgSrc, isAdaptive, config, true);
         const imagePreviewToLoad = previewSources
           .find(breakPoint => breakPoint.mediaQuery === currentBreakpoint.media).srcSet;
 
@@ -361,8 +363,9 @@ export default class CIResponsive {
       const cloudimageUrl = generateUrl(operation, resultSize, filters, imgSrc, this.config);
 
       const config = { ...this.config, queryString: '' };
-      const lowQualitySize = getLowQualitySize(resultSize, operation, 5);
-      const lowQualityUrl = generateUrl(operation, lowQualitySize, 'q5.foil1', imgSrc, config);
+      const { previewQualityFactor } = config;
+      const lowQualitySize = getLowQualitySize(resultSize, operation, previewQualityFactor);
+      const lowQualityUrl = generateUrl(operation, lowQualitySize, filters, imgSrc, config);
 
       image.className = `${image.className}${isLazy ? ' lazyload' : ''}`;
 
