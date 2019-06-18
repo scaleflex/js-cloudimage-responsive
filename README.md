@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v2.0.4-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v2.1.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -93,7 +93,7 @@ CDN traffic per month for free.
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2.0.4/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2.1.0/js-cloudimage-responsive.min.js"></script>
 ```
 
 You may also use major version number instead of fixed version to have the latest version available.
@@ -176,7 +176,7 @@ Applies a nice interlacing effect for preview transition
 
 ### filters
 
-###### Type: **String** | Default: **'q35.foil1'** | _optional_
+###### Type: **String** | Default: **'foil1'** | _optional_
 
 Applies default Cloudimage filters to your image, e.g. fcontrast, fpixelate, fgaussian, backtransparent,
 rotation...  Multiple filters can be applied, separated by "```.```" (dot).
@@ -390,7 +390,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v2.0.3.min.js"></script>
+<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/v2.1.0.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
