@@ -272,12 +272,6 @@ export default class CIResponsive {
 
     if (isResponsiveAndLoaded(image) && !(this.config.innerWidth < window.innerWidth)) return;
 
-    addClass(image, 'ci-bg');
-
-    if (isLazy) {
-      addClass(image, 'lazyload');
-    }
-
     let containerWidth = getContainerWidth(image, this.config);
 
     let {
@@ -286,6 +280,15 @@ export default class CIResponsive {
       filters = this.config.filters,
       src
     } = getBackgroundImageProps(image);
+
+    if (!src) return;
+
+    addClass(image, 'ci-bg');
+
+    if (isLazy) {
+      addClass(image, 'lazyload');
+    }
+
     const isAdaptive = checkOnMedia(size);
     size = isAdaptive ? getAdaptiveSize(size, this.config) : size;
 
