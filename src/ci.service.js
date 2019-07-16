@@ -54,7 +54,6 @@ export default class CIResponsive {
           }
 
           bgContainer.style.backgroundImage = 'url(' + ciOptimizedUrl + ')';
-          console.log(ciOptimizedUrl)
           bgContainer.removeAttribute('ci-optimized-url');
           bgContainer.removeAttribute('data-bg');
           bgContainer.removeAttribute('ci-preview');
