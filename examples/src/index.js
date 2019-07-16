@@ -12,7 +12,7 @@ const spinner = document.getElementById('spinner');
 const wrapper = document.getElementById('main');
 
 window.ciResponsive = new window.CIResponsive({
-  token: 'demo',
+  token: 'scaleflex',
   baseUrl: 'https://cloudimage.public.airstore.io/demo/',
   filters: 'foil1',
   queryString: '?&size_info=1&v2',
