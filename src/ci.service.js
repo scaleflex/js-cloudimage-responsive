@@ -118,6 +118,9 @@ export default class CIResponsive {
       ratio,
       src
     } = getImageProps(image);
+
+    if (!src) return;
+
     const isAdaptive = checkOnMedia(size);
     size = isAdaptive ? getAdaptiveSize(size, this.config) : size;
 
