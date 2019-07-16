@@ -133,7 +133,9 @@ const ciResponsive = new window.CIResponsive({
 });
 ```
 
-## <a name="implement"></a>Step 3: Implement in img tag
+## <a name="implement"></a>Step 3: Implement in img tag or use it as background image
+
+### <img/> tag
 
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
@@ -144,6 +146,16 @@ Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 NOTE: "ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 <a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+
+### background image
+
+Use the `ci-bg` instead of CSS background-image property `background-image: url(...)`:
+
+```html
+<div ci-bg="magnus-lindvall.jpg"></div>
+```
+
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ## <a name="configuration"></a> Config
 
