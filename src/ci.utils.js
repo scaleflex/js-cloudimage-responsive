@@ -64,7 +64,7 @@ const getParentWidth = (img, config) => {
 
   const parentContainerWidth = getParentContainerWithWidth(img);
   const currentWidth = parseInt(parentContainerWidth, 10);
-  const computedWidth = parseInt(window.getComputedStyle(img).width);
+  const computedWidth = getComputedWidthOfImage(img);
 
   if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
     return getSizeLimit(computedWidth, config.exactSize);
@@ -73,6 +73,15 @@ const getParentWidth = (img, config) => {
 
     return getSizeLimit(currentWidth, config.exactSize);
   }
+};
+
+const getComputedWidthOfImage = (img) => {
+  const computedWidth = window.getComputedStyle(img).width;
+
+  if (computedWidth.indexOf('px') > -1 || (parseInt(computedWidth).toString() === computedWidth))
+    return parseInt(computedWidth);
+
+  return null;
 };
 
 const getContainerWidth = (elem, config) => {
