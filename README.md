@@ -135,7 +135,7 @@ const ciResponsive = new window.CIResponsive({
 
 ## <a name="implement"></a>Step 3: Implement in img tag or use it as background image
 
-### <img/> tag
+### img tag
 
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
