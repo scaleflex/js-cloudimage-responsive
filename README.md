@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v2.2.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v2.3.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -91,7 +91,7 @@ CDN traffic per month for free.
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2.2.0/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2.3.0/js-cloudimage-responsive.min.js"></script>
 ```
 
 You may also use major version number instead of fixed version to have the latest version available.
@@ -165,6 +165,12 @@ Your Cloudimage customer token.
 [Subscribe](https://www.cloudimage.io/en/register_page) for a
 Cloudimage account to get one. The subscription takes less than a
 minute and is totally free.
+
+### domain
+
+###### Type: **String** | Default: **"cloudimg.io"**
+
+Use your custom domain.
 
 ### baseUrl
 
