@@ -4,8 +4,6 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.it/en/home)
 
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Responsive%20images,%20now%20easier%20than%20ever&url=https://scaleflex.github.io/js-cloudimage-responsive/&via=cloudimage&hashtags=images,cloudimage,responsive_images,lazy_loading,web_acceleration,image_managementimage_resizing,image_compression,image_optimization,image_CDN,image_CDNwebp,jpeg_xr,jpg_optimization,image_resizing_and_CDN,cropresize)
-
 <p align="center">
 	<img
 		height="175"
@@ -133,7 +131,9 @@ const ciResponsive = new window.CIResponsive({
 });
 ```
 
-## <a name="implement"></a>Step 3: Implement in img tag
+## <a name="implement"></a>Step 3: Implement in img tag or use it as background image
+
+### img tag
 
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
@@ -144,6 +144,16 @@ Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 NOTE: "ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 <a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+
+### background image
+
+Use the `ci-bg` instead of CSS background-image property `background-image: url(...)`:
+
+```html
+<div ci-bg="magnus-lindvall.jpg"></div>
+```
+
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ## <a name="configuration"></a> Config
 
