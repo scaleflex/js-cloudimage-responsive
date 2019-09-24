@@ -51,9 +51,9 @@ const updateSizeWithPixelRatio = (size) => {
 };
 
 const generateUrl = (operation, size, filters, imgSrc, config) => {
-  const { ultraFast, token, container, queryString } = config;
+  const { ultraFast, token, domain, queryString } = config;
   const isUltraFast = ultraFast ? 'https://scaleflex.ultrafast.io/' : 'https://';
-  const cloudUrl = isUltraFast + token + '.' + container + '/';
+  const cloudUrl = isUltraFast + token + '.' + domain + '/';
 
   return cloudUrl + operation + '/' + size + '/' + filters + '/' + imgSrc + queryString;
 };
@@ -307,7 +307,7 @@ const removeClass = (elem, className) => {
 const getInitialConfig = (config) => {
   const {
     token = '',
-    container = 'cloudimg.io',
+    domain = 'cloudimg.io',
     ultraFast = false,
     lazyLoading = false,
     imgLoadingAnimation = true,
@@ -328,7 +328,7 @@ const getInitialConfig = (config) => {
 
   return {
     token,
-    container,
+    domain,
     ultraFast,
     lazyLoading,
     imgLoadingAnimation,
