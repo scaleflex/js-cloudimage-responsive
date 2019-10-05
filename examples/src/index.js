@@ -14,8 +14,7 @@ const wrapper = document.getElementById('main');
 window.ciResponsive = new window.CIResponsive({
   token: 'scaleflex',
   baseUrl: 'https://cloudimage.public.airstore.io/demo/',
-  filters: 'foil1',
-  queryString: '?&size_info=1&v2',
+  queryString: 'ci_info=1&org_if_sml=1',
   lazyLoadOffset: 100,
   lazyLoading: true,
   imgLoadingAnimation: true,

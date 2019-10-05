@@ -101,7 +101,7 @@
 
   <section>
     <div class="container-width-box">container width: <span>---</span> px</div>
-    <img ci-src="luca-bravo-121932.jpg" ratio="2.35"/>
+    <img ci-src="luca-bravo-121932.jpg" ci-ratio="2.35"/>
     <!--<div ci-bg="luca-bravo-121932.jpg" ratio="2.35" style="min-height: 200px;background: #e7e7e7 50% 50% / cover no-repeat"></div>-->
   </section>
 
@@ -265,36 +265,36 @@
       <div class="row images-in-columns">
         <div class="col-12">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="jordan-hubbard.jpg" ratio="1.5"/>
+          <img ci-src="jordan-hubbard.jpg" ci-ratio="1.5"/>
         </div>
 
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="alain.jpg" ratio="1.5"/>
+          <img ci-src="alain.jpg" ci-ratio="1.5"/>
           original: <i>5.8mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/alain.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="ameen-fahmy.jpg" ratio="1.5"/>
+          <img ci-src="ameen-fahmy.jpg" ci-ratio="1.5"/>
           original: <i>0.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ameen-fahmy.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="tim-patch.jpg" ratio="1.5"/>
+          <img ci-src="tim-patch.jpg" ci-ratio="1.5"/>
           original: <i>7.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-9.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="veeterzy.jpg" ratio="1.5"/>
+          <img ci-src="veeterzy.jpg" ci-ratio="1.5"/>
           original: <i>8.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ishan-seefromthesky.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="dino-reichmuth.jpg" ratio="1.5"/>
+          <img ci-src="dino-reichmuth.jpg" ci-ratio="1.5"/>
           original: <i>11.9mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth.jpg" target="_blank"> link</a><br/>
         </div>
@@ -314,8 +314,13 @@
           <!--<div class="container-width-box">container width: <span>-&#45;&#45;</span> px</div>-->
           <img
              ci-src="dino-reichmuth-1.jpg"
-             operation="crop"
-             size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"
+             ci-sizes="{
+              sm: { w: 400, h: 200 },
+              '(min-width: 620px)': { w: 200, h: 60 },
+              md: { w: 250, h: 350 },
+              lg: { w: 350, h: 300 },
+              xl: { w: 400, h: 250 }
+             }"
           />
           <!--<div-->
              <!--style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"-->
@@ -335,12 +340,13 @@
 &lt;img
   operation="crop"
   ci-src="dino-reichmuth-1.jpg"
-  size="
-    sm 400x200,
-    (min-width: 620px) 400x60,
-    md 250x350,
-    lg 350x300,
-    xl 400x250
+  ci-sizes="{
+    sm: { w: 400, h: 200 },
+    '(min-width: 620px)': { w: 200, h: 60 },
+    md: { w: 250, h: 350 },
+    lg: { w: 350, h: 300 },
+    xl: { w: 400, h: 250 }
+   }"
 "/&gt;
       </code></pre>
         </div>
@@ -373,11 +379,11 @@
           Use the <code>ci-src</code> instead of the <code>src</code> attribute in image tag.
         </p>
         <figure class="highlight">
-          <pre><code class="javascript">&lt;img ci-src="magnus-lindvall.jpg" ratio="1.5"/&gt;</code></pre>
+          <pre><code class="javascript">&lt;img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/&gt;</code></pre>
         </figure>
 
         <p>
-          <small>NOTE: "ratio" is recommended to prevent page layout jumping.
+          <small>NOTE: "ci-ratio" is recommended to prevent page layout jumping.
             The parameter is used to calculate image height to hold the image position while image is loading.
           </small>
         </p>

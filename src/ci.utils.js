@@ -1,15 +1,3 @@
-const MEDIA_QUERY_REGEX = /^\s*(?:([a-z_][a-z_]*)|(\([\S\s]*\)))\s*(?:(?:(?:["'])([0-9xp,-]*)(?:["']))|([0-9xp]*))/;
-const MEDIA_QUERY_REGEX_G = /\s*(?:([a-z_][a-z_]*)|(\([\S\s]*\)))\s*(?:(?:(?:["'])([0-9xp,-]*)(?:["']))|([0-9xp]*))/g;
-
-const checkOnMedia = size => {
-  try {
-    return MEDIA_QUERY_REGEX.test(size);
-  }
-  catch (e) {
-    return false;
-  }
-};
-
 const checkIfRelativeUrlPath = src => {
   if (src.indexOf('//') === 0) {
     src = window.location.protocol + src;
@@ -24,22 +12,10 @@ const getImgSrc = (src, isRelativeUrlPath = false, baseUrl = '') => {
   return src;
 };
 
-const getSizeAccordingToPixelRatio = (size, operation) => {
-  if (operation === 'crop_px') {
-    let [ cropSize, finalSize ] = size.split('-');
-
-    finalSize = updateSizeWithPixelRatio(finalSize);
-
-    return cropSize + '-' +  finalSize;
-  } else {
-    return updateSizeWithPixelRatio(size);
-  }
-};
-
 /*
 * possible size values: 200 | 200x400
 * */
-const updateSizeWithPixelRatio = (size) => {
+export const updateSizeWithPixelRatio = (size) => {
   const splittedSizes = size.toString().split('x');
   const result = [];
 
@@ -50,12 +26,35 @@ const updateSizeWithPixelRatio = (size) => {
   return result.join('x');
 };
 
-const generateUrl = (operation, size, filters, imgSrc, config) => {
-  const { ultraFast, token, domain, queryString } = config;
-  const isUltraFast = ultraFast ? 'https://scaleflex.ultrafast.io/' : 'https://';
-  const cloudUrl = isUltraFast + token + '.' + domain + '/';
+const generateUrl = (imgSrc, params = {}, config, parentContainerWidth) => {
+  const { token, domain, queryString } = config;
+  const cloudUrl = `https://${token}.${domain}/v7/`;
 
-  return cloudUrl + operation + '/' + size + '/' + filters + '/' + imgSrc + queryString;
+  return [
+    cloudUrl,
+    imgSrc,
+    imgSrc.includes('?') ? '&' : '?',
+    getQueryString(params, parentContainerWidth),
+    queryString ? `&${queryString}` : ''// todo
+  ].join('');
+};
+
+
+const getQueryString = (params = {}, parentContainerWidth) => {
+  const { w, h, width, height, ...restParams } = params;
+  const isCustom = w || width || h || height;
+  const customWidth = w || width ? updateSizeWithPixelRatio(w || width) : null;
+  const widthQ = isCustom ? customWidth : parentContainerWidth;
+  const heightQ = h || height ? updateSizeWithPixelRatio(h || height) : null;
+  const restParamsQ = Object.keys(restParams).map(function(k) {
+    return encodeURIComponent(k) + "=" + encodeURIComponent(restParams[k]);
+  }).join('&')
+
+  return [
+    widthQ ? `w=${widthQ}` : '',
+    heightQ ? ((widthQ ? '&' : '') + `h=${heightQ}`) : '',
+    restParamsQ ? '&' + restParamsQ : ''
+  ].join('');
 };
 
 const getParentWidth = (img, config) => {
@@ -125,120 +124,72 @@ const getContainerWithWidth = elem => {
   return width + (width ? (- leftPadding - rightPadding) : 0);
 };
 
-const generateSources = (operation, size, filters, imgSrc, isAdaptive, config, isPreview) => {
+const generateSources = (imgSrc, params, adaptiveSizes, config, parentContainerWidth, isPreview) => {
   const sources = [];
 
-  if (isAdaptive) {
-    size.forEach(({ size: nextSize, media: mediaQuery}) => {
-      const isPositionableCrop = operation === 'crop' && nextSize.split(',').length > 1;
-      const nextOperation = isPositionableCrop ? 'crop_px' : operation;
+  adaptiveSizes.forEach(({ params: breakpointParams, media: mediaQuery}) => {
+    let lowQualitySize = null;
+    let containerWidth = parentContainerWidth;
 
-      if (isPreview) {
-        nextSize = getLowQualitySize(nextSize, nextOperation, config.previewQualityFactor);
-      }
-
-      sources.push({ mediaQuery, srcSet: generateSrcset(nextOperation, nextSize, filters, imgSrc, config) });
-    })
-  } else {
     if (isPreview) {
-      size = getLowQualitySize(size, operation, config.previewQualityFactor);
+      lowQualitySize = getLowQualitySize({ ...params, ...breakpointParams }, config.previewQualityFactor);
+      containerWidth = parentContainerWidth / config.previewQualityFactor;
     }
 
     sources.push({
-      srcSet: generateSrcset(operation, size, filters, imgSrc, config)
+      mediaQuery,
+      srcSet: generateUrl(
+        imgSrc, { ...params, ...breakpointParams, ...lowQualitySize }, config, updateSizeWithPixelRatio(containerWidth)
+      )
     });
-  }
+  });
+
   return sources;
 };
 
-const getLowQualitySize = (size, operation, factor) => {
-  if (operation === 'crop_px') {
-    let [ cropSize, finalSize ] = size.split('-');
+const getLowQualitySize = (params = {}, factor) => {
+  let { width, height } = params;
 
-    finalSize = finalSize.split('x').map(size => size ? Math.floor(size / factor) : '').join('x');
+  width = width ? Math.floor(width / factor) : null;
+  height = height ? Math.floor(height / factor) : null;
 
-    return cropSize + '-' +  finalSize;
-  } else {
-   return size.split('x').map(size => Math.floor(size / factor)).join('x');
-  }
+  return { width, w: width, height, h: height };
 };
 
-const generateSrcset = (operation, size, filters, imgSrc, config) => {
-  let cropParams = '';
-  let imgWidth = '';
-  let imgHeight = '';
+const getAdaptiveSize = (sizes, config) => {
+  const resultSizes = [];
 
-  if (operation === 'crop_px') {
-    let [ cropSize, finalSize ] = size.split('-');
+  Object.keys(sizes).forEach(key => {
+    const isCustomMedia = key.indexOf(':') > -1;
+    const media = isCustomMedia ? key : config.presets[key];
 
-    cropParams = cropSize + '-';
-
-    imgWidth = finalSize.toString().split('x')[0];
-    imgHeight = finalSize.toString().split('x')[1];
-  } else {
-    imgWidth = size.toString().split('x')[0];
-    imgHeight = size.toString().split('x')[1];
-  }
-
-  return generateImgSrc(operation, filters, imgSrc, imgWidth, imgHeight, 1, config, cropParams);
-};
-
-const getAdaptiveSize = (size, config) => {
-  const arrayOfSizes = size.match(MEDIA_QUERY_REGEX_G);
-  const sizes = [];
-
-  arrayOfSizes.forEach(string => {
-    const groups = string.match(MEDIA_QUERY_REGEX);
-    const media = groups[2] ? groups[2] : config.presets[groups[1]];
-
-    sizes.push({ media, size: groups[4] || groups[3] });
+    resultSizes.push({ media, params: sizes[key] });
   });
 
-  return sizes;
+  return resultSizes;
 };
 
-const getRatioBySize = (size, operation) => {
-  let width, height;
+const getRatioBySizeSimple = (params = {}) => {
+  let { width, w, height, h } = params;
 
-  if (typeof size === 'object') {
-    const breakPointSource = getBreakPoint(size);
-    let breakPointSize = breakPointSource ? breakPointSource.size : size[0].size;
-
-    width = breakPointSize.toString().split('x')[0]
-    height = breakPointSize.toString().split('x')[1];
-  } else if (operation === 'crop_px') {
-    const sizeParams = size.split('-')[0].split(',');
-
-    width = sizeParams[2] - sizeParams[0];
-    height = sizeParams[3] - sizeParams[1];
-  } else {
-    width = size.toString().split('x')[0]
-    height = size.toString().split('x')[1];
-  }
-
-  if (width && height)
-    return width / height;
+  if ((width || w) && (height || h))
+    return (width || w) / (height || h);
 
   return null;
-};
+}
+
+const getRatioBySizeAdaptive = (params = {}, adaptiveSize) => {
+  const breakpoint = getBreakPoint(adaptiveSize) || adaptiveSize[0];
+  const ratioSizeByBreakpoint = getRatioBySizeSimple(breakpoint.params);
+
+  if (!ratioSizeByBreakpoint) {
+    return getRatioBySizeSimple(params);
+  } else {
+    return ratioSizeByBreakpoint;
+  }
+}
 
 const getBreakPoint = (size) => [...size].reverse().find(item => window.matchMedia(item.media).matches);
-
-const generateImgSrc = (operation, filters, imgSrc, imgWidth, imgHeight, factor, config, cropParams = '') => {
-  let imgSize = imgWidth ? Math.trunc(imgWidth * factor) : '';
-
-  if (imgHeight)
-    imgSize += 'x' + Math.trunc(imgHeight * factor);
-
-  if (cropParams)
-    imgSize = cropParams + imgSize;
-
-  return generateUrl(operation, getSizeAccordingToPixelRatio(imgSize, operation), filters, imgSrc, config)
-    .replace('http://scaleflex.ultrafast.io/', '')
-    .replace('https://scaleflex.ultrafast.io/', '')
-    .replace('//scaleflex.ultrafast.io/', '')
-    .replace('///', '/');
-};
 
 const getSizeLimit = (currentSize, exactSize) => {
   if (currentSize <= 25) return '25';
@@ -266,26 +217,75 @@ const filterImages = (images, type) => {
 };
 
 const getCommonImageProps = (image) => ({
-  operation: attr(image, 'o') || attr(image, 'operation') || attr(image, 'data-operation') || undefined,
-  size: attr(image, 's') || attr(image, 'size') || attr(image, 'data-size') || undefined,
-  filters: attr(image, 'f') || attr(image, 'filters') || attr(image, 'data-filters') || undefined,
-  ratio: attr(image, 'r') || attr(image, 'ratio') || attr(image, 'data-ratio') || undefined,
+  sizes: getSize(attr(image, 'ci-sizes') || attr(image, 'data-ci-size') || {}) || undefined,
+  params: getParams(attr(image, 'ci-params') || attr(image, 'data-ci-params') || {}),
+  ratio: attr(image, 'ci-ratio') || attr(image, 'data-ci-ratio') || undefined,
 });
+
+const getParams = (params) => {
+  let resultParams = undefined;
+
+  try {
+    let temp = params.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
+      return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
+    });
+
+    resultParams = JSON.parse(temp);
+  }
+  catch (e) {}
+
+  if (!resultParams) {
+    try {
+      resultParams = JSON.parse('{"' + decodeURI(params.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
+    }
+    catch (e) {}
+  }
+
+  return resultParams;
+}
+
+const getSize = (sizes) => {
+  let resultSizes = null;
+
+  try {
+    // add quotes around params
+    let temp = sizes.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
+      return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
+    });
+    // change single quotes to double quotes
+    temp = temp.replace(/'/g, '"').replace(/-"width":/g, '-width:');
+    resultSizes = JSON.parse(temp);
+  }
+  catch (e) {}
+
+  if (resultSizes) {
+    Object.keys(resultSizes).forEach(key => {
+      if (typeof resultSizes[key] === 'string') {
+        try {
+          resultSizes[key] = JSON.parse('{"' + decodeURI(resultSizes[key].replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
+        }
+        catch (e) {}
+      }
+    });
+  }
+
+  return resultSizes;
+}
 
 const getImageProps = (image) => ({
   ...getCommonImageProps(image),
-  src: attr(image, 'ci-src') || attr(image, 'data-src') || undefined,
+  src: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined,
 });
 
 const getBackgroundImageProps = (image) => ({
   ...getCommonImageProps(image),
-  src: attr(image, 'ci-bg') || attr(image, 'ci-background') || attr(image, 'data-background') || undefined,
+  src: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined,
 });
 
 const attr = (element, attribute) => element.getAttribute(attribute);
 
 export const isResponsiveAndLoaded = image => (
-  !(attr(image, 's') || attr(image, 'size') || attr(image, 'data-size')) && image.className.includes('ci-image-loaded')
+  !(attr(image, 'ci-sizes') || attr(image, 'data-ci-sizes')) && image.className.includes('ci-image-loaded')
 );
 
 const insertSource = (element, source) => {
@@ -418,15 +418,14 @@ const getWrapper = (image) => {
 };
 
 export {
-  checkOnMedia,
   checkIfRelativeUrlPath,
   getImgSrc,
-  getSizeAccordingToPixelRatio,
   generateUrl,
   getParentWidth,
   getContainerWidth,
   generateSources,
-  getRatioBySize,
+  getRatioBySizeSimple,
+  getRatioBySizeAdaptive,
   getBreakPoint,
   filterImages,
   getImageProps,
