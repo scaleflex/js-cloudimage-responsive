@@ -15,6 +15,8 @@
    JS Cloudimage Responsive | Cloudimage v7
 </h1>
 
+[Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
+
 <p align="center">
 	<strong>
 		<a href="#table_of_contents">Docs</a>
