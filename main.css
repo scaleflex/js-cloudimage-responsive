@@ -6,7 +6,6 @@ div.ci-image-wrapper {
 }
 
 img.ci-image {
-  opacity: 1;
   display: block;
   width: 100%;
   padding: 0 !important;
