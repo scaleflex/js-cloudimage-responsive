@@ -105,7 +105,7 @@ export default class CIResponsive {
     const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(parentContainerWidth));
     const container = image.parentNode;
     const isPreviewImg = container.className.indexOf('ci-with-preview-image') > -1;
-    const config = { ...this.config, queryString: '' };
+    const config = { ...this.config };
     const { previewQualityFactor } = config;
     const lowQualitySize = getLowQualitySize(params, previewQualityFactor);
     const url = generateUrl(
@@ -202,7 +202,7 @@ export default class CIResponsive {
         setAnimation(previewImg, parentContainerWidth);
       }
 
-      const config = { ...this.config, queryString: '' };
+      const config = { ...this.config };
       const { previewQualityFactor } = config;
 
       // todo check if it's correct
@@ -262,7 +262,7 @@ console.log(this.innerWidth < window.innerWidth, this.innerWidth, window.innerWi
 
     let parentContainerWidth = getParentWidth(image, this.config);
     let {
-      params = this.config.params,
+      params = {},
       sizes = this.config.sizes,
       ratio = this.config.ratio,
       src
@@ -342,10 +342,10 @@ console.log(this.innerWidth < window.innerWidth, this.innerWidth, window.innerWi
   }
 
   processBackgroundImageResponsive = (props) => {
-    const { ratio, params, image, isUpdate, isPreview, imgSrc, containerWidth, isLazy } = props;
+    const { params, image, isUpdate, isPreview, imgSrc, containerWidth, isLazy } = props;
 
     if (isPreview) {
-      const config = { ...this.config, queryString: '' };
+      const config = { ...this.config };
 
       const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(containerWidth));
       const { previewQualityFactor } = config;
@@ -408,7 +408,7 @@ console.log(this.innerWidth < window.innerWidth, this.innerWidth, window.innerWi
         this.setBackgroundSrc(image, imageToLoad);
       }
     } else {
-      const config = { ...this.config, queryString: '' };
+      const config = { ...this.config };
       const previewSources = generateSources(imgSrc, params, adaptiveSizes, config, containerWidth, true);
       const imagePreviewToLoad = previewSources
         .find(breakPoint => breakPoint.mediaQuery === currentBreakpoint.media).srcSet;

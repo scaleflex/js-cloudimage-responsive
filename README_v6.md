@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v3.0.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v2.3.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -12,7 +12,7 @@
 </p>
 
 <h1 align="center">
-   JS Cloudimage Responsive | Cloudimage v7
+   JS Cloudimage Responsive | Cloudimage v6
 </h1>
 
 <p align="center">
@@ -91,13 +91,13 @@ CDN traffic per month for free.
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3.0.0/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2.3.0/js-cloudimage-responsive.min.js"></script>
 ```
 
 You may also use major version number instead of fixed version to have the latest version available.
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -138,19 +138,19 @@ const ciResponsive = new window.CIResponsive({
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
 ```html
-<img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/>
+<img ci-src="magnus-lindvall.jpg" ratio="1.5"/>
 ```
 
-NOTE: "ci-ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
+NOTE: "ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 <a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ### background image
 
-Use the `ci-bg-url` instead of CSS background-image property `background-image: url(...)`:
+Use the `ci-bg` instead of CSS background-image property `background-image: url(...)`:
 
 ```html
-<div ci-bg-url="magnus-lindvall.jpg"></div>
+<div ci-bg="magnus-lindvall.jpg"></div>
 ```
 
 <a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
@@ -190,34 +190,14 @@ Only images close to the client's viewport will be loaded, hence accelerating th
 
 Applies a nice interlacing effect for preview transition
 
-### params
+### filters
 
-###### Type: **String** | Default: **'org_if_sml=1'** | _optional_
+###### Type: **String** | Default: **'foil1'** | _optional_
 
-Applies default Cloudimage operations/ filters to your image, e.g. brightness, contrast, rotation...
-Multiple params can be applied, separated by "```&```" e.g. wat_scale=35**&**wat_gravity=northeast**&**wat_pad=10**&**grey=1
+Applies default Cloudimage filters to your image, e.g. fcontrast, fpixelate, fgaussian, backtransparent,
+rotation...  Multiple filters can be applied, separated by "```.```" (dot).
 
-```javascript
-{
- ...,
- params: 'org_if_sml=1'
-}
-```
-
-#### alternative syntax: type: **Object**
-
-```javascript
-{
- ...,
- params: {
-    org_if_sml: 1,
-    grey: 1,
-    ...
- }
-}
-```
-
-[Full cloudimage v7 documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation-v7/en/introduction)
+[Full documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
 
 
 ### placeholderBackground
@@ -277,64 +257,132 @@ relative to baseUrl in your config.
 
 The plugin uses a special algorithm to detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
-Images where `ci-src` is not used will be delivered in a standard, non-responsive way.
+Images where `ci-src` is not used will be delivered in a standard, non-responsive way. 
 
-### ci-params
+### operation (or o) 
 
-###### Type: **String** | Default: **undefined** | _optional_
+###### Type: **String** | Default: **width** | _optional_
 
-You can apply any Cloudimage operations/ filters to your image, e.g. brightness, contrast, rotation...
-Multiple params can be applied, separated by "```&```" e.g. wat_scale=35**&**wat_gravity=northeast**&**wat_pad=10**&**grey=1
+Operation allows to customize the behaviour of the plugin for specific images:
 
-```javascript
-ci-params="gray=1&bright=10"
-```
+**width** - to resize with a specific width. This is useful when you want to have a fixed width, regardless of screen size.
 
-#### alternative syntax: type: **Object**
+**height** - to resize with a specific height. This is useful when you want to have a fixed height, regardless of screen size.
 
-```javascript
-ci-params="{
-    bright: 10,
-    grey: 1,
-    ...
-}"
-```
+**crop** - to crop the image around the center
 
-[Full cloudimage v7 documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation-v7/en/introduction)
+**crop_px** - to crop an image with a non-centered focal point [doc](https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/crop/positionable-crop)
 
-### ci-sizes
+[see example in Code Sandbox](https://codesandbox.io/s/l530w827lq)
 
-###### Type: **Object** | Default: **undefined**
+**fit** - to resize the image in a box and keeping the proportions of the source image
 
-**{preset breakpoint (xs,sm, md,lg,xl) or media query + ' ' + image params}**:
+**cover** - to resize the image in a box without keeping the proportions of the source image
+
+**NOTES:** 
+
+When you use an operation, you must specify the size for each screen size, see below
+
+Full documentation of all operations available [here](https://docs.cloudimage.io/go/cloudimage-documentation/en/operations/)
+
+### size (or s) 
+
+###### Type: **String** | Default: **undefined** | _optional_ but _required_ when using operation
+
+Size of an image which is used as a base for creating retina ready and responsive image element.
+
+Examples (PR - stands for your device Pixel Ratio):
+
+**[width]**: 
 
 ```jsx
 <img
+  operation="width"
   ci-src="dino-reichmuth-1.jpg"
-  ci-sizes="{
-      sm: { w: 400, h: 200 },
-      '(min-width: 620px)': { w: 200, h: 60 },
-      md: { w: 250, h: 350 },
-      lg: { w: 350, h: 300 },
-      xl: { w: 400, h: 250 }
- }"/>
+  size="250"/>
+```
+=> width: 250 * PR (px); height: auto;
+
+**[width x height]**: 
+
+```jsx
+<img
+  operation="width"
+  ci-src="dino-reichmuth-1.jpg"
+  size="125x200"/>
+```
+
+=> width: 125 * PR (px); height: 200 * PR (px);
+
+**[x1, y1, x2, y2, -final_size]**:
+
+_final_size_ can be [width], [width x height], [x height]
+
+```jsx
+<img
+  operation="crop_px"
+  ci-src="dino-reichmuth-1.jpg"
+  size="0,0,500,500-300x300"/>
+```
+
+=> will crop the top-left 500 x 500px square and resize to 300 x 300px;
+
+[see example in Code Sandbox](https://codesandbox.io/s/l530w827lq)
+
+**[preset breakpoint (xs,sm, md,lg,xl) or media query + ' ' + image size]**:
+
+```jsx
+<img
+  operation="crop"
+  ci-src="dino-reichmuth-1.jpg"
+  size="
+    sm 800x400,
+    (min-width: 620px) 200x20,
+    md 1000x1350,
+    lg 1400x1200,
+    xl 1600x1000
+"/>
 ```
 
 You can drop some breakpoints, for example:
 
 ```jsx
 <img
+  operation="crop"
   ci-src="dino-reichmuth-1.jpg"
-  ci-sizes="{
-      sm: { w: 400, h: 200 },
-      '(min-width: 620px)': { w: 200, h: 60 }
- }"/>
+  size="md 1000x1350, lg 1400x1200"/>
 ```
 
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
-### ci-ratio (or data-ci-ratio)
+For example:
+
+```jsx
+<img ci-src="dino-reichmuth-1.jpg"/>
+```
+
+### filters (or f)
+
+###### Type: **String** | Default: **none** | _optional_
+
+Filters allow you to modify the image's apperance and can be added on top of the resizing features above.
+
+**fgrey** - apply a greyscale filter on the image
+
+**fgaussian[0..10]** - apply a gaussian blur filter on the image
+
+**fcontrast[-100..100]** - apply a contrast filter on the image
+
+**fbright[0..255]** - apply a brightness filter on the image
+
+**fpixelate[0..100]** - apply a pixelate filter on the image
+
+**fradius[0..500]** - create a radius on the corners
+
+Full documentation of all filters available [here](https://docs.cloudimage.io/go/cloudimage-documentation/en/filters/)
+
+### ratio (or r)
 
 ###### Type: **Number** | _optional_
 
@@ -358,7 +406,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/2/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 

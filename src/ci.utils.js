@@ -27,20 +27,20 @@ export const updateSizeWithPixelRatio = (size) => {
 };
 
 const generateUrl = (imgSrc, params = {}, config, parentContainerWidth) => {
-  const { token, domain, queryString } = config;
+  const { token, domain } = config;
+  const configParams = getParams(config.params);
   const cloudUrl = `https://${token}.${domain}/v7/`;
 
   return [
     cloudUrl,
     imgSrc,
     imgSrc.includes('?') ? '&' : '?',
-    getQueryString(params, parentContainerWidth),
-    queryString ? `&${queryString}` : ''// todo
+    getQueryString({ ...configParams, ...params }, configParams, parentContainerWidth)
   ].join('');
 };
 
 
-const getQueryString = (params = {}, parentContainerWidth) => {
+const getQueryString = (params = {}, configParams, parentContainerWidth) => {
   const { w, h, width, height, ...restParams } = params;
   const isCustom = w || width || h || height;
   const customWidth = w || width ? updateSizeWithPixelRatio(w || width) : null;
@@ -308,20 +308,17 @@ const getInitialConfig = (config) => {
   const {
     token = '',
     domain = 'cloudimg.io',
-    ultraFast = false,
     lazyLoading = false,
     imgLoadingAnimation = true,
     lazyLoadOffset = 100,
     width = '400',
     height = '300',
-    operation = 'width',
-    filters = 'foil1',
     placeholderBackground = '#f4f4f4',
     baseUrl, // to support old name
     baseURL = '/',
     ratio = 1.5,
     presets,
-    queryString = '',
+    params = 'org_if_sml=1',
     init = true,
     exactSize = false
   } = config;
@@ -329,14 +326,11 @@ const getInitialConfig = (config) => {
   return {
     token,
     domain,
-    ultraFast,
     lazyLoading,
     imgLoadingAnimation,
     lazyLoadOffset,
     width,
     height,
-    operation,
-    filters,
     placeholderBackground,
     baseUrl: baseUrl || baseURL,
     ratio,
@@ -349,7 +343,7 @@ const getInitialConfig = (config) => {
         lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
-    queryString,
+    params,
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10
