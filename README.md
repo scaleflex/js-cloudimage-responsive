@@ -195,7 +195,7 @@ Applies a nice interlacing effect for preview transition
 ###### Type: **String** | Default: **'org_if_sml=1'** | _optional_
 
 Applies default Cloudimage operations/ filters to your image, e.g. brightness, contrast, rotation...
-Multiple params can be applied, separated by "```&```" e.g. wat_scale=35**&**wat_gravity=northeast**&**wat_pad=10**&**grey=1
+Multiple params can be applied, separated by "```&```" e.g. wat_scale=35&wat_gravity=northeast&wat_pad=10&grey=1
 
 ```javascript
 {
