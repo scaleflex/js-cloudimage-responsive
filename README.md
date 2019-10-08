@@ -413,7 +413,7 @@ const ciResponsive = new window.CIResponsive({
 
 window.lazySizes.init();
 
-ciResponsive.process(); -> call when you need to process dynamically loaded images
+ciResponsive.process(); // -> call when you need to process dynamically loaded images
 </script>
 ```
 
