@@ -255,7 +255,7 @@ export default class CIResponsive {
   processImage(image, isUpdate) {
     const isLazy = this.config.lazyLoading;
     const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
-console.log(this.innerWidth < window.innerWidth, this.innerWidth, window.innerWidth)
+
     if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) {
       return;
     }
