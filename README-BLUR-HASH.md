@@ -158,7 +158,7 @@ NOTE:
 
 "ci-blur-hash" is A very compact representation of a placeholder for an image. <a href="https://github.com/woltapp/blurhash">read more</a>
 
-<a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-lopvu"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ### background image
 
