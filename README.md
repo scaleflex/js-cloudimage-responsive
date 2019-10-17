@@ -4,9 +4,9 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.it/en/home)
 
-<h4>
-  <a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-BLUR-HASH.md">>> check out new version of the plugin using blur-hash representation of an image for placeholder</a>
-</h4>
+<h5>
+  >>> <a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-BLUR-HASH.md">check out new version of the plugin using blur-hash representation of an image for placeholder</a>
+</h5>
 
 <p align="center">
 	<img
