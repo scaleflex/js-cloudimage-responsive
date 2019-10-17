@@ -15,9 +15,9 @@
    JS Cloudimage Responsive | Cloudimage v7
 </h1>
 
-<h2 align="center">
-   low quality image placeholder
-</h2>
+<h3 align="center">
+   (low quality image placeholder)
+</h3>
 
 [Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
 
