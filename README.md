@@ -12,8 +12,12 @@
 </p>
 
 <h1 align="center">
-   JS Cloudimage Responsive | low quality image placeholder | Cloudimage v7
+   JS Cloudimage Responsive | Cloudimage v7
 </h1>
+
+<h2 align="center">
+   low quality image placeholder
+</h2>
 
 [Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
 
