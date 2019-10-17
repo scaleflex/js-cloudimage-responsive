@@ -4,6 +4,10 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.it/en/home)
 
+<h4>
+  <a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_blur_hash.md">>> check out new version of the plugin using blur-hash representation of an image for placeholder</a>
+</h4>
+
 <p align="center">
 	<img
 		height="175"
@@ -20,10 +24,6 @@
 </h3>
 
 [Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
-
-<h2>
-  <a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_blur_hash.md">blur-hash placeholder version of the plugin</a>
-</h2>
 
 <p align="center">
 	<strong>
