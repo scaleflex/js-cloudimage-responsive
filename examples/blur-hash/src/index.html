@@ -101,8 +101,17 @@
 
   <section>
     <div class="container-width-box">container width: <span>---</span> px</div>
-    <img ci-src="luca-bravo-121932.jpg" ci-ratio="2.35"/>
-    <!--<div ci-bg="luca-bravo-121932.jpg" ratio="2.35" style="min-height: 200px;background: #e7e7e7 50% 50% / cover no-repeat"></div>-->
+    <img
+       ci-src="luca-bravo-121932.jpg"
+       ci-ratio="2.35"
+       ci-blur-hash="TLDl~CQ,Mx_4WTnOxvM|xuxGt7oz"
+    />
+<!--    <div-->
+<!--       ci-bg-url="luca-bravo-121932.jpg"-->
+<!--       ci-ratio="2.35"-->
+<!--       ci-blur-hash="TLDl~CQ,Mx_4WTnOxvM|xuxGt7oz"-->
+<!--       style="min-height: 200px;background: #e7e7e7 50% 50% / cover no-repeat"-->
+<!--    ></div>-->
   </section>
 
   <div style="background: #fff">
@@ -115,7 +124,7 @@
         </li>
         <li>Strip all unnecessary metadata and <strong>optimize JPEG, PNG and GIF compression</strong></li>
         <li>Efficiently <strong>lazy load images</strong> to speed initial page load and save bandwidth</li>
-        <li>Use the low quality image with "blur-up" technique to <strong>show a preview</strong> of the image
+        <li>Use the <strong>BlurHash</strong> representation of a placeholder for an image
           <strong>while it loads</strong></li>
         <li><strong>Hold the image position</strong> so your page doesn't jump while images load</li>
       </ul>
@@ -265,36 +274,60 @@
       <div class="row images-in-columns">
         <div class="col-12">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="jordan-hubbard.jpg" ci-ratio="1.5"/>
+          <img
+             ci-src="jordan-hubbard.jpg"
+             ci-ratio="1.5"
+             ci-blur-hash="LNAyTi9ZVsQ,.TM{WAkW4T%2WBt7"
+          />
         </div>
 
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="alain.jpg" ci-ratio="1.5"/>
+          <img
+             ci-src="alain.jpg"
+             ci-ratio="1.5"
+             ci-blur-hash="LBECgv~n00Mw4.Wnt9t6W9Roj_IW"
+          />
           original: <i>5.8mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/alain.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="ameen-fahmy.jpg" ci-ratio="1.5"/>
+          <img
+             ci-src="ameen-fahmy.jpg"
+             ci-ratio="1.5"
+             ci-blur-hash="L34VB$Rj8wofayfPj@azDNj[.9WB"
+          />
           original: <i>0.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ameen-fahmy.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="tim-patch.jpg" ci-ratio="1.5"/>
+          <img
+             ci-src="tim-patch.jpg"
+             ci-ratio="1.5"
+             ci-blur-hash="LBGbn|0K0huP?_yE.9RP8^-VI9Io"
+          />
           original: <i>7.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-9.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="veeterzy.jpg" ci-ratio="1.5"/>
+          <img
+             ci-src="veeterzy.jpg"
+             ci-ratio="1.5"
+             ci-blur-hash="L197az_0009J^j%KI.D,03R+^O9I"
+          />
           original: <i>8.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ishan-seefromthesky.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="dino-reichmuth.jpg" ci-ratio="1.5"/>
+          <img
+             ci-src="dino-reichmuth.jpg"
+             ci-ratio="1.5"
+             ci-blur-hash="LNDvfu~qkrof?w%g%Mt6019a%2oz"
+          />
           original: <i>11.9mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth.jpg" target="_blank"> link</a><br/>
         </div>
@@ -303,54 +336,56 @@
           <img
              ci-src="inma-lesielle.jpg"
              ratio="1.5"
+             ci-blur-hash="LjI}R_IUR*fk~qIVWCoe?bn~s.fk"
           />
           original: <i>3.0mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/inma-lesielle.jpg" target="_blank"> link</a><br/>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-6 col-lg-7">
-          <!--<div class="container-width-box">container width: <span>-&#45;&#45;</span> px</div>-->
-          <img
-             ci-src="dino-reichmuth-1.jpg"
-             ci-sizes="{
-              sm: { w: 400, h: 200 },
-              '(min-width: 620px)': { w: 200, h: 60 },
-              md: { w: 250, h: 350 },
-              lg: { w: 350, h: 300 },
-              xl: { w: 400, h: 250 }
-             }"
-          />
-          <!--<div-->
-             <!--style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"-->
-             <!--ci-bg="dino-reichmuth-1.jpg"-->
-             <!--operation="crop"-->
-             <!--size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"-->
-          <!--&gt;</div>-->
-          <small>
-            original: <i>9.2mb</i> <a
-             href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-1.jpg" target="_blank"> link</a><br/>
-          </small>
-        </div>
-        <div class="col-md-6 col-lg-5 desc-wrapper-with-media-query">
-          <h4>You can control your image size/ratio/crop with media query breakpoints</h4>
-          <p>Resize your browser window to see how it works</p>
-          <pre><code>
-&lt;img
-  operation="crop"
-  ci-src="dino-reichmuth-1.jpg"
-  ci-sizes="{
-    sm: { w: 400, h: 200 },
-    '(min-width: 620px)': { w: 200, h: 60 },
-    md: { w: 250, h: 350 },
-    lg: { w: 350, h: 300 },
-    xl: { w: 400, h: 250 }
-   }"
-"/&gt;
-      </code></pre>
-        </div>
-      </div>
+<!--      <div class="row">-->
+<!--        <div class="col-md-6 col-lg-7">-->
+<!--          &lt;!&ndash;<div class="container-width-box">container width: <span>-&#45;&#45;</span> px</div>&ndash;&gt;-->
+<!--          <img-->
+<!--             ci-src="dino-reichmuth-1.jpg"-->
+<!--             ci-sizes="{-->
+<!--              sm: { w: 400, h: 200 },-->
+<!--              '(min-width: 620px)': { w: 200, h: 60 },-->
+<!--              md: { w: 250, h: 350 },-->
+<!--              lg: { w: 350, h: 300 },-->
+<!--              xl: { w: 400, h: 250 }-->
+<!--             }"-->
+<!--          />-->
+<!--          &lt;!&ndash;<div&ndash;&gt;-->
+<!--             &lt;!&ndash;style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"&ndash;&gt;-->
+<!--             &lt;!&ndash;ci-bg="dino-reichmuth-1.jpg"&ndash;&gt;-->
+<!--             &lt;!&ndash;operation="crop"&ndash;&gt;-->
+<!--             &lt;!&ndash;size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"&ndash;&gt;-->
+<!--          &lt;!&ndash;&gt;</div>&ndash;&gt;-->
+<!--          <small>-->
+<!--            original: <i>9.2mb</i> <a-->
+<!--             href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-1.jpg" target="_blank"> link</a><br/>-->
+<!--          </small>-->
+<!--        </div>-->
+<!--        <div class="col-md-6 col-lg-5 desc-wrapper-with-media-query">-->
+<!--          <h4>You can control your image size/ratio/crop with media query breakpoints</h4>-->
+<!--          <p>Resize your browser window to see how it works</p>-->
+<!--          <pre><code>-->
+<!--&lt;img-->
+<!--  operation="crop"-->
+<!--  ci-src="dino-reichmuth-1.jpg"-->
+<!--  ci-sizes="{-->
+<!--    sm: { w: 400, h: 200 },-->
+<!--    '(min-width: 620px)': { w: 200, h: 60 },-->
+<!--    md: { w: 250, h: 350 },-->
+<!--    lg: { w: 350, h: 300 },-->
+<!--    xl: { w: 400, h: 250 }-->
+<!--   }"-->
+<!--"/&gt;-->
+<!--      </code></pre>-->
+<!--        </div>-->
+<!--      </div>-->
+
     </div>
   </section>
 
@@ -379,7 +414,7 @@
           Use the <code>ci-src</code> instead of the <code>src</code> attribute in image tag.
         </p>
         <figure class="highlight">
-          <pre><code class="javascript">&lt;img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/&gt;</code></pre>
+          <pre><code class="javascript">&lt;img ci-src="magnus-lindvall.jpg" ci-blur-hash="LNAyTi9ZVsQ,.TM{WAkW4T%2WBt7" ci-ratio="1.5"/&gt;</code></pre>
         </figure>
 
         <p>

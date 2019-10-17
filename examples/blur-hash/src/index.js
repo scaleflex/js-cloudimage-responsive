@@ -1,4 +1,4 @@
-import '../../src';
+import '../../../src/blur-hash';
 import './style.css';
 import './assets/fonts/helvetica-neue.css';
 import hljs from 'highlight.js/lib/highlight';
