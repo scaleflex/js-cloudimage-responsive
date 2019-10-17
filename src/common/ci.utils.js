@@ -300,6 +300,21 @@ export const isResponsiveAndLoaded = image => (
   !(attr(image, 'ci-sizes') || attr(image, 'data-ci-sizes')) && image.className.includes('ci-image-loaded')
 );
 
+export const isOldBrowsers = (isBlurHash) => {
+  let support = true;
+
+  if (isBlurHash) {
+    try {
+      new window.ImageData(new Uint8ClampedArray([0, 0, 0, 0]), 1, 1);
+    }
+    catch (e) {
+      support = false
+    }
+  }
+
+  return Element.prototype.hasOwnProperty('prepend') && support;
+}
+
 const insertSource = (element, source) => {
   element.parentNode.insertBefore(source, element);
 };
@@ -312,7 +327,7 @@ const addClass = (elem, className) => {
 
 const removeClass = (elem, className) => {
   if (elem.className.indexOf(className) > -1) {
-    elem.className.replace(new RegExp('/\\b' + className + '\\b/g')  , "");
+    elem.className = elem.className.replace(new RegExp('\\b' + className + '\\b', 'g')  , '');
   }
 };
 

@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
-  template: path.join(__dirname, "../examples/src/index.html"),
+  template: path.join(__dirname, "../../examples/blur-hash/src/index.html"),
   filename: "./index.html"
 });
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -12,9 +12,9 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
   chunkFilename: "[id].css"
 })
 module.exports = {
-  entry: path.join(__dirname, "../examples/src/index.js"),
+  entry: path.join(__dirname, "../../examples/blur-hash/src/index.js"),
   output: {
-    path: path.join(__dirname, "../examples/dist"),
+    path: path.join(__dirname, "../../examples/blur-hash/dist"),
     filename: "bundle[hash].js"
   },
   module: {
@@ -45,7 +45,7 @@ module.exports = {
     extensions: [".js", ".jsx"]
   },
   devServer: {
-    port: 3001
+    port: 3002
   },
   devtool: 'source-map'
 };

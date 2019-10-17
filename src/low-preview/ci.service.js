@@ -1,9 +1,9 @@
-import {
-  addClass, checkIfRelativeUrlPath, createCSSSource, filterImages, finishAnimation, generateSources, generateUrl,
+import { addClass, checkIfRelativeUrlPath, createCSSSource, filterImages, finishAnimation, generateSources, generateUrl,
   getAdaptiveSize, getBackgroundImageProps, getBreakPoint, getContainerWidth, getImageProps, getImgSrc,
-  getInitialConfig, getLowQualitySize, getParentWidth, getRatioBySizeAdaptive, getRatioBySizeSimple, getWrapper,
-  insertSource, isResponsiveAndLoaded, setAnimation, updateSizeWithPixelRatio, wrapWithPicture, removeClass
-} from './ci.utils';
+  getLowQualitySize, getParentWidth, getRatioBySizeAdaptive, getRatioBySizeSimple, getWrapper, insertSource,
+  isResponsiveAndLoaded, setAnimation, updateSizeWithPixelRatio, wrapWithPicture, removeClass, isOldBrowsers,
+  getInitialConfigLowPreview
+} from '../common/ci.utils';
 import { debounce } from 'throttle-debounce';
 
 
@@ -11,7 +11,7 @@ export default class CIResponsive {
   bgImageIndex = 0;
 
   constructor(config) {
-    this.config = getInitialConfig(config);
+    this.config = getInitialConfigLowPreview(config);
 
     if (this.config.init) this.init();
 
@@ -143,7 +143,7 @@ export default class CIResponsive {
     } else {
       previewImg = document.createElement('img');
       previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''} ci-image-preview${isLazy ? ' lazyload' : ''}`;
-      container.classList.add("ci-with-preview-image");
+      addClass(container, 'ci-with-preview-image')
       image.parentNode.insertBefore(previewImg, image);
     }
 
@@ -193,7 +193,7 @@ export default class CIResponsive {
 
       previewImg = document.createElement('img');
       previewImg.className = `${isRatio ? 'ci-image-ratio ' : ''}ci-image-preview${isLazy ? ' lazyload' : ''}`;
-      container.classList.add("ci-with-preview-image");
+      addClass(container, 'ci-with-preview-image');
       container.insertBefore(previewImg, pictureElem);
 
       wrapWithPicture(previewImg);
@@ -247,7 +247,7 @@ export default class CIResponsive {
     } else {
       const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(parentContainerWidth));
 
-      image.onload = this.onImageLoad({ wrapper, image });
+      image.onload = () => { this.onImageLoad({ wrapper, image }); };
       this.setSrc(image, cloudimageUrl);
     }
   }
@@ -273,6 +273,12 @@ export default class CIResponsive {
     const isPreview = (parentContainerWidth > 400) && this.config.lazyLoading;
 
     if (!src) return;
+
+    if (!isOldBrowsers()) {
+      image.src = imgSrc;
+
+      return;
+    }
 
     const isAdaptive = !!sizes;
 
@@ -350,7 +356,12 @@ export default class CIResponsive {
       const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(containerWidth));
       const { previewQualityFactor } = config;
       const lowQualitySize = getLowQualitySize(params, previewQualityFactor);
-      const lowQualityUrl = generateUrl(imgSrc, { ...params, ...lowQualitySize }, config, updateSizeWithPixelRatio(containerWidth));
+      const lowQualityUrl = generateUrl(
+        imgSrc,
+        { ...params, ...lowQualitySize },
+        config,
+        updateSizeWithPixelRatio(containerWidth / previewQualityFactor)
+      );
 
       image.className = `${image.className}${isLazy ? ' lazyload' : ''}`;
 
@@ -445,7 +456,7 @@ export default class CIResponsive {
 
     let containerWidth = getContainerWidth(image, this.config);
     let {
-      params = this.config.params,
+      params = {},
       sizes = this.config.sizes,
       ratio = this.config.ratio,
       src
@@ -456,6 +467,12 @@ export default class CIResponsive {
     const isPreview = (containerWidth > 400) && this.config.lazyLoading;
 
     if (!src) return;
+
+    if (!isOldBrowsers()) {
+      image.style.backgroundImage = 'url(' + imgSrc + ')';
+
+      return;
+    }
 
     const isAdaptive = !!sizes;
 

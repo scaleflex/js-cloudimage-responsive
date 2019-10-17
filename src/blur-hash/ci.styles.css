@@ -1,0 +1,6 @@
+div.ci-image-wrapper {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
