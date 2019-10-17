@@ -57,21 +57,37 @@ const getQueryString = (params = {}, configParams, parentContainerWidth) => {
   ].join('');
 };
 
+//const getParentWidth = (img, config) => {
+//  if (!(img && img.parentElement && img.parentElement.getBoundingClientRect) && !(img && img.width))
+//    return config.width;
+//
+//  const parentContainerWidth = getParentContainerWithWidth(img);
+//  const currentWidth = parseInt(parentContainerWidth, 10);
+//  const computedWidth = getComputedWidthOfImage(img);
+//
+//  console.log('computedWidth ', computedWidth)
+//
+//  if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
+//    console.log('getSizeLimit ', getSizeLimit(computedWidth, config.exactSize))
+//    return getSizeLimit(computedWidth, config.exactSize);
+//  } else {
+//    if (!currentWidth) return img.width || config.width;
+//
+//    console.log('getSizeLimit ', getSizeLimit(currentWidth, config.exactSize))
+//    return getSizeLimit(currentWidth, config.exactSize);
+//  }
+//};
+
 const getParentWidth = (img, config) => {
   if (!(img && img.parentElement && img.parentElement.getBoundingClientRect) && !(img && img.width))
     return config.width;
 
   const parentContainerWidth = getParentContainerWithWidth(img);
   const currentWidth = parseInt(parentContainerWidth, 10);
-  const computedWidth = getComputedWidthOfImage(img);
 
-  if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
-    return getSizeLimit(computedWidth, config.exactSize);
-  } else {
-    if (!currentWidth) return img.width || config.width;
+  if (!currentWidth) return img.width || config.width;
 
-    return getSizeLimit(currentWidth, config.exactSize);
-  }
+  return getSizeLimit(currentWidth, config.exactSize);
 };
 
 const getComputedWidthOfImage = (img) => {
@@ -89,15 +105,10 @@ const getContainerWidth = (elem, config) => {
 
   const elementWidth = getContainerWithWidth(elem);
   const currentWidth = parseInt(elementWidth, 10);
-  const computedWidth = parseInt(window.getComputedStyle(elem).width);
 
-  if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
-    return getSizeLimit(computedWidth, config.exactSize);
-  } else {
-    if (!currentWidth) return elem.width || config.width;
+  if (!currentWidth) return elem.width || config.width;
 
-    return getSizeLimit(currentWidth, config.exactSize);
-  }
+  return getSizeLimit(currentWidth, config.exactSize);
 };
 
 const getParentContainerWithWidth = img => {
@@ -220,6 +231,7 @@ const getCommonImageProps = (image) => ({
   sizes: getSize(attr(image, 'ci-sizes') || attr(image, 'data-ci-size') || {}) || undefined,
   params: getParams(attr(image, 'ci-params') || attr(image, 'data-ci-params') || {}),
   ratio: attr(image, 'ci-ratio') || attr(image, 'data-ci-ratio') || undefined,
+  blurHash: attr(image, 'ci-blur-hash') || attr(image, 'data-ci-blur-hash') || undefined
 });
 
 const getParams = (params) => {
@@ -288,23 +300,38 @@ export const isResponsiveAndLoaded = image => (
   !(attr(image, 'ci-sizes') || attr(image, 'data-ci-sizes')) && image.className.includes('ci-image-loaded')
 );
 
+export const isOldBrowsers = (isBlurHash) => {
+  let support = true;
+
+  if (isBlurHash) {
+    try {
+      new window.ImageData(new Uint8ClampedArray([0, 0, 0, 0]), 1, 1);
+    }
+    catch (e) {
+      support = false
+    }
+  }
+
+  return Element.prototype.hasOwnProperty('prepend') && support;
+}
+
 const insertSource = (element, source) => {
   element.parentNode.insertBefore(source, element);
 };
 
 const addClass = (elem, className) => {
-  if (!elem.classList.contains(className)) {
-    elem.classList.add(className);
+  if (!elem.className.indexOf(className) > -1) {
+    elem.className += ' ' + className;
   }
 };
 
 const removeClass = (elem, className) => {
-  if (elem.classList.contains(className)) {
-    elem.classList.remove(className);
+  if (elem.className.indexOf(className) > -1) {
+    elem.className = elem.className.replace(new RegExp('\\b' + className + '\\b', 'g')  , '');
   }
 };
 
-const getInitialConfig = (config) => {
+const getInitialConfigLowPreview = (config) => {
   const {
     token = '',
     domain = 'cloudimg.io',
@@ -351,6 +378,35 @@ const getInitialConfig = (config) => {
   };
 };
 
+const getInitialConfigBlurHash = (config) => {
+  const {
+    token = '',
+    domain = 'cloudimg.io',
+    lazyLoading = false,
+    placeholderBackground = '#f4f4f4',
+    baseUrl,
+    baseURL = '/',
+    ratio = 1.5,
+    params = 'org_if_sml=1',
+    init = true,
+    exactSize = false
+  } = config;
+
+  return {
+    token,
+    domain,
+    lazyLoading,
+    placeholderBackground,
+    baseUrl: baseUrl || baseURL,
+    ratio,
+    exactSize,
+    params,
+    innerWidth: window.innerWidth,
+    init,
+    previewQualityFactor: 10
+  };
+};
+
 const createCSSSource = (mediaQuery, srcSet, bgImageIndex) => {
   if (mediaQuery) {
     return `@media all and ${mediaQuery} { [ci-bg-index="${bgImageIndex}"] { background-image: url('${srcSet}') !important; } }`
@@ -387,8 +443,10 @@ const setAnimation = (image, parentContainerWidth, isBackground) => {
   }
 };
 
-const finishAnimation = (image, isBackground) => {
-  if (!isBackground) {
+const finishAnimation = (image, isBackground, canvas) => {
+  if (canvas) {
+    canvas.style.opacity = '0';
+  } else if (!isBackground) {
     image.style.filter = 'blur(0px)';
     image.style.transform = 'translateZ(0) scale3d(1, 1, 1)';
   } else {
@@ -429,10 +487,12 @@ export {
   removeClass,
   getAdaptiveSize,
   getLowQualitySize,
-  getInitialConfig,
+  getInitialConfigLowPreview,
+  getInitialConfigBlurHash,
   createCSSSource,
   wrapWithPicture,
   setAnimation,
   finishAnimation,
-  getWrapper
+  getWrapper,
+  getParams
 }

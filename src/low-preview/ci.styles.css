@@ -33,27 +33,11 @@ img.ci-image-ratio.ci-image-preview {
   bottom: 0;
   right: 0;
   left: 0;
-  /*z-index: 1;*/
   background: inherit;
   filter: blur(0);
   transition: filter 0.3s ease-in-out;
-  /*transform: scale3d(1, 1, 1);*/
 }
 
 .ci-bg.ci-bg-animation:before {
   filter: blur(10px);
-  /*transform: scale3d(1.1, 1.1, 1);*/
 }
-
-/*img.ci-image-animation {*/
-  /*transition: all 0.3s ease-in-out;*/
-/*}*/
-
-/*img.ci-image-animation:not(.ci-image-loaded) {*/
-  /*transform: scale3d(1.1, 1.1, 1);*/
-/*}*/
-
-/*img.ci-image-animation.ci-image-loaded {*/
-  /*opacity: 1;*/
-  /*transform: translateZ(0) scale3d(1, 1, 1);*/
-/*}*/

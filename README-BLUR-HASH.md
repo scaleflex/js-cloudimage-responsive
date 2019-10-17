@@ -12,22 +12,22 @@
 </p>
 
 <h1 align="center">
-   JS Cloudimage Responsive | low quality image placeholder | Cloudimage v7
+   JS Cloudimage Responsive | blur-hash placeholder | Cloudimage v7
 </h1>
 
 [Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
 
 <h2>
-  <a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_blur_hash.md">blur-hash placeholder version of the plugin</a>
+  <a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_blur_hash.md">low quality image placeholder version of the plugin</a>
 </h2>
 
 <p align="center">
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://scaleflex.github.io/js-cloudimage-responsive/" target="_blank">Demo</a>
+		<a href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html" target="_blank">Demo</a>
 		•
-		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
+		<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-lopvu" target="_blank">Code Sandbox</a>
 		•
 		<a href="https://medium.com/@dmitry_82269/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074" target="_blank">Why?</a>
 	</strong>
@@ -78,7 +78,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the
-[Demo page](https://scaleflex.github.io/js-cloudimage-responsive/).
+[Demo page](https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html).
 Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
@@ -98,13 +98,13 @@ CDN traffic per month for free.
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3.1.0/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3.1.0/blur-hash/js-cloudimage-responsive.min.js"></script>
 ```
 
 You may also use major version number instead of fixed version to have the latest version available.
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/blur-hash/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -130,7 +130,7 @@ or in new style with npm:
 
 ```javascript
 
-import 'js-cloudimage-responsive';
+import 'js-cloudimage-responsive/blur-hash';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
@@ -145,10 +145,14 @@ const ciResponsive = new window.CIResponsive({
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
 ```html
-<img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/>
+<img ci-src="magnus-lindvall.jpg" ci-ratio="1.5" ci-blur-hash="LNAyTi9ZVsQ,.TM{WAkW4T%2WBt7"/>
 ```
 
-NOTE: "ci-ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
+NOTE:
+
+"ci-ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
+
+"ci-blur-hash" is A very compact representation of a placeholder for an image. <a href="https://github.com/woltapp/blurhash">read more</a>
 
 <a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
@@ -191,12 +195,6 @@ Your image folder on server, this alows to shorten your origin image URLs.
 
 Only images close to the client's viewport will be loaded, hence accelerating the page loading time. If set to **true**, an additional script must be included, see [Lazy loading](#lazy_loading)
 
-### imgLoadingAnimation
-
-###### Type: **Bool** | Default: **true** | _optional_
-
-Applies a nice interlacing effect for preview transition
-
 ### params
 
 ###### Type: **String** | Default: **'org_if_sml=1'** | _optional_
@@ -226,14 +224,6 @@ Multiple params can be applied, separated by "```&```" e.g. wat_scale=35&wat_gra
 
 [Full cloudimage v7 documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation-v7/en/introduction)
 
-
-### placeholderBackground
-
-###### Type: **String** | Default: **'#f4f4f4'** | _optional_
-
-Placeholder colored background while the image is loading
-
-
 ### exactSize
 
 ###### Type: **Bool** | Default: **false** | _optional_
@@ -241,33 +231,6 @@ Placeholder colored background while the image is loading
 Forces to load exact size of images.
 By default the plugin rounds container width to next possible value which can be divided by 100 without the remainder.
 It’s done for cache reasons so that not all images are cached by 1px, but only 100px, 200px, 300px …
-
-### presets
-
-###### Type: **Object**
-
-Default:
-
-```javascript
-
-<script>
-const ciResponsive = new window.CIResponsive({
-    token: 'demo',
-    baseUrl: 'https://cloudimage.public.airstore.io/demo/',
-    presets: {
-	xs: '(max-width: 575px)', // up to 575    PHONE
-	sm: '(min-width: 576px)', // 576 - 767    PHABLET
-	md: '(min-width: 768px)', // 768 - 991    TABLET
-	lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
-	xl: '(min-width: 1200px)' // from 1200    USUALSCREEN
-    }
-});
-
-ciResponsive.init();
-</script>
-```
-
-Breakpoints shortcuts to use in image size property, can be overwridden.
 
 ## <a name="image_properties"></a> Image properties
 
@@ -286,6 +249,15 @@ The plugin uses a special algorithm to detect the width of image container and s
 
 Images where `ci-src` is not used will be delivered in a standard, non-responsive way.
 
+### ci-blur-hash
+
+###### Type: **String** | Default: **undefined** | _required_
+
+BlurHash is a very compact representation of a placeholder for an image. <a href="https://github.com/woltapp/blurhash">read more</a>
+
+```javascript
+ci-blur-hash="LNAyTi9ZVsQ,.TM{WAkW4T%2WBt7"
+```
 ### ci-params
 
 ###### Type: **String** | Default: **undefined** | _optional_
@@ -308,38 +280,6 @@ ci-params="{
 ```
 
 [Full cloudimage v7 documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation-v7/en/introduction)
-
-### ci-sizes
-
-###### Type: **Object** | Default: **undefined**
-
-**{preset breakpoint (xs,sm, md,lg,xl) or media query + ' ' + image params}**:
-
-```jsx
-<img
-  ci-src="dino-reichmuth-1.jpg"
-  ci-sizes="{
-      sm: { w: 400, h: 200 },
-      '(min-width: 620px)': { w: 200, h: 60 },
-      md: { w: 250, h: 350 },
-      lg: { w: 350, h: 300 },
-      xl: { w: 400, h: 250 }
- }"/>
-```
-
-You can drop some breakpoints, for example:
-
-```jsx
-<img
-  ci-src="dino-reichmuth-1.jpg"
-  ci-sizes="{
-      sm: { w: 400, h: 200 },
-      '(min-width: 620px)': { w: 200, h: 60 }
- }"/>
-```
-
-**NOTE:** if size is not set, the plugin uses a special algorithm to
-detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
 ### ci-ratio (or data-ci-ratio)
 
@@ -365,7 +305,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/blur-hash/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
@@ -417,7 +357,7 @@ const ciResponsive = new window.CIResponsive({
 
 window.lazySizes.init();
 
-ciResponsive.process(); // -> call when you need to process dynamically loaded images
+ciResponsive.process(); -> call when you need to process dynamically loaded images
 </script>
 ```
 
