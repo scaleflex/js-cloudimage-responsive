@@ -429,6 +429,12 @@ ciResponsive.process(); // -> call when you need to process dynamically loaded i
 
 Tested in all modern browsers and IE 11,10,9.
 
+If you want to address the use case where your visitors disable JS. You have to add noscript tag.
+
+```html
+<noscript><img src="path-to-original-image"/></noscript>
+```
+
 NOTE: If you use lazy loading with IntersectionObserver, you must
 manually add the [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill)
 for cross-browser support.
