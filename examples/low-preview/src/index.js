@@ -19,7 +19,8 @@ window.ciResponsive = new window.CIResponsive({
   lazyLoading: true,
   imgLoadingAnimation: true,
   placeholderBackground: '#e1e1e1',
-  exactSize: false
+  exactSize: false,
+  ratio: 2
 });
 
 window.lazySizes.init();
