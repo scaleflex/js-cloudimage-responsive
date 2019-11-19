@@ -1,9 +1,24 @@
 import {
-  addClass, checkIfRelativeUrlPath, filterImages, finishAnimation, generateUrl, getBackgroundImageProps,
-  getContainerWidth, getImageProps, getImgSrc, getInitialConfigBlurHash, getParentWidth, getRatioBySizeAdaptive,
-  getRatioBySizeSimple, getWrapper, isResponsiveAndLoaded, updateSizeWithPixelRatio, isOldBrowsers
+  addClass,
+  checkIfRelativeUrlPath,
+  filterImages,
+  finishAnimation,
+  generateUrl,
+  getBackgroundImageProps,
+  getContainerWidth,
+  getImageInlineProps,
+  getImageProps,
+  getImgSrc,
+  getInitialConfigBlurHash,
+  getParentWidth,
+  getRatioBySizeAdaptive,
+  getRatioBySizeSimple,
+  getWrapper,
+  isOldBrowsers,
+  isResponsiveAndLoaded,
+  updateSizeWithPixelRatio
 } from '../common/ci.utils';
-import { decode }  from './blurHash';
+import { decode } from './blurHash';
 import { debounce } from 'throttle-debounce';
 
 
@@ -100,7 +115,7 @@ export default class CIResponsive {
       canvas.width = 32;
       canvas.height = 32;
       const ctx = canvas.getContext("2d");
-      const imageData = ctx.getImageData(0,0,32,32);
+      const imageData = ctx.getImageData(0, 0, 32, 32);
       imageData.data.set(pixels);
       ctx.putImageData(imageData, 0, 0);
       canvas.style.width = '100%';
@@ -120,9 +135,9 @@ export default class CIResponsive {
   }
 
   processImageResponsive = (props) => {
-    const { ratio, params, image, isUpdate, imgSrc, parentContainerWidth, blurHash } = props;
+    const { ratio, params, image, isUpdate, imgSrc, parentContainerWidth, imageWidth, imageHeight, blurHash } = props;
     const [ratioBySize, isRatio] = this.getRatio(ratio || this.config.ratio, params);
-    let wrapper = this.applyOrUpdateWrapper({ isUpdate, image, isRatio, ratioBySize, ratio });
+    let wrapper = this.applyOrUpdateWrapper({ isUpdate, image, isRatio, ratioBySize, ratio, imageWidth, imageHeight });
 
     const canvas = this.applyOrUpdateBlurHashCanvas(wrapper, blurHash);
 
@@ -138,7 +153,8 @@ export default class CIResponsive {
 
     if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) return;
 
-    let parentContainerWidth = getParentWidth(image, this.config);
+    let { imageWidth, imageHeight, imageRatio } = getImageInlineProps(image);
+    let parentContainerWidth = getParentWidth(image, this.config, imageRatio && imageWidth);
     let { params = {}, ratio, blurHash, src } = getImageProps(image);
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
@@ -154,21 +170,28 @@ export default class CIResponsive {
     this.initImageClasses(image, isLazy);
     this.initImageStyles(image);
 
-    const processProps = { ratio, params, image, isUpdate, imgSrc, parentContainerWidth, isLazy, blurHash };
+    const processProps = {
+      ratio, params, image, isUpdate, imgSrc, parentContainerWidth, imageWidth, imageHeight, isLazy, blurHash
+    };
 
     this.processImageResponsive(processProps);
   }
 
-  applyOrUpdateWrapper = ({ isUpdate, image, isRatio, ratioBySize, ratio }) => {
+  applyOrUpdateWrapper = ({ isUpdate, image, isRatio, ratioBySize, ratio, imageWidth, imageHeight }) => {
     let wrapper = null;
+    let imageRatio = imageWidth && imageHeight && (parseInt(imageWidth) / parseInt(imageHeight));
 
     if (!isUpdate) {
-      wrapper = this.wrap(image, null, isRatio, ratioBySize, ratio || this.config.ratio);
+      wrapper = this.wrap(
+        image, null, isRatio, ratioBySize, ratio || this.config.ratio, imageRatio, imageWidth, imageHeight
+      );
     } else {
       wrapper = getWrapper(image);
 
-      if (isRatio) {
+      if (isRatio && !imageRatio) {
         wrapper.style.paddingBottom = (100 / (ratioBySize || ratio || this.config.ratio)) + '%';
+      } else if (imageRatio) {
+        wrapper.style.height = imageHeight + 'px';
       }
     }
 
@@ -288,7 +311,7 @@ export default class CIResponsive {
     }
   }
 
-  wrap(image, wrapper, isRatio, ratioBySize, ratio) {
+  wrap(image, wrapper, isRatio, ratioBySize, ratio, imageRatio, imageWidth, imageHeight) {
     if ((image.parentNode.className || '').indexOf('ci-image-wrapper') > -1 ||
       (image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
       wrapper = image.parentNode;
@@ -296,9 +319,13 @@ export default class CIResponsive {
       addClass(wrapper, 'ci-image-wrapper');
       wrapper.style.background = this.config.placeholderBackground;
       wrapper.style.display = 'block';
-      wrapper.style.width = '100%';
+      wrapper.style.width = imageRatio ? imageWidth + 'px' : '100%';
       wrapper.style.overflow = 'hidden';
       wrapper.style.position = 'relative';
+
+      if (imageRatio && imageHeight) {
+        wrapper.style.height = imageHeight + 'px';
+      }
 
       return;
     }
@@ -308,11 +335,15 @@ export default class CIResponsive {
     addClass(wrapper, 'ci-image-wrapper');
     wrapper.style.background = this.config.placeholderBackground;
     wrapper.style.display = 'block';
-    wrapper.style.width = '100%';
+    wrapper.style.width = imageRatio ? imageWidth + 'px' : '100%';
     wrapper.style.overflow = 'hidden';
     wrapper.style.position = 'relative';
 
-    if (isRatio) {
+    if (imageRatio && imageHeight) {
+      wrapper.style.height = imageHeight + 'px';
+    }
+
+    if (isRatio && !imageRatio) {
       wrapper.style.paddingBottom = (100 / (ratioBySize || ratio || this.config.ratio)) + '%';
     }
 

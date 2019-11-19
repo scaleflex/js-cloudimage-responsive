@@ -78,7 +78,9 @@ const getQueryString = (params = {}, configParams, parentContainerWidth) => {
 //  }
 //};
 
-const getParentWidth = (img, config) => {
+const getParentWidth = (img, config, imageWidth) => {
+  if (imageWidth) return parseInt(imageWidth);
+
   if (!(img && img.parentElement && img.parentElement.getBoundingClientRect) && !(img && img.width))
     return config.width;
 
@@ -313,7 +315,19 @@ export const isOldBrowsers = (isBlurHash) => {
   }
 
   return Element.prototype.hasOwnProperty('prepend') && support;
-}
+};
+
+export const getImageInlineProps = (image) => {
+  let props = {
+    imageWidth: image.getAttribute('width'),
+    imageHeight: image.getAttribute('height')
+  };
+
+  return {
+    ...props,
+    imageRatio: props.imageWidth && props.imageHeight && (parseInt(props.imageWidth) / parseInt(props.imageHeight))
+  }
+};
 
 const insertSource = (element, source) => {
   element.parentNode.insertBefore(source, element);
