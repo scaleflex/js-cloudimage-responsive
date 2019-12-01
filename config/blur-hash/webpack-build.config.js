@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const pkg = require('../../package');
+const isDist = process.env.NODE_ENV === 'dist';
 
 const now = new Date();
 const banner = `
@@ -17,8 +18,8 @@ const banner = `
 module.exports = {
   entry: path.join(__dirname, "../../src/blur-hash/index.js"),
   output: {
-    path: path.join(__dirname, "../../build/blur-hash"),
-    filename: `${pkg.name}.min.js`
+    path: path.join(__dirname, `../../${isDist ? 'dist' : 'build'}/blur-hash`),
+    filename: isDist ? 'index.js' : `${pkg.name}.min.js`
   },
   module: {
     rules: [
