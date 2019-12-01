@@ -1,6 +1,6 @@
 {
   "name": "js-cloudimage-responsive",
-  "version": "3.1.1",
+  "version": "3.2.2",
   "main": "dist/low-preview/index.js",
   "description": "Cloudimage Responsive will smartly resize, compress and accelerate images across the World in your site for all devices. The plugin supports lazy loading technique with fancy animation on image load.",
   "author": "scaleflex",
@@ -39,6 +39,7 @@
     "build-lazysizes": "webpack --mode production --config config/webpack-lazysizes-build.config.js",
     "clean-dist": "rm -rf dist",
     "dist": "npm run clean-dist && babel src -d dist --copy-files",
+    "dist-minify": "export NODE_ENV=dist && npm run clean-dist && npm run build",
     "clean-demo": "rm -rf examples/blur-hash/dist && rm -rf examples/low-preview/dist",
     "build-demo-low-preview": "npm run clean-demo && webpack --mode production  --config config/low-preview/webpack-demo.config.js",
     "build-demo-blur-hash": "npm run clean-demo && webpack --mode production  --config config/blur-hash/webpack-demo.config.js",
