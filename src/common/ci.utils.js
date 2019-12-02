@@ -20,7 +20,7 @@ export const updateSizeWithPixelRatio = (size) => {
   const result = [];
 
   [].forEach.call(splittedSizes, size => {
-    size ? result.push(size * Math.round(window.devicePixelRatio || 1)) : '';
+    size ? result.push(size * (window.devicePixelRatio.toFixed(1) || 1)) : '';
   });
 
   return result.join('x');
