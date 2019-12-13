@@ -300,13 +300,14 @@ export default class CIResponsive {
       ratio,
       src
     } = getImageProps(image);
+
+    if (!src) return;
+
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const resultImageWidth = (imageRatio && imageWidth) || parentContainerWidth;
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
     // const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
     const isPreview = (resultImageWidth > 400) && this.config.lazyLoading;
-
-    if (!src) return;
 
     if (!isOldBrowsers()) {
       image.src = imgSrc;
@@ -503,12 +504,13 @@ export default class CIResponsive {
       ratio,
       src
     } = getBackgroundImageProps(image);
+
+    if (!src) return;
+
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
     // const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
     const isPreview = (containerWidth > 400) && this.config.lazyLoading;
-
-    if (!src) return;
 
     if (!isOldBrowsers()) {
       image.style.backgroundImage = 'url(' + imgSrc + ')';

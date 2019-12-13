@@ -156,10 +156,11 @@ export default class CIResponsive {
     let { imageWidth, imageHeight, imageRatio } = getImageInlineProps(image);
     let parentContainerWidth = getParentWidth(image, this.config, imageRatio && imageWidth);
     let { params = {}, ratio, blurHash, src } = getImageProps(image);
-    const isRelativeUrlPath = checkIfRelativeUrlPath(src);
-    const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
 
     if (!src) return;
+
+    const isRelativeUrlPath = checkIfRelativeUrlPath(src);
+    const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
 
     if (!isOldBrowsers(true)) {
       image.src = imgSrc;
@@ -270,10 +271,10 @@ export default class CIResponsive {
     let containerWidth = getContainerWidth(image, this.config);
     let { params = {}, ratio, blurHash, src } = getBackgroundImageProps(image);
 
+    if (!src) return;
+
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
-
-    if (!src) return;
 
     if (!isOldBrowsers(true)) {
       image.style.backgroundImage = 'url(' + imgSrc + ')';

@@ -1,4 +1,6 @@
 const checkIfRelativeUrlPath = src => {
+  if (!src) return false;
+
   if (src.indexOf('//') === 0) {
     src = window.location.protocol + src;
   }
