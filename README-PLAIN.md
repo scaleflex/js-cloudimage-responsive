@@ -6,9 +6,9 @@
 
 ## VERSIONS
 
-* __Low Quality Preview__
+* [__Low Quality Preview__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README.md)
 * [__Blur Hash__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-BLUR-HASH.md)
-* [__Plan (CSS free)__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-PLAIN.md)
+* __Plan (CSS free)__
 
 <p align="center">
 	<img
@@ -22,10 +22,8 @@
 </h1>
 
 <h3 align="center">
-   (low quality image placeholder)
+   (plain version)
 </h3>
-
-[Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
 
 <p align="center">
 	<strong>
@@ -92,6 +90,8 @@ loading time.
 
 ## <a name="requirements"/> Requirements
 
+### Base
+
 To use the Cloudimage Responsive plugin, you will need a
 Cloudimage token to deliver your images over CDN. Don't worry, it only takes seconds to get one by
 registering [here](https://www.cloudimage.io/en/register_page).
@@ -99,18 +99,22 @@ Once your token is created, you can configure it as described below.
 This token allows you to use 25GB of image cache and 25GB of worldwide
 CDN traffic per month for free.
 
+### Layout
+
+This version of plugin doesn't add any CSS or change layout thus no effect on your layout and styling.
+
 ## <a name="installation"></a>Step 1: Installation
 
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3.3.1/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3.3.1/plain/js-cloudimage-responsive.min.js"></script>
 ```
 
 You may also use major version number instead of fixed version to have the latest version available.
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/plain/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -136,7 +140,7 @@ or in new style with npm:
 
 ```javascript
 
-import 'js-cloudimage-responsive';
+import 'js-cloudimage-responsive/plain';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
@@ -151,10 +155,8 @@ const ciResponsive = new window.CIResponsive({
 Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
 ```html
-<img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/>
+<img ci-src="magnus-lindvall.jpg"/>
 ```
-
-NOTE: "ci-ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 <a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
@@ -197,12 +199,6 @@ Your image folder on server, this alows to shorten your origin image URLs.
 
 Only images close to the client's viewport will be loaded, hence accelerating the page loading time. If set to **true**, an additional script must be included, see [Lazy loading](#lazy_loading)
 
-### imgLoadingAnimation
-
-###### Type: **Bool** | Default: **true** | _optional_
-
-Applies a nice interlacing effect for preview transition
-
 ### params
 
 ###### Type: **String** | Default: **'org_if_sml=1'** | _optional_
@@ -231,14 +227,6 @@ Multiple params can be applied, separated by "```&```" e.g. wat_scale=35&wat_gra
 ```
 
 [Full cloudimage v7 documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation-v7/en/introduction)
-
-
-### placeholderBackground
-
-###### Type: **String** | Default: **'#f4f4f4'** | _optional_
-
-Placeholder colored background while the image is loading
-
 
 ### exactSize
 
@@ -347,14 +335,6 @@ You can drop some breakpoints, for example:
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
-### ci-ratio (or data-ci-ratio)
-
-###### Type: **Number** | _optional_
-
-It is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
-
-To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
-
 ## <a name="lazy_loading"></a> Lazy Loading
 
 Lazy loading is not included into js-cloudimage-responsive by default. If you [enable lazy loading](#lazy_loading_config) in the configuration, you need to add an additional library.
@@ -371,7 +351,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/plain/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
@@ -406,8 +386,6 @@ the initialization script
     ciResponsive.process(); -> call when you need to process dynamically loaded images
 </script>
  ```
-
-All contributions are super welcome!
 
 ## <a name="dynamically-loaded"></a>Process dynamically loaded images!
 

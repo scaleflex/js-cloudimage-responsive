@@ -202,7 +202,10 @@ export default class CIResponsive {
       wrapper.style.paddingBottom = '0';
       removeClass(image, 'ci-image-ratio');
       removeClass(wrapper, 'ci-image-wrapper-ratio')
-      finishAnimation(image);
+
+      if (this.config.imgLoadingAnimation) {
+        finishAnimation(image);
+      }
     }
 
     if (!isPreview) {
@@ -226,7 +229,7 @@ export default class CIResponsive {
 
       wrapWithPicture(previewImg);
 
-      if (!isUpdate) {
+      if (this.config.imgLoadingAnimation && !isUpdate) {
         setAnimation(previewImg, parentContainerWidth);
       }
 
@@ -267,7 +270,7 @@ export default class CIResponsive {
       );
       let previewImg = this.getPreviewImg({ isPreviewImg, container, isRatio, isLazy, image });
 
-      if (!isUpdate) {
+      if (this.config.imgLoadingAnimation && !isUpdate) {
         setAnimation(previewImg, updateSizeWithPixelRatio(resultImageWidth));
       }
 
@@ -307,7 +310,7 @@ export default class CIResponsive {
     const resultImageWidth = (imageRatio && imageWidth) || parentContainerWidth;
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
     // const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
-    const isPreview = (resultImageWidth > 400) && this.config.lazyLoading;
+    const isPreview = (resultImageWidth > 400);
 
     if (!isOldBrowsers()) {
       image.src = imgSrc;
@@ -408,7 +411,7 @@ export default class CIResponsive {
 
       image.className = `${image.className}${isLazy ? ' lazyload' : ''}`;
 
-      if (!isUpdate) {
+      if (this.config.imgLoadingAnimation && !isUpdate) {
         setAnimation(image, containerWidth, true);
       }
 
@@ -510,7 +513,7 @@ export default class CIResponsive {
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
     // const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
-    const isPreview = (containerWidth > 400) && this.config.lazyLoading;
+    const isPreview = (containerWidth > 400);
 
     if (!isOldBrowsers()) {
       image.style.backgroundImage = 'url(' + imgSrc + ')';
@@ -545,7 +548,7 @@ export default class CIResponsive {
     const { lazyLoading, dataSrcAttr } = this.config;
 
     image.setAttribute(
-      propertyName ? propertyName : (lazyLoading ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
+      lazyLoading ? (propertyName ? propertyName : 'data-src') : (dataSrcAttr ? dataSrcAttr : 'src'),
       url
     );
   }
