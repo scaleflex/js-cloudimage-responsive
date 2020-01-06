@@ -29,7 +29,7 @@
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://scaleflex.github.io/js-cloudimage-responsive/" target="_blank">Demo</a>
+		<a href="https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=7a3deb" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
 		•
@@ -82,7 +82,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the
-[Demo page](https://scaleflex.github.io/js-cloudimage-responsive/).
+[Demo page](https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=7a3deb).
 Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
