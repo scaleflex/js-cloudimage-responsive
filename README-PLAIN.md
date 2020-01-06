@@ -90,7 +90,7 @@ loading time.
 
 ## <a name="requirements"/> Requirements
 
-### Base
+### Cloudimage account
 
 To use the Cloudimage Responsive plugin, you will need a
 Cloudimage token to deliver your images over CDN. Don't worry, it only takes seconds to get one by
@@ -99,7 +99,7 @@ Once your token is created, you can configure it as described below.
 This token allows you to use 25GB of image cache and 25GB of worldwide
 CDN traffic per month for free.
 
-### Layout
+### Layout/CSS
 
 This version of plugin doesn't add any CSS or change layout thus no effect on your layout and styling.
 
