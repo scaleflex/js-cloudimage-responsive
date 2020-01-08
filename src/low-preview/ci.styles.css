@@ -26,6 +26,10 @@ img.ci-image-ratio.ci-image-preview {
   position: relative;
 }
 
+.ci-bg > * {
+  position: relative;
+}
+
 .ci-bg:before {
   content: "";
   position: absolute;
