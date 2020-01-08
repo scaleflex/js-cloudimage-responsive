@@ -8,7 +8,7 @@
 
 * [__Low Quality Preview__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README.md)
 * __Blur Hash__
-* [__Plan (CSS free)__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-PLAIN.md)
+* [__Plain (CSS free)__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-PLAIN.md)
 
 <p align="center">
 	<img
@@ -92,12 +92,22 @@ loading time.
 
 ## <a name="requirements"/> Requirements
 
+### Cloudimage account
+
 To use the Cloudimage Responsive plugin, you will need a
 Cloudimage token to deliver your images over CDN. Don't worry, it only takes seconds to get one by
 registering [here](https://www.cloudimage.io/en/register_page).
 Once your token is created, you can configure it as described below.
 This token allows you to use 25GB of image cache and 25GB of worldwide
 CDN traffic per month for free.
+
+### Layout/CSS
+
+In order to use smooth transition between preview image and good quality and size image, the plugin uses absolute positioning for images and wraps an image tag with div element with relative positioning. 
+
+You have to pay attention on the following things:
+
+- the plugin sets 100% width for img tag and position absolute (You should not apply other sizes or change position property. If you need to change width of image or position, you have to set it to wrapper)
 
 ## <a name="installation"></a>Step 1: Installation
 

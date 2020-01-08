@@ -8,7 +8,7 @@
 
 * [__Low Quality Preview__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README.md)
 * [__Blur Hash__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-BLUR-HASH.md)
-* __Plan (CSS free)__
+* __Plain (CSS free)__
 
 <p align="center">
 	<img
@@ -29,7 +29,7 @@
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://scaleflex.github.io/js-cloudimage-responsive/" target="_blank">Demo</a>
+		<a href="https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=7a3deb" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
 		•
@@ -82,7 +82,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the
-[Demo page](https://scaleflex.github.io/js-cloudimage-responsive/).
+[Demo page](https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=7a3deb).
 Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
@@ -90,7 +90,7 @@ loading time.
 
 ## <a name="requirements"/> Requirements
 
-### Base
+### Cloudimage account
 
 To use the Cloudimage Responsive plugin, you will need a
 Cloudimage token to deliver your images over CDN. Don't worry, it only takes seconds to get one by
@@ -99,7 +99,7 @@ Once your token is created, you can configure it as described below.
 This token allows you to use 25GB of image cache and 25GB of worldwide
 CDN traffic per month for free.
 
-### Layout
+### Layout/CSS
 
 This version of plugin doesn't add any CSS or change layout thus no effect on your layout and styling.
 
