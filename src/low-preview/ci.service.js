@@ -56,13 +56,7 @@ export default class CIResponsive {
     }
   }
 
-  onLazyBeforeUnveil(event) {
-    const bgContainer = event.target;
-    const bg = bgContainer.getAttribute('data-bg');
-    const ciOptimizedUrl = bgContainer.getAttribute('ci-optimized-url');
-    const isPreview = bgContainer.getAttribute('ci-preview') === 'true';
-    const responsiveCss = bgContainer.getAttribute('ci-responsive-css');
-
+  loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl, responsiveCss) => {
     if (bg) {
       let optimizedImage = new Image();
 
@@ -104,6 +98,16 @@ export default class CIResponsive {
 
       bgContainer.style.backgroundImage = 'url(' + bg + ')';
     }
+  }
+
+  onLazyBeforeUnveil(event) {
+    const bgContainer = event.target;
+    const bg = bgContainer.getAttribute('data-bg');
+    const ciOptimizedUrl = bgContainer.getAttribute('ci-optimized-url');
+    const isPreview = bgContainer.getAttribute('ci-preview') === 'true';
+    const responsiveCss = bgContainer.getAttribute('ci-responsive-css');
+
+    this.loadBackgroundImage(bg, isPreview, bgContainer, ciOptimizedUrl, responsiveCss);
   }
 
   process(isUpdate) {
@@ -415,8 +419,14 @@ export default class CIResponsive {
         setAnimation(image, containerWidth, true);
       }
 
-      image.setAttribute('ci-optimized-url', cloudimageUrl);
-      this.setBackgroundSrc(image, lowQualityUrl);
+      if (isLazy) {
+        image.setAttribute('ci-optimized-url', cloudimageUrl);
+        this.setBackgroundSrc(image, lowQualityUrl);
+      } else {
+        const responsiveCss = image.getAttribute('ci-responsive-css');
+
+        this.loadBackgroundImage(lowQualityUrl, isPreview, image, cloudimageUrl, responsiveCss);
+      }
     }
 
     /* Not Adaptive and No Preview */
