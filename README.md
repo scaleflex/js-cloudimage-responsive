@@ -8,7 +8,7 @@
 
 * __Low Quality Preview__
 * [__Blur Hash__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-BLUR-HASH.md)
-* [__Plan (CSS free)__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-PLAIN.md)
+* [__Plain (CSS free)__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-PLAIN.md)
 
 <p align="center">
 	<img
