@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v3.3.3-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v3.3.4-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -114,7 +114,7 @@ You have to pay attention on the following things:
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3.3.3/blur-hash/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3.3.4/blur-hash/js-cloudimage-responsive.min.js"></script>
 ```
 
 You may also use major version number instead of fixed version to have the latest version available.
@@ -304,6 +304,20 @@ ci-params="{
 It is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
+
+### ci-fill (or data-ci-fill)
+
+###### Type: **String** | Default: **100%**
+
+Image width (%) according to its container.
+
+### ci-align (or data-ci-align)
+
+###### Type: **String** | Default: **auto**
+
+**possible values**: ['auto', 'center']
+
+If ci-fill (image width (%) according to its container) was set, ci-align makes it possible to center an image.
 
 ## <a name="lazy_loading"></a> Lazy Loading
 
