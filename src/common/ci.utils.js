@@ -235,7 +235,8 @@ const getCommonImageProps = (image) => ({
   sizes: getSize(attr(image, 'ci-sizes') || attr(image, 'data-ci-size') || {}) || undefined,
   params: getParams(attr(image, 'ci-params') || attr(image, 'data-ci-params') || {}),
   ratio: attr(image, 'ci-ratio') || attr(image, 'data-ci-ratio') || undefined,
-  blurHash: attr(image, 'ci-blur-hash') || attr(image, 'data-ci-blur-hash') || undefined
+  blurHash: attr(image, 'ci-blur-hash') || attr(image, 'data-ci-blur-hash') || undefined,
+  isLazyCanceled: (attr(image, 'ci-not-lazy') !== null || attr(image, 'data-ci-not-lazy') !== null) || undefined
 });
 
 const getParams = (params) => {
@@ -292,12 +293,12 @@ const getImageProps = (image) => ({
   ...getCommonImageProps(image),
   fill: parseFloat(attr(image, 'ci-fill') || attr(image, 'data-ci-fill') || 0) || 100,
   alignment: attr(image, 'ci-align') || attr(image, 'data-ci-align') || 'auto',
-  src: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined,
+  src: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined
 });
 
 const getBackgroundImageProps = (image) => ({
   ...getCommonImageProps(image),
-  src: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined,
+  src: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined
 });
 
 const attr = (element, attribute) => element.getAttribute(attribute);

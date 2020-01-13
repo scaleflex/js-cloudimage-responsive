@@ -90,8 +90,8 @@ export default class CIResponsive {
     }
   }
 
-  processImageAdaptive = (props) => {
-    const { params, image, isUpdate, imgSrc, parentContainerWidth, sizes } = props;
+  processImageAdaptive = props => {
+    const { params, image, isUpdate, imgSrc, parentContainerWidth, sizes, isLazy } = props;
     const adaptiveSizes = getAdaptiveSize(sizes, this.config);
 
     if (isUpdate) return;
@@ -104,20 +104,20 @@ export default class CIResponsive {
 
     image.onload = () => { addClass(image, 'ci-image-loaded'); };
 
-    this.addSources(image, sources);
-    this.setSrc(image, fallbackImageUrl);
+    this.addSources(image, sources, isLazy);
+    this.setSrc(image, fallbackImageUrl, null, isLazy);
   }
 
-  processImageResponsive = (props) => {
-    const { params, image, imgSrc, resultImageWidth } = props;
+  processImageResponsive = props => {
+    const { params, image, imgSrc, resultImageWidth, isLazy } = props;
     const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(resultImageWidth));
 
     image.onload = () => { addClass(image, 'ci-image-loaded'); };
-    this.setSrc(image, cloudimageUrl);
+    this.setSrc(image, cloudimageUrl, null, isLazy);
   }
 
   processImage(image, isUpdate) {
-    const isLazy = this.config.lazyLoading;
+    let isLazy = this.config.lazyLoading;
     const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
 
     if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) {
@@ -129,8 +129,13 @@ export default class CIResponsive {
     let {
       params = {},
       sizes = this.config.sizes,
-      src
+      src,
+      isLazyCanceled
     } = getImageProps(image);
+
+    if (isLazyCanceled && isLazy) {
+      isLazy = false;
+    }
 
     if (!src) return;
 
@@ -193,7 +198,7 @@ export default class CIResponsive {
       tempImage.onload = () => { addClass(image, 'ci-image-loaded'); };
     }
 
-    this.setBackgroundSrc(image, cloudimageUrl);
+    this.setBackgroundSrc(image, cloudimageUrl, isLazy);
   }
 
   processBackgroundImageAdaptive = ({ imgSrc, sizes, params, containerWidth, isLazy, image }) => {
@@ -214,12 +219,12 @@ export default class CIResponsive {
       const responsiveCSS = this.addBackgroundSources(this.bgImageIndex, sources, true);
 
       image.setAttribute('ci-responsive-css', responsiveCSS);
-      this.setBackgroundSrc(image, imageToLoad);
+      this.setBackgroundSrc(image, imageToLoad, isLazy);
     }
   }
 
   processBackgroundImage(image, isUpdate) {
-    const isLazy = this.config.lazyLoading;
+    let isLazy = this.config.lazyLoading;
     const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
 
     if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) {
@@ -230,8 +235,13 @@ export default class CIResponsive {
     let {
       params = {},
       sizes = this.config.sizes,
-      src
+      src,
+      isLazyCanceled
     } = getBackgroundImageProps(image);
+
+    if (isLazyCanceled && isLazy) {
+      isLazy = false;
+    }
 
     if (!src) return;
 
@@ -263,39 +273,39 @@ export default class CIResponsive {
     this.bgImageIndex += 1;
   }
 
-  setSrc(image, url, propertyName) {
-    const { lazyLoading, dataSrcAttr } = this.config;
+  setSrc(image, url, propertyName, isLazy) {
+    const { dataSrcAttr } = this.config;
 
     image.setAttribute(
-      propertyName ? propertyName : (lazyLoading ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
+      propertyName ? propertyName : (isLazy ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
       url
     );
   }
 
-  setSrcset(source, url) {
-    const { lazyLoading, dataSrcsetAttr } = this.config;
+  setSrcset(source, url, isLazy) {
+    const { dataSrcsetAttr } = this.config;
 
-    source.setAttribute(lazyLoading ? 'data-srcset' : dataSrcsetAttr ? dataSrcsetAttr : 'srcset', url);
+    source.setAttribute(isLazy ? 'data-srcset' : dataSrcsetAttr ? dataSrcsetAttr : 'srcset', url);
   }
 
-  setBackgroundSrc(image, url) {
-    const { lazyLoading, dataSrcAttr } = this.config;
+  setBackgroundSrc(image, url, isLazy) {
+    const { dataSrcAttr } = this.config;
 
-    if (lazyLoading) {
+    if (isLazy) {
       image.setAttribute((dataSrcAttr ? dataSrcAttr : 'data-bg'), url);
     } else {
       image.style.backgroundImage = `url('${url}')`
     }
   }
 
-  addSources(image, previewSources) {
+  addSources(image, previewSources, isLazy) {
     [...previewSources.slice(1).reverse()].forEach(({ mediaQuery, srcSet }) => {
-      const source = this.createSource(mediaQuery, srcSet);
+      const source = this.createSource(mediaQuery, srcSet, isLazy);
 
       insertSource(image, source);
     });
 
-    insertSource(image, this.createSource(null, previewSources[0].srcSet));
+    insertSource(image, this.createSource(null, previewSources[0].srcSet, isLazy));
   }
 
   addBackgroundSources(bgImageIndex, sources, returnCSSString) {
@@ -314,23 +324,23 @@ export default class CIResponsive {
     this.styleElem.appendChild(document.createTextNode(cssStyle));
   }
 
-  createSource(mediaQuery, srcSet) {
+  createSource(mediaQuery, srcSet, isLazy) {
     const source = document.createElement('source');
 
     if (mediaQuery) {
       source.media = mediaQuery;
     }
 
-    this.setSrcset(source, srcSet)
+    this.setSrcset(source, srcSet, isLazy)
 
     return source;
   }
 
-  updateSources(image, previewSources, sources) {
+  updateSources(image, previewSources, sources, isLazy) {
     const sourcesElems = image.parentNode.querySelectorAll('source');
 
     sourcesElems.forEach((elem, index) => {
-      this.setSrcset(elem, sources[index].srcSet);
+      this.setSrcset(elem, sources[index].srcSet, isLazy);
     })
   }
 }

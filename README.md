@@ -379,6 +379,12 @@ Image width (%) according to its container.
 
 If ci-fill (image width (%) according to its container) was set, ci-align makes it possible to center an image.
 
+### ci-not-lazy (or data-ci-not-lazy)
+
+###### Type: **Bool**
+
+Switch off lazyload per image.
+
 ## <a name="lazy_loading"></a> Lazy Loading
 
 Lazy loading is not included into js-cloudimage-responsive by default. If you [enable lazy loading](#lazy_loading_config) in the configuration, you need to add an additional library.

@@ -335,6 +335,12 @@ You can drop some breakpoints, for example:
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
+### ci-not-lazy (or data-ci-not-lazy)
+
+###### Type: **Bool**
+
+Switch off lazyload per image.
+
 ## <a name="lazy_loading"></a> Lazy Loading
 
 Lazy loading is not included into js-cloudimage-responsive by default. If you [enable lazy loading](#lazy_loading_config) in the configuration, you need to add an additional library.
