@@ -24,7 +24,8 @@ import {
   removeClass,
   setAnimation,
   updateSizeWithPixelRatio,
-  wrapWithPicture
+  wrapWithPicture,
+  setWrapperAlignment
 } from '../common/ci.utils';
 import { debounce } from 'throttle-debounce';
 
@@ -144,11 +145,11 @@ export default class CIResponsive {
     return { isPreviewImg, container, cloudimageUrl, url };
   }
 
-  onImageLoad = ({ wrapper, image, ratio }) => {
+  onImageLoad = ({ wrapper, image, ratio, fill }) => {
     wrapper.style.background = 'transparent';
 
     if (!ratio) {
-      wrapper.style.paddingBottom = (100 / ((image.width / image.height) || 1.5)) + '%';
+      wrapper.style.paddingBottom = ((fill || 100) / ((image.width / image.height) || 1.5)) + '%';
     }
 
     if (this.config.imgLoadingAnimation) {
@@ -156,12 +157,12 @@ export default class CIResponsive {
     }
   };
 
-  onPreviewWithRatioImageLoad = (wrapper, previewImg, image, ratio) => {
+  onPreviewWithRatioImageLoad = (wrapper, previewImg, image, ratio, fill) => {
     wrapper.style.background = 'transparent';
     previewImg.style.display = 'none';
 
     if (!ratio) {
-      wrapper.style.paddingBottom = (100 / ((image.width / image.height) || 1.5)) + '%';
+      wrapper.style.paddingBottom = ((fill || 100) / ((image.width / image.height) || 1.5)) + '%';
     }
 
     if (this.config.imgLoadingAnimation) {
@@ -185,12 +186,14 @@ export default class CIResponsive {
   }
 
   processImageAdaptive = (props) => {
-    const { ratio, params, image, isUpdate, isPreview, imgSrc, parentContainerWidth, isLazy, sizes } = props;
+    const {
+      ratio, params, image, isUpdate, isPreview, imgSrc, parentContainerWidth, isLazy, sizes, fill, alignment
+    } = props;
     const adaptiveSizes = getAdaptiveSize(sizes, this.config);
     const [ratioBySize, isRatio] = this.getRatio(ratio, params, adaptiveSizes);
     let wrapper = null;
 
-    wrapper = this.applyOrUpdateWrapper({ isUpdate, image, isRatio, ratioBySize, ratio, isPreview });
+    wrapper = this.applyOrUpdateWrapper({ isUpdate, image, isRatio, ratioBySize, ratio, isPreview, fill, alignment });
 
     if (isUpdate) return;
 
@@ -259,11 +262,12 @@ export default class CIResponsive {
 
   processImageResponsive = (props) => {
     const {
-      ratio, params, image, isUpdate, isPreview, imgSrc, resultImageWidth, isLazy, imageWidth, imageHeight, imageRatio
+      ratio, params, image, isUpdate, isPreview, imgSrc, resultImageWidth, isLazy, imageWidth, imageHeight, imageRatio,
+      fill, alignment
     } = props;
     const [ratioBySize, isRatio] = this.getRatio(ratio, params);
     let wrapper = this.applyOrUpdateWrapper({
-      isUpdate, image, isRatio, ratioBySize, ratio, isPreview, imageWidth, imageHeight, imageRatio
+      isUpdate, image, isRatio, ratioBySize, ratio, isPreview, imageWidth, imageHeight, imageRatio, fill, alignment
     });
 
     if (isRatio) addClass(image, 'ci-image-ratio');
@@ -281,12 +285,12 @@ export default class CIResponsive {
       this.setSrc(previewImg, url, 'data-src');
       this.setSrc(image, cloudimageUrl, 'data-src');
 
-      image.onload = this.onPreviewWithRatioImageLoad.bind(this, wrapper, previewImg, image, ratio);
+      image.onload = this.onPreviewWithRatioImageLoad.bind(this, wrapper, previewImg, image, ratio, fill);
 
     } else {
       const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(resultImageWidth));
 
-      image.onload = () => { this.onImageLoad({ wrapper, image, ratio }); };
+      image.onload = () => { this.onImageLoad({ wrapper, image, ratio, fill }); };
       this.setSrc(image, cloudimageUrl);
     }
   }
@@ -305,15 +309,22 @@ export default class CIResponsive {
       params = {},
       sizes = this.config.sizes,
       ratio,
-      src
+      src,
+      fill,
+      alignment
     } = getImageProps(image);
 
     if (!src) return;
 
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
-    const resultImageWidth = (imageRatio && imageWidth) || parentContainerWidth;
+    let resultImageWidth = (imageRatio && imageWidth) || parentContainerWidth;
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
     // const isPreview = !this.config.isChrome && (parentContainerWidth > 400) && this.config.lazyLoading;
+
+    if (fill !== 100) {
+      resultImageWidth = resultImageWidth * (isUpdate ? 1 : fill / 100);
+    }
+
     const isPreview = (resultImageWidth > 400);
 
     if (!isOldBrowsers()) {
@@ -334,7 +345,7 @@ export default class CIResponsive {
 
     const processProps = {
       ratio, params, image, isUpdate, isPreview, imgSrc, parentContainerWidth, resultImageWidth, isLazy, imageWidth,
-      imageHeight, imageRatio
+      imageHeight, imageRatio, fill, alignment
     };
 
     if (!isAdaptive) {
@@ -344,18 +355,22 @@ export default class CIResponsive {
     }
   }
 
-  applyOrUpdateWrapper = ({ isUpdate, image, isRatio, ratioBySize, ratio, imageWidth, imageHeight, imageRatio }) => {
+  applyOrUpdateWrapper = props => {
+    const {
+      isUpdate, image, isRatio, ratioBySize, ratio, imageWidth, imageHeight, imageRatio, fill, alignment
+    } = props;
     let wrapper = null;
 
     if (!isUpdate) {
       wrapper = this.wrap(
-        image, null, isRatio, ratioBySize, ratio || this.config.ratio,  imageRatio, imageWidth, imageHeight
+        image, null, isRatio, ratioBySize, ratio || this.config.ratio,  imageRatio, imageWidth, imageHeight, fill,
+        alignment
       );
     } else {
       wrapper = getWrapper(image);
 
       if (isRatio && !imageRatio) {
-        wrapper.style.paddingBottom = (100 / (ratioBySize || ratio || this.config.ratio)) + '%';
+        wrapper.style.paddingBottom = ((fill || 100) / (ratioBySize || ratio || this.config.ratio)) + '%';
       } else if (imageRatio) {
         wrapper.style.width = imageWidth + 'px';
         wrapper.style.height = imageHeight + 'px';
@@ -579,13 +594,15 @@ export default class CIResponsive {
     }
   }
 
-  wrap(image, wrapper, isRatio, ratioBySize, ratio, imageRatio, imageWidth, imageHeight) {
+  wrap(image, wrapper, isRatio, ratioBySize, ratio, imageRatio, imageWidth, imageHeight, fill, alignment) {
     if ((image.parentNode.className || '').indexOf('ci-image-wrapper') > -1 ||
       (image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
       wrapper = image.parentNode;
 
       addClass(wrapper, 'ci-image-wrapper');
       wrapper.style.background = this.config.placeholderBackground;
+
+      setWrapperAlignment(wrapper, alignment);
 
       if (isRatio) {
         addClass(wrapper, 'ci-image-wrapper-ratio');
@@ -597,6 +614,10 @@ export default class CIResponsive {
         wrapper.style.height = imageHeight + 'px';
       }
 
+      if (fill !== 100 && !imageRatio) {
+        wrapper.style.width = `${fill}%`;
+      }
+
       return;
     }
 
@@ -606,13 +627,19 @@ export default class CIResponsive {
     wrapper.style.background = this.config.placeholderBackground;
     wrapper.style.width = imageRatio ? imageWidth + 'px' : '100%';
 
+    setWrapperAlignment(wrapper, alignment);
+
     if (imageRatio && imageHeight) {
       wrapper.style.height = imageHeight + 'px';
     }
 
+    if (fill !== 100 && !imageRatio) {
+      wrapper.style.width = `${fill}%`;
+    }
+
     if (isRatio && !imageRatio) {
       addClass(wrapper, 'ci-image-wrapper-ratio');
-      wrapper.style.paddingBottom = (100 / (ratioBySize || ratio || this.config.ratio)) + '%';
+      wrapper.style.paddingBottom = ((fill || 100) / (ratioBySize || ratio || this.config.ratio)) + '%';
     }
 
     if (image.nextSibling) {

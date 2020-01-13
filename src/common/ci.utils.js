@@ -290,6 +290,8 @@ const getSize = (sizes) => {
 
 const getImageProps = (image) => ({
   ...getCommonImageProps(image),
+  fill: parseFloat(attr(image, 'ci-fill') || attr(image, 'data-ci-fill') || 0) || 100,
+  alignment: attr(image, 'ci-align') || attr(image, 'data-ci-align') || 'auto',
   src: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined,
 });
 
@@ -525,6 +527,15 @@ const getWrapper = (image) => {
   }
 };
 
+const setWrapperAlignment = (wrapper, alignment) => {
+  switch (alignment) {
+    case 'auto':
+      break;
+    case 'center':
+      wrapper.style.margin = 'auto';
+  }
+}
+
 export {
   checkIfRelativeUrlPath,
   getImgSrc,
@@ -551,5 +562,6 @@ export {
   setAnimation,
   finishAnimation,
   getWrapper,
-  getParams
+  getParams,
+  setWrapperAlignment
 }
