@@ -41,7 +41,6 @@ const generateUrl = (imgSrc, params = {}, config, parentContainerWidth) => {
   ].join('');
 };
 
-
 const getQueryString = (params = {}, configParams, parentContainerWidth) => {
   const { w, h, width, height, ...restParams } = params;
   const isCustom = w || width || h || height;
@@ -59,27 +58,6 @@ const getQueryString = (params = {}, configParams, parentContainerWidth) => {
   ].join('');
 };
 
-//const getParentWidth = (img, config) => {
-//  if (!(img && img.parentElement && img.parentElement.getBoundingClientRect) && !(img && img.width))
-//    return config.width;
-//
-//  const parentContainerWidth = getParentContainerWithWidth(img);
-//  const currentWidth = parseInt(parentContainerWidth, 10);
-//  const computedWidth = getComputedWidthOfImage(img);
-//
-//  console.log('computedWidth ', computedWidth)
-//
-//  if ((computedWidth && (computedWidth < currentWidth && computedWidth > 15) || !currentWidth)) {
-//    console.log('getSizeLimit ', getSizeLimit(computedWidth, config.exactSize))
-//    return getSizeLimit(computedWidth, config.exactSize);
-//  } else {
-//    if (!currentWidth) return img.width || config.width;
-//
-//    console.log('getSizeLimit ', getSizeLimit(currentWidth, config.exactSize))
-//    return getSizeLimit(currentWidth, config.exactSize);
-//  }
-//};
-
 const getParentWidth = (img, config, imageWidth) => {
   if (imageWidth) return parseInt(imageWidth);
 
@@ -92,15 +70,6 @@ const getParentWidth = (img, config, imageWidth) => {
   if (!currentWidth) return img.width || config.width;
 
   return getSizeLimit(currentWidth, config.exactSize);
-};
-
-const getComputedWidthOfImage = (img) => {
-  const computedWidth = window.getComputedStyle(img).width;
-
-  if (computedWidth.indexOf('px') > -1 || (parseInt(computedWidth).toString() === computedWidth))
-    return parseInt(computedWidth);
-
-  return null;
 };
 
 const getContainerWidth = (elem, config) => {
