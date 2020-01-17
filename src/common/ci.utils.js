@@ -29,9 +29,9 @@ export const updateSizeWithPixelRatio = (size) => {
 };
 
 const generateUrl = (imgSrc, params = {}, config, parentContainerWidth) => {
-  const { token, domain, doNotReplaceUrl } = config;
+  const { token, domain, doNotReplaceURL } = config;
   const configParams = getParams(config.params);
-  const cloudUrl = doNotReplaceUrl ? '' : `https://${token}.${domain}/v7/`;
+  const cloudUrl = doNotReplaceURL ? '' : `https://${token}.${domain}/v7/`;
 
   return [
     cloudUrl,
@@ -380,7 +380,7 @@ const getInitialConfigLowPreview = (config) => {
     params = 'org_if_sml=1',
     init = true,
     exactSize = false,
-    doNotReplaceUrl = false
+    doNotReplaceURL = false
   } = config;
 
   return {
@@ -407,7 +407,7 @@ const getInitialConfigLowPreview = (config) => {
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,
-    doNotReplaceUrl
+    doNotReplaceURL
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -426,7 +426,7 @@ const getInitialConfigPlain = (config) => {
     params = 'org_if_sml=1',
     init = true,
     exactSize = false,
-    doNotReplaceUrl = false
+    doNotReplaceURL = false
   } = config;
 
   return {
@@ -449,7 +449,7 @@ const getInitialConfigPlain = (config) => {
     params,
     innerWidth: window.innerWidth,
     init,
-    doNotReplaceUrl
+    doNotReplaceURL
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -466,7 +466,7 @@ const getInitialConfigBlurHash = (config) => {
     params = 'org_if_sml=1',
     init = true,
     exactSize = false,
-    doNotReplaceUrl = false
+    doNotReplaceURL = false
   } = config;
 
   return {
@@ -481,7 +481,7 @@ const getInitialConfigBlurHash = (config) => {
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,
-    doNotReplaceUrl
+    doNotReplaceURL
   };
 };
 

@@ -187,6 +187,12 @@ minute and is totally free.
 
 Use your custom domain.
 
+### doNotReplaceURL
+
+###### Type: **bool** | Default: **false**
+
+If set to **true** the plugin will only add query params to the given source of image.
+
 ### baseUrl
 
 ###### Type: **String** | Default: **"/"** | _optional_
