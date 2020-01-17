@@ -131,6 +131,22 @@ const generateSources = (imgSrc, params, adaptiveSizes, config, parentContainerW
   return sources;
 };
 
+const generateUrlByAdaptiveSize = (imgSrc, params, size, config, parentContainerWidth, isPreview) => {
+  const { params: breakpointParams } = size;
+
+  let lowQualitySize = null;
+  let containerWidth = parentContainerWidth;
+
+  if (isPreview) {
+    lowQualitySize = getLowQualitySize({ ...params, ...breakpointParams }, config.previewQualityFactor);
+    containerWidth = parentContainerWidth / config.previewQualityFactor;
+  }
+
+  return generateUrl(
+    imgSrc, { ...params, ...breakpointParams, ...lowQualitySize }, config, updateSizeWithPixelRatio(containerWidth)
+  );
+}
+
 const getLowQualitySize = (params = {}, factor) => {
   let { width, height } = params;
 
@@ -147,11 +163,33 @@ const getAdaptiveSize = (sizes, config) => {
     const isCustomMedia = key.indexOf(':') > -1;
     const media = isCustomMedia ? key : config.presets[key];
 
-    resultSizes.push({ media, params: sizes[key] });
+    resultSizes.push({ media, params: normalizeSize(sizes[key]) });
   });
 
   return resultSizes;
 };
+
+const normalizeSize = (params = {}) => {
+  let { w, h } = params;
+
+  if ((w.toString()).indexOf('vw') > -1) {
+    const percent = parseFloat(w);
+
+    w = window.innerWidth * percent / 100;
+  } else {
+    w = parseFloat(w);
+  }
+
+  if ((h.toString()).indexOf('vh') > -1) {
+    const percent = parseFloat(h);
+
+    h = window.innerHeight * percent / 100;
+  } else {
+    h = parseFloat(h);
+  }
+
+  return { w, h };
+}
 
 const getRatioBySizeSimple = (params = {}) => {
   let { width, w, height, h } = params;
@@ -307,8 +345,14 @@ const insertSource = (element, source) => {
   element.parentNode.insertBefore(source, element);
 };
 
+//const addClass = (elem, className) => {
+//  if (!elem.className.indexOf(className) > -1) {
+//    elem.className += ' ' + className;
+//  }
+//};
+
 const addClass = (elem, className) => {
-  if (!elem.className.indexOf(className) > -1) {
+  if (!(elem.className.indexOf(className) > -1)) {
     elem.className += ' ' + className;
   }
 };
@@ -533,5 +577,6 @@ export {
   finishAnimation,
   getWrapper,
   getParams,
-  setWrapperAlignment
+  setWrapperAlignment,
+  generateUrlByAdaptiveSize
 }

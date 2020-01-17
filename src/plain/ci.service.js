@@ -4,6 +4,7 @@ import {
   createCSSSource,
   filterImages,
   generateSources,
+  generateUrlByAdaptiveSize,
   generateUrl,
   getAdaptiveSize,
   getBackgroundImageProps,
@@ -16,8 +17,7 @@ import {
   insertSource,
   isOldBrowsers,
   isResponsiveAndLoaded,
-  updateSizeWithPixelRatio,
-  wrapWithPicture
+  updateSizeWithPixelRatio
 } from '../common/ci.utils';
 import { debounce } from 'throttle-debounce';
 
@@ -82,9 +82,11 @@ export default class CIResponsive {
     }
 
     if (backgroundImages.length > -1) {
-      this.styleElem = document.createElement('style');
+      if (!isUpdate) {
+        this.styleElem = document.createElement('style');
 
-      document.head.appendChild(this.styleElem);
+        document.head.appendChild(this.styleElem);
+      }
 
       backgroundImages.forEach(image => { this.processBackgroundImage(image, isUpdate); });
     }
@@ -93,27 +95,35 @@ export default class CIResponsive {
   processImageAdaptive = props => {
     const { params, image, isUpdate, imgSrc, parentContainerWidth, sizes, isLazy } = props;
     const adaptiveSizes = getAdaptiveSize(sizes, this.config);
+    const size = getBreakPoint(adaptiveSizes) || adaptiveSizes[0];
+    const resultUrl = generateUrlByAdaptiveSize(imgSrc, params, size, this.config, parentContainerWidth);
+    const isLoaded = image.className.includes('ci-image-loaded');
+    const oldLink = image.src;
 
-    if (isUpdate) return;
+    if (oldLink === resultUrl) return;
 
-    const fallbackImageUrl = generateUrl(imgSrc, params, this.config, parentContainerWidth);
-
-    wrapWithPicture(image);
-
-    const sources = generateSources(imgSrc, params, adaptiveSizes, this.config, parentContainerWidth);
-
-    image.onload = () => { addClass(image, 'ci-image-loaded'); };
-
-    this.addSources(image, sources, isLazy);
-    this.setSrc(image, fallbackImageUrl, null, isLazy);
+    if (isLoaded) {
+      this.setSrc(image, resultUrl, null, false);
+    } else {
+      image.onload = () => { addClass(image, 'ci-image-loaded'); };
+      this.setSrc(image, resultUrl, null, isLazy && !isUpdate);
+    }
   }
 
   processImageResponsive = props => {
-    const { params, image, imgSrc, resultImageWidth, isLazy } = props;
+    const { params, image, imgSrc, resultImageWidth, isLazy, isUpdate } = props;
     const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(resultImageWidth));
+    const isLoaded = image.className.includes('ci-image-loaded');
+    const oldLink = image.src;
 
-    image.onload = () => { addClass(image, 'ci-image-loaded'); };
-    this.setSrc(image, cloudimageUrl, null, isLazy);
+    if (oldLink === cloudimageUrl) return;
+
+    if (isLoaded) {
+      this.setSrc(image, cloudimageUrl, null, false);
+    } else {
+      image.onload = () => { addClass(image, 'ci-image-loaded'); };
+      this.setSrc(image, cloudimageUrl, null, isLazy && !isUpdate);
+    }
   }
 
   processImage(image, isUpdate) {
@@ -150,8 +160,6 @@ export default class CIResponsive {
     }
 
     const isAdaptive = !!sizes;
-
-    if (isAdaptive && isUpdate) return;
 
     this.initImageClasses({ image, isLazy });
 
