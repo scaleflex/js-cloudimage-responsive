@@ -338,6 +338,12 @@ You can drop some breakpoints, for example:
  }"/>
 ```
 
+**new experimental syntax**
+
+md: { w: '40vw', h: 350 } or md: { w: 250, h: '20vh' }
+
+adds possibility to use fixed height or width and change dynamically other dimension
+
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
