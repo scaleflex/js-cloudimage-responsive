@@ -232,6 +232,8 @@ export default class CIResponsive {
     image.style.top = '0';
     image.style.left = '0';
     image.style.height = 'auto';
+    image.style.opacity = '0';
+    image.style.transition = 'opacity 0.3s ease-in-out';
   }
 
   getRatio = (ratio, params, adaptiveSize) => {

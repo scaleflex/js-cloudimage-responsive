@@ -523,7 +523,11 @@ const setAnimation = (image, parentContainerWidth, isBackground) => {
 
 const finishAnimation = (image, isBackground, canvas) => {
   if (canvas) {
-    canvas.style.opacity = '0';
+    if (isBackground) {
+      canvas.style.opacity = '0';
+    } else {
+      image.style.opacity = '1';
+    }
   } else if (!isBackground) {
     image.style.filter = 'blur(0px)';
     image.style.transform = 'translateZ(0) scale3d(1, 1, 1)';
