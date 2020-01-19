@@ -129,7 +129,7 @@ export default class CIResponsive {
       canvas.style.opacity = '1';
       canvas.style.transition = 'opacity 0.3s ease-in-out';
 
-      wrapper.appendChild(canvas);
+      wrapper.prepend(canvas);
     }
 
     return canvas;
