@@ -538,7 +538,7 @@ export default class CIResponsive {
       isLazyCanceled
     } = getBackgroundImageProps(image);
 
-    if (isLazyCanceled && isLazy) {
+    if ((isLazyCanceled && isLazy) || isUpdate) {
       isLazy = false;
     }
 

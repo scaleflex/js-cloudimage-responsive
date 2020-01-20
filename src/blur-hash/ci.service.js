@@ -281,7 +281,7 @@ export default class CIResponsive {
     this.setBackgroundSrc(image, cloudimageUrl, isLazy);
   }
 
-  processBackgroundImage(image) {
+  processBackgroundImage(image, isUpdate) {
     let isLazy = this.config.lazyLoading;
     const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
 
@@ -290,7 +290,7 @@ export default class CIResponsive {
     let containerWidth = getContainerWidth(image, this.config);
     let { params = {}, ratio, blurHash, src, isLazyCanceled } = getBackgroundImageProps(image);
 
-    if (isLazyCanceled && isLazy) {
+    if ((isLazyCanceled && isLazy) || isUpdate) {
       isLazy = false;
     }
 
