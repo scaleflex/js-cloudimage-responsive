@@ -526,6 +526,7 @@ const finishAnimation = (image, isBackground, canvas) => {
     if (isBackground) {
       canvas.style.opacity = '0';
     } else {
+      canvas.style.opacity = '0';
       image.style.opacity = '1';
     }
   } else if (!isBackground) {

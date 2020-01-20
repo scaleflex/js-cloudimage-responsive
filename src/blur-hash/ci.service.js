@@ -106,7 +106,7 @@ export default class CIResponsive {
     }
   };
 
-  applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
+  applyOrUpdateBlurHashCanvas = (wrapper, blurHash, isImage) => {
     let canvas = wrapper.querySelector('canvas');
 
     if (!canvas && blurHash) {
@@ -127,7 +127,12 @@ export default class CIResponsive {
       canvas.style.left = '0';
       canvas.style.right = '0';
       canvas.style.opacity = '1';
-      canvas.style.transition = 'opacity 0.3s ease-in-out';
+
+      if (isImage) {
+        canvas.style.transition = 'opacity 0s ease-in-out 0.3s';
+      } else {
+        canvas.style.transition = 'opacity 0.3s ease-in-out';
+      }
 
       wrapper.prepend(canvas);
     }
@@ -145,7 +150,7 @@ export default class CIResponsive {
       { isUpdate, image, isRatio, ratioBySize, ratio, imageWidth, imageHeight, fill, alignment }
     );
 
-    const canvas = this.applyOrUpdateBlurHashCanvas(wrapper, blurHash);
+    const canvas = this.applyOrUpdateBlurHashCanvas(wrapper, blurHash, true);
 
     const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(parentContainerWidth));
 
