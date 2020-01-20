@@ -221,16 +221,14 @@ const getSizeLimit = (currentSize, exactSize) => {
   return (Math.ceil(currentSize / 100) * 100).toString();
 };
 
-const filterImages = (images, type) => {
+const filterImages = (images) => {
   const filtered = [];
 
   for (let i = 0; i < images.length; i++) {
     const image = images[i];
-    const url = image.getAttribute(type) || '';
-    const isProcessed = image.getAttribute('data-is-ci-processed') === 'true';
+    const isProcessed = image.className.includes('ci-image-loaded');
 
-    // todo don't rely on file extension
-    if (url.slice(-4).toLowerCase() !== '.svg' && !isProcessed) {
+    if (!isProcessed) {
       filtered.push(image);
     }
   }
@@ -561,6 +559,8 @@ const setWrapperAlignment = (wrapper, alignment) => {
   }
 }
 
+const isImageSVG = url => url.slice(-4).toLowerCase() === '.svg';
+
 export {
   checkIfRelativeUrlPath,
   getImgSrc,
@@ -589,5 +589,6 @@ export {
   getWrapper,
   getParams,
   setWrapperAlignment,
-  generateUrlByAdaptiveSize
+  generateUrlByAdaptiveSize,
+  isImageSVG
 }

@@ -17,7 +17,7 @@ import {
   insertSource,
   isOldBrowsers,
   isResponsiveAndLoaded,
-  updateSizeWithPixelRatio
+  updateSizeWithPixelRatio, isImageSVG
 } from '../common/ci.utils';
 import { debounce } from 'throttle-debounce';
 
@@ -93,7 +93,7 @@ export default class CIResponsive {
   }
 
   processImageAdaptive = props => {
-    const { params, image, isUpdate, imgSrc, parentContainerWidth, sizes, isLazy } = props;
+    const { params, image, isUpdate, imgSrc, parentContainerWidth, sizes, isLazy, isSVG } = props;
     const adaptiveSizes = getAdaptiveSize(sizes, this.config);
     const size = getBreakPoint(adaptiveSizes) || adaptiveSizes[0];
     const resultUrl = generateUrlByAdaptiveSize(imgSrc, params, size, this.config, parentContainerWidth);
@@ -103,15 +103,15 @@ export default class CIResponsive {
     if (oldLink === resultUrl) return;
 
     if (isLoaded) {
-      this.setSrc(image, resultUrl, null, false);
+      this.setSrc(image, resultUrl, null, false, imgSrc, isSVG);
     } else {
       image.onload = () => { addClass(image, 'ci-image-loaded'); };
-      this.setSrc(image, resultUrl, null, isLazy && !isUpdate);
+      this.setSrc(image, resultUrl, null, isLazy && !isUpdate, imgSrc, isSVG);
     }
   }
 
   processImageResponsive = props => {
-    const { params, image, imgSrc, resultImageWidth, isLazy, isUpdate } = props;
+    const { params, image, imgSrc, resultImageWidth, isLazy, isUpdate, isSVG } = props;
     const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(resultImageWidth));
     const isLoaded = image.className.includes('ci-image-loaded');
     const oldLink = image.src;
@@ -119,10 +119,10 @@ export default class CIResponsive {
     if (oldLink === cloudimageUrl) return;
 
     if (isLoaded) {
-      this.setSrc(image, cloudimageUrl, null, false);
+      this.setSrc(image, cloudimageUrl, null, false, imgSrc, isSVG);
     } else {
       image.onload = () => { addClass(image, 'ci-image-loaded'); };
-      this.setSrc(image, cloudimageUrl, null, isLazy && !isUpdate);
+      this.setSrc(image, cloudimageUrl, null, isLazy && !isUpdate, imgSrc, isSVG);
     }
   }
 
@@ -152,6 +152,7 @@ export default class CIResponsive {
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const resultImageWidth = imageWidth || parentContainerWidth;
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
+    const isSVG = isImageSVG(imgSrc);
 
     if (!isOldBrowsers()) {
       image.src = imgSrc;
@@ -164,7 +165,7 @@ export default class CIResponsive {
     this.initImageClasses({ image, isLazy });
 
     const processProps = {
-      params, image, isUpdate, imgSrc, parentContainerWidth, resultImageWidth, isLazy, imageWidth, imageHeight
+      params, image, isUpdate, imgSrc, parentContainerWidth, resultImageWidth, isLazy, imageWidth, imageHeight, isSVG
     };
 
     if (!isAdaptive) {
@@ -195,39 +196,41 @@ export default class CIResponsive {
   }
 
   processBackgroundImageResponsive = (props) => {
-    const { params, image, imgSrc, containerWidth, isLazy } = props;
+    const { params, image, imgSrc, containerWidth, isLazy, isSVG } = props;
 
     const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(containerWidth));
+    const resultUrl = isSVG ? imgSrc : cloudimageUrl;
 
     if (!isLazy) {
       let tempImage = new Image();
 
-      tempImage.src = cloudimageUrl;
+      tempImage.src = resultUrl;
       tempImage.onload = () => { addClass(image, 'ci-image-loaded'); };
     }
 
-    this.setBackgroundSrc(image, cloudimageUrl, isLazy);
+    this.setBackgroundSrc(image, resultUrl, isLazy);
   }
 
-  processBackgroundImageAdaptive = ({ imgSrc, sizes, params, containerWidth, isLazy, image }) => {
+  processBackgroundImageAdaptive = ({ imgSrc, sizes, params, containerWidth, isLazy, image, isSVG }) => {
     const adaptiveSizes = getAdaptiveSize(sizes, this.config);
     const sources = generateSources(imgSrc, params, adaptiveSizes, this.config, containerWidth);
     const currentBreakpoint = getBreakPoint(adaptiveSizes) || adaptiveSizes[0];
     const imageToLoad = sources.find(breakPoint => breakPoint.mediaQuery === currentBreakpoint.media).srcSet;
+    const resultUrl = isSVG ? imgSrc : imageToLoad;
 
     if (!isLazy) {
       this.addBackgroundSources(this.bgImageIndex, sources);
 
       let tempImage = new Image();
 
-      tempImage.src = imageToLoad;
+      tempImage.src = resultUrl;
 
       tempImage.onload = () => { addClass(image, 'ci-image-loaded'); };
     } else {
       const responsiveCSS = this.addBackgroundSources(this.bgImageIndex, sources, true);
 
       image.setAttribute('ci-responsive-css', responsiveCSS);
-      this.setBackgroundSrc(image, imageToLoad, isLazy);
+      this.setBackgroundSrc(image, resultUrl, isLazy);
     }
   }
 
@@ -255,6 +258,7 @@ export default class CIResponsive {
 
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
+    const isSVG = isImageSVG(imgSrc);
 
     if (!isOldBrowsers()) {
       image.style.backgroundImage = 'url(' + imgSrc + ')';
@@ -270,7 +274,7 @@ export default class CIResponsive {
 
     this.initImageBackgroundAttributes({ image });
 
-    const processProps = { params, image, isUpdate, imgSrc, containerWidth, isLazy };
+    const processProps = { params, image, isUpdate, imgSrc, containerWidth, isLazy, isSVG };
 
     if (!isAdaptive) {
       this.processBackgroundImageResponsive(processProps);
@@ -281,12 +285,12 @@ export default class CIResponsive {
     this.bgImageIndex += 1;
   }
 
-  setSrc(image, url, propertyName, isLazy) {
+  setSrc(image, url, propertyName, isLazy, imgSrc, isSVG) {
     const { dataSrcAttr } = this.config;
 
     image.setAttribute(
       propertyName ? propertyName : (isLazy ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
-      url
+      isSVG ? imgSrc : url
     );
   }
 

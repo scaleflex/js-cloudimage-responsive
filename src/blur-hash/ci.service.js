@@ -16,7 +16,8 @@ import {
   isOldBrowsers,
   isResponsiveAndLoaded,
   updateSizeWithPixelRatio,
-  setWrapperAlignment
+  setWrapperAlignment,
+  isImageSVG
 } from '../common/ci.utils';
 import { decode } from './blurHash';
 import { debounce } from 'throttle-debounce';
@@ -136,7 +137,7 @@ export default class CIResponsive {
   processImageResponsive = (props) => {
     const {
       ratio, params, image, isUpdate, imgSrc, parentContainerWidth, imageWidth, imageHeight, blurHash, fill, alignment,
-      isLazy
+      isLazy, isSVG
     } = props;
     const [ratioBySize, isRatio] = this.getRatio(ratio || this.config.ratio, params);
     let wrapper = this.applyOrUpdateWrapper(
@@ -148,7 +149,7 @@ export default class CIResponsive {
     const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(parentContainerWidth));
 
     image.onload = () => { this.onImageLoad({ wrapper, image, canvas: blurHash && canvas, ratio, fill }) };
-    this.setSrc(image, cloudimageUrl, null , isLazy);
+    this.setSrc(image, cloudimageUrl, null , isLazy, isSVG, imgSrc);
   }
 
   processImage(image, isUpdate) {
@@ -173,6 +174,7 @@ export default class CIResponsive {
 
     const isRelativeUrlPath = checkIfRelativeUrlPath(src);
     const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
+    const isSVG = isImageSVG(imgSrc);
 
     if (!isOldBrowsers(true)) {
       image.src = imgSrc;
@@ -187,7 +189,7 @@ export default class CIResponsive {
 
     const processProps = {
       ratio, params, image, isUpdate, imgSrc, parentContainerWidth, imageWidth, imageHeight, isLazy, blurHash, fill,
-      alignment
+      alignment, isSVG
     };
 
     this.processImageResponsive(processProps);
@@ -263,6 +265,7 @@ export default class CIResponsive {
 
   processBackgroundImageResponsive = (props) => {
     const { params, image, imgSrc, containerWidth, isLazy, blurHash } = props;
+    const isSVG = isImageSVG(imgSrc);
 
     const canvas = this.applyOrUpdateBlurHashCanvas(image, blurHash);
 
@@ -278,7 +281,7 @@ export default class CIResponsive {
       };
     }
 
-    this.setBackgroundSrc(image, cloudimageUrl, isLazy);
+    this.setBackgroundSrc(image, cloudimageUrl, isLazy, isSVG, imgSrc);
   }
 
   processBackgroundImage(image, isUpdate) {
@@ -316,22 +319,22 @@ export default class CIResponsive {
     this.bgImageIndex += 1;
   }
 
-  setSrc(image, url, propertyName, isLazy) {
+  setSrc(image, url, propertyName, isLazy, isSVG, imgSrc) {
     const { dataSrcAttr } = this.config;
 
     image.setAttribute(
       propertyName ? propertyName : (isLazy ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
-      url
+      isSVG ? imgSrc : url
     );
   }
 
-  setBackgroundSrc(image, url, isLazy) {
+  setBackgroundSrc(image, url, isLazy, isSVG, imgSrc) {
     const { dataSrcAttr } = this.config;
 
     if (isLazy) {
-      image.setAttribute((dataSrcAttr ? dataSrcAttr : 'data-bg'), url);
+      image.setAttribute((dataSrcAttr ? dataSrcAttr : 'data-bg'), isSVG ? imgSrc : url);
     } else {
-      image.style.backgroundImage = `url('${url}')`
+      image.style.backgroundImage = `url('${isSVG ? imgSrc : url}')`
     }
   }
 
@@ -343,7 +346,6 @@ export default class CIResponsive {
       if (image && image.style) image.style.opacity = '1';
     }
     addClass(image, 'ci-image-loaded');
-
   }
 
   wrap(image, wrapper, isRatio, ratioBySize, ratio, imageRatio, imageWidth, imageHeight, fill, alignment) {
