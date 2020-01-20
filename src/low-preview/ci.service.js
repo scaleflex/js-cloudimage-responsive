@@ -315,7 +315,7 @@ export default class CIResponsive {
       isLazyCanceled
     } = getImageProps(image);
 
-    if (isLazyCanceled && isLazy) {
+    if ((isLazyCanceled && isLazy) || isUpdate) {
       isLazy = false;
     }
 

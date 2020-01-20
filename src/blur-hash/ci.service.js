@@ -2,7 +2,6 @@ import {
   addClass,
   checkIfRelativeUrlPath,
   filterImages,
-  finishAnimation,
   generateUrl,
   getBackgroundImageProps,
   getContainerWidth,
@@ -62,7 +61,7 @@ export default class CIResponsive {
       optimizedImage.onload = () => {
         const bgCanvas = bgContainer.querySelector('canvas');
 
-        finishAnimation(bgContainer, true, ciBlurHash && bgCanvas);
+        this.finishAnimation(bgContainer, true, ciBlurHash && bgCanvas);
         bgContainer.removeAttribute('data-bg');
         bgContainer.removeAttribute('ci-preview');
 
@@ -101,9 +100,7 @@ export default class CIResponsive {
       wrapper.style.paddingBottom = ((fill || 100) / ((image.width / image.height) || 1)) + '%';
     }
 
-    if (canvas) {
-      finishAnimation(image, false, canvas)
-    }
+    this.finishAnimation(image, false, canvas)
   };
 
   applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
@@ -158,13 +155,13 @@ export default class CIResponsive {
     let isLazy = this.config.lazyLoading;
     const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
 
-    if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) return;
+    if (image.className.includes('ci-image-loaded') && !isSavedWindowInnerWidthMoreThanCurrent) return;
 
     let { imageWidth, imageHeight, imageRatio } = getImageInlineProps(image);
     let parentContainerWidth = getParentWidth(image, this.config, imageRatio && imageWidth);
     let { params = {}, ratio, blurHash, src, fill, alignment, isLazyCanceled } = getImageProps(image);
 
-    if (isLazyCanceled && isLazy) {
+    if ((isLazyCanceled && isLazy) || isUpdate) {
       isLazy = false;
     }
 
@@ -183,8 +180,10 @@ export default class CIResponsive {
       return;
     }
 
-    this.initImageClasses(image, isLazy);
-    this.initImageStyles(image);
+    if (!isUpdate) {
+      this.initImageClasses(image, isLazy);
+      this.initImageStyles(image);
+    }
 
     const processProps = {
       ratio, params, image, isUpdate, imgSrc, parentContainerWidth, imageWidth, imageHeight, isLazy, blurHash, fill,
@@ -275,7 +274,7 @@ export default class CIResponsive {
       tempImage.src = cloudimageUrl;
 
       tempImage.onload = () => {
-        finishAnimation(image, true, blurHash && canvas);
+        this.finishAnimation(image, true, blurHash && canvas);
       };
     }
 
@@ -334,6 +333,17 @@ export default class CIResponsive {
     } else {
       image.style.backgroundImage = `url('${url}')`
     }
+  }
+
+  finishAnimation(image, isBackground, canvas) {
+    if (isBackground) {
+      if (canvas && canvas.style) canvas.style.opacity = '0';
+    } else {
+      if (canvas && canvas.style) canvas.style.opacity = '0';
+      if (image && image.style) image.style.opacity = '1';
+    }
+    addClass(image, 'ci-image-loaded');
+
   }
 
   wrap(image, wrapper, isRatio, ratioBySize, ratio, imageRatio, imageWidth, imageHeight, fill, alignment) {
