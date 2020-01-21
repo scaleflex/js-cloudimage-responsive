@@ -4,12 +4,18 @@ const checkIfRelativeUrlPath = src => {
   if (src.indexOf('//') === 0) {
     src = window.location.protocol + src;
   }
+
   return (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0 && src.indexOf('//') !== 0);
 };
 
 const getImgSrc = (src, isRelativeUrlPath = false, baseUrl = '') => {
-  if (isRelativeUrlPath)
+  if (src.indexOf('//') === 0) {
+    src = window.location.protocol + src;
+  }
+
+  if (isRelativeUrlPath) {
     return baseUrl + src;
+  }
 
   return src;
 };
