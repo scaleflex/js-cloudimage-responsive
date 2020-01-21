@@ -58,7 +58,7 @@ export default class CIResponsive {
       let optimizedImage = new Image();
 
       optimizedImage.onload = () => {
-        addClass(image, 'ci-image-loaded');
+        addClass(bgContainer, 'ci-image-loaded');
         bgContainer.removeAttribute('data-bg');
         bgContainer.removeAttribute('ci-preview');
 
