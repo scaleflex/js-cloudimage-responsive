@@ -34,7 +34,7 @@ export const updateSizeWithPixelRatio = (size) => {
   return result.join('x');
 };
 
-const generateUrl = (imgSrc, params = {}, config, parentContainerWidth) => {
+const generateUrl = (imgSrc, params = {}, config, parentContainerWidth, isInlineImageSizeParams, imageHeight) => {
   const { token, domain, doNotReplaceURL } = config;
   const configParams = getParams(config.params);
   const cloudUrl = doNotReplaceURL ? '' : `https://${token}.${domain}/v7/`;
@@ -43,16 +43,16 @@ const generateUrl = (imgSrc, params = {}, config, parentContainerWidth) => {
     cloudUrl,
     imgSrc,
     imgSrc.includes('?') ? '&' : '?',
-    getQueryString({ ...configParams, ...params }, configParams, parentContainerWidth)
+    getQueryString({ ...configParams, ...params }, configParams, parentContainerWidth, isInlineImageSizeParams, imageHeight)
   ].join('');
 };
 
-const getQueryString = (params = {}, configParams, parentContainerWidth) => {
+const getQueryString = (params = {}, configParams, parentContainerWidth, isInlineImageSizeParams, imageHeight) => {
   const { w, h, width, height, ...restParams } = params;
   const isCustom = w || width || h || height;
   const customWidth = w || width ? updateSizeWithPixelRatio(w || width) : null;
   const widthQ = isCustom ? customWidth : parentContainerWidth;
-  const heightQ = h || height ? updateSizeWithPixelRatio(h || height) : null;
+  const heightQ = h || height || isInlineImageSizeParams ? updateSizeWithPixelRatio(h || height || imageHeight) : null;
   const restParamsQ = Object.keys(restParams).map(function(k) {
     return encodeURIComponent(k) + "=" + encodeURIComponent(restParams[k]);
   }).join('&')

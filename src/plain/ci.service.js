@@ -111,8 +111,15 @@ export default class CIResponsive {
   }
 
   processImageResponsive = props => {
-    const { params, image, imgSrc, resultImageWidth, isLazy, isUpdate, isSVG } = props;
-    const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(resultImageWidth));
+    const { params, image, imgSrc, resultImageWidth, isLazy, isUpdate, isSVG, imageWidth, imageHeight } = props;
+    const cloudimageUrl = generateUrl(
+      imgSrc,
+      params, 
+      this.config,
+      updateSizeWithPixelRatio(resultImageWidth),
+      imageWidth && imageHeight,
+      imageHeight
+    );
     const isLoaded = image.className.includes('ci-image-loaded');
     const oldLink = image.src;
 

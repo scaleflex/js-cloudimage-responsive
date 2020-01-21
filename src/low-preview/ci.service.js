@@ -289,7 +289,14 @@ export default class CIResponsive {
       image.onload = this.onPreviewWithRatioImageLoad.bind(this, wrapper, previewImg, image, ratio, fill);
 
     } else {
-      const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(resultImageWidth));
+      const cloudimageUrl = generateUrl(
+        imgSrc,
+        params,
+        this.config,
+        updateSizeWithPixelRatio(resultImageWidth),
+        imageWidth && imageHeight,
+        imageHeight
+      );
 
       image.onload = () => { this.onImageLoad({ wrapper, image, ratio, fill }); };
       this.setSrc(image, cloudimageUrl, null, isLazy, imgSrc, isSVG);

@@ -146,7 +146,14 @@ export default class CIResponsive {
 
     const canvas = this.applyOrUpdateBlurHashCanvas(wrapper, blurHash);
 
-    const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(parentContainerWidth));
+    const cloudimageUrl = generateUrl(
+      imgSrc,
+      params,
+      this.config,
+      updateSizeWithPixelRatio(parentContainerWidth),
+      imageHeight && imageWidth,
+      imageHeight
+    );
 
     image.onload = () => { this.onImageLoad({ wrapper, image, canvas: blurHash && canvas, ratio, fill }) };
     this.setSrc(image, cloudimageUrl, null , isLazy, isSVG, imgSrc);
