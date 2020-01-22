@@ -386,24 +386,6 @@ the initialization script
     window.lazySizes.init();
 </script>
  ```
- 
- ## <a name="dynamically-loaded"></a>Process dynamically loaded images!
- 
- In case you load some images dynamically you need to trigger `ciResponsive.process()` manually.
-
-```javascript
-<script>
-    const ciResponsive = new window.CIResponsive({
-      token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
-      lazyLoading: true                                       // optional
-    });
-
-    window.lazySizes.init();
-    
-    ciResponsive.process(); -> call when you need to process dynamically loaded images
-</script>
- ```
 
 ## <a name="dynamically-loaded"></a>Process dynamically loaded images!
 
