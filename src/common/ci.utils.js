@@ -8,17 +8,57 @@ const checkIfRelativeUrlPath = src => {
   return (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0 && src.indexOf('//') !== 0);
 };
 
-const getImgSrc = (src, isRelativeUrlPath = false, baseUrl = '') => {
+const getImgSrc = (src, isRelativeUrlPath = false, baseURL = '') => {
   if (src.indexOf('//') === 0) {
     src = window.location.protocol + src;
   }
 
   if (isRelativeUrlPath) {
-    return baseUrl + src;
+    return relativeToAbsolutePath(baseURL, src);
   }
 
   return src;
 };
+
+const getBaseURL = (isRoot, base) => {
+  if (isRoot) {
+    return (base ? extractBaseURLFromString(base) : window.location.origin) + '/';
+  } else {
+    return base ? base : document.baseURI;
+  }
+}
+
+const extractBaseURLFromString = (path = '') => {
+  const pathArray = path.split( '/' );
+  const protocol = pathArray[0];
+  const host = pathArray[2];
+
+  return protocol + '//' + host;
+}
+
+const relativeToAbsolutePath = (base, relative) => {
+  const isRoot = relative[0] === '/';
+  const resultBaseURL = getBaseURL(isRoot, base);
+  const stack = resultBaseURL.split("/");
+  const parts = relative.split("/");
+
+  stack.pop(); // remove current file name (or empty string)
+               // (omit if "base" is the current folder without trailing slash)
+  if (isRoot) {
+    parts.shift();
+  }
+
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i] === ".")
+      continue;
+    if (parts[i] === "..")
+      stack.pop();
+    else
+      stack.push(parts[i]);
+  }
+
+  return stack.join("/");
+}
 
 /*
 * possible size values: 200 | 200x400
@@ -53,7 +93,7 @@ const getQueryString = (params = {}, configParams, parentContainerWidth, isInlin
   const customWidth = w || width ? updateSizeWithPixelRatio(w || width) : null;
   const widthQ = isCustom ? customWidth : parentContainerWidth;
   const heightQ = h || height || isInlineImageSizeParams ? updateSizeWithPixelRatio(h || height || imageHeight) : null;
-  const restParamsQ = Object.keys(restParams).map(function(k) {
+  const restParamsQ = Object.keys(restParams).map(function (k) {
     return encodeURIComponent(k) + "=" + encodeURIComponent(restParams[k]);
   }).join('&')
 
@@ -102,7 +142,7 @@ const getParentContainerWithWidth = img => {
   const leftPadding = width && parentNode && parseInt(window.getComputedStyle(parentNode).paddingLeft);
   const rightPadding = parseInt(window.getComputedStyle(parentNode).paddingRight)
 
-  return width + (width ? (- leftPadding - rightPadding) : 0);
+  return width + (width ? (-leftPadding - rightPadding) : 0);
 };
 
 const getContainerWithWidth = elem => {
@@ -111,13 +151,13 @@ const getContainerWithWidth = elem => {
   const leftPadding = parseInt(computedStyles.paddingLeft);
   const rightPadding = parseInt(computedStyles.paddingRight);
 
-  return width + (width ? (- leftPadding - rightPadding) : 0);
+  return width + (width ? (-leftPadding - rightPadding) : 0);
 };
 
 const generateSources = (imgSrc, params, adaptiveSizes, config, parentContainerWidth, isPreview) => {
   const sources = [];
 
-  adaptiveSizes.forEach(({ params: breakpointParams, media: mediaQuery}) => {
+  adaptiveSizes.forEach(({ params: breakpointParams, media: mediaQuery }) => {
     let lowQualitySize = null;
     let containerWidth = parentContainerWidth;
 
@@ -254,19 +294,17 @@ const getParams = (params) => {
   let resultParams = undefined;
 
   try {
-    let temp = params.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
+    let temp = params.replace(/(\w+:)|(\w+ :)/g, function (matchedStr) {
       return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
     });
 
     resultParams = JSON.parse(temp);
-  }
-  catch (e) {}
+  } catch (e) {}
 
   if (!resultParams) {
     try {
-      resultParams = JSON.parse('{"' + decodeURI(params.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
-    }
-    catch (e) {}
+      resultParams = JSON.parse('{"' + decodeURI(params.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+    } catch (e) {}
   }
 
   return resultParams;
@@ -277,22 +315,20 @@ const getSize = (sizes) => {
 
   try {
     // add quotes around params
-    let temp = sizes.replace(/(\w+:)|(\w+ :)/g, function(matchedStr) {
+    let temp = sizes.replace(/(\w+:)|(\w+ :)/g, function (matchedStr) {
       return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
     });
     // change single quotes to double quotes
     temp = temp.replace(/'/g, '"').replace(/-"width":/g, '-width:');
     resultSizes = JSON.parse(temp);
-  }
-  catch (e) {}
+  } catch (e) {}
 
   if (resultSizes) {
     Object.keys(resultSizes).forEach(key => {
       if (typeof resultSizes[key] === 'string') {
         try {
-          resultSizes[key] = JSON.parse('{"' + decodeURI(resultSizes[key].replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
-        }
-        catch (e) {}
+          resultSizes[key] = JSON.parse('{"' + decodeURI(resultSizes[key].replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+        } catch (e) {}
       }
     });
   }
@@ -324,8 +360,7 @@ export const isOldBrowsers = (isBlurHash) => {
   if (isBlurHash) {
     try {
       new window.ImageData(new Uint8ClampedArray([0, 0, 0, 0]), 1, 1);
-    }
-    catch (e) {
+    } catch (e) {
       support = false
     }
   }
@@ -363,7 +398,7 @@ const addClass = (elem, className) => {
 
 const removeClass = (elem, className) => {
   if (elem.className.indexOf(className) > -1) {
-    elem.className = elem.className.replace(new RegExp('\\b' + className + '\\b', 'g')  , '');
+    elem.className = elem.className.replace(new RegExp('\\b' + className + '\\b', 'g'), '');
   }
 };
 
@@ -378,7 +413,7 @@ const getInitialConfigLowPreview = (config) => {
     height = '300',
     placeholderBackground = '#f4f4f4',
     baseUrl, // to support old name
-    baseURL = '/',
+    baseURL,
     ratio = 1.5,
     presets,
     params = 'org_if_sml=1',
@@ -425,7 +460,7 @@ const getInitialConfigPlain = (config) => {
     width = '400',
     height = '300',
     baseUrl, // to support old name
-    baseURL = '/',
+    baseURL,
     presets,
     params = 'org_if_sml=1',
     init = true,
@@ -465,7 +500,7 @@ const getInitialConfigBlurHash = (config) => {
     lazyLoading = false,
     placeholderBackground = '#f4f4f4',
     baseUrl,
-    baseURL = '/',
+    baseURL,
     ratio = 1.5,
     params = 'org_if_sml=1',
     init = true,
@@ -550,8 +585,7 @@ const finishAnimation = (image, isBackground, canvas) => {
 const getWrapper = (image) => {
   if ((image.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
     return image.parentNode;
-  }
-  else if ((image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
+  } else if ((image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
     return image.parentNode.parentNode;
   }
 };
