@@ -105,6 +105,15 @@ const getQueryString = (params = {}, configParams, parentContainerWidth, isInlin
 };
 
 const getParentWidth = (img, config, imageWidth) => {
+  // check if image has style width
+  if (!imageWidth) {
+    const imageStyleWidth = img && img.style && img.style.width;
+
+    if (imageStyleWidth.indexOf('px') > -1) {
+      imageWidth = parseFloat(imageStyleWidth).toString();
+    }
+  }
+
   if (imageWidth) return parseInt(imageWidth);
 
   if (!(img && img.parentElement && img.parentElement.getBoundingClientRect) && !(img && img.width))
