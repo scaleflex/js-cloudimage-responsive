@@ -137,7 +137,7 @@ After adding the js-cloudimage-responsive lib, simply iniatialize it with your *
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/' // optional
+      baseURL: 'https://cloudimage.public.airstore.io/demo/' // optional
     });
 </script>
 ```
@@ -150,7 +150,7 @@ import 'js-cloudimage-responsive';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/' // optional
+  baseURL: 'https://cloudimage.public.airstore.io/demo/' // optional
 });
 ```
 
@@ -201,9 +201,9 @@ Use your custom domain.
 
 If set to **true** the plugin will only add query params to the given source of image.
 
-### baseUrl
+### baseURL
 
-###### Type: **String** | Default: **"/"** | _optional_
+###### Type: **String** | _optional_
 
 Your image folder on server, this alows to shorten your origin image URLs.
 
