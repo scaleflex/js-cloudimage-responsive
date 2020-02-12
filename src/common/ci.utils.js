@@ -251,9 +251,18 @@ const getImageProps = (image) => {
     ...getCommonImageProps(image),
     alignment: attr(image, 'ci-align') || attr(image, 'data-ci-align') || 'auto',
     imageNodeSRC: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined
-  }
+  };
+  const params = {
+    ...getParamsFromURL(props.imageNodeSRC),
+    ...props.params
+  };
 
-  return { ...props, isAdaptive: !!props.sizes };
+  return {
+    ...props,
+    params,
+    isAdaptive: !!props.sizes,
+    imageNodeSRC: getURLWithoutQueryParams(props.imageNodeSRC)
+  };
 };
 
 const getBackgroundImageProps = (image) => {
@@ -261,8 +270,27 @@ const getBackgroundImageProps = (image) => {
     ...getCommonImageProps(image),
     imageNodeSRC: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined
   };
+  const params = {
+    ...getParamsFromURL(props.imageNodeSRC),
+    ...props.params
+  };
 
-  return { ...props, isAdaptive: !!props.sizes };
+  return {
+    ...props,
+    params,
+    isAdaptive: !!props.sizes,
+    imageNodeSRC: getURLWithoutQueryParams(props.imageNodeSRC)
+  };
+};
+
+const getURLWithoutQueryParams = url => url.split('?')[0];
+
+const getParamsFromURL = (url) => {
+  const queryIndex = url.indexOf('?');
+
+  if (queryIndex === -1) return;
+
+  return getParams(url.slice(queryIndex + 1));
 };
 
 const attr = (element, attribute) => element.getAttribute(attribute);
