@@ -9,9 +9,6 @@ img.ci-image {
   display: block;
   width: 100%;
   padding: 0 !important;
-}
-
-img.ci-image-ratio {
   position: absolute;
   top: 0;
   left: 0;

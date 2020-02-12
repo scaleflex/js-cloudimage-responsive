@@ -311,13 +311,13 @@ It is recommended to prevent page layout jumping. The parameter is used to calcu
 
 To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
 
-### ci-fill (or data-ci-fill)
+### ci-fill (or data-ci-fill) > *in progress*
 
 ###### Type: **String** | Default: **100%**
 
 Image width (%) according to its container.
 
-### ci-align (or data-ci-align)
+### ci-align (or data-ci-align) > *in progress*
 
 ###### Type: **String** | Default: **auto**
 

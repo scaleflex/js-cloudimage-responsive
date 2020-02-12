@@ -1,0 +1,207 @@
+import { addClass, generateUrl, getLowQualitySize, getWrapper, setWrapperAlignment } from '../common/ci.utils';
+
+
+export const wrapBackgroundContainer = (imgNode) => {
+  let previewBox = document.createElement('div');
+  let contentBox = document.createElement('div');
+
+  contentBox.innerHTML = imgNode.innerHTML;
+
+  imgNode.innerHTML = '';
+  imgNode.appendChild(previewBox);
+  imgNode.appendChild(contentBox);
+
+  return [previewBox, contentBox]
+};
+
+export const applyBackgroundStyles = ({ imgNode, previewBox, contentBox, lazy, width }) => {
+  imgNode.style.position = 'relative';
+
+  contentBox.style.position = 'relative';
+
+  previewBox.className = `${imgNode.className}${lazy ? ' lazyload' : ''}`;
+  previewBox.setAttribute('ci-preview', true);
+  previewBox.style.background = 'inherit';
+  previewBox.style.position = 'absolute';
+  previewBox.style.left = '0';
+  previewBox.style.top = '0';
+  previewBox.style.width = '100%';
+  previewBox.style.height = '100%';
+
+  imgNode.style.transform = 'translateZ(0)';
+  imgNode.style.overflow = 'hidden';
+
+  previewBox.style.transform = 'scale(1.1)';
+  previewBox.style.filter = `blur(${Math.floor(width / 100)}px)`;
+  previewBox.style.transition = 'opacity 0.3s ease-in-out';
+};
+
+export const getPreviewWithRatioParams = ({ src, params, config, width, height }) => {
+  const { previewQualityFactor } = config;
+  const lowQualitySize = getLowQualitySize({ width, height }, previewQualityFactor);
+
+  return generateUrl({ src, params: { ...params, ...lowQualitySize }, config });
+};
+
+export const setAnimation = (wrapper, image, parentContainerWidth, isBackground) => {
+  if (!isBackground) {
+    if (wrapper) {
+      wrapper.style.transition = 'opacity 0.3s ease-in-out';
+    }
+
+    image.style.transform = 'scale(1.1)';
+    image.style.filter = `blur(${Math.floor(parentContainerWidth / 100)}px)`;
+  } else {
+    image.style.overflow = 'hidden';
+    addClass(image, 'ci-bg-animation');
+  }
+};
+
+export const finishAnimation = (image, isBackground) => {
+  if (!isBackground) {
+    const previewImg = image.parentNode.querySelector('img.ci-image-preview');
+    const previewImgWrapper = previewImg && previewImg.parentNode;
+
+    if (previewImgWrapper) {
+      previewImgWrapper.style.opacity = 0;
+    }
+  } else {
+    image.style.opacity = '0';
+  }
+
+  addClass(image, 'ci-image-loaded');
+};
+
+export const onImageLoad = (wrapper, previewImg, imgNode, ratio, preserveSize) => {
+  const { width, height } = imgNode;
+
+  wrapper.style.background = 'transparent';
+
+  if (!ratio) {
+    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / (width / height)) + '%';
+  }
+
+  finishAnimation(imgNode);
+};
+
+export const onPreviewImageLoad = (wrapper, previewImg, ratio, preserveSize) => {
+  const { naturalWidth, naturalHeight } = previewImg;
+
+  wrapper.style.background = 'transparent';
+
+  if (!ratio) {
+    wrapper.style.paddingBottom = preserveSize ? 'none' :(100 / (naturalWidth / naturalHeight)) + '%';
+  }
+};
+
+export const onLazyBeforeUnveil = (event) => {
+  const bgContainer = event.target;
+  const bg = bgContainer.getAttribute('data-bg');
+  const isPreview = bgContainer.getAttribute('ci-preview') === 'true';
+  const ciOptimizedUrl = (isPreview ? bgContainer.parentNode : bgContainer).getAttribute('ci-optimized-url');
+
+  loadBackgroundImage(bg, isPreview, bgContainer, ciOptimizedUrl);
+}
+
+export const  loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) => {
+  if (bg) {
+    let optimizedImage = new Image();
+
+    if (isPreview) {
+      let previewImage = new Image();
+
+      optimizedImage.onload = () => {
+        finishAnimation(bgContainer, true);
+        bgContainer.parentNode.removeAttribute('ci-optimized-url');
+        bgContainer.removeAttribute('data-bg');
+        bgContainer.removeAttribute('ci-preview');
+      }
+
+      bgContainer.parentNode.style.backgroundImage = 'url(' + ciOptimizedUrl + ')';
+      optimizedImage.src = ciOptimizedUrl;
+      previewImage.src = bg;
+    } else {
+      optimizedImage.onload = () => {
+        bgContainer.removeAttribute('data-bg');
+        bgContainer.removeAttribute('ci-preview');
+      }
+
+      optimizedImage.src = bg;
+    }
+
+    bgContainer.style.backgroundImage = 'url(' + bg + ')';
+  }
+};
+
+export const applyOrUpdateWrapper = props => {
+  const { isUpdate, imgNode, ratio, lazy, preserveSize } = props;
+  let wrapper = null, previewImgNode = null, previewWrapper = null;
+
+  if (!isUpdate) {
+    wrapper = wrapImage(props);
+    previewWrapper = document.createElement('div');
+    previewImgNode = document.createElement('img');
+
+    previewImgNode.className = `ci-image-ratio ci-image-preview${lazy ? ' lazyload' : ''}`;
+
+    addClass(wrapper, 'ci-with-preview-image');
+
+    previewWrapper.style.transform = 'translateZ(0)';
+    previewWrapper.style.zIndex = '1';
+    previewWrapper.style.height = '100%';
+    previewWrapper.style.width = '100%';
+    previewWrapper.style.position = 'absolute';
+    previewWrapper.style.top = '0';
+    previewWrapper.style.left = '0';
+
+    previewWrapper.appendChild(previewImgNode);
+    wrapper.insertBefore(previewWrapper, imgNode);
+  } else {
+    wrapper = getWrapper(imgNode);
+
+    if (ratio) {
+      wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
+    }
+  }
+
+  return { wrapper, previewImgNode, previewWrapper };
+};
+
+export const wrapImage = (props) => {
+  const { imgNode, ratio, imageNodeWidth, imageNodeHeight, alignment, preserveSize, placeholderBackground } = props;
+  let { wrapper } = props;
+
+  wrapper = wrapper || document.createElement('div');
+
+  addClass(wrapper, 'ci-image-wrapper');
+  wrapper.style.background = placeholderBackground;
+  wrapper.style.display = 'block';
+  wrapper.style.width = preserveSize ? imageNodeWidth : '100%';
+  wrapper.style.height = preserveSize ? imageNodeHeight : 'auto';
+  wrapper.style.overflow = 'hidden';
+  wrapper.style.position = 'relative';
+
+  if (ratio) {
+    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
+  }
+
+  if (imgNode.nextSibling) {
+    imgNode.parentNode.insertBefore(wrapper, imgNode.nextSibling);
+  } else {
+    imgNode.parentNode.appendChild(wrapper);
+  }
+
+  setWrapperAlignment(wrapper, alignment);
+
+  wrapper.appendChild(imgNode);
+
+  return wrapper;
+};
+
+export const initImageClasses = ({ imgNode, lazy }) => {
+  addClass(imgNode, 'ci-image');
+
+  if (lazy) {
+    addClass(imgNode, 'lazyload');
+  }
+};

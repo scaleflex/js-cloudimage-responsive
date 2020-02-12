@@ -22,6 +22,16 @@ window.ciResponsive = new window.CIResponsive({
   exactSize: false
 });
 
+setTimeout(() => {
+  window.ciResponsive.process();
+}, 1000)
+setTimeout(() => {
+  window.ciResponsive.process();
+}, 2000)
+setTimeout(() => {
+  window.ciResponsive.process();
+}, 4000)
+
 window.lazySizes.init();
 
 wrapper.classList.add('active');
@@ -41,5 +51,5 @@ const setBoxSizes = () => {
 
 setBoxSizes();
 
-devicePixelRatio.innerText = Math.round(window.devicePixelRatio || 1);
+devicePixelRatio.innerText = window.devicePixelRatio.toFixed(1);
 window.onresize = debounce(400, setBoxSizes);

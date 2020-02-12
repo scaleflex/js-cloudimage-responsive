@@ -15,12 +15,9 @@ window.ciResponsive = new window.CIResponsive({
   token: 'scaleflex',
   baseUrl: 'https://cloudimage.public.airstore.io/demo/',
   params: 'ci_info=1&org_if_sml=1',
-  lazyLoadOffset: 100,
   lazyLoading: true,
-  imgLoadingAnimation: true,
   placeholderBackground: '#e1e1e1',
-  exactSize: false,
-  ratio: 2
+  exactSize: false
 });
 
 window.lazySizes.init();

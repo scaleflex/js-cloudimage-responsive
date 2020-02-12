@@ -1,31 +1,32 @@
 import {
-  addClass,
-  checkIfRelativeUrlPath,
+  determineContainerProps,
   filterImages,
   generateUrl,
   getBackgroundImageProps,
-  getContainerWidth,
-  getImageInlineProps,
+  getBreakPoint,
   getImageProps,
   getImgSrc,
   getInitialConfigBlurHash,
-  getParentWidth,
-  getRatioBySizeAdaptive,
-  getRatioBySizeSimple,
-  getWrapper,
+  isLazy,
   isOldBrowsers,
-  isResponsiveAndLoaded,
-  updateSizeWithPixelRatio,
-  setWrapperAlignment,
-  isImageSVG
+  setBackgroundSrc,
+  setSrc
 } from '../common/ci.utils';
-import { decode } from './blurHash';
+import {
+  applyOrUpdateBlurHashCanvas,
+  applyOrUpdateWrapper,
+  finishAnimation,
+  initImageBackgroundClasses,
+  initImageBackgroundStyles,
+  initImageClasses,
+  initImageStyles,
+  loadBackgroundImage,
+  onImageLoad
+} from './ci.utils';
 import { debounce } from 'throttle-debounce';
 
 
 export default class CIResponsive {
-  bgImageIndex = 0;
-
   constructor(config) {
     this.config = getInitialConfigBlurHash(config);
 
@@ -35,11 +36,10 @@ export default class CIResponsive {
   }
 
   init() {
-    document.addEventListener('lazybeforeunveil', this.onLazyBeforeUnveil.bind(this));
+    document.addEventListener('lazybeforeunveil', loadBackgroundImage);
+    window.addEventListener('resize', debounce(100, this.onUpdateDimensions.bind(this)));
 
     this.process();
-
-    window.addEventListener('resize', debounce(100, this.onUpdateDimensions.bind(this)));
   }
 
   onUpdateDimensions() {
@@ -50,367 +50,110 @@ export default class CIResponsive {
     }
   }
 
-  onLazyBeforeUnveil(event) {
-    const bgContainer = event.target;
-    const bg = bgContainer.getAttribute('data-bg');
-    const ciBlurHash = bgContainer.getAttribute('ci-blur-hash');
-    const responsiveCss = bgContainer.getAttribute('ci-responsive-css');
-
-    if (bg) {
-      let optimizedImage = new Image();
-
-      optimizedImage.onload = () => {
-        const bgCanvas = bgContainer.querySelector('canvas');
-
-        this.finishAnimation(bgContainer, true, ciBlurHash && bgCanvas);
-        bgContainer.removeAttribute('data-bg');
-        bgContainer.removeAttribute('ci-preview');
-
-        if (responsiveCss) {
-          this.styleElem.appendChild(document.createTextNode(responsiveCss));
-        }
-      }
-
-      optimizedImage.src = bg;
-
-      bgContainer.style.backgroundImage = 'url(' + bg + ')';
-    }
-  }
-
   process(isUpdate) {
-    const images = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-src');
-    const backgroundImages = filterImages(document.querySelectorAll('[ci-bg-url]'), 'ci-bg-url');
+    let images, backgroundImages;
+    const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
+
+    if (isUpdate) {
+      images = document.querySelectorAll('img[ci-src]');
+      backgroundImages = document.querySelectorAll('[ci-bg-url]');
+    } else {
+      images = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-image');
+      backgroundImages = filterImages(document.querySelectorAll('[ci-bg-url]'), 'ci-bg');
+    }
 
     if (images.length > -1) {
-      images.forEach(image => { this.processImage(image, isUpdate); });
+      images.forEach(imgNode => {
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image');
+      });
     }
 
     if (backgroundImages.length > -1) {
-      this.styleElem = document.createElement('style');
-
-      document.head.appendChild(this.styleElem);
-
-      backgroundImages.forEach(image => { this.processBackgroundImage(image, isUpdate); });
+      backgroundImages.forEach(imgNode => {
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background');
+      });
     }
   }
 
-  onImageLoad = ({ wrapper, image, canvas, ratio, fill }) => {
-    wrapper.style.background = 'transparent';
+  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
+    const isImage = type === 'image';
+    const { config } = this;
+    const { baseURL, lazyLoading, presets } = config;
+    const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
+    const { params, imageNodeSRC, blurHash, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
 
-    if (!ratio) {
-      wrapper.style.paddingBottom = ((fill || 100) / ((image.width / image.height) || 1)) + '%';
-    }
+    if (!imageNodeSRC) return;
 
-    this.finishAnimation(image, false, canvas)
-  };
-
-  applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
-    let canvas = wrapper.querySelector('canvas');
-
-    if (!canvas && blurHash) {
-      canvas = document.createElement("canvas");
-
-      const pixels = decode(blurHash, 32, 32);
-      canvas.width = 32;
-      canvas.height = 32;
-      const ctx = canvas.getContext("2d");
-      const imageData = ctx.getImageData(0, 0, 32, 32);
-      imageData.data.set(pixels);
-      ctx.putImageData(imageData, 0, 0);
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      canvas.style.position = 'absolute';
-      canvas.style.top = '0';
-      canvas.style.bottom = '0';
-      canvas.style.left = '0';
-      canvas.style.right = '0';
-      canvas.style.opacity = '1';
-
-      canvas.style.transition = 'opacity 0.3s ease-in-out';
-
-      wrapper.prepend(canvas);
-    }
-
-    return canvas;
-  }
-
-  processImageResponsive = (props) => {
-    const {
-      ratio, params, image, isUpdate, imgSrc, parentContainerWidth, imageWidth, imageHeight, blurHash, fill, alignment,
-      isLazy, isSVG
-    } = props;
-    const [ratioBySize, isRatio] = this.getRatio(ratio || this.config.ratio, params);
-    let wrapper = this.applyOrUpdateWrapper(
-      { isUpdate, image, isRatio, ratioBySize, ratio, imageWidth, imageHeight, fill, alignment }
-    );
-
-    const canvas = this.applyOrUpdateBlurHashCanvas(wrapper, blurHash);
-
-    const cloudimageUrl = generateUrl(
-      imgSrc,
-      params,
-      this.config,
-      updateSizeWithPixelRatio(parentContainerWidth),
-      imageHeight && imageWidth,
-      imageHeight
-    );
-
-    image.onload = () => { this.onImageLoad({ wrapper, image, canvas: blurHash && canvas, ratio, fill }) };
-    this.setSrc(image, cloudimageUrl, null , isLazy, isSVG, imgSrc);
-  }
-
-  processImage(image, isUpdate) {
-    let isLazy = this.config.lazyLoading;
-    const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
-
-    if (image.className.includes('ci-image-loaded') && !isSavedWindowInnerWidthMoreThanCurrent) return;
-
-    let { imageWidth, imageHeight, imageRatio } = getImageInlineProps(image);
-    let parentContainerWidth = getParentWidth(image, this.config, imageRatio && imageWidth);
-    let { params = {}, ratio, blurHash, src, fill, alignment, isLazyCanceled } = getImageProps(image);
-
-    if ((isLazyCanceled && isLazy) || isUpdate) {
-      isLazy = false;
-    }
-
-    if (fill !== 100) {
-      parentContainerWidth = parentContainerWidth * (isUpdate ? 1 : fill / 100);
-    }
-
-    if (!src) return;
-
-    const isRelativeUrlPath = checkIfRelativeUrlPath(src);
-    const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
-    const isSVG = isImageSVG(imgSrc);
+    const [src, isSVG] = getImgSrc(imageNodeSRC, baseURL);
+    const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
+    let size;
 
     if (!isOldBrowsers(true)) {
-      image.src = imgSrc;
+      if (isImage) {
+        imgNode.src = src;
+      } else {
+        imgNode.style.backgroundImage = 'url(' + src + ')';
+      }
 
       return;
     }
+
+    if (isAdaptive) {
+      size = getBreakPoint(sizes, presets);
+    } else {
+      if (isUpdate && !windowScreenBecomesBigger) return;
+    }
+
+    const containerProps = determineContainerProps({ ...imgProps, imgNode, config, size });
+    const cloudimageUrl = generateUrl({ src, params, config, ...containerProps });
+    const props = { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize };
+
+    if (isImage) {
+      this.processImage(props);
+    } else {
+      this.processBackgroundImage(props);
+    }
+  }
+
+  processImage(props) {
+    const { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize } = props;
+    const { ratio } = containerProps;
+    const { placeholderBackground, dataSrcAttr } = config;
+    const wrapper = applyOrUpdateWrapper({ isUpdate, imgNode, ratio, placeholderBackground, ...imgProps });
 
     if (!isUpdate) {
-      this.initImageClasses(image, isLazy);
-      this.initImageStyles(image);
+      initImageClasses(imgNode, lazy);
+      initImageStyles(imgNode);
+
+      const canvas = applyOrUpdateBlurHashCanvas(wrapper, blurHash);
+
+      imgNode.onload = () => { onImageLoad({ wrapper, imgNode, canvas: blurHash && canvas, ratio, preserveSize }) };
     }
 
-    const processProps = {
-      ratio, params, image, isUpdate, imgSrc, parentContainerWidth, imageWidth, imageHeight, isLazy, blurHash, fill,
-      alignment, isSVG
-    };
-
-    this.processImageResponsive(processProps);
+    setSrc(imgNode, cloudimageUrl, null, lazy, src, isSVG, dataSrcAttr);
   }
 
-  applyOrUpdateWrapper = props => {
-    const { isUpdate, image, isRatio, ratioBySize, ratio, imageWidth, imageHeight, fill, alignment } = props;
-    let wrapper = null;
-    let imageRatio = imageWidth && imageHeight && (parseInt(imageWidth) / parseInt(imageHeight));
+  processBackgroundImage(props) {
+    const { config, isUpdate, imgNode, lazy, blurHash, cloudimageUrl, isSVG, src } = props;
+    const { dataSrcAttr } = config;
 
     if (!isUpdate) {
-      wrapper = this.wrap(
-        image, null, isRatio, ratioBySize, ratio || this.config.ratio, imageRatio, imageWidth, imageHeight, fill,
-        alignment
-      );
-    } else {
-      wrapper = getWrapper(image);
+      initImageBackgroundClasses(imgNode, lazy);
+      initImageBackgroundStyles(imgNode);
 
-      if (isRatio && !imageRatio) {
-        wrapper.style.paddingBottom = ((fill || 100) / (ratioBySize || ratio || this.config.ratio)) + '%';
-      } else if (imageRatio) {
-        wrapper.style.height = imageHeight + 'px';
+      const canvas = applyOrUpdateBlurHashCanvas(imgNode, blurHash);
+
+      if (!lazy) {
+        let tempImage = new Image();
+
+        tempImage.src = cloudimageUrl;
+
+        tempImage.onload = () => {
+          finishAnimation(imgNode, blurHash && canvas);
+        };
       }
     }
 
-    return wrapper;
-  }
-
-  initImageClasses = (image, isLazy) => {
-    addClass(image, 'ci-image');
-
-    if (isLazy) {
-      addClass(image, 'lazyload');
-    }
-  }
-
-  initImageStyles = image => {
-    image.style.display = 'block';
-    image.style.width = '100%';
-    image.style.padding = '0';
-    image.style.position = 'absolute';
-    image.style.top = '0';
-    image.style.left = '0';
-    image.style.height = 'auto';
-    image.style.opacity = '0';
-    image.style.transition = 'opacity 0.3s ease-in-out';
-  }
-
-  getRatio = (ratio, params, adaptiveSize) => {
-    const ratioBySize = adaptiveSize ?
-      getRatioBySizeAdaptive(params, adaptiveSize) :
-      getRatioBySizeSimple(params);
-
-    return [ratioBySize, !!(ratioBySize || ratio)];
-  }
-
-  initImageBackgroundClasses = (image, isLazy) => {
-    addClass(image, 'ci-bg');
-
-    if (isLazy) {
-      addClass(image, 'lazyload');
-    }
-  }
-
-  initImageBackgroundAttributes = (image) => {
-    image.setAttribute('ci-bg-index', this.bgImageIndex);
-  }
-
-  initImageBackgroundStyles = (image) => {
-    image.style.position = (!image.style.position || image.style.position === 'static') ?
-      'relative' : image.style.position;
-  }
-
-  processBackgroundImageResponsive = (props) => {
-    const { params, image, imgSrc, containerWidth, isLazy, blurHash } = props;
-    const isSVG = isImageSVG(imgSrc);
-
-    const canvas = this.applyOrUpdateBlurHashCanvas(image, blurHash);
-
-    const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(containerWidth));
-
-    if (!isLazy) {
-      let tempImage = new Image();
-
-      tempImage.src = cloudimageUrl;
-
-      tempImage.onload = () => {
-        this.finishAnimation(image, true, blurHash && canvas);
-      };
-    }
-
-    this.setBackgroundSrc(image, cloudimageUrl, isLazy, isSVG, imgSrc);
-  }
-
-  processBackgroundImage(image, isUpdate) {
-    let isLazy = this.config.lazyLoading;
-    const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
-
-    if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) return;
-
-    let containerWidth = getContainerWidth(image, this.config);
-    let { params = {}, ratio, blurHash, src, isLazyCanceled } = getBackgroundImageProps(image);
-
-    if ((isLazyCanceled && isLazy) || isUpdate) {
-      isLazy = false;
-    }
-
-    if (!src) return;
-
-    const isRelativeUrlPath = checkIfRelativeUrlPath(src);
-    const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
-
-    if (!isOldBrowsers(true)) {
-      image.style.backgroundImage = 'url(' + imgSrc + ')';
-
-      return;
-    }
-
-    this.initImageBackgroundClasses(image, isLazy);
-    this.initImageBackgroundAttributes(image);
-    this.initImageBackgroundStyles(image);
-
-    const processProps = { ratio, params, image, imgSrc, isLazy, containerWidth, blurHash };
-
-    this.processBackgroundImageResponsive(processProps);
-
-    this.bgImageIndex += 1;
-  }
-
-  setSrc(image, url, propertyName, isLazy, isSVG, imgSrc) {
-    const { dataSrcAttr } = this.config;
-
-    image.setAttribute(
-      propertyName ? propertyName : (isLazy ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
-      isSVG ? imgSrc : url
-    );
-  }
-
-  setBackgroundSrc(image, url, isLazy, isSVG, imgSrc) {
-    const { dataSrcAttr } = this.config;
-
-    if (isLazy) {
-      image.setAttribute((dataSrcAttr ? dataSrcAttr : 'data-bg'), isSVG ? imgSrc : url);
-    } else {
-      image.style.backgroundImage = `url('${isSVG ? imgSrc : url}')`
-    }
-  }
-
-  finishAnimation(image, isBackground, canvas) {
-    if (isBackground) {
-      if (canvas && canvas.style) canvas.style.opacity = '0';
-    } else {
-      if (canvas && canvas.style) canvas.style.opacity = '0';
-      if (image && image.style) image.style.opacity = '1';
-    }
-    addClass(image, 'ci-image-loaded');
-  }
-
-  wrap(image, wrapper, isRatio, ratioBySize, ratio, imageRatio, imageWidth, imageHeight, fill, alignment) {
-    if ((image.parentNode.className || '').indexOf('ci-image-wrapper') > -1 ||
-      (image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
-      wrapper = image.parentNode;
-
-      addClass(wrapper, 'ci-image-wrapper');
-      wrapper.style.background = this.config.placeholderBackground;
-      wrapper.style.display = 'block';
-      wrapper.style.width = imageRatio ? imageWidth + 'px' : '100%';
-      wrapper.style.overflow = 'hidden';
-      wrapper.style.position = 'relative';
-
-      if (imageRatio && imageHeight) {
-        wrapper.style.height = imageHeight + 'px';
-      }
-
-      setWrapperAlignment(wrapper, alignment);
-
-      if (fill !== 100 && !imageRatio) {
-        wrapper.style.width = `${fill}%`;
-      }
-
-      return;
-    }
-
-    wrapper = wrapper || document.createElement('div');
-
-    addClass(wrapper, 'ci-image-wrapper');
-    wrapper.style.background = this.config.placeholderBackground;
-    wrapper.style.display = 'block';
-    wrapper.style.width = imageRatio ? imageWidth + 'px' : '100%';
-    wrapper.style.overflow = 'hidden';
-    wrapper.style.position = 'relative';
-
-    if (imageRatio && imageHeight) {
-      wrapper.style.height = imageHeight + 'px';
-    }
-
-    if (isRatio && !imageRatio) {
-      wrapper.style.paddingBottom = ((fill || 100) / (ratioBySize || ratio || this.config.ratio)) + '%';
-    }
-
-    if (image.nextSibling) {
-      image.parentNode.insertBefore(wrapper, image.nextSibling);
-    } else {
-      image.parentNode.appendChild(wrapper);
-    }
-
-    setWrapperAlignment(wrapper, alignment);
-
-    if (fill !== 100 && !imageRatio) {
-      wrapper.style.width = `${fill}%`;
-    }
-
-    wrapper.appendChild(image);
-
-    return wrapper;
+    setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
   }
 }

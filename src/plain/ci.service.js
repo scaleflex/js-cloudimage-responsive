@@ -1,30 +1,22 @@
 import {
-  addClass,
-  checkIfRelativeUrlPath,
-  createCSSSource,
+  determineContainerProps,
   filterImages,
-  generateSources,
-  generateUrlByAdaptiveSize,
   generateUrl,
-  getAdaptiveSize,
   getBackgroundImageProps,
   getBreakPoint,
-  getContainerWidth, getImageInlineProps,
   getImageProps,
   getImgSrc,
   getInitialConfigPlain,
-  getParentWidth,
-  insertSource,
+  isLazy,
   isOldBrowsers,
-  isResponsiveAndLoaded,
-  updateSizeWithPixelRatio, isImageSVG
+  setBackgroundSrc,
+  setSrc
 } from '../common/ci.utils';
+import { initImageClasses, loadBackgroundImage } from './ci.utils';
 import { debounce } from 'throttle-debounce';
 
 
 export default class CIResponsive {
-  bgImageIndex = 0;
-
   constructor(config) {
     this.config = getInitialConfigPlain(config);
 
@@ -34,11 +26,10 @@ export default class CIResponsive {
   }
 
   init() {
-    document.addEventListener('lazybeforeunveil', this.onLazyBeforeUnveil.bind(this));
+    document.addEventListener('lazybeforeunveil', loadBackgroundImage);
+    window.addEventListener('resize', debounce(100, this.onUpdateDimensions.bind(this)));
 
     this.process();
-
-    window.addEventListener('resize', debounce(100, this.onUpdateDimensions.bind(this)));
   }
 
   onUpdateDimensions() {
@@ -49,317 +40,93 @@ export default class CIResponsive {
     }
   }
 
-  onLazyBeforeUnveil(event) {
-    const bgContainer = event.target;
-    const bg = bgContainer.getAttribute('data-bg');
-    const responsiveCss = bgContainer.getAttribute('ci-responsive-css');
-
-    if (bg) {
-      let optimizedImage = new Image();
-
-      optimizedImage.onload = () => {
-        addClass(bgContainer, 'ci-image-loaded');
-        bgContainer.removeAttribute('data-bg');
-        bgContainer.removeAttribute('ci-preview');
-
-        if (responsiveCss) {
-          this.styleElem.appendChild(document.createTextNode(responsiveCss));
-        }
-      }
-
-      optimizedImage.src = bg;
-
-      bgContainer.style.backgroundImage = 'url(' + bg + ')';
-    }
-  }
-
   process(isUpdate) {
-    const images = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-src');
-    const backgroundImages = filterImages(document.querySelectorAll('[ci-bg-url]'), 'ci-bg-url');
+    let images, backgroundImages;
+    const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
+
+    if (isUpdate) {
+      images = document.querySelectorAll('img[ci-src]');
+      backgroundImages = document.querySelectorAll('[ci-bg-url]');
+    } else {
+      images = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-image');
+      backgroundImages = filterImages(document.querySelectorAll('[ci-bg-url]'), 'ci-bg');
+    }
 
     if (images.length > -1) {
-      images.forEach(image => { this.processImage(image, isUpdate); });
+      images.forEach(imgNode => {
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image');
+      });
     }
 
     if (backgroundImages.length > -1) {
-      if (!isUpdate) {
-        this.styleElem = document.createElement('style');
+      backgroundImages.forEach(imgNode => {
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background');
+      });
+    }
+  }
 
-        document.head.appendChild(this.styleElem);
+  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
+    const isImage = type === 'image';
+    const { config } = this;
+    const { baseURL, lazyLoading, presets } = config;
+    const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
+    const { params, imageNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
+
+    if (!imageNodeSRC) return;
+
+    const [src, isSVG] = getImgSrc(imageNodeSRC, baseURL);
+    const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
+    let size
+
+    if (!isOldBrowsers(true)) {
+      if (isImage) {
+        imgNode.src = src;
+      } else {
+        imgNode.style.backgroundImage = 'url(' + src + ')';
       }
 
-      backgroundImages.forEach(image => { this.processBackgroundImage(image, isUpdate); });
-    }
-  }
-
-  processImageAdaptive = props => {
-    const { params, image, isUpdate, imgSrc, parentContainerWidth, sizes, isLazy, isSVG } = props;
-    const adaptiveSizes = getAdaptiveSize(sizes, this.config);
-    const size = getBreakPoint(adaptiveSizes) || adaptiveSizes[0];
-    const resultUrl = generateUrlByAdaptiveSize(imgSrc, params, size, this.config, parentContainerWidth);
-    const isLoaded = image.className.includes('ci-image-loaded');
-    const oldLink = image.src;
-
-    if (oldLink === resultUrl) return;
-
-    if (isLoaded) {
-      this.setSrc(image, resultUrl, null, false, imgSrc, isSVG);
-    } else {
-      image.onload = () => { addClass(image, 'ci-image-loaded'); };
-      this.setSrc(image, resultUrl, null, isLazy && !isUpdate, imgSrc, isSVG);
-    }
-  }
-
-  processImageResponsive = props => {
-    const { params, image, imgSrc, resultImageWidth, isLazy, isUpdate, isSVG, imageWidth, imageHeight } = props;
-    const cloudimageUrl = generateUrl(
-      imgSrc,
-      params, 
-      this.config,
-      updateSizeWithPixelRatio(resultImageWidth),
-      imageWidth && imageHeight,
-      imageHeight
-    );
-    const isLoaded = image.className.includes('ci-image-loaded');
-    const oldLink = image.src;
-
-    if (oldLink === cloudimageUrl) return;
-
-    if (isLoaded) {
-      this.setSrc(image, cloudimageUrl, null, false, imgSrc, isSVG);
-    } else {
-      image.onload = () => { addClass(image, 'ci-image-loaded'); };
-      this.setSrc(image, cloudimageUrl, null, isLazy && !isUpdate, imgSrc, isSVG);
-    }
-  }
-
-  processImage(image, isUpdate) {
-    let isLazy = this.config.lazyLoading;
-    const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
-
-    if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) {
       return;
     }
 
-    let { imageWidth, imageHeight } = getImageInlineProps(image);
-    let parentContainerWidth = getParentWidth(image, this.config, imageWidth);
-    let {
-      params = {},
-      sizes = this.config.sizes,
-      src,
-      isLazyCanceled
-    } = getImageProps(image);
-
-    if (isLazyCanceled && isLazy) {
-      isLazy = false;
-    }
-
-    if (!src) return;
-
-    const isRelativeUrlPath = checkIfRelativeUrlPath(src);
-    const resultImageWidth = imageWidth || parentContainerWidth;
-    const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
-    const isSVG = isImageSVG(imgSrc);
-
-    if (!isOldBrowsers()) {
-      image.src = imgSrc;
-
-      return;
-    }
-
-    const isAdaptive = !!sizes;
-
-    this.initImageClasses({ image, isLazy });
-
-    const processProps = {
-      params, image, isUpdate, imgSrc, parentContainerWidth, resultImageWidth, isLazy, imageWidth, imageHeight, isSVG
-    };
-
-    if (!isAdaptive) {
-      this.processImageResponsive(processProps);
+    if (isAdaptive) {
+      size = getBreakPoint(sizes, presets);
     } else {
-      this.processImageAdaptive({ ...processProps, sizes });
-    }
-  }
-
-  initImageClasses = ({ image, isLazy }) => {
-    addClass(image, 'ci-image');
-
-    if (isLazy) {
-      addClass(image, 'lazyload');
-    }
-  }
-
-  initImageBackgroundClasses = ({ image, isLazy }) => {
-    addClass(image, 'ci-bg');
-
-    if (isLazy) {
-      addClass(image, 'lazyload');
-    }
-  }
-
-  initImageBackgroundAttributes = ({ image }) => {
-    image.setAttribute('ci-bg-index', this.bgImageIndex);
-  }
-
-  processBackgroundImageResponsive = (props) => {
-    const { params, image, imgSrc, containerWidth, isLazy, isSVG } = props;
-
-    const cloudimageUrl = generateUrl(imgSrc, params, this.config, updateSizeWithPixelRatio(containerWidth));
-    const resultUrl = isSVG ? imgSrc : cloudimageUrl;
-
-    if (!isLazy) {
-      let tempImage = new Image();
-
-      tempImage.src = resultUrl;
-      tempImage.onload = () => { addClass(image, 'ci-image-loaded'); };
+      if (isUpdate && !windowScreenBecomesBigger) return;
     }
 
-    this.setBackgroundSrc(image, resultUrl, isLazy);
-  }
+    const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
+    const { width, height } = containerProps;
+    const cloudimageUrl = generateUrl({ src, params, config, width, height });
+    const props = { imgNode, isUpdate, imgProps, lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize };
 
-  processBackgroundImageAdaptive = ({ imgSrc, sizes, params, containerWidth, isLazy, image, isSVG }) => {
-    const adaptiveSizes = getAdaptiveSize(sizes, this.config);
-    const sources = generateSources(imgSrc, params, adaptiveSizes, this.config, containerWidth);
-    const currentBreakpoint = getBreakPoint(adaptiveSizes) || adaptiveSizes[0];
-    const imageToLoad = sources.find(breakPoint => breakPoint.mediaQuery === currentBreakpoint.media).srcSet;
-    const resultUrl = isSVG ? imgSrc : imageToLoad;
-
-    if (!isLazy) {
-      this.addBackgroundSources(this.bgImageIndex, sources);
-
-      let tempImage = new Image();
-
-      tempImage.src = resultUrl;
-
-      tempImage.onload = () => { addClass(image, 'ci-image-loaded'); };
+    if (isImage) {
+      this.processImage(props);
     } else {
-      const responsiveCSS = this.addBackgroundSources(this.bgImageIndex, sources, true);
-
-      image.setAttribute('ci-responsive-css', responsiveCSS);
-      this.setBackgroundSrc(image, resultUrl, isLazy);
+      this.processBackgroundImage(props);
     }
   }
 
-  processBackgroundImage(image, isUpdate) {
-    let isLazy = this.config.lazyLoading;
-    const isSavedWindowInnerWidthMoreThanCurrent = this.innerWidth < window.innerWidth;
+  processImage(props) {
+    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src } = props;
+    const { config } = this;
+    const { dataSrcAttr } = config;
 
-    if (isResponsiveAndLoaded(image) && !isSavedWindowInnerWidthMoreThanCurrent) {
-      return;
+    if (!isUpdate) {
+      initImageClasses({ imgNode, lazy });
     }
 
-    let containerWidth = getContainerWidth(image, this.config);
-    let {
-      params = {},
-      sizes = this.config.sizes,
-      src,
-      isLazyCanceled
-    } = getBackgroundImageProps(image);
+    setSrc(imgNode, cloudimageUrl, 'data-src', lazy, src, isSVG, dataSrcAttr);
+  }
 
-    if (isLazyCanceled && isLazy) {
-      isLazy = false;
+  processBackgroundImage(props) {
+    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src } = props;
+    const { config } = this;
+    const { dataSrcAttr } = config;
+
+    if (!isUpdate) {
+      imgNode.className = `${imgNode.className}${lazy ? ' lazyload' : ''}`;
     }
 
-    if (!src) return;
-
-    const isRelativeUrlPath = checkIfRelativeUrlPath(src);
-    const imgSrc = getImgSrc(src, isRelativeUrlPath, this.config.baseUrl);
-    const isSVG = isImageSVG(imgSrc);
-
-    if (!isOldBrowsers()) {
-      image.style.backgroundImage = 'url(' + imgSrc + ')';
-
-      return;
-    }
-
-    const isAdaptive = !!sizes;
-
-    if (isAdaptive && isUpdate) return;
-
-    this.initImageBackgroundClasses({ image, isLazy });
-
-    this.initImageBackgroundAttributes({ image });
-
-    const processProps = { params, image, isUpdate, imgSrc, containerWidth, isLazy, isSVG };
-
-    if (!isAdaptive) {
-      this.processBackgroundImageResponsive(processProps);
-    } else {
-      this.processBackgroundImageAdaptive({ ...processProps, sizes });
-    }
-
-    this.bgImageIndex += 1;
-  }
-
-  setSrc(image, url, propertyName, isLazy, imgSrc, isSVG) {
-    const { dataSrcAttr } = this.config;
-
-    image.setAttribute(
-      propertyName ? propertyName : (isLazy ? 'data-src' : dataSrcAttr ? dataSrcAttr : 'src'),
-      isSVG ? imgSrc : url
-    );
-  }
-
-  setSrcset(source, url, isLazy) {
-    const { dataSrcsetAttr } = this.config;
-
-    source.setAttribute(isLazy ? 'data-srcset' : dataSrcsetAttr ? dataSrcsetAttr : 'srcset', url);
-  }
-
-  setBackgroundSrc(image, url, isLazy) {
-    const { dataSrcAttr } = this.config;
-
-    if (isLazy) {
-      image.setAttribute((dataSrcAttr ? dataSrcAttr : 'data-bg'), url);
-    } else {
-      image.style.backgroundImage = `url('${url}')`
-    }
-  }
-
-  addSources(image, previewSources, isLazy) {
-    [...previewSources.slice(1).reverse()].forEach(({ mediaQuery, srcSet }) => {
-      const source = this.createSource(mediaQuery, srcSet, isLazy);
-
-      insertSource(image, source);
-    });
-
-    insertSource(image, this.createSource(null, previewSources[0].srcSet, isLazy));
-  }
-
-  addBackgroundSources(bgImageIndex, sources, returnCSSString) {
-    let cssStyle = '';
-
-    cssStyle += createCSSSource(null, sources[0].srcSet, bgImageIndex);
-
-    [...sources.slice(1)].forEach(({ mediaQuery, srcSet }) => {
-      cssStyle += createCSSSource(mediaQuery, srcSet, bgImageIndex);
-    });
-
-    if (returnCSSString) {
-      return cssStyle;
-    }
-
-    this.styleElem.appendChild(document.createTextNode(cssStyle));
-  }
-
-  createSource(mediaQuery, srcSet, isLazy) {
-    const source = document.createElement('source');
-
-    if (mediaQuery) {
-      source.media = mediaQuery;
-    }
-
-    this.setSrcset(source, srcSet, isLazy)
-
-    return source;
-  }
-
-  updateSources(image, previewSources, sources, isLazy) {
-    const sourcesElems = image.parentNode.querySelectorAll('source');
-
-    sourcesElems.forEach((elem, index) => {
-      this.setSrcset(elem, sources[index].srcSet, isLazy);
-    })
+    setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
   }
 }

@@ -213,12 +213,6 @@ Your image folder on server, this alows to shorten your origin image URLs.
 
 Only images close to the client's viewport will be loaded, hence accelerating the page loading time. If set to **true**, an additional script must be included, see [Lazy loading](#lazy_loading)
 
-### imgLoadingAnimation
-
-###### Type: **Bool** | Default: **true** | _optional_
-
-Applies a nice interlacing effect for preview transition
-
 ### params
 
 ###### Type: **String** | Default: **'org_if_sml=1'** | _optional_
@@ -371,13 +365,13 @@ It is recommended to prevent page layout jumping. The parameter is used to calcu
 
 To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
 
-### ci-fill (or data-ci-fill)
+### ci-fill (or data-ci-fill) > *in progress*
 
 ###### Type: **String** | Default: **100%**
 
 Image width (%) according to its container.
 
-### ci-align (or data-ci-align)
+### ci-align (or data-ci-align) > *in progress*
 
 ###### Type: **String** | Default: **auto**
 
