@@ -1,4 +1,4 @@
-import { addClass, generateUrl, getLowQualitySize, getWrapper, setWrapperAlignment } from '../common/ci.utils';
+import { addClass, getWrapper, setWrapperAlignment } from '../common/ci.utils';
 
 
 export const wrapBackgroundContainer = (imgNode) => {
@@ -33,20 +33,13 @@ export const applyBackgroundStyles = ({ imgNode, previewBox, contentBox, lazy, w
 
   previewBox.style.transform = 'scale(1.1)';
   previewBox.style.filter = `blur(${Math.floor(width / 100)}px)`;
-  previewBox.style.transition = 'opacity 0.3s ease-in-out';
-};
-
-export const getPreviewWithRatioParams = ({ src, params, config, width, height }) => {
-  const { previewQualityFactor } = config;
-  const lowQualitySize = getLowQualitySize({ width, height }, previewQualityFactor);
-
-  return generateUrl({ src, params: { ...params, ...lowQualitySize }, config });
+  previewBox.style.transition = 'opacity 400ms ease 0ms';
 };
 
 export const setAnimation = (wrapper, image, parentContainerWidth, isBackground) => {
   if (!isBackground) {
     if (wrapper) {
-      wrapper.style.transition = 'opacity 0.3s ease-in-out';
+      wrapper.style.transition = 'opacity 400ms ease 0ms';
     }
 
     image.style.transform = 'scale(1.1)';
@@ -90,7 +83,7 @@ export const onPreviewImageLoad = (wrapper, previewImg, ratio, preserveSize) => 
   wrapper.style.background = 'transparent';
 
   if (!ratio) {
-    wrapper.style.paddingBottom = preserveSize ? 'none' :(100 / (naturalWidth / naturalHeight)) + '%';
+    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / (naturalWidth / naturalHeight)) + '%';
   }
 };
 
@@ -103,7 +96,7 @@ export const onLazyBeforeUnveil = (event) => {
   loadBackgroundImage(bg, isPreview, bgContainer, ciOptimizedUrl);
 }
 
-export const  loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) => {
+export const loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) => {
   if (bg) {
     let optimizedImage = new Image();
 

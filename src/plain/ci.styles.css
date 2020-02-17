@@ -35,7 +35,7 @@ img.ci-image-ratio.ci-image-preview {
   left: 0;
   background: inherit;
   filter: blur(0);
-  transition: filter 0.3s ease-in-out;
+  transition: filter 0.4s ease-in-out;
 }
 
 .ci-bg.ci-bg-animation:before {

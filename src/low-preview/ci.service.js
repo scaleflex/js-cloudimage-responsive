@@ -7,17 +7,17 @@ import {
   getImageProps,
   getImgSrc,
   getInitialConfigLowPreview,
+  getPreviewSRC,
   isApplyLowQualityPreview,
   isLazy,
   isOldBrowsers,
-  updateSizeWithPixelRatio,
+  setBackgroundSrc,
   setSrc,
-  setBackgroundSrc
+  updateSizeWithPixelRatio
 } from '../common/ci.utils';
 import {
   applyBackgroundStyles,
   applyOrUpdateWrapper,
-  getPreviewWithRatioParams,
   initImageClasses,
   loadBackgroundImage,
   onImageLoad,
@@ -89,7 +89,7 @@ export default class CIResponsive {
 
     const [src, isSVG] = getImgSrc(imageNodeSRC, baseURL);
     const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
-    let size
+    let size;
 
     if (!isOldBrowsers(true)) {
       if (isImage) {
@@ -111,7 +111,18 @@ export default class CIResponsive {
     const { width, height } = containerProps;
     const isPreview = isApplyLowQualityPreview(isAdaptive, width, isSVG);
     const cloudimageUrl = generateUrl({ src, params, config, width, height });
-    const props = { imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize };
+    const props = {
+      imgNode,
+      isUpdate,
+      imgProps,
+      lazy,
+      isPreview,
+      containerProps,
+      isSVG,
+      cloudimageUrl,
+      src,
+      preserveSize
+    };
 
     if (isImage) {
       this.processImage(props);
@@ -134,7 +145,7 @@ export default class CIResponsive {
       initImageClasses({ imgNode, lazy });
 
       if (isPreview) {
-        const previewImgURL = getPreviewWithRatioParams({ src, params, config, ...containerProps });
+        const previewImgURL = getPreviewSRC({ src, params, config, ...containerProps });
 
         setAnimation(previewWrapper, previewImgNode, updateSizeWithPixelRatio(width));
         setSrc(previewImgNode, previewImgURL, 'data-src', lazy, src, isSVG, dataSrcAttr);
@@ -161,7 +172,7 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       if (isPreview) {
-        const previewImgURL = getPreviewWithRatioParams({ src, params, config, ...containerProps });
+        const previewImgURL = getPreviewSRC({ src, params, config, ...containerProps });
         const [previewBox, contentBox] = wrapBackgroundContainer(imgNode);
 
         applyBackgroundStyles({ imgNode, previewBox, contentBox, lazy, width });

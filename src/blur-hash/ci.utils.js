@@ -1,5 +1,5 @@
 import { addClass, getWrapper, setWrapperAlignment } from '../common/ci.utils'
-import { decode } from './blurHash'
+import { decode } from './blurHash';
 
 
 export const loadBackgroundImage = (event) => {
@@ -109,7 +109,7 @@ export const initImageStyles = imgNode => {
   imgNode.style.top = '0';
   imgNode.style.left = '0';
   imgNode.style.height = 'auto';
-  imgNode.style.transition = 'opacity 0.3s ease-in-out';
+  imgNode.style.transition = 'opacity 400ms ease 0ms';
 };
 
 export const applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
@@ -134,8 +134,7 @@ export const applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
     canvas.style.right = '0';
     canvas.style.opacity = '1';
     canvas.style.zIndex = '1';
-
-    canvas.style.transition = 'opacity 0.3s ease-in-out';
+    canvas.style.transition = 'opacity 400ms ease 0ms';
 
     wrapper.prepend(canvas);
   }

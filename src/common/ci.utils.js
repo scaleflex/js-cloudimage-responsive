@@ -79,14 +79,21 @@ export const updateSizeWithPixelRatio = (size) => {
 const generateUrl = props => {
   const { src, params, config, width, height } = props;
   const { token, domain, doNotReplaceURL } = config;
-  const configParams = getParams(config.params);
 
   return [
     doNotReplaceURL ? '' : `https://${token}.${domain}/v7/`,
     src,
     src.includes('?') ? '&' : '?',
-    getQueryString({ params: { ...configParams, ...params }, width, height })
+    getQueryString({ params: { ...config.params, ...params }, width, height })
   ].join('');
+};
+
+export const getPreviewSRC = ({ config, width, height, params, src }) => {
+  const { previewQualityFactor } = config;
+  const previewParams = { ...params, ci_info: '' };
+  const lowQualitySize = getLowQualitySize({ width, height }, previewQualityFactor);
+
+  return generateUrl({ src, config, params: { ...previewParams, ...lowQualitySize } });
 };
 
 const getQueryString = props => {
@@ -359,7 +366,7 @@ const getInitialConfigLowPreview = (config) => {
         lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
-    params,
+    params: getParams(params),
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,
@@ -400,7 +407,7 @@ const getInitialConfigPlain = (config) => {
         lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
-    params,
+    params: getParams(params),
     innerWidth: window.innerWidth,
     init,
     doNotReplaceURL
@@ -440,7 +447,7 @@ const getInitialConfigBlurHash = (config) => {
         lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
-    params,
+    params: getParams(params),
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,
@@ -492,8 +499,8 @@ const isImageSVG = url => url.slice(-4).toLowerCase() === '.svg';
 export const determineContainerProps = props => {
   const { imgNode, config, imageNodeWidth, imageNodeHeight, imageNodeRatio, params, size } = props;
   const { exactSize } = config;
-  let width = getWidth({ imgNode, exactSize, imageNodeWidth, params, size });
-  let height = getHeight({ imgNode, config, exactSize, imageNodeHeight, params, size });
+  let width = getWidth({ imgNode, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size });
+  let height = getHeight({ imgNode, config, exactSize, imageNodeHeight, params: { ...config.params, ...params }, size });
   let ratio = getRatio({ imageNodeRatio, width, height, size });
 
   if (!height && width && ratio) {
@@ -655,7 +662,7 @@ export const getImageContainerWidth = (img) => {
   return parseInt(getParentContainerSize(img), 10);
 }
 
-export const convertToPX = size => {
+export const convertToPX = (size = '') => {
   size = size.toString();
 
   if (size.indexOf('px') > -1) {
@@ -668,7 +675,7 @@ export const convertToPX = size => {
     return window.innerHeight * parseInt(size) / 100;
   }
 
-  return null;
+  return parseInt(size) || null;
 }
 
 const getParentContainerSize = (img, type = 'width') => {
