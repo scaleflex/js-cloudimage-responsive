@@ -42,6 +42,7 @@
   <section class="home">
     <div class="container">
       <a class="logo" href="https://scaleflex.github.io/js-cloudimage-responsive/">JS Cloudimage Responsive</a>
+      <p>(Blur-hash placeholder version)</p>
       <div style="margin-top: 10px;">
         <a class="github-button" target="_blank"
            href="https://github.com/Scaleflex/js-cloudimage-responsive/subscription" data-icon="octicon-eye"
@@ -101,17 +102,17 @@
 
   <section>
     <div class="container-width-box">container width: <span>---</span> px</div>
-<!--    <img-->
-<!--       ci-src="luca-bravo-121932.jpg"-->
+        <img
+           ci-src="luca-bravo-121932.jpg"
+           ci-ratio="2.35"
+           ci-blur-hash="TLDl~CQ,Mx_4WTnOxvM|xuxGt7oz"
+        />
+<!--    <div-->
+<!--       ci-bg-url="luca-bravo-121932.jpg"-->
 <!--       ci-ratio="2.35"-->
 <!--       ci-blur-hash="TLDl~CQ,Mx_4WTnOxvM|xuxGt7oz"-->
-<!--    />-->
-    <div
-       ci-bg-url="luca-bravo-121932.jpg"
-       ci-ratio="2.35"
-       ci-blur-hash="TLDl~CQ,Mx_4WTnOxvM|xuxGt7oz"
-       style="min-height: 200px;background: #e7e7e7 50% 50% / cover no-repeat"
-    ></div>
+<!--       style="min-height: 200px;background: #e7e7e7 50% 50% / cover no-repeat"-->
+<!--    ></div>-->
   </section>
 
   <div style="background: #fff">
@@ -229,7 +230,7 @@
           <td>2</td>
           <td>1600px</td>
           <td>1600×1066 | 200 kb | <a target="_blank"
-                                        href="https://demo.cloudimg.io/width/1600/q35.foil1/https://scaleflex.airstore.io/demo/redcharlie.jpg">link</a>
+                                      href="https://demo.cloudimg.io/width/1600/q35.foil1/https://scaleflex.airstore.io/demo/redcharlie.jpg">link</a>
           </td>
         </tr>
 
@@ -343,51 +344,90 @@
         </div>
       </div>
 
-<!--      <div class="row">-->
-<!--        <div class="col-md-6 col-lg-7">-->
-<!--          &lt;!&ndash;<div class="container-width-box">container width: <span>-&#45;&#45;</span> px</div>&ndash;&gt;-->
-<!--          <img-->
-<!--             ci-src="dino-reichmuth-1.jpg"-->
-<!--             ci-sizes="{-->
-<!--              sm: { w: 400, h: 200 },-->
-<!--              '(min-width: 620px)': { w: 200, h: 60 },-->
-<!--              md: { w: 250, h: 350 },-->
-<!--              lg: { w: 350, h: 300 },-->
-<!--              xl: { w: 400, h: 250 }-->
-<!--             }"-->
-<!--          />-->
-<!--          &lt;!&ndash;<div&ndash;&gt;-->
-<!--             &lt;!&ndash;style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"&ndash;&gt;-->
-<!--             &lt;!&ndash;ci-bg="dino-reichmuth-1.jpg"&ndash;&gt;-->
-<!--             &lt;!&ndash;operation="crop"&ndash;&gt;-->
-<!--             &lt;!&ndash;size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"&ndash;&gt;-->
-<!--          &lt;!&ndash;&gt;</div>&ndash;&gt;-->
-<!--          <small>-->
-<!--            original: <i>9.2mb</i> <a-->
-<!--             href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-1.jpg" target="_blank"> link</a><br/>-->
-<!--          </small>-->
-<!--        </div>-->
-<!--        <div class="col-md-6 col-lg-5 desc-wrapper-with-media-query">-->
-<!--          <h4>You can control your image size/ratio/crop with media query breakpoints</h4>-->
-<!--          <p>Resize your browser window to see how it works</p>-->
-<!--          <pre><code>-->
-<!--&lt;img-->
-<!--  operation="crop"-->
-<!--  ci-src="dino-reichmuth-1.jpg"-->
-<!--  ci-sizes="{-->
-<!--    sm: { w: 400, h: 200 },-->
-<!--    '(min-width: 620px)': { w: 200, h: 60 },-->
-<!--    md: { w: 250, h: 350 },-->
-<!--    lg: { w: 350, h: 300 },-->
-<!--    xl: { w: 400, h: 250 }-->
-<!--   }"-->
-<!--"/&gt;-->
-<!--      </code></pre>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="row">
+        <div class="col-md-6 col-lg-7">
+          <!--<div class="container-width-box">container width: <span>---</span> px</div>-->
+          <img
+             ci-src="dino-reichmuth-1.jpg"
+             ci-blur-hash="TLDl~CQ,Mx_4WTnOxvM|xuxGt7oz"
+             ci-sizes="{
+              xs: { w: 200, h: 100 },
+              sm: { w: 400, h: 200 },
+              '(min-width: 620px)': { w: 200, h: 60 },
+              md: { w: 250, h: 350 },
+              lg: { w: 350, h: 300 },
+              xl: { w: 400, h: 250 }
+             }"
+          />
+          <!--<div-->
+          <!--style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"-->
+          <!--ci-bg="dino-reichmuth-1.jpg"-->
+          <!--operation="crop"-->
+          <!--size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"-->
+          <!--&gt;</div>-->
+          <small>
+            original: <i>9.2mb</i> <a
+             href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-1.jpg" target="_blank"> link</a><br/>
+          </small>
+        </div>
+        <div class="col-md-6 col-lg-5 desc-wrapper-with-media-query">
+          <h4>You can control your image size/ratio/crop with media query breakpoints</h4>
+          <p>Resize your browser window to see how it works</p>
+          <pre><code>
+&lt;img
+  operation="crop"
+  ci-src="dino-reichmuth-1.jpg"
+  ci-sizes="{
+    xs: { w: 200, h: 100 },
+    sm: { w: 400, h: 200 },
+    '(min-width: 620px)': { w: 200, h: 60 },
+    md: { w: 250, h: 350 },
+    lg: { w: 350, h: 300 },
+    xl: { w: 400, h: 250 }
+   }"
+"/&gt;
+      </code></pre>
+        </div>
+      </div>
 
     </div>
   </section>
+
+
+<!--  <section class="ready-to-start">-->
+<!--    <div class="container">-->
+<!--      <h2 class="text-center">Crop your images</h2>-->
+
+<!--      <div class="row">-->
+<!--        <div class="col-md-4">-->
+<!--          <p>Original Images</p>-->
+<!--          <div>-->
+<!--            <div class="container-box-wrapper" style="display: inline-block;width:200px;height:200px">-->
+<!--              <img src="https://doc.cloudimg.io/v7/sample.li/boat.jpg" alt=""/>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-4">-->
+<!--          <p>Crop</p>-->
+<!--          <div>-->
+<!--            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px;">-->
+<!--              <img ci-src="boat.jpg" blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-4">-->
+<!--          <p>Auto crop</p>-->
+<!--          <div>-->
+<!--            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px">-->
+<!--              <img ci-src="boat.jpg" params="gravity=auto" blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </section>-->
 
   <section class="container ready-to-start">
     <h2 class="text-center">Ready to get started?</h2>
@@ -493,9 +533,12 @@ window.lazySizes.init();
           </div>
           <div class="col-sm-9 filerobot-ui-family-libs" style="max-width: calc(100% - 200px);">
             <ul>
-              <li><a target="_blank" href="https://github.com/scaleflex/react-cloudimage-responsive">React Cloudimage Responsive</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/ng-cloudimage-responsive">Angular Cloudimage Responsive</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/js-cloudimage-360-view">JS Cloudimage 360 View</a></li>
+              <li><a target="_blank" href="https://github.com/scaleflex/react-cloudimage-responsive">React Cloudimage
+                Responsive</a></li>
+              <li><a target="_blank" href="https://github.com/scaleflex/ng-cloudimage-responsive">Angular Cloudimage
+                Responsive</a></li>
+              <li><a target="_blank" href="https://github.com/scaleflex/js-cloudimage-360-view">JS Cloudimage 360
+                View</a></li>
               <li><a target="_blank" href="https://github.com/scaleflex/filerobot-uploader">Uploader</a></li>
               <li><a target="_blank" href="https://github.com/scaleflex/filerobot-image-editor">Image Editor</a></li>
             </ul>
@@ -511,7 +554,8 @@ window.lazySizes.init();
             <div>Made with ❤ in 2019 in Paris, Munich and Sofia by the Scaleflex team, the guys behind <a
                href="https://www.cloudimage.io/en/home" target="_blank">Cloudimage.io</a>.
             </div>
-            <div style="margin-top: 10px;">Powered by <a href="https://www.scaleflex.it/en/home" target="_blank">Scaleflex team</a>.
+            <div style="margin-top: 10px;">Powered by <a href="https://www.scaleflex.it/en/home" target="_blank">Scaleflex
+              team</a>.
               All rights reserved.
             </div>
           </div>
