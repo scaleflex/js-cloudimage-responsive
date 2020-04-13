@@ -499,7 +499,7 @@ const isImageSVG = url => url.slice(-4).toLowerCase() === '.svg';
 export const determineContainerProps = props => {
   const { imgNode, config, imageNodeWidth, imageNodeHeight, imageNodeRatio, params, size } = props;
   const { exactSize } = config;
-  let width = getWidth({ imgNode, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size });
+  let width = getWidth({ imgNode, config, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size });
   let height = getHeight({ imgNode, config, exactSize, imageNodeHeight, params: { ...config.params, ...params }, size });
   let ratio = getRatio({ imageNodeRatio, width, height, size });
 
@@ -555,9 +555,10 @@ export const getWidth = props => {
     exactSize = false,
     imageNodeWidth = null,
     params = {},
-    size
+    size,
+    config = {}
   } = props;
-  const isCrop = params.func === 'crop';
+  const crop = isCrop(params.func || config.params.func);
 
   if (size && size.params) {
     return size.params.w || size.params.width;
@@ -573,7 +574,7 @@ export const getWidth = props => {
 
   const imageContainerWidth = getImageContainerWidth(imgNode);
 
-  return isCrop ? imageContainerWidth : getSizeLimit(imageContainerWidth, exactSize);
+  return crop ? imageContainerWidth : getSizeLimit(imageContainerWidth, exactSize);
 }
 
 /**
@@ -601,7 +602,7 @@ export const getHeight = props => {
     params = {},
     size
   } = props;
-  const isCrop = params.func === 'crop';
+  const crop = isCrop(params.func || config.params.func);
 
   if (size && size.params) {
     return size.params.h || size.params.height;
@@ -615,13 +616,13 @@ export const getHeight = props => {
     return convertToPX(imageNodeHeight);
   }
 
-  if ((params.func || config.params.func) !== 'crop') {
+  if (!crop) {
     return null;
   }
 
   const imageContainerHeight = getImageContainerHeight(imgNode);
 
-  return isCrop ? imageContainerHeight : getSizeLimit(imageContainerHeight, exactSize);
+  return crop ? imageContainerHeight : getSizeLimit(imageContainerHeight, exactSize);
 };
 
 /**
@@ -719,6 +720,8 @@ export const setBackgroundSrc = (image, url, lazy, imgSrc, isSVG, dataSrcAttr) =
     image.style.backgroundImage = `url('${resultLink}')`
   }
 };
+
+export const isCrop = func => ['crop', 'fit', 'bound', 'cover'].includes(func);
 
 export {
   checkIfRelativeUrlPath,
