@@ -146,7 +146,7 @@ const getAdaptiveSize = (sizes, presets) => {
 };
 
 const normalizeSize = (params = {}) => {
-  let { w = params.width || '', h = params.height || '' } = params;
+  let { w = params.width || '', h = params.height || '', r = params.r } = params;
 
   if ((w.toString()).indexOf('vw') > -1) {
     const percent = parseFloat(w);
@@ -164,7 +164,7 @@ const normalizeSize = (params = {}) => {
     h = parseFloat(h);
   }
 
-  return { w, h };
+  return { w, h, r };
 }
 
 const getBreakPoint = (sizes, presets) => {
@@ -500,7 +500,7 @@ export const determineContainerProps = props => {
   const { imgNode, config, imageNodeWidth, imageNodeHeight, imageNodeRatio, params, size } = props;
   const { exactSize } = config;
   let width = getWidth({ imgNode, config, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size });
-  let height = getHeight({ imgNode, config, exactSize, imageNodeHeight, params: { ...config.params, ...params }, size });
+  let height = getHeight({ imgNode, config, exactSize, imageNodeHeight, params: { ...config.params, ...params }, size, width });
   let ratio = getRatio({ imageNodeRatio, width, height, size });
 
   if (!height && width && ratio) {
@@ -559,22 +559,37 @@ export const getWidth = props => {
     config = {}
   } = props;
   const crop = isCrop(params.func || config.params.func);
+  const sizeParamsWidth = size && size.params && (size.params.w || size.params.width);
+  const paramsWidth = params.width || params.w;
+  const imageNodeWidthPX = imageNodeWidth && convertToPX(imageNodeWidth);
+  const imageContainerWidth = getImageContainerWidth(imgNode);
+  const result = crop ? imageContainerWidth : getSizeLimit(imageContainerWidth, exactSize);
 
   if (size && size.params) {
-    return size.params.w || size.params.width;
+    if (size.params.r) {
+      if (params.width || params.w) {
+        return paramsWidth;
+      }
+
+      if (imageNodeWidth) {
+        return imageNodeWidthPX;
+      }
+
+      return result
+    }
+
+    return sizeParamsWidth;
   }
 
-  if (params.width || params.w) {
-    return params.width || params.w;
+  if (paramsWidth) {
+    return paramsWidth;
   }
 
   if (imageNodeWidth) {
-    return convertToPX(imageNodeWidth);
+    return imageNodeWidthPX;
   }
 
-  const imageContainerWidth = getImageContainerWidth(imgNode);
-
-  return crop ? imageContainerWidth : getSizeLimit(imageContainerWidth, exactSize);
+  return result;
 }
 
 /**
@@ -600,29 +615,38 @@ export const getHeight = props => {
     exactSize = false,
     imageNodeHeight = null,
     params = {},
-    size
+    size,
+    width
   } = props;
   const crop = isCrop(params.func || config.params.func);
+  const sizeParamsHeight = size && size.params && (size.params.h || size.params.height);
+  const paramsRatio = size && size.params && (size.params.ratio || size.params.r);
+  const paramsHeight = params.height || params.h;
+  const imageNodeHeightPX = imageNodeHeight && convertToPX(imageNodeHeight);
+  const imageContainerHeight = getImageContainerHeight(imgNode);
+  const result = crop ? imageContainerHeight : getSizeLimit(imageContainerHeight, exactSize);
 
   if (size && size.params) {
-    return size.params.h || size.params.height;
+    if (paramsRatio && width) {
+      return width / paramsRatio;
+    }
+
+    return sizeParamsHeight;
   }
 
-  if (params.height || params.h) {
-    return params.height || params.h;
+  if (paramsHeight) {
+    return paramsHeight;
   }
 
   if (imageNodeHeight) {
-    return convertToPX(imageNodeHeight);
+    return imageNodeHeightPX;
   }
 
   if (!crop) {
     return null;
   }
 
-  const imageContainerHeight = getImageContainerHeight(imgNode);
-
-  return crop ? imageContainerHeight : getSizeLimit(imageContainerHeight, exactSize);
+  return result;
 };
 
 /**
