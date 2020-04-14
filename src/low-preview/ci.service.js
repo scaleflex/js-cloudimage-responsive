@@ -115,7 +115,7 @@ export default class CIResponsive {
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive
     };
 
     if (isImage) {
@@ -127,7 +127,18 @@ export default class CIResponsive {
 
   processImage(props) {
     const {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, cloudimageSrcset
+      imgNode,
+      isUpdate,
+      imgProps,
+      lazy,
+      isPreview,
+      containerProps,
+      isSVG,
+      cloudimageUrl,
+      src,
+      preserveSize,
+      cloudimageSrcset,
+      isAdaptive
     } = props;
     const { params } = imgProps;
     const { width, ratio } = containerProps;
@@ -153,7 +164,7 @@ export default class CIResponsive {
     }
 
     imgNode.onload = () => {
-      onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize);
+      onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
     };
 
     setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);

@@ -26,16 +26,17 @@ export const loadBackgroundImage = (event) => {
 
 export const applyOrUpdateWrapper = props => {
   const { isUpdate, imgNode, ratio, imageNodeWidth, imageNodeHeight, alignment, preserveSize, placeholderBackground } = props;
-  let wrapper = null;
+  let wrapper;
 
   if (!isUpdate) {
     wrapper = wrapImage({ imgNode, ratio, imageNodeWidth, imageNodeHeight, alignment, preserveSize, placeholderBackground });
   } else {
     wrapper = getWrapper(imgNode);
 
-    if (ratio) {
-      wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
-    }
+    // TODO: remove in next release
+    // if (ratio) {
+    //   wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
+    // }
   }
 
   return wrapper;
@@ -142,10 +143,10 @@ export const applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
   return canvas;
 };
 
-export const onImageLoad = ({ wrapper, imgNode, canvas, ratio, preserveSize }) => {
+export const onImageLoad = ({ wrapper, imgNode, canvas, preserveSize, ratio, isAdaptive }) => {
   wrapper.style.background = 'transparent';
 
-  if (!ratio) {
+  if (!ratio || isAdaptive) {
     wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ((imgNode.width / imgNode.height) || 1)) + '%';
   }
 

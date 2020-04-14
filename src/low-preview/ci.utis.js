@@ -65,12 +65,12 @@ export const finishAnimation = (image, isBackground) => {
   addClass(image, 'ci-image-loaded');
 };
 
-export const onImageLoad = (wrapper, previewImg, imgNode, ratio, preserveSize) => {
+export const onImageLoad = (wrapper, previewImg, imgNode, ratio, preserveSize, isAdaptive) => {
   const { width, height } = imgNode;
 
   wrapper.style.background = 'transparent';
 
-  if (!ratio) {
+  if (!ratio || isAdaptive) {
     wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / (width / height)) + '%';
   }
 
@@ -127,8 +127,8 @@ export const loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) 
 };
 
 export const applyOrUpdateWrapper = props => {
-  const { isUpdate, imgNode, ratio, lazy, preserveSize } = props;
-  let wrapper = null, previewImgNode = null, previewWrapper = null;
+  const { isUpdate, imgNode, lazy } = props;
+  let wrapper, previewImgNode = null, previewWrapper = null;
 
   if (!isUpdate) {
     wrapper = wrapImage(props);
@@ -152,9 +152,10 @@ export const applyOrUpdateWrapper = props => {
   } else {
     wrapper = getWrapper(imgNode);
 
-    if (ratio) {
-      wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
-    }
+    // TODO: remove in next release
+    //if (ratio) {
+    //  wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
+    //}
   }
 
   return { wrapper, previewImgNode, previewWrapper };

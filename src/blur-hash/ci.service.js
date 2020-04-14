@@ -111,7 +111,18 @@ export default class CIResponsive {
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize
+      config,
+      isUpdate,
+      imgNode,
+      containerProps,
+      imgProps,
+      lazy,
+      blurHash,
+      cloudimageUrl,
+      isSVG,
+      src,
+      preserveSize,
+      isAdaptive
     };
 
     if (isImage) {
@@ -122,7 +133,7 @@ export default class CIResponsive {
   }
 
   processImage(props) {
-    const { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize, cloudimageSrcset } = props;
+    const { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize, cloudimageSrcset, isAdaptive } = props;
     const { ratio } = containerProps;
     const { placeholderBackground, dataSrcAttr } = config;
     const wrapper = applyOrUpdateWrapper({ isUpdate, imgNode, ratio, placeholderBackground, ...imgProps });
@@ -133,7 +144,9 @@ export default class CIResponsive {
 
       const canvas = applyOrUpdateBlurHashCanvas(wrapper, blurHash);
 
-      imgNode.onload = () => { onImageLoad({ wrapper, imgNode, canvas: blurHash && canvas, ratio, preserveSize }) };
+      imgNode.onload = () => {
+        onImageLoad({ wrapper, imgNode, canvas: blurHash && canvas, ratio, preserveSize, isAdaptive })
+      };
     }
 
     setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
