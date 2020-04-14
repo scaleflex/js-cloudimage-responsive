@@ -522,8 +522,8 @@ export const determineContainerProps = props => {
 
 export const getRatio = ({ imageNodeRatio, width, height, size }) => {
   if (size && size.params) {
-    if (size.params.ratio) {
-      return size.params.ratio
+    if (size.params.r || size.params.ratio) {
+      return size.params.r || size.params.ratio;
     } else if ((size.params.w || size.params.width) && (size.params.h || size.params.height)) {
       return (size.params.w || size.params.width) / (size.params.h || size.params.height);
     } else {
