@@ -13,6 +13,7 @@ img.ci-image {
   top: 0;
   left: 0;
   height: auto;
+  opacity: 1;
 }
 
 img.ci-image-ratio.ci-image-preview {

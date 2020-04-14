@@ -3,4 +3,5 @@ div.ci-image-wrapper {
   width: 100%;
   overflow: hidden;
   position: relative;
+  opacity: 1;
 }
