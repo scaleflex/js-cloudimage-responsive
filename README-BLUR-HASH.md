@@ -254,6 +254,16 @@ Forces to load exact size of images.
 By default the plugin rounds container width to next possible value which can be divided by 100 without the remainder.
 It’s done for cache reasons so that not all images are cached by 1px, but only 100px, 200px, 300px …
 
+### limitFactor
+
+###### Type: **Number** | Default: **100** | _optional_
+
+Rounds up size of an image to nearest limitFactor value.
+
+For example
+* for an image with width **358px** and limitFactor equals **100** the plugin will round up to 400px
+* for an image with width **358px** and limitFactor equals **5** the plugin will round up to 360px
+
 ## <a name="image_properties"></a> Image properties
 
 Cloudimage responsive plugin will make image on your page responsive if you replace the `src` with `ci-src` attribute in the `<img>` tag:
