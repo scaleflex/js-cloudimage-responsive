@@ -174,12 +174,12 @@ const getBreakPoint = (sizes, presets) => {
   return [...size].reverse().find(item => window.matchMedia(item.media).matches);
 }
 
-export const getSizeLimit = (size, exactSize) => {
+export const getSizeLimit = (size, exactSize, limitFactor) => {
   if (exactSize) return Math.ceil(size);
   if (size <= 25) return 25;
   if (size <= 50) return 50;
 
-  return Math.ceil(size / 100) * 100;
+  return Math.ceil(size / limitFactor) * limitFactor;
 };
 
 const filterImages = (images, type) => {
@@ -347,7 +347,8 @@ const getInitialConfigLowPreview = (config) => {
     params = 'org_if_sml=1',
     init = true,
     exactSize = false,
-    doNotReplaceURL = false
+    doNotReplaceURL = false,
+    limitFactor = 100
   } = config;
 
   return {
@@ -374,7 +375,8 @@ const getInitialConfigLowPreview = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST
+    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
+    limitFactor
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -392,7 +394,8 @@ const getInitialConfigPlain = (config) => {
     params = 'org_if_sml=1',
     init = true,
     exactSize = false,
-    doNotReplaceURL = false
+    doNotReplaceURL = false,
+    limitFactor = 100
   } = config;
 
   return {
@@ -415,7 +418,8 @@ const getInitialConfigPlain = (config) => {
     innerWidth: window.innerWidth,
     init,
     doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST
+    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
+    limitFactor
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -433,7 +437,8 @@ const getInitialConfigBlurHash = (config) => {
     params = 'org_if_sml=1',
     init = true,
     exactSize = false,
-    doNotReplaceURL = false
+    doNotReplaceURL = false,
+    limitFactor = 100
   } = config;
 
   return {
@@ -457,7 +462,8 @@ const getInitialConfigBlurHash = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST
+    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
+    limitFactor
   };
 };
 
@@ -564,12 +570,13 @@ export const getWidth = props => {
     size,
     config = {}
   } = props;
+  const { limitFactor } = config;
   const crop = isCrop(params.func || config.params.func);
   const sizeParamsWidth = size && size.params && (size.params.w || size.params.width);
   const paramsWidth = params.width || params.w;
   const imageNodeWidthPX = imageNodeWidth && convertToPX(imageNodeWidth);
   const imageContainerWidth = getImageContainerWidth(imgNode);
-  const result = crop ? imageContainerWidth : getSizeLimit(imageContainerWidth, exactSize);
+  const result = crop ? imageContainerWidth : getSizeLimit(imageContainerWidth, exactSize, limitFactor);
 
   if (size && size.params) {
     if (size.params.r) {
@@ -624,13 +631,14 @@ export const getHeight = props => {
     size,
     width
   } = props;
+  const { limitFactor } = config;
   const crop = isCrop(params.func || config.params.func);
   const sizeParamsHeight = size && size.params && (size.params.h || size.params.height);
   const paramsRatio = size && size.params && (size.params.ratio || size.params.r);
   const paramsHeight = params.height || params.h;
   const imageNodeHeightPX = imageNodeHeight && convertToPX(imageNodeHeight);
   const imageContainerHeight = getImageContainerHeight(imgNode);
-  const result = crop ? imageContainerHeight : getSizeLimit(imageContainerHeight, exactSize);
+  const result = crop ? imageContainerHeight : getSizeLimit(imageContainerHeight, exactSize, limitFactor);
 
   if (size && size.params) {
     if (paramsRatio && width) {
