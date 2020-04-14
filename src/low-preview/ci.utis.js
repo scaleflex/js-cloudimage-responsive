@@ -146,6 +146,7 @@ export const applyOrUpdateWrapper = props => {
     previewWrapper.style.position = 'absolute';
     previewWrapper.style.top = '0';
     previewWrapper.style.left = '0';
+    previewImgNode.alt = `Low quality preview for ${imgNode.alt || (imgNode.src || '').split('.')[0]}`;
 
     previewWrapper.appendChild(previewImgNode);
     wrapper.insertBefore(previewWrapper, imgNode);
