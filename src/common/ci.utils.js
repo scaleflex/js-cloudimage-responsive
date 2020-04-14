@@ -666,7 +666,7 @@ export const getHeight = props => {
  * @return {Number} width of image container
  */
 export const getImageContainerHeight = (img) => {
-  const imageStyleHeight = img && img.style && img.style.height;
+  const imageStyleHeight = img && img.style && img.style.height && !img.style.height.includes('%');
   const imageHeight = convertToPX(imageStyleHeight);
 
   if (imageHeight) return parseInt(imageHeight, 10);
@@ -685,7 +685,7 @@ export const getImageContainerHeight = (img) => {
  * @return {Number} width of image container
  */
 export const getImageContainerWidth = (img) => {
-  const imageStyleWidth = img && img.style && img.style.width;
+  const imageStyleWidth = img && img.style && img.style.width && !img.style.width.includes('%');
   const imageWidth = imageStyleWidth && convertToPX(imageStyleWidth);
 
   if (imageWidth) return parseInt(imageWidth, 10);
