@@ -120,7 +120,7 @@ Add script tag with CDN link to js-cloudimage-responsive
 You may also use major version number instead of fixed version to have the latest version available.
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/blur-hash/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4/blur-hash/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
