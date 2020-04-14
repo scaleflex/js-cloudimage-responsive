@@ -10,7 +10,8 @@ import {
   isLazy,
   isOldBrowsers,
   setBackgroundSrc,
-  setSrc
+  setSrc,
+  setSrcset
 } from '../common/ci.utils';
 import { initImageClasses, loadBackgroundImage } from './ci.utils';
 import { debounce } from 'throttle-debounce';
@@ -68,7 +69,7 @@ export default class CIResponsive {
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
-    const { baseURL, lazyLoading, presets } = config;
+    const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
     const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
     const { params, imageNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
 
@@ -96,18 +97,20 @@ export default class CIResponsive {
 
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
     const { width, height } = containerProps;
-    const cloudimageUrl = generateUrl({ src, params, config, width, height });
+    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, width, height, devicePixelRatio })
+    const cloudimageUrl = generateURLbyDPR();
+    const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = { imgNode, isUpdate, imgProps, lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize };
 
     if (isImage) {
-      this.processImage(props);
+      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
     } else {
       this.processBackgroundImage(props);
     }
   }
 
   processImage(props) {
-    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src } = props;
+    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src, cloudimageSrcset } = props;
     const { config } = this;
     const { dataSrcAttr } = config;
 
@@ -115,6 +118,7 @@ export default class CIResponsive {
       initImageClasses({ imgNode, lazy });
     }
 
+    setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
     setSrc(imgNode, cloudimageUrl, 'data-src', lazy, src, isSVG, dataSrcAttr);
   }
 

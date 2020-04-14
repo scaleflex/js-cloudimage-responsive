@@ -13,6 +13,7 @@ import {
   isOldBrowsers,
   setBackgroundSrc,
   setSrc,
+  setSrcset,
   updateSizeWithPixelRatio
 } from '../common/ci.utils';
 import {
@@ -81,7 +82,7 @@ export default class CIResponsive {
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
-    const { baseURL, lazyLoading, presets } = config;
+    const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
     const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
     const { params, imageNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
 
@@ -110,29 +111,24 @@ export default class CIResponsive {
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
     const { width, height } = containerProps;
     const isPreview = isApplyLowQualityPreview(isAdaptive, width, isSVG);
-    const cloudimageUrl = generateUrl({ src, params, config, width, height });
+    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, width, height, devicePixelRatio })
+    const cloudimageUrl = generateURLbyDPR();
+    const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode,
-      isUpdate,
-      imgProps,
-      lazy,
-      isPreview,
-      containerProps,
-      isSVG,
-      cloudimageUrl,
-      src,
-      preserveSize
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize
     };
 
     if (isImage) {
-      this.processImage(props);
+      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
     } else {
       this.processBackgroundImage(props);
     }
   }
 
   processImage(props) {
-    const { imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize } = props;
+    const {
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, cloudimageSrcset
+    } = props;
     const { params } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
@@ -160,6 +156,7 @@ export default class CIResponsive {
       onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize);
     };
 
+    setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
     setSrc(imgNode, cloudimageUrl, 'data-src', lazy, src, isSVG, dataSrcAttr);
   }
 

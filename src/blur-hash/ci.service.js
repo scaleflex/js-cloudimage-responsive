@@ -10,7 +10,8 @@ import {
   isLazy,
   isOldBrowsers,
   setBackgroundSrc,
-  setSrc
+  setSrc,
+  setSrcset
 } from '../common/ci.utils';
 import {
   applyOrUpdateBlurHashCanvas,
@@ -78,7 +79,7 @@ export default class CIResponsive {
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
-    const { baseURL, lazyLoading, presets } = config;
+    const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
     const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
     const { params, imageNodeSRC, blurHash, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
 
@@ -105,18 +106,23 @@ export default class CIResponsive {
     }
 
     const containerProps = determineContainerProps({ ...imgProps, imgNode, config, size });
-    const cloudimageUrl = generateUrl({ src, params, config, ...containerProps });
-    const props = { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize };
+
+    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, ...containerProps, devicePixelRatio })
+    const cloudimageUrl = generateURLbyDPR();
+    const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
+    const props = {
+      config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize
+    };
 
     if (isImage) {
-      this.processImage(props);
+      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
     } else {
       this.processBackgroundImage(props);
     }
   }
 
   processImage(props) {
-    const { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize } = props;
+    const { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize, cloudimageSrcset } = props;
     const { ratio } = containerProps;
     const { placeholderBackground, dataSrcAttr } = config;
     const wrapper = applyOrUpdateWrapper({ isUpdate, imgNode, ratio, placeholderBackground, ...imgProps });
@@ -130,6 +136,7 @@ export default class CIResponsive {
       imgNode.onload = () => { onImageLoad({ wrapper, imgNode, canvas: blurHash && canvas, ratio, preserveSize }) };
     }
 
+    setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
     setSrc(imgNode, cloudimageUrl, null, lazy, src, isSVG, dataSrcAttr);
   }
 

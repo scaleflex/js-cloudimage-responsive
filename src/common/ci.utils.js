@@ -65,46 +65,47 @@ const relativeToAbsolutePath = (base, relative) => {
 /*
 * possible size values: 200 | 200x400
 * */
-export const updateSizeWithPixelRatio = (size) => {
+export const updateSizeWithPixelRatio = (size, devicePixelRatio) => {
   const splittedSizes = size.toString().split('x');
   const result = [];
 
   [].forEach.call(splittedSizes, size => {
-    size ? result.push(Math.floor(size * (window.devicePixelRatio.toFixed(1) || 1))) : '';
+    size ? result.push(Math.floor(size * ((devicePixelRatio || window.devicePixelRatio).toFixed(1) || 1))) : '';
   });
 
   return result.join('x');
 };
 
 const generateUrl = props => {
-  const { src, params, config, width, height } = props;
+  const { src, params, config, width, height, devicePixelRatio } = props;
   const { token, domain, doNotReplaceURL } = config;
 
   return [
     doNotReplaceURL ? '' : `https://${token}.${domain}/v7/`,
     src,
     src.includes('?') ? '&' : '?',
-    getQueryString({ params: { ...config.params, ...params }, width, height })
+    getQueryString({ params: { ...config.params, ...params }, width, height, devicePixelRatio })
   ].join('');
 };
 
-export const getPreviewSRC = ({ config, width, height, params, src }) => {
+export const getPreviewSRC = ({ config, width, height, params, src, devicePixelRatio }) => {
   const { previewQualityFactor } = config;
   const previewParams = { ...params, ci_info: '' };
   const lowQualitySize = getLowQualitySize({ width, height }, previewQualityFactor);
 
-  return generateUrl({ src, config, params: { ...previewParams, ...lowQualitySize } });
+  return generateUrl({ src, config, params: { ...previewParams, ...lowQualitySize }, devicePixelRatio });
 };
 
 const getQueryString = props => {
   const {
     params = {},
     width,
-    height
+    height,
+    devicePixelRatio
   } = props;
   const [restParams, widthFromParam = null, heightFromParam] = getParamsExceptSizeRelated(params);
-  const widthQ = width ? updateSizeWithPixelRatio(width) : widthFromParam;
-  const heightQ = height ? updateSizeWithPixelRatio(height) : heightFromParam;
+  const widthQ = width ? updateSizeWithPixelRatio(width, devicePixelRatio) : widthFromParam;
+  const heightQ = height ? updateSizeWithPixelRatio(height, devicePixelRatio) : heightFromParam;
   const restParamsQ = Object
     .keys(restParams)
     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(restParams[key]))
@@ -328,6 +329,8 @@ const removeClass = (elem, className) => {
   }
 };
 
+const DEVICE_PIXEL_RATIO_LIST = [1, 1.5, 2, 3, 4];
+
 const getInitialConfigLowPreview = (config) => {
   const {
     token = '',
@@ -370,7 +373,8 @@ const getInitialConfigLowPreview = (config) => {
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,
-    doNotReplaceURL
+    doNotReplaceURL,
+    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -410,7 +414,8 @@ const getInitialConfigPlain = (config) => {
     params: getParams(params),
     innerWidth: window.innerWidth,
     init,
-    doNotReplaceURL
+    doNotReplaceURL,
+    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -451,7 +456,8 @@ const getInitialConfigBlurHash = (config) => {
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,
-    doNotReplaceURL
+    doNotReplaceURL,
+    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST
   };
 };
 
@@ -732,6 +738,15 @@ export const setSrc = (image, url, propertyName, lazy, imgSrc, isSVG, dataSrcAtt
   image.setAttribute(
     lazy ? (propertyName ? propertyName : 'data-src') : (dataSrcAttr ? dataSrcAttr : 'src'),
     isSVG ? imgSrc : url
+  );
+};
+
+export const setSrcset = (image, urls, propertyName, lazy, imgSrc, isSVG, dataSrcAttr) => {
+  if (isSVG) return;
+
+  image.setAttribute(
+    lazy ? (propertyName ? propertyName : 'data-srcset') : (dataSrcAttr ? dataSrcAttr : 'srcset'),
+    urls.map(({ dpr, url }) => `${url} ${dpr}x`).join(', ')
   );
 };
 
