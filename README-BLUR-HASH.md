@@ -31,7 +31,7 @@
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html" target="_blank">Demo</a>
+		<a href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html?15.04.2020_2" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-lopvu" target="_blank">Code Sandbox</a>
 		•
