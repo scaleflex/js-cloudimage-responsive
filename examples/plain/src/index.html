@@ -24,12 +24,20 @@
     width: 100px;
     height: 100px;
     z-index: 1;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     margin-top: -50px;
     margin-left: -50px;
   }
+  </style>
+  <style>
+    img[ci-src] {
+      opacity: 0;
+    }
+    img.ci-image-loaded {
+      opacity: 1;
+    }
   </style>
   <title>JS Cloudimage Responsive</title>
 </head>
@@ -269,42 +277,42 @@
       <div class="row images-in-columns">
         <div class="col-12">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="jordan-hubbard.jpg"/>
+          <img ci-src="jordan-hubbard.jpg" alt="jordan-hubbard.jpg"/>
         </div>
 
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="alain.jpg"/>
+          <img ci-src="alain.jpg" alt="alain.jpg"/>
           original: <i>5.8mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/alain.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="ameen-fahmy.jpg"/>
+          <img ci-src="ameen-fahmy.jpg" alt="ameen-fahmy.jpg"/>
           original: <i>0.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ameen-fahmy.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="tim-patch.jpg"/>
+          <img ci-src="tim-patch.jpg" alt="tim-patch.jpg"/>
           original: <i>7.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-9.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="veeterzy.jpg"/>
+          <img ci-src="veeterzy.jpg" alt="veeterzy.jpg"/>
           original: <i>8.5mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/ishan-seefromthesky.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="dino-reichmuth.jpg"/>
+          <img ci-src="dino-reichmuth.jpg" alt="dino-reichmuth.jpg"/>
           original: <i>11.9mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth.jpg" target="_blank"> link</a><br/>
         </div>
         <div class="col-6">
           <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="inma-lesielle.jpg"/>
+          <img ci-src="inma-lesielle.jpg" alt="inma-lesielle.jpg"/>
           original: <i>3.0mb</i>
           <a href="https://cloudimage.public.airstore.io/demo/inma-lesielle.jpg" target="_blank"> link</a><br/>
         </div>
@@ -324,6 +332,19 @@
               xl: { w: 400, h: 250 }
              }"
           />
+
+<!--          <img-->
+<!--             alt="dino-reichmuth-1.jpg"-->
+<!--             ci-src="dino-reichmuth-1.jpg"-->
+<!--             ci-sizes="{-->
+<!--              xs: { r: 1 },-->
+<!--              sm: { r: 4},-->
+<!--              '(min-width: 620px)': { r: 0.5 },-->
+<!--              md: { r: 0.3 },-->
+<!--              lg: { r: 1.3 },-->
+<!--              xl: { r: 3 }-->
+<!--             }"-->
+<!--          />-->
           <!--<div-->
              <!--style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"-->
              <!--ci-bg="dino-reichmuth-1.jpg"-->
