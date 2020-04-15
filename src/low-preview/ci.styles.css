@@ -13,6 +13,9 @@ img.ci-image {
   top: 0;
   left: 0;
   height: auto;
+}
+
+img.ci-image-loaded {
   opacity: 1;
 }
 

@@ -110,7 +110,7 @@ export const initImageStyles = imgNode => {
   imgNode.style.top = '0';
   imgNode.style.left = '0';
   imgNode.style.height = 'auto';
-  imgNode.style.transition = 'opacity 400ms ease 0ms';
+  imgNode.style.opacity = 1;
 };
 
 export const applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
