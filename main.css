@@ -15,6 +15,10 @@ img.ci-image {
   height: auto;
 }
 
+img.ci-image-loaded {
+  opacity: 1;
+}
+
 img.ci-image-ratio.ci-image-preview {
   height: 100%;
 }
