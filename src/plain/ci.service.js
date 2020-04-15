@@ -96,8 +96,7 @@ export default class CIResponsive {
     }
 
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
-    const { width, height } = containerProps;
-    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, width, height, devicePixelRatio })
+    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, containerProps, devicePixelRatio })
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = { imgNode, isUpdate, imgProps, lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize };

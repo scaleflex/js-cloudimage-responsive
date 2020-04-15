@@ -77,18 +77,21 @@ export const updateSizeWithPixelRatio = (size, devicePixelRatio) => {
 };
 
 const generateUrl = props => {
-  const { src, params, config, width, height, devicePixelRatio } = props;
+  const { src, params, config, containerProps, devicePixelRatio = 1 } = props;
+  const size = containerProps && containerProps.sizes[DEVICE_PIXEL_RATIO_LIST.indexOf(devicePixelRatio)];
+  const { width, height } = size || {};
   const { token, domain, doNotReplaceURL } = config;
 
   return [
     doNotReplaceURL ? '' : `https://${token}.${domain}/v7/`,
     src,
     src.includes('?') ? '&' : '?',
-    getQueryString({ params: { ...config.params, ...params }, width, height, devicePixelRatio })
+    getQueryString({ params: { ...config.params, ...params }, width, height })
   ].join('');
 };
 
-export const getPreviewSRC = ({ config, width, height, params, src, devicePixelRatio }) => {
+export const getPreviewSRC = ({ config, containerProps, params, src, devicePixelRatio }) => {
+  const { width, height } = containerProps;
   const { previewQualityFactor } = config;
   const previewParams = { ...params, ci_info: '' };
   const lowQualitySize = getLowQualitySize({ width, height }, previewQualityFactor);
@@ -97,15 +100,10 @@ export const getPreviewSRC = ({ config, width, height, params, src, devicePixelR
 };
 
 const getQueryString = props => {
-  const {
-    params = {},
-    width,
-    height,
-    devicePixelRatio
-  } = props;
+  const { params = {}, width, height } = props;
   const [restParams, widthFromParam = null, heightFromParam] = getParamsExceptSizeRelated(params);
-  const widthQ = width ? updateSizeWithPixelRatio(width, devicePixelRatio) : widthFromParam;
-  const heightQ = height ? updateSizeWithPixelRatio(height, devicePixelRatio) : heightFromParam;
+  const widthQ = width ? width : widthFromParam;
+  const heightQ = height ? height : heightFromParam;
   const restParamsQ = Object
     .keys(restParams)
     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(restParams[key]))
@@ -509,21 +507,63 @@ const setWrapperAlignment = (wrapper, alignment) => {
 const isImageSVG = url => url.slice(-4).toLowerCase() === '.svg';
 
 export const determineContainerProps = props => {
-  const { imgNode, config, imageNodeWidth, imageNodeHeight, imageNodeRatio, params, size } = props;
-  const { exactSize } = config;
-  let width = getWidth({ imgNode, config, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size });
-  let height = getHeight({ imgNode, config, exactSize, imageNodeHeight, params: { ...config.params, ...params }, size, width });
-  let ratio = getRatio({ imageNodeRatio, width, height, size });
+  const {
+    imgNode,
+    config = {},
+    imageNodeWidth,
+    imageNodeHeight,
+    imageNodeRatio,
+    params,
+    size
+  } = props;
+  let ratio = null, widthDPROne = null, heightDPROne = null;
 
-  if (!height && width && ratio) {
-    height = Math.floor(width / ratio);
-  }
+  const sizes = DEVICE_PIXEL_RATIO_LIST.map(dpr => {
+    const crop = isCrop(params.func || config.params.func);
+    const { exactSize, limitFactor } = config;
+    let [width, isLimit] = getWidth({
+      imgNode, config, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size
+    });
 
-  if (!width && height && ratio) {
-    width = Math.floor(height * ratio);
-  }
+    width = width && (width * dpr);
+    width = crop ?
+      width
+      :
+      isLimit ?
+        getSizeLimit(width, exactSize, limitFactor)
+        :
+        width;
 
-  return { width, height, ratio };
+    let height = getHeight({
+      imgNode,
+      config,
+      exactSize,
+      imageNodeHeight,
+      params: { ...config.params, ...params },
+      size,
+      width
+    });
+
+    height = height && (height * dpr);
+
+    if (!height && width && ratio) {
+      height = Math.floor(width / ratio);
+    }
+
+    if (!width && height && ratio) {
+      width = Math.floor(height * ratio);
+    }
+
+    if (dpr === 1) {
+      ratio = getRatio({ imageNodeRatio, width, height, size }); // ratio is the same for all sizes
+      widthDPROne = width;
+      heightDPROne = height;
+    }
+
+    return { width, height, ratio };
+  });
+
+  return { sizes, ratio, width: widthDPROne, height: heightDPROne };
 }
 
 export const getRatio = ({ imageNodeRatio, width, height, size }) => {
@@ -559,50 +599,40 @@ export const getRatio = ({ imageNodeRatio, width, height, size }) => {
  * @param {Boolean} props.exactSize - a flag to use exact width/height params
  * @param {Number} props.imageNodeWidth - width of image node
  * @param {String} props.params - params of image node
- * @return {Number} width limit
+ * @return {Array} [with, isLimit]
  */
 export const getWidth = props => {
-  const {
-    imgNode = null,
-    exactSize = false,
-    imageNodeWidth = null,
-    params = {},
-    size,
-    config = {}
-  } = props;
-  const { limitFactor } = config;
-  const crop = isCrop(params.func || config.params.func);
+  const { imgNode = null, imageNodeWidth = null, params = {}, size } = props;
   const sizeParamsWidth = size && size.params && (size.params.w || size.params.width);
   const paramsWidth = params.width || params.w;
   const imageNodeWidthPX = imageNodeWidth && convertToPX(imageNodeWidth);
   const imageContainerWidth = getImageContainerWidth(imgNode);
-  const result = crop ? imageContainerWidth : getSizeLimit(imageContainerWidth, exactSize, limitFactor);
 
   if (size && size.params) {
     if (size.params.r) {
       if (params.width || params.w) {
-        return paramsWidth;
+        return [paramsWidth];
       }
 
       if (imageNodeWidth) {
-        return imageNodeWidthPX;
+        return [imageNodeWidthPX];
       }
 
-      return result
+      return [imageContainerWidth]
     }
 
-    return sizeParamsWidth;
+    return [sizeParamsWidth];
   }
 
   if (paramsWidth) {
-    return paramsWidth;
+    return [paramsWidth];
   }
 
   if (imageNodeWidth) {
-    return imageNodeWidthPX;
+    return [imageNodeWidthPX];
   }
 
-  return result;
+  return [imageContainerWidth, true];
 }
 
 /**
@@ -622,23 +652,13 @@ export const getWidth = props => {
  * @return {Number} height limit
  */
 export const getHeight = props => {
-  const {
-    imgNode = null,
-    config = {},
-    exactSize = false,
-    imageNodeHeight = null,
-    params = {},
-    size,
-    width
-  } = props;
-  const { limitFactor } = config;
+  const { imgNode = null, config = {}, imageNodeHeight = null, params = {}, size, width } = props;
   const crop = isCrop(params.func || config.params.func);
   const sizeParamsHeight = size && size.params && (size.params.h || size.params.height);
   const paramsRatio = size && size.params && (size.params.ratio || size.params.r);
   const paramsHeight = params.height || params.h;
   const imageNodeHeightPX = imageNodeHeight && convertToPX(imageNodeHeight);
   const imageContainerHeight = getImageContainerHeight(imgNode);
-  const result = crop ? imageContainerHeight : getSizeLimit(imageContainerHeight, exactSize, limitFactor);
 
   if (size && size.params) {
     if (paramsRatio && width) {
@@ -660,7 +680,7 @@ export const getHeight = props => {
     return null;
   }
 
-  return result;
+  return imageContainerHeight;
 };
 
 /**

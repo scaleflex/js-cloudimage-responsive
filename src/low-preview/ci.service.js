@@ -109,9 +109,9 @@ export default class CIResponsive {
     }
 
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
-    const { width, height } = containerProps;
+    const { width } = containerProps;
     const isPreview = isApplyLowQualityPreview(isAdaptive, width, isSVG);
-    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, width, height, devicePixelRatio })
+    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, containerProps, devicePixelRatio })
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
@@ -152,7 +152,7 @@ export default class CIResponsive {
       initImageClasses({ imgNode, lazy });
 
       if (isPreview) {
-        const previewImgURL = getPreviewSRC({ src, params, config, ...containerProps });
+        const previewImgURL = getPreviewSRC({ src, params, config, containerProps });
 
         setAnimation(previewWrapper, previewImgNode, updateSizeWithPixelRatio(width));
         setSrc(previewImgNode, previewImgURL, 'data-src', lazy, src, isSVG, dataSrcAttr);
@@ -180,7 +180,7 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       if (isPreview) {
-        const previewImgURL = getPreviewSRC({ src, params, config, ...containerProps });
+        const previewImgURL = getPreviewSRC({ src, params, config, containerProps });
         const [previewBox, contentBox] = wrapBackgroundContainer(imgNode);
 
         applyBackgroundStyles({ imgNode, previewBox, contentBox, lazy, width });
