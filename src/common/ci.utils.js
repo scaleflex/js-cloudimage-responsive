@@ -346,7 +346,10 @@ const getInitialConfigLowPreview = (config) => {
     init = true,
     exactSize = false,
     doNotReplaceURL = false,
-    limitFactor = 100
+    limitFactor = 100,
+    lowQualityPreview: {
+      minImgWidth = 400
+    } = {}
   } = config;
 
   return {
@@ -374,7 +377,8 @@ const getInitialConfigLowPreview = (config) => {
     previewQualityFactor: 10,
     doNotReplaceURL,
     devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
-    limitFactor
+    limitFactor,
+    minLowQualityWidth: minImgWidth
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -760,7 +764,8 @@ const isLazy = (lazyLoading, isLazyCanceled, isUpdate) => {
   return lazyLoading;
 };
 
-export const isApplyLowQualityPreview = (isAdaptive, width, isSVG) => isAdaptive ? width > 400 : width > 400 && !isSVG;
+export const isApplyLowQualityPreview = (isAdaptive, width, isSVG, minLowQualityWidth) =>
+  isAdaptive ? width > minLowQualityWidth : width > minLowQualityWidth && !isSVG;
 
 export const setSrc = (image, url, propertyName, lazy, imgSrc, isSVG, dataSrcAttr) => {
   image.setAttribute(

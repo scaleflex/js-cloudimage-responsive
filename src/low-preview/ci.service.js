@@ -82,7 +82,7 @@ export default class CIResponsive {
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
-    const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
+    const { baseURL, lazyLoading, presets, devicePixelRatioList, minLowQualityWidth } = config;
     const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
     const { params, imageNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
 
@@ -110,7 +110,7 @@ export default class CIResponsive {
 
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
     const { width } = containerProps;
-    const isPreview = isApplyLowQualityPreview(isAdaptive, width, isSVG);
+    const isPreview = isApplyLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
     const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, containerProps, devicePixelRatio })
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
