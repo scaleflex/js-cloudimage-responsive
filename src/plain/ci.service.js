@@ -1,4 +1,5 @@
 import {
+  addClass,
   determineContainerProps,
   filterImages,
   generateUrl,
@@ -116,6 +117,10 @@ export default class CIResponsive {
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
     }
+
+    imgNode.onload = () => {
+      addClass(imgNode, 'ci-image-loaded');
+    };
 
     setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
     setSrc(imgNode, cloudimageUrl, 'data-src', lazy, src, isSVG, dataSrcAttr);
