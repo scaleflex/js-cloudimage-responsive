@@ -554,6 +554,7 @@ export const determineContainerProps = props => {
       config,
       exactSize,
       imageNodeHeight,
+      imageNodeRatio,
       params: { ...config.params, ...params },
       size,
       width
@@ -570,7 +571,7 @@ export const determineContainerProps = props => {
     }
 
     if (dpr === 1) {
-      ratio = getRatio({ imageNodeRatio, width, height, size, ignoreNodeImgSize }); // ratio is the same for all sizes
+      ratio = getRatio({ imageNodeRatio, width, height, size, config }); // ratio is the same for all sizes
       widthDPROne = width;
       heightDPROne = height;
     }
@@ -581,7 +582,9 @@ export const determineContainerProps = props => {
   return { sizes, ratio, width: widthDPROne, height: heightDPROne };
 }
 
-export const getRatio = ({ imageNodeRatio, width, height, size, ignoreNodeImgSize }) => {
+export const getRatio = ({ imageNodeRatio, width, height, size, config }) => {
+  const { saveNodeImgRatio, ignoreNodeImgSize } = config;
+
   if (size && size.params) {
     if (size.params.r || size.params.ratio) {
       return size.params.r || size.params.ratio;
@@ -592,7 +595,7 @@ export const getRatio = ({ imageNodeRatio, width, height, size, ignoreNodeImgSiz
     }
   }
 
-  if (!ignoreNodeImgSize && imageNodeRatio) {
+  if ((!ignoreNodeImgSize && imageNodeRatio) || (saveNodeImgRatio && imageNodeRatio)) {
     return imageNodeRatio;
   } else if (width && height) {
     return width / height;
@@ -670,8 +673,8 @@ export const getWidth = props => {
  * @return {Number} height limit
  */
 export const getHeight = props => {
-  const { imgNode = null, config = {}, imageNodeHeight = null, params = {}, size, width } = props;
-  const { ignoreNodeImgSize, ignoreStyleImgSize } = config;
+  const { imgNode = null, config = {}, imageNodeHeight = null, params = {}, size, width, imageNodeRatio } = props;
+  const { ignoreNodeImgSize, ignoreStyleImgSize, saveNodeImgRatio } = config;
   const crop = isCrop(params.func || config.params.func);
   const sizeParamsHeight = size && size.params && (size.params.h || size.params.height);
   const paramsRatio = size && size.params && (size.params.ratio || size.params.r);
@@ -694,6 +697,10 @@ export const getHeight = props => {
 
   if (!ignoreNodeImgSize && imageNodeHeight) {
     return imageNodeHeightPX;
+  }
+
+  if (saveNodeImgRatio && imageNodeRatio) {
+    return width / imageNodeRatio;
   }
 
   if (imageHeight) {
