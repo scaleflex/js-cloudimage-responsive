@@ -12,7 +12,8 @@ import {
   isOldBrowsers,
   setBackgroundSrc,
   setSrc,
-  setSrcset
+  setSrcset,
+  destroyNodeImgSize
 } from '../common/ci.utils';
 import { initImageClasses, loadBackgroundImage } from './ci.utils';
 import { debounce } from 'throttle-debounce';
@@ -116,6 +117,10 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
+    }
+
+    if (config.destroyNodeImgSize) {
+      destroyNodeImgSize(imgNode);
     }
 
     imgNode.onload = () => {

@@ -17,7 +17,10 @@ window.ciResponsive = new window.CIResponsive({
   params: 'ci_info=1&org_if_sml=1&version=16.04.2020',
   lazyLoadOffset: 100,
   lazyLoading: true,
-  exactSize: false
+  exactSize: false,
+  //ignoreNodeImgSize: true,
+  //ignoreStyleImgSize: true,
+  //destroyNodeImgSize: true
 });
 
 window.lazySizes.init();

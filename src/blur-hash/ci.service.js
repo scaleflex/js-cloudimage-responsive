@@ -1,4 +1,5 @@
 import {
+  destroyNodeImgSize,
   determineContainerProps,
   filterImages,
   generateUrl,
@@ -140,6 +141,10 @@ export default class CIResponsive {
     if (!isUpdate) {
       initImageClasses(imgNode, lazy);
       initImageStyles(imgNode);
+
+      if (config.destroyNodeImgSize) {
+        destroyNodeImgSize(imgNode);
+      }
 
       const canvas = applyOrUpdateBlurHashCanvas(wrapper, blurHash);
 

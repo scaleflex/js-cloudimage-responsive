@@ -1,4 +1,5 @@
 import {
+  destroyNodeImgSize,
   determineContainerProps,
   filterImages,
   generateUrl,
@@ -150,6 +151,10 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
+
+      if (config.destroyNodeImgSize) {
+        destroyNodeImgSize(imgNode);
+      }
 
       if (isPreview) {
         const previewImgURL = getPreviewSRC({ src, params, config, containerProps });
