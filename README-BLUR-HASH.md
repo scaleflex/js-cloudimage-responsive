@@ -31,7 +31,7 @@
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html" target="_blank">Demo</a>
+		<a href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html?v=15.04.2020_2" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-lopvu" target="_blank">Code Sandbox</a>
 		•
@@ -84,7 +84,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the
-[Demo page](https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html).
+[Demo page](https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/blur-hash/index.html?v=15.04.2020_2).
 Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
