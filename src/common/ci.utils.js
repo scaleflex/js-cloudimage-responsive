@@ -259,7 +259,7 @@ const getImageProps = (image) => {
     imageNodeSRC: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined
   };
   const params = {
-    ...getParamsFromURL(props.imageNodeSRC),
+    ...getParamsFromURL(props.imageNodeSRC || ''),
     ...props.params
   };
 
@@ -277,7 +277,7 @@ const getBackgroundImageProps = (image) => {
     imageNodeSRC: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined
   };
   const params = {
-    ...getParamsFromURL(props.imageNodeSRC),
+    ...getParamsFromURL(props.imageNodeSRC || ''),
     ...props.params
   };
 
