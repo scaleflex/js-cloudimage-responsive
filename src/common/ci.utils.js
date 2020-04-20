@@ -86,7 +86,7 @@ const generateUrl = props => {
     doNotReplaceURL ? '' : `https://${token}.${domain}/v7/`,
     src,
     src.includes('?') ? '&' : '?',
-    getQueryString({ params: { ...config.params, ...params }, width, height })
+    getQueryString({ params: { ...config.params, ...params }, width, height, config })
   ].join('');
 };
 
@@ -100,7 +100,8 @@ export const getPreviewSRC = ({ config, containerProps, params, src, devicePixel
 };
 
 const getQueryString = props => {
-  const { params = {}, width, height } = props;
+  const { params = {}, width, height, config } = props;
+  const { processOnlyWidth } = config;
   const [restParams, widthFromParam = null, heightFromParam] = getParamsExceptSizeRelated(params);
   const widthQ = width ? width : widthFromParam;
   const heightQ = height ? height : heightFromParam;
@@ -111,7 +112,7 @@ const getQueryString = props => {
 
   return [
     widthQ ? `w=${widthQ}` : '',
-    heightQ ? ((widthQ ? '&' : '') + `h=${heightQ}`) : '',
+    (heightQ && !processOnlyWidth) ? ((widthQ ? '&' : '') + `h=${heightQ}`) : '',
     restParamsQ ? '&' + restParamsQ : ''
   ].join('');
 };
@@ -350,9 +351,15 @@ const getInitialConfigLowPreview = (config) => {
     ignoreNodeImgSize = false,
     ignoreStyleImgSize = false,
     destroyNodeImgSize = false,
+    saveNodeImgRatio = false,
+    detectImageNodeCSS = false,
+    processOnlyWidth = false,
     lowQualityPreview: {
       minImgWidth = 400
-    } = {}
+    } = {},
+
+    // callback
+    onImageLoad = null
   } = config;
 
   return {
@@ -384,7 +391,11 @@ const getInitialConfigLowPreview = (config) => {
     minLowQualityWidth: minImgWidth,
     ignoreNodeImgSize,
     ignoreStyleImgSize,
-    destroyNodeImgSize
+    destroyNodeImgSize,
+    saveNodeImgRatio,
+    detectImageNodeCSS,
+    processOnlyWidth,
+    onImageLoad
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -406,7 +417,13 @@ const getInitialConfigPlain = (config) => {
     limitFactor = 100,
     ignoreNodeImgSize = false,
     ignoreStyleImgSize = false,
-    destroyNodeImgSize = false
+    destroyNodeImgSize = false,
+    saveNodeImgRatio = false,
+    detectImageNodeCSS = false,
+    processOnlyWidth = false,
+
+    // callbacks
+    onImageLoad = null
   } = config;
 
   return {
@@ -433,7 +450,11 @@ const getInitialConfigPlain = (config) => {
     limitFactor,
     ignoreNodeImgSize,
     ignoreStyleImgSize,
-    destroyNodeImgSize
+    destroyNodeImgSize,
+    saveNodeImgRatio,
+    detectImageNodeCSS,
+    processOnlyWidth,
+    onImageLoad
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
@@ -455,7 +476,13 @@ const getInitialConfigBlurHash = (config) => {
     limitFactor = 100,
     ignoreNodeImgSize = false,
     ignoreStyleImgSize = false,
-    destroyNodeImgSize = false
+    destroyNodeImgSize = false,
+    saveNodeImgRatio = false,
+    detectImageNodeCSS = false,
+    processOnlyWidth = false,
+
+    // callbacks
+    onImageLoad
   } = config;
 
   return {
@@ -483,7 +510,12 @@ const getInitialConfigBlurHash = (config) => {
     limitFactor,
     ignoreNodeImgSize,
     ignoreStyleImgSize,
-    destroyNodeImgSize
+    destroyNodeImgSize,
+    saveNodeImgRatio,
+    detectImageNodeCSS,
+    processOnlyWidth,
+
+    onImageLoad
   };
 };
 
@@ -531,58 +563,56 @@ const isImageSVG = url => url.slice(-4).toLowerCase() === '.svg';
 export const determineContainerProps = props => {
   const { imgNode, config = {}, imageNodeWidth, imageNodeHeight, imageNodeRatio, params, size } = props;
   const { ignoreNodeImgSize } = config;
-  let ratio = null, widthDPROne = null, heightDPROne = null;
+  let ratio = null;
+  const crop = isCrop(params.func || config.params.func);
+  const { exactSize, limitFactor } = config;
+  let [width, isLimit] = getWidth({
+    imgNode, config, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size
+  });
+  let height = getHeight({
+    imgNode,
+    config,
+    exactSize,
+    imageNodeHeight,
+    imageNodeWidth,
+    imageNodeRatio,
+    params: { ...config.params, ...params },
+    size,
+    width
+  });
+  ratio = getRatio({ imageNodeRatio, width, height, size, config, imageNodeWidth, imageNodeHeight });
 
   const sizes = DEVICE_PIXEL_RATIO_LIST.map(dpr => {
-    const crop = isCrop(params.func || config.params.func);
-    const { exactSize, limitFactor } = config;
-    let [width, isLimit] = getWidth({
-      imgNode, config, exactSize, imageNodeWidth, params: { ...config.params, ...params }, size
-    });
+    let widthWithDPR, heightWithDRP;
 
-    width = width && (width * dpr);
-    width = crop ?
-      width
+    widthWithDPR = width && (width * dpr);
+
+    widthWithDPR = crop ?
+      widthWithDPR
       :
       isLimit ?
-        getSizeLimit(width, exactSize, limitFactor)
+        getSizeLimit(widthWithDPR, exactSize, limitFactor)
         :
-        width;
+        widthWithDPR;
 
-    let height = getHeight({
-      imgNode,
-      config,
-      exactSize,
-      imageNodeHeight,
-      imageNodeRatio,
-      params: { ...config.params, ...params },
-      size,
-      width
-    });
+    heightWithDRP = height && (height * dpr);
 
-    height = height && (height * dpr);
-
-    if (!height && width && ratio) {
-      height = Math.floor(width / ratio);
+    if (!heightWithDRP && widthWithDPR && ratio) {
+      heightWithDRP = Math.floor(widthWithDPR / ratio);
     }
 
-    if (!width && height && ratio) {
-      width = Math.floor(height * ratio);
+    if (!widthWithDPR && heightWithDRP && ratio) {
+      widthWithDPR = Math.floor(heightWithDRP * ratio);
     }
 
-    if (dpr === 1) {
-      ratio = getRatio({ imageNodeRatio, width, height, size, config }); // ratio is the same for all sizes
-      widthDPROne = width;
-      heightDPROne = height;
-    }
-
-    return { width, height, ratio };
+    return { width: widthWithDPR, height: heightWithDRP, ratio };
   });
 
-  return { sizes, ratio, width: widthDPROne, height: heightDPROne };
+
+  return { sizes, ratio, width, height };
 }
 
-export const getRatio = ({ imageNodeRatio, width, height, size, config }) => {
+export const getRatio = ({ imageNodeRatio, width, height, size, config, imageNodeWidth, imageNodeHeight }) => {
   const { saveNodeImgRatio, ignoreNodeImgSize } = config;
 
   if (size && size.params) {
@@ -595,8 +625,10 @@ export const getRatio = ({ imageNodeRatio, width, height, size, config }) => {
     }
   }
 
-  if ((!ignoreNodeImgSize && imageNodeRatio) || (saveNodeImgRatio && imageNodeRatio)) {
+  if (!ignoreNodeImgSize && imageNodeRatio) {
     return imageNodeRatio;
+  } else if (saveNodeImgRatio && imageNodeWidth && imageNodeHeight) {
+    return imageNodeWidth / imageNodeHeight;
   } else if (width && height) {
     return width / height;
   }
@@ -620,12 +652,12 @@ export const getRatio = ({ imageNodeRatio, width, height, size, config }) => {
  * @return {Array} [with, isLimit]
  */
 export const getWidth = props => {
-  const { imgNode = null, imageNodeWidth = null, params = {}, size, config } = props;
-  const { ignoreNodeImgSize, ignoreStyleImgSize } = config;
+  const { imgNode, imageNodeWidth = null, params = {}, size, config } = props;
+  const { ignoreNodeImgSize, ignoreStyleImgSize, detectImageNodeCSS } = config;
   const sizeParamsWidth = size && size.params && (size.params.w || size.params.width);
   const paramsWidth = params.width || params.w;
   const imageNodeWidthPX = !ignoreNodeImgSize && imageNodeWidth && convertToPX(imageNodeWidth);
-  const imageWidth = !ignoreStyleImgSize && getImageWidth(imgNode);
+  const imageWidth = !ignoreStyleImgSize && getImageWidth(imgNode, detectImageNodeCSS);
   const imageContainerWidth = !imageWidth && getImageContainerWidth(imgNode);
   const resultWidth = imageWidth || imageContainerWidth;
 
@@ -673,8 +705,10 @@ export const getWidth = props => {
  * @return {Number} height limit
  */
 export const getHeight = props => {
-  const { imgNode = null, config = {}, imageNodeHeight = null, params = {}, size, width, imageNodeRatio } = props;
-  const { ignoreNodeImgSize, ignoreStyleImgSize, saveNodeImgRatio } = config;
+  const {
+    imgNode = null, config = {}, imageNodeHeight = null, params = {}, size, width
+  } = props;
+  const { ignoreNodeImgSize, ignoreStyleImgSize } = config;
   const crop = isCrop(params.func || config.params.func);
   const sizeParamsHeight = size && size.params && (size.params.h || size.params.height);
   const paramsRatio = size && size.params && (size.params.ratio || size.params.r);
@@ -697,10 +731,6 @@ export const getHeight = props => {
 
   if (!ignoreNodeImgSize && imageNodeHeight) {
     return imageNodeHeightPX;
-  }
-
-  if (saveNodeImgRatio && imageNodeRatio) {
-    return width / imageNodeRatio;
   }
 
   if (imageHeight) {
@@ -744,14 +774,27 @@ export const getImageContainerHeight = (img) => parseInt(getParentContainerSize(
  *
  *
  * @param {HTMLImageElement} img - image node
+ * @param {Boolean} detectImageNodeCSS - detect width of image node
  * @return {Number} width of image container
  */
-export const getImageWidth = img => {
+export const getImageWidth = (img, detectImageNodeCSS) => {
   const isImageStyleWidthInPX = img && img.style && img.style.width && !img.style.width.includes('%');
   const imageStyleWidth = isImageStyleWidthInPX && img.style.width;
   const imageWidth = imageStyleWidth && convertToPX(imageStyleWidth);
+  const imageCSSWidth = detectImageNodeCSS && getImageNodeCSS(img);
 
-  return imageWidth && parseInt(imageWidth, 10);
+  return detectImageNodeCSS && imageCSSWidth ? imageCSSWidth : imageWidth && parseInt(imageWidth, 10);
+}
+
+const getImageNodeCSS = img => {
+  let width;
+  const preDisplayValue = img.style.display;
+
+  img.style.display = 'inline-block';
+  width = img.getBoundingClientRect().width;
+  img.style.display = preDisplayValue;
+
+  return width;
 }
 
 /**
