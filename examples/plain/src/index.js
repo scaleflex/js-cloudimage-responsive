@@ -18,9 +18,16 @@ window.ciResponsive = new window.CIResponsive({
   lazyLoadOffset: 100,
   lazyLoading: true,
   exactSize: false,
-  //ignoreNodeImgSize: true,
-  //ignoreStyleImgSize: true,
-  //destroyNodeImgSize: true
+  //ignoreNodeImgSize: false,
+  //saveNodeImgRatio: false,
+  //ignoreStyleImgSize: false,
+  //destroyNodeImgSize: false,
+  //detectImageNodeCSS: false,
+  //processOnlyWidth: false,
+  //
+  //onImageLoad: function (image) {
+  //  console.log(image.width, image.height);
+  //}
 });
 
 window.lazySizes.init();
