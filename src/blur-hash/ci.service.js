@@ -149,6 +149,9 @@ export default class CIResponsive {
       const canvas = applyOrUpdateBlurHashCanvas(wrapper, blurHash);
 
       imgNode.onload = () => {
+        if (config.onImageLoad && typeof config.onImageLoad === 'function') {
+          config.onImageLoad(imgNode);
+        }
         onImageLoad({ wrapper, imgNode, canvas: blurHash && canvas, ratio, preserveSize, isAdaptive })
       };
     }

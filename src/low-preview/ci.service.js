@@ -169,6 +169,9 @@ export default class CIResponsive {
     }
 
     imgNode.onload = () => {
+      if (config.onImageLoad && typeof config.onImageLoad === 'function') {
+        config.onImageLoad(imgNode);
+      }
       onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
     };
 

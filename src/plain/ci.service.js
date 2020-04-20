@@ -113,7 +113,7 @@ export default class CIResponsive {
   processImage(props) {
     const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src, cloudimageSrcset } = props;
     const { config } = this;
-    const { dataSrcAttr } = config;
+    const { dataSrcAttr, onImageLoad } = config;
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
@@ -123,7 +123,14 @@ export default class CIResponsive {
       destroyNodeImgSize(imgNode);
     }
 
+    if (config.processOnlyWidth) {
+      imgNode.removeAttribute("height");
+    }
+
     imgNode.onload = () => {
+      if (onImageLoad && typeof onImageLoad === 'function') {
+        onImageLoad(imgNode);
+      }
       addClass(imgNode, 'ci-image-loaded');
     };
 
