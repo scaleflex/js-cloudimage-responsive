@@ -1,4 +1,4 @@
-import { addClass, getWrapper, setWrapperAlignment } from '../common/ci.utils'
+import { addClass, getWrapper, setWrapperAlignment } from '../common/ci.utils';
 import { decode } from './blurHash';
 
 

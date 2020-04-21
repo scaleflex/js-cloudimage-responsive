@@ -1,4 +1,4 @@
-import { addClass } from '../common/ci.utils'
+import { addClass } from '../common/ci.utils';
 
 
 export const loadBackgroundImage = (event) => {

@@ -1,5 +1,6 @@
 import {
   addClass,
+  destroyNodeImgSize,
   determineContainerProps,
   filterImages,
   generateUrl,
@@ -11,8 +12,7 @@ import {
   isOldBrowsers,
   setBackgroundSrc,
   setSrc,
-  setSrcset,
-  destroyNodeImgSize
+  setSrcset
 } from '../common/ci.utils';
 import { getInitialConfigPlain } from './ci.config';
 import { initImageClasses, loadBackgroundImage } from './ci.utils';
