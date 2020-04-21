@@ -7,7 +7,6 @@ import {
   getBreakPoint,
   getImageProps,
   getImgSrc,
-  getInitialConfigPlain,
   isLazy,
   isOldBrowsers,
   setBackgroundSrc,
@@ -15,6 +14,7 @@ import {
   setSrcset,
   destroyNodeImgSize
 } from '../common/ci.utils';
+import { getInitialConfigPlain } from './ci.config';
 import { initImageClasses, loadBackgroundImage } from './ci.utils';
 import { debounce } from 'throttle-debounce';
 

@@ -1,14 +1,7 @@
-const checkIfRelativeUrlPath = src => {
-  if (!src) return false;
+import { DEVICE_PIXEL_RATIO_LIST } from './ci.constants';
 
-  if (src.indexOf('//') === 0) {
-    src = window.location.protocol + src;
-  }
 
-  return (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0 && src.indexOf('//') !== 0);
-};
-
-const getImgSrc = (src, baseURL = '') => {
+export const getImgSrc = (src, baseURL = '') => {
   const isRelativeURLPath = checkIfRelativeUrlPath(src);
 
   if (src.indexOf('//') === 0) {
@@ -20,6 +13,16 @@ const getImgSrc = (src, baseURL = '') => {
   }
 
   return [src, isImageSVG(src)];
+};
+
+const checkIfRelativeUrlPath = src => {
+  if (!src) return false;
+
+  if (src.indexOf('//') === 0) {
+    src = window.location.protocol + src;
+  }
+
+  return (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0 && src.indexOf('//') !== 0);
 };
 
 const getBaseURL = (isRoot, base) => {
@@ -76,7 +79,7 @@ export const updateSizeWithPixelRatio = (size, devicePixelRatio) => {
   return result.join('x');
 };
 
-const generateUrl = props => {
+export const generateUrl = props => {
   const { src, params, config, containerProps, devicePixelRatio = 1 } = props;
   const size = containerProps && containerProps.sizes[DEVICE_PIXEL_RATIO_LIST.indexOf(devicePixelRatio)];
   const { width, height } = size || {};
@@ -167,7 +170,7 @@ const normalizeSize = (params = {}) => {
   return { w, h, r };
 }
 
-const getBreakPoint = (sizes, presets) => {
+export const getBreakPoint = (sizes, presets) => {
   const size = getAdaptiveSize(sizes, presets);
 
   return [...size].reverse().find(item => window.matchMedia(item.media).matches);
@@ -181,7 +184,7 @@ export const getSizeLimit = (size, exactSize, limitFactor) => {
   return Math.ceil(size / limitFactor) * limitFactor;
 };
 
-const filterImages = (images, type) => {
+export const filterImages = (images, type) => {
   const filtered = [];
 
   for (let i = 0; i < images.length; i++) {
@@ -207,7 +210,7 @@ const getCommonImageProps = (image) => ({
   imageNodeHeight: attr(image, 'height')
 });
 
-const getParams = (params) => {
+export const getParams = (params) => {
   let resultParams = undefined;
 
   try {
@@ -253,7 +256,7 @@ const getSize = (sizes) => {
   return resultSizes;
 }
 
-const getImageProps = (image) => {
+export const getImageProps = (image) => {
   const props = {
     ...getCommonImageProps(image),
     alignment: attr(image, 'ci-align') || attr(image, 'data-ci-align') || 'auto',
@@ -272,7 +275,7 @@ const getImageProps = (image) => {
   };
 };
 
-const getBackgroundImageProps = (image) => {
+export const getBackgroundImageProps = (image) => {
   const props = {
     ...getCommonImageProps(image),
     imageNodeSRC: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined
@@ -292,7 +295,7 @@ const getBackgroundImageProps = (image) => {
 
 const getURLWithoutQueryParams = url => url.split('?')[0];
 
-const getParamsFromURL = (url) => {
+export const getParamsFromURL = (url) => {
   const queryIndex = url.indexOf('?');
 
   if (queryIndex === -1) return;
@@ -316,232 +319,13 @@ export const isOldBrowsers = (isBlurHash) => {
   return Element.prototype.hasOwnProperty('prepend') && support;
 };
 
-const addClass = (elem, className) => {
+export const addClass = (elem, className) => {
   if (!(elem.className.indexOf(className) > -1)) {
     elem.className += ' ' + className;
   }
 };
 
-const removeClass = (elem, className) => {
-  if (elem.className.indexOf(className) > -1) {
-    elem.className = elem.className.replace(new RegExp('\\b' + className + '\\b', 'g'), '');
-  }
-};
-
-const DEVICE_PIXEL_RATIO_LIST = [1, 1.5, 2, 3, 4];
-
-const getInitialConfigLowPreview = (config) => {
-  const {
-    token = '',
-    domain = 'cloudimg.io',
-    lazyLoading = false,
-    imgLoadingAnimation = true,
-    width = '400',
-    height = '300',
-    placeholderBackground = '#f4f4f4',
-    baseUrl, // to support old name
-    baseURL,
-    ratio,
-    presets,
-    params = 'org_if_sml=1',
-    init = true,
-    exactSize = false,
-    doNotReplaceURL = false,
-    limitFactor = 100,
-    ignoreNodeImgSize = false,
-    ignoreStyleImgSize = false,
-    destroyNodeImgSize = false,
-    saveNodeImgRatio = false,
-    detectImageNodeCSS = false,
-    processOnlyWidth = false,
-    lowQualityPreview: {
-      minImgWidth = 400
-    } = {},
-
-    // callback
-    onImageLoad = null
-  } = config;
-
-  return {
-    token,
-    domain,
-    lazyLoading,
-    imgLoadingAnimation,
-    width,
-    height,
-    placeholderBackground,
-    baseURL: baseUrl || baseURL,
-    ratio,
-    exactSize,
-    presets: presets ? presets :
-      {
-        xs: '(max-width: 575px)',  // to 575       PHONE
-        sm: '(min-width: 576px)',  // 576 - 767    PHABLET
-        md: '(min-width: 768px)',  // 768 - 991    TABLET
-        lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
-        xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
-      },
-    params: getParams(params),
-    innerWidth: window.innerWidth,
-    init,
-    previewQualityFactor: 10,
-    doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
-    limitFactor,
-    minLowQualityWidth: minImgWidth,
-    ignoreNodeImgSize,
-    ignoreStyleImgSize,
-    destroyNodeImgSize,
-    saveNodeImgRatio,
-    detectImageNodeCSS,
-    processOnlyWidth,
-    onImageLoad
-    //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-  };
-};
-
-const getInitialConfigPlain = (config) => {
-  const {
-    token = '',
-    domain = 'cloudimg.io',
-    lazyLoading = false,
-    width = '400',
-    height = '300',
-    baseUrl, // to support old name
-    baseURL,
-    presets,
-    params = 'org_if_sml=1',
-    init = true,
-    exactSize = false,
-    doNotReplaceURL = false,
-    limitFactor = 100,
-    ignoreNodeImgSize = false,
-    ignoreStyleImgSize = false,
-    destroyNodeImgSize = false,
-    saveNodeImgRatio = false,
-    detectImageNodeCSS = false,
-    processOnlyWidth = false,
-
-    // callbacks
-    onImageLoad = null
-  } = config;
-
-  return {
-    token,
-    domain,
-    lazyLoading,
-    width,
-    height,
-    baseURL: baseUrl || baseURL,
-    exactSize,
-    presets: presets ? presets :
-      {
-        xs: '(max-width: 575px)',  // to 575       PHONE
-        sm: '(min-width: 576px)',  // 576 - 767    PHABLET
-        md: '(min-width: 768px)',  // 768 - 991    TABLET
-        lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
-        xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
-      },
-    params: getParams(params),
-    innerWidth: window.innerWidth,
-    init,
-    doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
-    limitFactor,
-    ignoreNodeImgSize,
-    ignoreStyleImgSize,
-    destroyNodeImgSize,
-    saveNodeImgRatio,
-    detectImageNodeCSS,
-    processOnlyWidth,
-    onImageLoad
-    //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-  };
-};
-
-const getInitialConfigBlurHash = (config) => {
-  const {
-    token = '',
-    domain = 'cloudimg.io',
-    lazyLoading = false,
-    placeholderBackground = '#f4f4f4',
-    baseUrl,
-    baseURL,
-    presets,
-    ratio,
-    params = 'org_if_sml=1',
-    init = true,
-    exactSize = false,
-    doNotReplaceURL = false,
-    limitFactor = 100,
-    ignoreNodeImgSize = false,
-    ignoreStyleImgSize = false,
-    destroyNodeImgSize = false,
-    saveNodeImgRatio = false,
-    detectImageNodeCSS = false,
-    processOnlyWidth = false,
-
-    // callbacks
-    onImageLoad
-  } = config;
-
-  return {
-    token,
-    domain,
-    lazyLoading,
-    placeholderBackground,
-    baseURL: baseUrl || baseURL,
-    ratio,
-    exactSize,
-    presets: presets ? presets :
-      {
-        xs: '(max-width: 575px)',  // to 575       PHONE
-        sm: '(min-width: 576px)',  // 576 - 767    PHABLET
-        md: '(min-width: 768px)',  // 768 - 991    TABLET
-        lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
-        xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
-      },
-    params: getParams(params),
-    innerWidth: window.innerWidth,
-    init,
-    previewQualityFactor: 10,
-    doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
-    limitFactor,
-    ignoreNodeImgSize,
-    ignoreStyleImgSize,
-    destroyNodeImgSize,
-    saveNodeImgRatio,
-    detectImageNodeCSS,
-    processOnlyWidth,
-
-    onImageLoad
-  };
-};
-
-const finishAnimation = (image, isBackground, canvas) => {
-  if (canvas) {
-    if (isBackground) {
-      canvas.style.opacity = '0';
-    } else {
-      canvas.style.opacity = '0';
-      image.style.opacity = '1';
-    }
-  } else if (!isBackground) {
-    image.style.filter = 'blur(0px)';
-    image.style.transform = 'translateZ(0) scale(1)';
-  } else {
-    removeClass(image, 'ci-bg-animation');
-
-    setTimeout(() => {
-      image.style.removeProperty('overflow');
-    }, 300)
-  }
-
-  addClass(image, 'ci-image-loaded');
-};
-
-const getWrapper = (image) => {
+export const getWrapper = (image) => {
   if ((image.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
     return image.parentNode;
   } else if ((image.parentNode.parentNode.className || '').indexOf('ci-image-wrapper') > -1) {
@@ -549,7 +333,7 @@ const getWrapper = (image) => {
   }
 };
 
-const setWrapperAlignment = (wrapper, alignment) => {
+export const setWrapperAlignment = (wrapper, alignment) => {
   switch (alignment) {
     case 'auto':
       break;
@@ -837,7 +621,7 @@ const getParentContainerSize = (img, type = 'width') => {
   return size + (size ? (-leftPadding - rightPadding) : 0);
 };
 
-const isLazy = (lazyLoading, isLazyCanceled, isUpdate) => {
+export const isLazy = (lazyLoading, isLazyCanceled, isUpdate) => {
   if ((isLazyCanceled && lazyLoading) || isUpdate) {
     lazyLoading = false;
   }
@@ -880,26 +664,3 @@ export const destroyNodeImgSize = imgNode => {
   imgNode.removeAttribute("height");
   imgNode.removeAttribute("width");
 };
-
-export {
-  checkIfRelativeUrlPath,
-  getImgSrc,
-  generateUrl,
-  getBreakPoint,
-  filterImages,
-  getImageProps,
-  getBackgroundImageProps,
-  addClass,
-  removeClass,
-  getAdaptiveSize,
-  getLowQualitySize,
-  getInitialConfigLowPreview,
-  getInitialConfigBlurHash,
-  getInitialConfigPlain,
-  finishAnimation,
-  getWrapper,
-  getParams,
-  setWrapperAlignment,
-  isImageSVG,
-  isLazy
-}

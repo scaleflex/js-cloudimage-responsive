@@ -7,7 +7,6 @@ import {
   getBreakPoint,
   getImageProps,
   getImgSrc,
-  getInitialConfigLowPreview,
   getPreviewSRC,
   isApplyLowQualityPreview,
   isLazy,
@@ -17,6 +16,7 @@ import {
   setSrcset,
   updateSizeWithPixelRatio
 } from '../common/ci.utils';
+import { getInitialConfigLowPreview } from './ci.config';
 import {
   applyBackgroundStyles,
   applyOrUpdateWrapper,

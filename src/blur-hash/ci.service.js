@@ -7,13 +7,13 @@ import {
   getBreakPoint,
   getImageProps,
   getImgSrc,
-  getInitialConfigBlurHash,
   isLazy,
   isOldBrowsers,
   setBackgroundSrc,
   setSrc,
   setSrcset
 } from '../common/ci.utils';
+import { getInitialConfigBlurHash } from './ci.config';
 import {
   applyOrUpdateBlurHashCanvas,
   applyOrUpdateWrapper,
