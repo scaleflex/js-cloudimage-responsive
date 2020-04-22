@@ -2,17 +2,14 @@ import {
   destroyNodeImgSize,
   determineContainerProps,
   filterImages,
-  generateUrl,
   getBackgroundImageProps,
-  getBreakPoint,
   getImageProps,
-  getImgSrc,
   isLazy,
-  isOldBrowsers,
   setBackgroundSrc,
   setSrc,
   setSrcset
 } from '../common/ci.utils';
+import { getImgSRC, generateURL, getBreakpoint, isSupportedInBrowser } from 'cloudimage-responsive-utils';
 import { getInitialConfigBlurHash } from './ci.config';
 import {
   applyOrUpdateBlurHashCanvas,
@@ -82,15 +79,15 @@ export default class CIResponsive {
     const { config } = this;
     const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
     const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
-    const { params, imageNodeSRC, blurHash, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
+    const { params, imgNodeSRC, blurHash, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
 
-    if (!imageNodeSRC) return;
+    if (!imgNodeSRC) return;
 
-    const [src, isSVG] = getImgSrc(imageNodeSRC, baseURL);
+    const [src, isSVG] = getImgSRC(imgNodeSRC, baseURL);
     const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
     let size;
 
-    if (!isOldBrowsers(true)) {
+    if (!isSupportedInBrowser(true)) {
       if (isImage) {
         imgNode.src = src;
       } else {
@@ -101,13 +98,13 @@ export default class CIResponsive {
     }
 
     if (isAdaptive) {
-      size = getBreakPoint(sizes, presets);
+      size = getBreakpoint(sizes, presets);
     } else {
       if (isUpdate && !windowScreenBecomesBigger) return;
     }
 
     const containerProps = determineContainerProps({ ...imgProps, imgNode, config, size });
-    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, containerProps, devicePixelRatio })
+    const generateURLbyDPR = devicePixelRatio => generateURL({ src, params, config, containerProps, devicePixelRatio })
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
@@ -135,8 +132,8 @@ export default class CIResponsive {
   processImage(props) {
     const { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize, cloudimageSrcset, isAdaptive } = props;
     const { ratio } = containerProps;
-    const { placeholderBackground, dataSrcAttr } = config;
-    const wrapper = applyOrUpdateWrapper({ isUpdate, imgNode, ratio, placeholderBackground, ...imgProps });
+    const { dataSrcAttr } = config;
+    const wrapper = applyOrUpdateWrapper({ isUpdate, imgNode, ratio, ...imgProps });
 
     if (!isUpdate) {
       initImageClasses(imgNode, lazy);

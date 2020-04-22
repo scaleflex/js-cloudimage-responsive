@@ -1,5 +1,5 @@
 import { getParams } from '../common/ci.utils';
-import { DEVICE_PIXEL_RATIO_LIST } from '../common/ci.constants';
+import { CONSTANTS } from 'cloudimage-responsive-utils';
 
 
 export const getInitialConfigLowPreview = (config) => {
@@ -8,8 +8,6 @@ export const getInitialConfigLowPreview = (config) => {
     domain = 'cloudimg.io',
     lazyLoading = false,
     imgLoadingAnimation = true,
-    width = '400',
-    height = '300',
     placeholderBackground = '#f4f4f4',
     baseUrl, // to support old name
     baseURL,
@@ -39,8 +37,6 @@ export const getInitialConfigLowPreview = (config) => {
     domain,
     lazyLoading,
     imgLoadingAnimation,
-    width,
-    height,
     placeholderBackground,
     baseURL: baseUrl || baseURL,
     ratio,
@@ -58,7 +54,7 @@ export const getInitialConfigLowPreview = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList: CONSTANTS.DEVICE_PIXEL_RATIO_LIST,
     limitFactor,
     minLowQualityWidth: minImgWidth,
     ignoreNodeImgSize,

@@ -25,11 +25,11 @@ export const loadBackgroundImage = (event) => {
 };
 
 export const applyOrUpdateWrapper = props => {
-  const { isUpdate, imgNode, ratio, imageNodeWidth, imageNodeHeight, alignment, preserveSize, placeholderBackground } = props;
+  const { isUpdate, imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize } = props;
   let wrapper;
 
   if (!isUpdate) {
-    wrapper = wrapImage({ imgNode, ratio, imageNodeWidth, imageNodeHeight, alignment, preserveSize, placeholderBackground });
+    wrapper = wrapImage({ imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize });
   } else {
     wrapper = getWrapper(imgNode);
 
@@ -43,16 +43,15 @@ export const applyOrUpdateWrapper = props => {
 }
 
 export const wrapImage = (props) => {
-  const { imgNode, ratio, imageNodeWidth, imageNodeHeight, alignment, preserveSize, placeholderBackground } = props;
+  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize } = props;
   let { wrapper } = props;
 
   wrapper = wrapper || document.createElement('div');
 
   addClass(wrapper, 'ci-image-wrapper');
-  wrapper.style.background = placeholderBackground;
   wrapper.style.display = 'block';
-  wrapper.style.width = preserveSize ? imageNodeWidth : '100%';
-  wrapper.style.height = preserveSize ? imageNodeHeight : 'auto';
+  wrapper.style.width = preserveSize ? imgNodeWidth : '100%';
+  wrapper.style.height = preserveSize ? imgNodeHeight : 'auto';
   wrapper.style.overflow = 'hidden';
   wrapper.style.position = 'relative';
 

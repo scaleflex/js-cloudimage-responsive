@@ -1,5 +1,5 @@
 import { getParams } from '../common/ci.utils';
-import { DEVICE_PIXEL_RATIO_LIST } from '../common/ci.constants';
+import { CONSTANTS } from 'cloudimage-responsive-utils';
 
 
 export const getInitialConfigBlurHash = (config) => {
@@ -7,16 +7,16 @@ export const getInitialConfigBlurHash = (config) => {
     token = '',
     domain = 'cloudimg.io',
     lazyLoading = false,
-    placeholderBackground = '#f4f4f4',
     baseUrl,
     baseURL,
     presets,
-    ratio,
+    ratio = 1.5,
     params = 'org_if_sml=1',
     init = true,
     exactSize = false,
     doNotReplaceURL = false,
     limitFactor = 100,
+    devicePixelRatioList,      // TODO: add to readme
     ignoreNodeImgSize = false,
     ignoreStyleImgSize = false,
     destroyNodeImgSize = false,
@@ -32,7 +32,6 @@ export const getInitialConfigBlurHash = (config) => {
     token,
     domain,
     lazyLoading,
-    placeholderBackground,
     baseURL: baseUrl || baseURL,
     ratio,
     exactSize,
@@ -45,11 +44,11 @@ export const getInitialConfigBlurHash = (config) => {
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
     params: getParams(params),
-    innerWidth: window.innerWidth,
+    innerWidth: typeof window !== 'undefined' ? window.innerWidth : null,
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList: devicePixelRatioList || CONSTANTS.DEVICE_PIXEL_RATIO_LIST,
     limitFactor,
     ignoreNodeImgSize,
     ignoreStyleImgSize,

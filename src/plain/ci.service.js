@@ -3,17 +3,14 @@ import {
   destroyNodeImgSize,
   determineContainerProps,
   filterImages,
-  generateUrl,
   getBackgroundImageProps,
-  getBreakPoint,
   getImageProps,
-  getImgSrc,
   isLazy,
-  isOldBrowsers,
   setBackgroundSrc,
   setSrc,
   setSrcset
 } from '../common/ci.utils';
+import { getImgSRC, generateURL, getBreakpoint, isSupportedInBrowser } from 'cloudimage-responsive-utils';
 import { getInitialConfigPlain } from './ci.config';
 import { initImageClasses, loadBackgroundImage } from './ci.utils';
 import { debounce } from 'throttle-debounce';
@@ -73,15 +70,15 @@ export default class CIResponsive {
     const { config } = this;
     const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
     const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
-    const { params, imageNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
+    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
 
-    if (!imageNodeSRC) return;
+    if (!imgNodeSRC) return;
 
-    const [src, isSVG] = getImgSrc(imageNodeSRC, baseURL);
+    const [src, isSVG] = getImgSRC(imgNodeSRC, baseURL);
     const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
     let size
 
-    if (!isOldBrowsers(true)) {
+    if (!isSupportedInBrowser(true)) {
       if (isImage) {
         imgNode.src = src;
       } else {
@@ -92,13 +89,13 @@ export default class CIResponsive {
     }
 
     if (isAdaptive) {
-      size = getBreakPoint(sizes, presets);
+      size = getBreakpoint(sizes, presets);
     } else {
       if (isUpdate && !windowScreenBecomesBigger) return;
     }
 
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
-    const generateURLbyDPR = devicePixelRatio => generateUrl({ src, params, config, containerProps, devicePixelRatio })
+    const generateURLbyDPR = devicePixelRatio => generateURL({ src, params, config, containerProps, devicePixelRatio })
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = { imgNode, isUpdate, imgProps, lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize };

@@ -163,7 +163,7 @@ export const applyOrUpdateWrapper = props => {
 };
 
 export const wrapImage = (props) => {
-  const { imgNode, ratio, imageNodeWidth, imageNodeHeight, alignment, preserveSize, placeholderBackground } = props;
+  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize, placeholderBackground } = props;
   let { wrapper } = props;
 
   wrapper = wrapper || document.createElement('div');
@@ -171,8 +171,8 @@ export const wrapImage = (props) => {
   addClass(wrapper, 'ci-image-wrapper');
   wrapper.style.background = placeholderBackground;
   wrapper.style.display = 'block';
-  wrapper.style.width = preserveSize ? imageNodeWidth : '100%';
-  wrapper.style.height = preserveSize ? imageNodeHeight : 'auto';
+  wrapper.style.width = preserveSize ? imgNodeWidth : '100%';
+  wrapper.style.height = preserveSize ? imgNodeHeight : 'auto';
   wrapper.style.overflow = 'hidden';
   wrapper.style.position = 'relative';
 
@@ -199,4 +199,18 @@ export const initImageClasses = ({ imgNode, lazy }) => {
   if (lazy) {
     addClass(imgNode, 'lazyload');
   }
+};
+
+/*
+* possible size values: 200 | 200x400
+* */
+export const updateSizeWithPixelRatio = (size, devicePixelRatio) => {
+  const splittedSizes = size.toString().split('x');
+  const result = [];
+
+  [].forEach.call(splittedSizes, size => {
+    size ? result.push(Math.floor(size * ((devicePixelRatio || window.devicePixelRatio).toFixed(1) || 1))) : '';
+  });
+
+  return result.join('x');
 };
