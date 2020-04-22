@@ -24,7 +24,7 @@ export const getInitialConfigLowPreview = (config) => {
     saveNodeImgRatio = false,
     detectImageNodeCSS = false,
     processOnlyWidth = false,
-    lowQualityPreview: {
+    lowQualityPreview: { //TODO: add to readme
       minImgWidth = 400
     } = {},
 
