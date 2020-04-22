@@ -18,6 +18,7 @@ window.ciResponsive = new window.CIResponsive({
   lazyLoadOffset: 100,
   lazyLoading: true,
   exactSize: false,
+  limitFactor: 10,
   //ignoreNodeImgSize: false,
   //saveNodeImgRatio: false,
   //ignoreStyleImgSize: false,
