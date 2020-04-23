@@ -1,6 +1,6 @@
 {
   "name": "js-cloudimage-responsive",
-  "version": "4.2.1",
+  "version": "4.4.0",
   "main": "dist/low-preview/index.js",
   "description": "Cloudimage Responsive will smartly resize, compress and accelerate images across the World in your site for all devices. The plugin supports lazy loading technique with fancy animation on image load.",
   "author": "scaleflex",
@@ -52,7 +52,8 @@
   },
   "dependencies": {
     "blurhash": "^1.1.3",
-    "core-js": "^3.0.0",
+    "cloudimage-responsive-utils": "^2.0.2",
+    "core-js": "^3.6.5",
     "throttle-debounce": "^2.1.0"
   },
   "devDependencies": {
@@ -62,18 +63,18 @@
     "babel-plugin-array-includes": "^2.0.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-minify": "^0.5.0",
+    "babel-preset-minify": "^0.5.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^2.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "gh-pages": "^2.0.1",
-    "highlight.js": "^9.15.6",
+    "gh-pages": "^2.2.0",
+    "highlight.js": "^9.18.1",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.5.0",
     "style-loader": "^0.23.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
     "webpack-stream": "^3.1.0"
   }
 }

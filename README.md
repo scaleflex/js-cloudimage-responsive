@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v4.2.1-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v4.4.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -114,7 +114,7 @@ You have to pay attention on the following things:
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.2.1/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.4.0/js-cloudimage-responsive.min.js"></script>
 ```
 
 You may also use major version number instead of fixed version to have the latest version available.
