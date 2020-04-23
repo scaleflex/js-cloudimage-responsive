@@ -1,5 +1,5 @@
 import { getParams } from '../common/ci.utils';
-import { CONSTANTS } from 'cloudimage-responsive-utils';
+import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
 
 
 export const getInitialConfigBlurHash = (config) => {
@@ -48,7 +48,7 @@ export const getInitialConfigBlurHash = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList: devicePixelRatioList || CONSTANTS.DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList: devicePixelRatioList || DEVICE_PIXEL_RATIO_LIST,
     limitFactor,
     ignoreNodeImgSize,
     ignoreStyleImgSize,

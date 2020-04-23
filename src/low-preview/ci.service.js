@@ -10,7 +10,11 @@ import {
   setSrc,
   setSrcset
 } from '../common/ci.utils';
-import { getImgSRC, generateURL, getPreviewSRC, getBreakpoint, isSupportedInBrowser } from 'cloudimage-responsive-utils';
+import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
+import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
+import { getPreviewSRC } from 'cloudimage-responsive-utils/dist/utils/get-preview-src';
+import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakpoint';
+import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
   applyBackgroundStyles,

@@ -1,5 +1,10 @@
-import { getSizeLimit, getParamsFromURL, getRatio, getWidth, getHeight, isCrop, CONSTANTS } from 'cloudimage-responsive-utils';
-
+import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
+import { getSizeLimit } from 'cloudimage-responsive-utils/dist/utils/get-size-limit';
+import { getParamsFromURL } from 'cloudimage-responsive-utils/dist/utils/get-params-from-url';
+import { getRatio } from 'cloudimage-responsive-utils/dist/utils/get-ratio';
+import { getWidth } from 'cloudimage-responsive-utils/dist/utils/get-width';
+import { getHeight } from 'cloudimage-responsive-utils/dist/utils/get-height';
+import { isCrop } from 'cloudimage-responsive-utils/dist/utils/is-crop';
 
 export const filterImages = (images, type) => {
   const filtered = [];
@@ -159,7 +164,7 @@ export const determineContainerProps = props => {
   });
   ratio = getRatio({ imgNodeRatio, width, height, size, config, imgNodeWidth, imgNodeHeight });
 
-  const sizes = CONSTANTS.DEVICE_PIXEL_RATIO_LIST.map(dpr => {
+  const sizes = DEVICE_PIXEL_RATIO_LIST.map(dpr => {
     let widthWithDPR, heightWithDRP;
 
     widthWithDPR = width && (width * dpr);
