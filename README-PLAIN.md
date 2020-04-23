@@ -119,7 +119,7 @@ $ npm install --save js-cloudimage-responsive
 
 ## <a name="initialize"></a>Step 2: Initialize
 
-After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseUrl** of your image storage:
+After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseURL** of your image storage:
 
 ```javascript
 <script>
@@ -259,7 +259,7 @@ Default:
 <script>
 const ciResponsive = new window.CIResponsive({
     token: 'demo',
-    baseUrl: 'https://cloudimage.public.airstore.io/demo/',
+    baseURL: 'https://cloudimage.public.airstore.io/demo/',
     presets: {
 	xs: '(max-width: 575px)', // up to 575    PHONE
 	sm: '(min-width: 576px)', // 576 - 767    PHABLET
@@ -284,13 +284,11 @@ Cloudimage responsive plugin will make image on your page responsive if you repl
 ###### Type: **String** | Default: **undefined** | _required_
 
 Original image hosted on your web server. You can use absolute path or
-relative to baseUrl in your config.
+relative to baseURL in your config.
 
 **NOTES:** 
-
-The plugin uses a special algorithm to detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
-
-Images where `ci-src` is not used will be delivered in a standard, non-responsive way.
+* The plugin uses a special algorithm to detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
+* Images where `ci-src` is not used will be delivered in a standard, non-responsive way.
 
 ### ci-params
 
@@ -385,7 +383,7 @@ the initialization script
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
       lazyLoading: true                                       // optional
     });
 
@@ -401,7 +399,7 @@ In case you load some images dynamically you need to trigger `ciResponsive.proce
 <script>
 const ciResponsive = new window.CIResponsive({
    token: 'demo',
-   baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+   baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
    lazyLoading: true                                       // optional
 });
 
