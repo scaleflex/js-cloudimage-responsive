@@ -148,6 +148,8 @@ const ciResponsive = new window.CIResponsive({
 });
 ```
 
+**NOTE**: You should put the scripts below all your content in the body tag and above all other scripts. After inserting the scripts the plugin starts immediately processing all images with ci-src, ci-bg-url attributes. (If the scripts are put into the head tag, no images will be detected and processed. If the scripts are put below all other scripts on your page, the images will be not showed until all the scripts downloaded.)
+
 ## <a name="implement"></a>Step 3: Implement in img tag or use it as background image
 
 ### img tag
