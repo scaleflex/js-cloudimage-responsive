@@ -1,4 +1,4 @@
-import { addClass, getWrapper, setWrapperAlignment } from '../common/ci.utils';
+import { addClass, getWrapper } from '../common/ci.utils';
 
 
 export const wrapBackgroundContainer = (imgNode) => {
@@ -163,7 +163,7 @@ export const applyOrUpdateWrapper = props => {
 };
 
 export const wrapImage = (props) => {
-  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize, placeholderBackground } = props;
+  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize, placeholderBackground } = props;
   let { wrapper } = props;
 
   wrapper = wrapper || document.createElement('div');
@@ -185,8 +185,6 @@ export const wrapImage = (props) => {
   } else {
     imgNode.parentNode.appendChild(wrapper);
   }
-
-  setWrapperAlignment(wrapper, alignment);
 
   wrapper.appendChild(imgNode);
 

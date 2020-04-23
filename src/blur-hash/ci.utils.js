@@ -1,4 +1,4 @@
-import { addClass, getWrapper, setWrapperAlignment } from '../common/ci.utils';
+import { addClass, getWrapper } from '../common/ci.utils';
 import { decode } from './blurHash';
 
 
@@ -25,11 +25,11 @@ export const loadBackgroundImage = (event) => {
 };
 
 export const applyOrUpdateWrapper = props => {
-  const { isUpdate, imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize } = props;
+  const { isUpdate, imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize } = props;
   let wrapper;
 
   if (!isUpdate) {
-    wrapper = wrapImage({ imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize });
+    wrapper = wrapImage({ imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize });
   } else {
     wrapper = getWrapper(imgNode);
 
@@ -43,7 +43,7 @@ export const applyOrUpdateWrapper = props => {
 }
 
 export const wrapImage = (props) => {
-  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, alignment, preserveSize } = props;
+  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize } = props;
   let { wrapper } = props;
 
   wrapper = wrapper || document.createElement('div');
@@ -64,8 +64,6 @@ export const wrapImage = (props) => {
   } else {
     imgNode.parentNode.appendChild(wrapper);
   }
-
-  setWrapperAlignment(wrapper, alignment);
 
   wrapper.appendChild(imgNode);
 

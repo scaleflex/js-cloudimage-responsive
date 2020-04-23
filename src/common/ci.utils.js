@@ -81,7 +81,6 @@ const getSize = (sizes) => {
 export const getImageProps = (image) => {
   const props = {
     ...getCommonImageProps(image),
-    alignment: attr(image, 'ci-align') || attr(image, 'data-ci-align') || 'auto',
     imgNodeSRC: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined
   };
   const params = {
@@ -132,15 +131,6 @@ export const getWrapper = (image) => {
     return image.parentNode.parentNode;
   }
 };
-
-export const setWrapperAlignment = (wrapper, alignment) => {
-  switch (alignment) {
-    case 'auto':
-      break;
-    case 'center':
-      wrapper.style.margin = 'auto';
-  }
-}
 
 export const determineContainerProps = props => {
   const { imgNode, config = {}, imgNodeWidth, imgNodeHeight, imgNodeRatio, params, size } = props;
