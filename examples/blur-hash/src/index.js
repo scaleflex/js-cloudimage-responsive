@@ -13,7 +13,7 @@ const wrapper = document.getElementById('main');
 
 window.ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/',
+  baseURL: 'https://cloudimage.public.airstore.io/demo/',
   params: 'ci_info=1&org_if_sml=1&version=16.04.2020',
   lazyLoadOffset: 100,
   lazyLoading: true,
