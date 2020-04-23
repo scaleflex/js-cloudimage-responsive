@@ -317,7 +317,7 @@ ci-params="{
 
 ###### Type: **Object** | Default: **undefined**
 
-**{preset breakpoint (xs,sm, md,lg,xl) or media query + ' ' + image params}**:
+**{preset breakpoint (xs,sm, md,lg,xl) or 'media query': {image params}}**:
 
 ```jsx
 <img
@@ -342,7 +342,7 @@ You can drop some breakpoints, for example:
  }"/>
 ```
 
-**new experimental syntax**
+##### new experimental syntax
 
 md: { w: '40vw', h: 350 } or md: { w: 250, h: '20vh' }
 

@@ -329,7 +329,7 @@ ci-params="{
 
 ###### Type: **Object** | Default: **undefined**
 
-**{preset breakpoint (xs,sm, md,lg,xl) or media query + ' ' + image params}**:
+**{preset breakpoint (xs,sm, md,lg,xl) or 'media query': {image params}}**:
 
 ```jsx
 <img
@@ -354,6 +354,12 @@ You can drop some breakpoints, for example:
  }"/>
 ```
 
+##### new experimental syntax
+
+md: { w: '40vw', h: 350 } or md: { w: 250, h: '20vh' }
+
+adds possibility to use fixed height or width and change dynamically other dimension
+
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
@@ -364,20 +370,6 @@ detect the width of image container and set the image size accordingly. This is 
 It is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
-
-### ci-fill (or data-ci-fill) > *in progress*
-
-###### Type: **String** | Default: **100%**
-
-Image width (%) according to its container.
-
-### ci-align (or data-ci-align) > *in progress*
-
-###### Type: **String** | Default: **auto**
-
-**possible values**: ['auto', 'center']
-
-If ci-fill (image width (%) according to its container) was set, ci-align makes it possible to center an image.
 
 ### ci-not-lazy (or data-ci-not-lazy)
 
@@ -401,7 +393,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/3/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.4.0/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
@@ -418,8 +410,6 @@ the initialization script
     window.lazySizes.init();
 </script>
  ```
-
-All contributions are super welcome!
 
 ## <a name="dynamically-loaded"></a>Process dynamically loaded images!
 

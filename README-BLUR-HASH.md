@@ -307,6 +307,44 @@ ci-params="{
 
 [Full cloudimage v7 documentation here.](https://docs.cloudimage.io/go/cloudimage-documentation-v7/en/introduction)
 
+### ci-sizes
+
+###### Type: **Object** | Default: **undefined**
+
+**{preset breakpoint (xs,sm, md,lg,xl) or 'media query': {image params}}**:
+
+```jsx
+<img
+  ci-src="dino-reichmuth-1.jpg"
+  ci-sizes="{
+      sm: { w: 400, h: 200 },
+      '(min-width: 620px)': { w: 200, h: 60 },
+      md: { w: 250, h: 350 },
+      lg: { w: 350, h: 300 },
+      xl: { w: 400, h: 250 }
+ }"/>
+```
+
+You can drop some breakpoints, for example:
+
+```jsx
+<img
+  ci-src="dino-reichmuth-1.jpg"
+  ci-sizes="{
+      sm: { w: 400, h: 200 },
+      '(min-width: 620px)': { w: 200, h: 60 }
+ }"/>
+```
+
+##### new experimental syntax
+
+md: { w: '40vw', h: 350 } or md: { w: 250, h: '20vh' }
+
+adds possibility to use fixed height or width and change dynamically other dimension
+
+**NOTE:** if size is not set, the plugin uses a special algorithm to
+detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
+
 ### ci-ratio (or data-ci-ratio)
 
 ###### Type: **Number** | _optional_
@@ -314,20 +352,6 @@ ci-params="{
 It is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
 To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
-
-### ci-fill (or data-ci-fill) > *in progress*
-
-###### Type: **String** | Default: **100%**
-
-Image width (%) according to its container.
-
-### ci-align (or data-ci-align) > *in progress*
-
-###### Type: **String** | Default: **auto**
-
-**possible values**: ['auto', 'center']
-
-If ci-fill (image width (%) according to its container) was set, ci-align makes it possible to center an image.
 
 ### ci-not-lazy (or data-ci-not-lazy)
 
