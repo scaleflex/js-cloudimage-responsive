@@ -8,10 +8,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <style>.on-load {
-    display: none
-  }
-
+  <style>
   .spinner-grow {
     color: #343a40 !important;
     display: inline-block;
@@ -43,7 +40,7 @@
 
 <div id="spinner" class="spinner-grow text-dark" role="status"></div>
 
-<div id="main" class="wrapper" style="visibility: visible;">
+<div id="main" class="wrapper" style="visibility: hidden;">
   <section class="home">
     <div class="container">
       <a class="logo" href="https://scaleflex.github.io/js-cloudimage-responsive/">JS Cloudimage Responsive</a>
@@ -408,40 +405,93 @@
   </section>
 
 
-<!--  <section class="ready-to-start">-->
-<!--    <div class="container">-->
-<!--      <h2 class="text-center">Crop your images</h2>-->
+  <section class="ready-to-start">
+    <div class="container">
+      <h2 class="text-center">Crop your images</h2>
 
-<!--      <div class="row">-->
-<!--        <div class="col-md-4">-->
-<!--          <p>Original Images</p>-->
-<!--          <div>-->
-<!--            <div class="container-box-wrapper" style="display: inline-block;width:200px;height:200px">-->
-<!--              <img src="https://doc.cloudimg.io/v7/sample.li/boat.jpg" alt=""/>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+      <div class="row">
+        <div class="col-md-4">
+          <p>Original Image</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block;width:200px;height:237px">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <div>
+                <img src="https://doc.cloudimg.io/v7/sample.li/boat.jpg" alt=""/>
+              </div>
+            </div>
+          </div>
+          <div>
+            <pre><code>&lt;img
+  src="https://doc.cloudimg.io/v7/sample.li/boat.jpg"
+/&gt;</code></pre>
+          </div>
+        </div>
 
-<!--        <div class="col-md-4">-->
-<!--          <p>Crop</p>-->
-<!--          <div>-->
-<!--            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px;">-->
-<!--              <img ci-src="boat.jpg" blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="col-md-4">
+          <p>Crop</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px;">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <img ci-src="boat.jpg" ci-params="func=crop" ci-blur-hash="LHNRn;04058E};wyIqJ8P90P%b^h"/>
+            </div>
+          </div>
+          <div>
+            <pre><code>&lt;img
+  ci-src="boat.jpg"
+  ci-params="func=crop"
+  ci-blur-hash="LHNRn;04058E};wyIqJ8P90P%b^h"
+/&gt;</code></pre>
+          </div>
+        </div>
 
-<!--        <div class="col-md-4">-->
-<!--          <p>Auto crop</p>-->
-<!--          <div>-->
-<!--            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px">-->
-<!--              <img ci-src="boat.jpg" params="gravity=auto" blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
+        <div class="col-md-4">
+          <p>Auto crop</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <img ci-src="boat.jpg" ci-params="func=crop&gravity=auto" ci-blur-hash="LHNRn;04058E};wyIqJ8P90P%b^h"/>
+            </div>
+          </div>
+          <div>
+            <pre><code>&lt;img
+  ci-src="boat.jpg"
+  ci-params="func=crop&gravity=auto"
+  ci-blur-hash="LHNRn;04058E};wyIqJ8P90P%b^h"
+/&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ready-to-start">
+    <div class="container">
+      <h2 class="text-center">Use with background images</h2>
+
+      <pre><code>&lt;div
+   ci-bg-url="ameen-fahmy.jpg"
+   ci-params="func=crop"
+   ci-blur-hash="L34VB$Rj8wofayfPj@azDNj[.9WB"
+   style="background:#000 50% 50% / cover no-repeat;color:#fff;"
+&gt;...your content...&lt;div/&gt;</code></pre>
+    </div>
+
+    <div
+       ci-bg-url="ameen-fahmy.jpg"
+       ci-params="func=crop&ci_info=0"
+       ci-blur-hash="L34VB$Rj8wofayfPj@azDNj[.9WB"
+       style="background:#000 50% 50% / cover no-repeat;color:#fff;"
+    >
+      <div style="position:relative;z-index:1;padding:40px;background:rgba(0,0,0,0.3);">
+        <div class="container" >
+          <h2>What is Lorem Ipsum?</h2>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="container ready-to-start">
     <h2 class="text-center">Ready to get started?</h2>
@@ -483,7 +533,7 @@
           Include the following scripts into your project after all content in body tag
         </p>
         <figure class="highlight">
-        <pre><code class="javascript">&lt;script&gt;
+        <pre><code class="html">&lt;script&gt;
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 &lt;/script&gt;
@@ -491,7 +541,7 @@
 // lazy load is a separate feature
 &lt;script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"&gt;&lt;/script&gt;
 // main core
-&lt;script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4/js-cloudimage-responsive.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.4.0/js-cloudimage-responsive.min.js"&gt;&lt;/script&gt;
 </code></pre>
         </figure>
       </div>
@@ -504,7 +554,7 @@
         <pre><code class="javascript">&lt;script/&gt;
   const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+  baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
   lazyLoading: true                                       // optional
 });
 

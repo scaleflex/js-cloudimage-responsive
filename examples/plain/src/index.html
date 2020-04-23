@@ -8,10 +8,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <style>.on-load {
-    display: none
-  }
-
+  <style>
   .spinner-grow {
     color: #343a40 !important;
     display: inline-block;
@@ -379,6 +376,89 @@
     </div>
   </section>
 
+  <section class="ready-to-start">
+    <div class="container">
+      <h2 class="text-center">Crop your images</h2>
+
+      <div class="row">
+        <div class="col-md-4">
+          <p>Original Image</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block;width:200px;height:237px">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <div>
+                <img src="https://doc.cloudimg.io/v7/sample.li/boat.jpg" alt=""/>
+              </div>
+            </div>
+          </div>
+          <div>
+            <pre><code>&lt;img
+  src="https://doc.cloudimg.io/v7/sample.li/boat.jpg"
+/&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <p>Crop</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px;">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <img ci-src="boat.jpg" ci-params="w=200&h=200&func=crop"/>
+            </div>
+          </div>
+          <div>
+            <pre><code>&lt;img
+  ci-src="boat.jpg"
+  ci-params="w=200&h=200&func=crop"
+/&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <p>Auto crop</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <img ci-src="boat.jpg" ci-params="w=200&h=200&func=crop&gravity=auto"/>
+            </div>
+          </div>
+          <div>
+            <pre><code>&lt;img
+  ci-src="boat.jpg"
+  ci-params="w=200&h=200&func=crop&gravity=auto"
+/&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ready-to-start">
+    <div class="container">
+      <h2 class="text-center">Use with background images</h2>
+
+      <pre><code>&lt;div
+   ci-bg-url="ameen-fahmy.jpg"
+   style="background:#000 50% 50% / cover no-repeat;color:#fff;"
+&gt;...your content...&lt;div/&gt;</code></pre>
+    </div>
+
+    <div
+       ci-bg-url="ameen-fahmy.jpg"
+       ci-params="ci_info=0"
+       style="background:#000 50% 50% / cover no-repeat;color:#fff;"
+    >
+      <div style="position:relative;z-index:1;padding:40px;background:rgba(0,0,0,0.3);">
+        <div class="container" >
+          <h2>What is Lorem Ipsum?</h2>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="container ready-to-start">
     <h2 class="text-center">Ready to get started?</h2>
     <p>To use the plugin, you will need a Cloudimage token. Don't worry, it only takes seconds to get one by registering
@@ -440,7 +520,7 @@
         <pre><code class="javascript">&lt;script/&gt;
   const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+  baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
   lazyLoading: true                                       // optional
 });
 
