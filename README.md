@@ -148,6 +148,8 @@ const ciResponsive = new window.CIResponsive({
 });
 ```
 
+**NOTE**: You should put the scripts below all your content in the body tag and above all other scripts. After inserting the scripts the plugin starts immediately processing all images with ci-src, ci-bg-url attributes. (If the scripts are put into the head tag, no images will be detected and processed. If the scripts are put below all other scripts on your page, the images will be not showed until all the scripts downloaded.)
+
 ## <a name="implement"></a>Step 3: Implement in img tag or use it as background image
 
 ### img tag
@@ -221,7 +223,9 @@ Multiple params can be applied, separated by "```&```" e.g. wat_scale=35&wat_gra
 }
 ```
 
-#### alternative syntax: type: **Object**
+#### alternative syntax 
+
+###### Type: **Object**
 
 ```javascript
 {
@@ -269,11 +273,8 @@ For example
 Default:
 
 ```javascript
-
-<script>
-const ciResponsive = new window.CIResponsive({
-    token: 'demo',
-    baseUrl: 'https://cloudimage.public.airstore.io/demo/',
+{
+    ...,
     presets: {
 	xs: '(max-width: 575px)', // up to 575    PHONE
 	sm: '(min-width: 576px)', // 576 - 767    PHABLET
@@ -281,13 +282,10 @@ const ciResponsive = new window.CIResponsive({
 	lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
 	xl: '(min-width: 1200px)' // from 1200    USUALSCREEN
     }
-});
-
-ciResponsive.init();
-</script>
+}
 ```
 
-Breakpoints shortcuts to use in image size property, can be overwridden.
+Breakpoints shortcuts to use in image size property, can be overwritten.
 
 ## <a name="image_properties"></a> Image properties
 
