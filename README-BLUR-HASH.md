@@ -289,7 +289,7 @@ ci-blur-hash="LNAyTi9ZVsQ,.TM{WAkW4T%2WBt7"
 ###### Type: **String** | Default: **undefined** | _optional_
 
 You can apply any Cloudimage operations/ filters to your image, e.g. brightness, contrast, rotation...
-Multiple params can be applied, separated by "```&```" e.g. wat_scale=35**&**wat_gravity=northeast**&**wat_pad=10**&**grey=1
+Multiple params can be applied, separated by "```&```" e.g. wat_scale=35&wat_gravity=northeast&wat_pad=10&grey=1
 
 ```javascript
 ci-params="gray=1&bright=10"
