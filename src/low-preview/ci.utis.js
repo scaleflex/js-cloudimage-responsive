@@ -127,29 +127,29 @@ export const loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) 
 };
 
 export const applyOrUpdateWrapper = props => {
-  const { isUpdate, imgNode, lazy } = props;
+  const { isUpdate, imgNode, isPreview, lazy } = props;
   let wrapper, previewImgNode = null, previewWrapper = null;
 
   if (!isUpdate) {
     wrapper = wrapImage(props);
-    previewWrapper = document.createElement('div');
-    previewImgNode = document.createElement('img');
 
-    previewImgNode.className = `ci-image-ratio ci-image-preview${lazy ? ' lazyload' : ''}`;
+    if (isPreview) {
+      previewWrapper = document.createElement('div');
+      previewImgNode = document.createElement('img');
 
-    addClass(wrapper, 'ci-with-preview-image');
-
-    previewWrapper.style.transform = 'translateZ(0)';
-    previewWrapper.style.zIndex = '1';
-    previewWrapper.style.height = '100%';
-    previewWrapper.style.width = '100%';
-    previewWrapper.style.position = 'absolute';
-    previewWrapper.style.top = '0';
-    previewWrapper.style.left = '0';
-    previewImgNode.alt = `Low quality preview for ${imgNode.alt || (imgNode.src || '').split('.')[0]}`;
-
-    previewWrapper.appendChild(previewImgNode);
-    wrapper.insertBefore(previewWrapper, imgNode);
+      previewImgNode.className = `ci-image-ratio ci-image-preview${lazy ? ' lazyload' : ''}`;
+      previewWrapper.style.transform = 'translateZ(0)';
+      previewWrapper.style.zIndex = '1';
+      previewWrapper.style.height = '100%';
+      previewWrapper.style.width = '100%';
+      previewWrapper.style.position = 'absolute';
+      previewWrapper.style.top = '0';
+      previewWrapper.style.left = '0';
+      previewImgNode.alt = `Low quality preview for ${imgNode.alt || (imgNode.src || '').split('.')[0]}`;
+      previewWrapper.appendChild(previewImgNode);
+      wrapper.insertBefore(previewWrapper, imgNode);
+      addClass(wrapper, 'ci-with-preview-image');
+    }
   } else {
     wrapper = getWrapper(imgNode);
 

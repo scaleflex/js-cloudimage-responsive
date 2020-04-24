@@ -146,7 +146,7 @@ export default class CIResponsive {
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
     const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper(
-      { isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, ...imgProps }
+      { isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps }
     );
 
     if (!isUpdate) {
