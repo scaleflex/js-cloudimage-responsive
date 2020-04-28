@@ -1,10 +1,5 @@
-import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
-import { getSizeLimit } from 'cloudimage-responsive-utils/dist/utils/get-size-limit';
 import { getParamsFromURL } from 'cloudimage-responsive-utils/dist/utils/get-params-from-url';
-import { getRatio } from 'cloudimage-responsive-utils/dist/utils/get-ratio';
-import { getWidth } from 'cloudimage-responsive-utils/dist/utils/get-width';
-import { getHeight } from 'cloudimage-responsive-utils/dist/utils/get-height';
-import { isCrop } from 'cloudimage-responsive-utils/dist/utils/is-crop';
+
 
 export const filterImages = (images, type) => {
   const filtered = [];
@@ -114,7 +109,7 @@ export const getBackgroundImageProps = (image) => {
   };
 };
 
-const getURLWithoutQueryParams = url => url.split('?')[0];
+const getURLWithoutQueryParams = (url = '') => url.split('?')[0];
 
 const attr = (element, attribute) => element.getAttribute(attribute);
 
@@ -131,58 +126,6 @@ export const getWrapper = (image) => {
     return image.parentNode.parentNode;
   }
 };
-
-export const determineContainerProps = props => {
-  const { imgNode, config = {}, imgNodeWidth, imgNodeHeight, imgNodeRatio, params, size } = props;
-  const { ignoreNodeImgSize } = config;
-  let ratio = null;
-  const crop = isCrop(params.func || config.params.func);
-  const { exactSize, limitFactor } = config;
-  let [width, isLimit] = getWidth({
-    imgNode, config, exactSize, imgNodeWidth, params: { ...config.params, ...params }, size
-  });
-  let height = getHeight({
-    imgNode,
-    config,
-    exactSize,
-    imgNodeHeight,
-    imgNodeWidth,
-    imgNodeRatio,
-    params: { ...config.params, ...params },
-    size,
-    width
-  });
-  ratio = getRatio({ imgNodeRatio, width, height, size, config, imgNodeWidth, imgNodeHeight });
-
-  const sizes = DEVICE_PIXEL_RATIO_LIST.map(dpr => {
-    let widthWithDPR, heightWithDRP;
-
-    widthWithDPR = width && (width * dpr);
-
-    widthWithDPR = crop ?
-      widthWithDPR
-      :
-      isLimit ?
-        getSizeLimit(widthWithDPR, exactSize, limitFactor)
-        :
-        widthWithDPR;
-
-    heightWithDRP = height && (height * dpr);
-
-    if (!heightWithDRP && widthWithDPR && ratio) {
-      heightWithDRP = Math.floor(widthWithDPR / ratio);
-    }
-
-    if (!widthWithDPR && heightWithDRP && ratio) {
-      widthWithDPR = Math.floor(heightWithDRP * ratio);
-    }
-
-    return { width: widthWithDPR, height: heightWithDRP, ratio };
-  });
-
-
-  return { sizes, ratio, width, height };
-}
 
 export const isLazy = (lazyLoading, isLazyCanceled, isUpdate) => {
   if ((isLazyCanceled && lazyLoading) || isUpdate) {
