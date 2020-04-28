@@ -1,7 +1,6 @@
 import {
   addClass,
   destroyNodeImgSize,
-  determineContainerProps,
   filterImages,
   getBackgroundImageProps,
   getImageProps,
@@ -10,6 +9,7 @@ import {
   setSrc,
   setSrcset
 } from '../common/ci.utils';
+import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
 import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
 import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
 import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakpoint';
