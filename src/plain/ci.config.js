@@ -21,7 +21,7 @@ export const getInitialConfigPlain = (config) => {
     saveNodeImgRatio = false,
     detectImageNodeCSS = false,
     processOnlyWidth = false,
-
+    devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
     // callbacks
     onImageLoad = null
   } = config;
@@ -44,7 +44,7 @@ export const getInitialConfigPlain = (config) => {
     innerWidth: window.innerWidth,
     init,
     doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList,
     limitFactor,
     ignoreNodeImgSize,
     ignoreStyleImgSize,

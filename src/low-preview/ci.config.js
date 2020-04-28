@@ -24,7 +24,8 @@ export const getInitialConfigLowPreview = (config) => {
     saveNodeImgRatio = false,
     detectImageNodeCSS = false,
     processOnlyWidth = false,
-    lowQualityPreview: { //TODO: add to readme
+    devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
+    lowQualityPreview: {
       minImgWidth = 400
     } = {},
 
@@ -54,7 +55,7 @@ export const getInitialConfigLowPreview = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList: DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList,
     limitFactor,
     minLowQualityWidth: minImgWidth,
     ignoreNodeImgSize,

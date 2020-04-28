@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <link rel="stylesheet"
+        href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/highlight.min.js"></script>
   <style>
   .spinner-grow {
     color: #343a40 !important;
@@ -261,97 +264,12 @@
       </table>
 
       <p>
-        * The plugin <strong>rounds container width</strong> to next possible value which can be divided by 100 without
+        * The plugin <strong>rounds container width</strong> to next possible value which can be divided by 100 (configurable) without
         the remainder. It's done for <strong>cache reasons</strong> so that we cache not all images different by 1px,
         but only 100px, 200px, 300px …
       </p>
     </section>
   </div>
-
-  <section class="ready-to-start">
-    <div class="container">
-      <h2 class="text-center">Crop your images</h2>
-
-      <div class="row">
-        <div class="col-md-4">
-          <p>Original Image</p>
-          <div>
-            <div class="container-box-wrapper" style="display: inline-block;width:200px;height:237px">
-              <div class="container-width-box">container width: <span>---</span> px</div>
-              <div>
-                <img src="https://doc.cloudimg.io/v7/sample.li/boat.jpg" alt=""/>
-              </div>
-            </div>
-          </div>
-          <div>
-            <pre><code>&lt;img
-  src="https://doc.cloudimg.io/v7/sample.li/boat.jpg"
-/&gt;</code></pre>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <p>Crop</p>
-          <div>
-            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px;">
-              <div class="container-width-box">container width: <span>---</span> px</div>
-              <img ci-src="boat.jpg" ci-params="func=crop"/>
-            </div>
-          </div>
-          <div>
-            <pre><code>&lt;img
-  ci-src="boat.jpg"
-  ci-params="func=crop"
-/&gt;</code></pre>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <p>Auto crop</p>
-          <div>
-            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px">
-              <div class="container-width-box">container width: <span>---</span> px</div>
-              <img ci-src="boat.jpg" ci-params="func=crop&gravity=auto"/>
-            </div>
-          </div>
-          <div>
-            <pre><code>&lt;img
-  ci-src="boat.jpg"
-  ci-params="func=crop&gravity=auto"
-/&gt;</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="ready-to-start">
-    <div class="container">
-      <h2 class="text-center">Use with background images</h2>
-
-      <pre><code>&lt;div
-   ci-bg-url="ameen-fahmy.jpg"
-   ci-params="func=crop"
-   style="background:#000 50% 50% / cover no-repeat;color:#fff;"
-&gt;...your content...&lt;div/&gt;</code></pre>
-    </div>
-
-    <div
-       ci-bg-url="ameen-fahmy.jpg"
-       ci-params="func=crop&ci_info=0"
-       style="background:#000 50% 50% / cover no-repeat;color:#fff;"
-    >
-      <div style="position:relative;z-index:1;padding:40px;background:rgba(0,0,0,0.3);">
-        <div class="container" >
-          <h2>What is Lorem Ipsum?</h2>
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
 
   <section class="ready-to-start">
     <h2 class="text-center">Gallery demo</h2>
@@ -439,12 +357,12 @@
              alt="dino-reichmuth-1.jpg"
              ci-src="dino-reichmuth-1.jpg"
              ci-sizes="{
-              xs: { w: 400, h: 100 },
-              sm: { w: 400, h: 200 },
-              '(min-width: 620px)': { w: 200, h: 60 },
-              md: { w: 250, h: 350 },
-              lg: { w: 350, h: 300 },
-              xl: { w: 400, h: 250 }
+              xs: { w: 400, h: 150 },
+              sm: { r: 1 },
+              '(min-width: 620px)': { h: 560 },
+              md: { w: '50vw' },
+              lg: {  w: '55vw', h: 300 },
+              xl: { w: 1200 }
              }"
           />
           <!--<div-->
@@ -461,22 +379,113 @@
         <div class="col-md-6 col-lg-5 desc-wrapper-with-media-query">
           <h4>You can control your image size/ratio/crop with media query breakpoints</h4>
           <p>Resize your browser window to see how it works</p>
-          <pre><code>
+          <pre><code class="html">
 &lt;img
   operation="crop"
   ci-src="dino-reichmuth-1.jpg"
   ci-sizes="{
-    sm: { w: 400, h: 200 },
-    '(min-width: 620px)': { w: 200, h: 60 },
-    md: { w: 250, h: 350 },
-    lg: { w: 350, h: 300 },
-    xl: { w: 400, h: 250 }
+    '(max-width: 575px)': { w: 400, h: 150 },
+    '(min-width): 576px)': { r: 1 },
+    '(min-width: 620px)': { h: 560 },
+    '(min-width: 768px)': { w: '50vw' },
+    '(min-width: 992px)': { w: '55vw', h: 300 },
+    '(min-width: 1200px)': { w: 1200 }
    }"
 "/&gt;
       </code></pre>
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <section class="ready-to-start">
+    <div class="container">
+      <h2 class="text-center">Crop your images</h2>
+
+      <div class="row">
+        <div class="col-md-4">
+          <p>Original Image</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block;width:200px;height:237px">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <div>
+                <img src="https://doc.cloudimg.io/v7/sample.li/boat.jpg" alt=""/>
+              </div>
+            </div>
+          </div>
+          <div>
+            <pre><code class="html">&lt;div style="width: 200px; height: 200px;"&gt;
+  &lt;img
+    src="https://doc.cloudimg.io/v7/sample.li/boat.jpg"
+  /&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <p>Crop</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px;">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <img ci-src="boat.jpg" ci-params="func=crop"/>
+            </div>
+          </div>
+          <div>
+            <pre><code class="html">&lt;div style="width: 200px; height: 200px;"&gt;
+  &lt;img
+    ci-src="boat.jpg"
+    ci-params="func=crop"
+  /&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <p>Auto crop</p>
+          <div>
+            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px">
+              <div class="container-width-box">container width: <span>---</span> px</div>
+              <img ci-src="boat.jpg" ci-params="func=crop&gravity=auto"/>
+            </div>
+          </div>
+          <div>
+            <pre><code class="html">&lt;div style="width: 200px; height: 200px;"&gt;
+  &lt;img
+    ci-src="boat.jpg"
+    ci-params="func=crop&gravity=auto"
+  /&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ready-to-start">
+    <div class="container">
+      <h2 class="text-center">Use with background images</h2>
+
+      <pre><code class="html">&lt;div
+   ci-bg-url="ameen-fahmy.jpg"
+   ci-params="func=crop"
+   style="background:#000 50% 50% / cover no-repeat;color:#fff;"
+&gt;...your content...&lt;div/&gt;</code></pre>
+    </div>
+
+    <div
+       ci-bg-url="ameen-fahmy.jpg"
+       ci-params="func=crop&ci_info=0"
+       style="background:#000 50% 50% / cover no-repeat;color:#fff;"
+    >
+      <div style="position:relative;z-index:1;padding:40px;background:rgba(0,0,0,0.3);">
+        <div class="container" >
+          <h2>What is Lorem Ipsum?</h2>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -504,8 +513,8 @@
         <p>
           Use the <code>ci-src</code> instead of the <code>src</code> attribute in image tag.
         </p>
-        <figure class="highlight">
-          <pre><code class="javascript">&lt;img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/&gt;</code></pre>
+        <figure class="html">
+          <pre><code class="html">&lt;img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/&gt;</code></pre>
         </figure>
 
         <p>
@@ -520,7 +529,7 @@
           Include the following scripts into your project after all content in body tag
         </p>
         <figure class="highlight">
-        <pre><code class="javascript">&lt;script&gt;
+        <pre><code class="html">&lt;script&gt;
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 &lt;/script&gt;
@@ -528,7 +537,7 @@
 // lazy load is a separate feature
 &lt;script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"&gt;&lt;/script&gt;
 // main core
-&lt;script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4/js-cloudimage-responsive.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.5.0/js-cloudimage-responsive.min.js"&gt;&lt;/script&gt;
 </code></pre>
         </figure>
       </div>
@@ -540,16 +549,19 @@
         <figure class="highlight">
         <pre><code class="javascript">&lt;script/&gt;
   const ciResponsive = new window.CIResponsive({
-  token: 'demo',
-  baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
-  lazyLoading: true                                       // optional
-});
+    token: 'demo',
+    baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+    lazyLoading: true                                       // optional
+  });
 
-// lazy load is a separate feature
-window.lazySizes.init();
+  // lazy load is a separate feature
+  window.lazySizes.init();
 &lt;/script&gt;
 </code></pre>
         </figure>
+        <p>
+          <small style="font-weight: lighter;"><b>NOTE</b>: You should put the scripts below all your content in the body tag and above all other scripts. After inserting the scripts the plugin starts immediately processing all images with ci-src, ci-bg-url attributes. (If the scripts are put into the head tag, no images will be detected and processed. If the scripts are put below all other scripts on your page, the images will be not showed until all the scripts downloaded.)</small>
+        </p>
         <p>
           Get your Cloudimage tokens <a href="https://www.cloudimage.io/en/register_page">here</a>.
         </p>

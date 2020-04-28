@@ -16,7 +16,7 @@ export const getInitialConfigBlurHash = (config) => {
     exactSize = false,
     doNotReplaceURL = false,
     limitFactor = 100,
-    devicePixelRatioList,      // TODO: add to readme
+    devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
     ignoreNodeImgSize = false,
     ignoreStyleImgSize = false,
     destroyNodeImgSize = false,
@@ -48,7 +48,7 @@ export const getInitialConfigBlurHash = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList: devicePixelRatioList || DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList,
     limitFactor,
     ignoreNodeImgSize,
     ignoreStyleImgSize,

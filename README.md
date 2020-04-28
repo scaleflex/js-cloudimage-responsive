@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v4.4.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v4.5.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -114,7 +114,7 @@ You have to pay attention on the following things:
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.4.0/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.5.0/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -266,7 +266,29 @@ For example
 * for an image with width **358px** and limitFactor equals **100** the plugin will round up to 400px
 * for an image with width **358px** and limitFactor equals **5** the plugin will round up to 360px
 
-### presets
+
+### devicePixelRatioList
+
+###### Type: **[Number,...]** | Default: **[1, 1.5, 2, 3, 4]** | _optional_
+
+List of supported device pixel ratios. If there is no need to support retina devices, you should set empty array `devicePixelRatioList: []`
+
+
+### lowQualityPreview
+
+###### Type: **Object**
+
+* `lowQualityPreview.minImgWidth` number (default: 400) - minimal width of an image to load low quality preview image
+
+Example:
+
+```javascript
+lowQualityPreview: {
+  minImgWidth = 400
+}
+```
+
+### <a name="presets"></a> presets
 
 ###### Type: **Object**
 
@@ -302,6 +324,18 @@ relative to baseURL in your config.
 * The plugin uses a special algorithm to detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 * Images where `ci-src` is not used will be delivered in a standard, non-responsive way.
 
+### width
+
+###### Type: **String** (e.g. 300px, 20vw) | Default: **undefined**
+
+If it's set the plugin will use width as fixed value and change only according device pixel ratio.
+
+### height
+
+###### Type: **String** (e.g. 300px, 20vh) | Default: **undefined**
+
+If it's set the plugin will use height as fixed value and change only according device pixel ratio.
+
 ### ci-params
 
 ###### Type: **String** | Default: **undefined** | _optional_
@@ -329,17 +363,21 @@ ci-params="{
 
 ###### Type: **Object** | Default: **undefined**
 
-**{preset breakpoint (xs,sm, md,lg,xl) or 'media query': {image params}}**:
+**{ preset breakpoint | 'media query': imageProps }**:
+
+preset breakpoints: **xs, sm, md, lg, xl** ([can be changed with](#presets))
+imageProps: **{ w, h, r }** where w - width, h - height, r - ratio
 
 ```jsx
 <img
   ci-src="dino-reichmuth-1.jpg"
   ci-sizes="{
-      sm: { w: 400, h: 200 },
-      '(min-width: 620px)': { w: 200, h: 60 },
-      md: { w: 250, h: 350 },
-      lg: { w: 350, h: 300 },
-      xl: { w: 400, h: 250 }
+     '(max-width: 575px)': { w: 400, h: 150 },
+     '(min-width): 576px)': { r: 1 },
+     '(min-width: 620px)': { h: 560 },
+     '(min-width: 768px)': { w: '50vw' },
+     lg: { w: '55vw', h: 300 },
+     xl: { w: 1200 }
  }"/>
 ```
 
@@ -393,7 +431,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.4.0/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.5.0/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 

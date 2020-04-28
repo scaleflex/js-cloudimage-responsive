@@ -1,12 +1,12 @@
-import '../../../src/plain';
+import '../../../src/blur-hash';
 import './style.css';
 import './assets/fonts/helvetica-neue.css';
-import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
 import 'highlight.js/styles/github.css';
 import { debounce } from 'throttle-debounce';
-hljs.registerLanguage('javascript', javascript);
-hljs.initHighlightingOnLoad();
+window.hljs.registerLanguage('javascript', javascript);
+window.hljs.initHighlightingOnLoad();
+
 
 const spinner = document.getElementById('spinner');
 const wrapper = document.getElementById('main');
@@ -19,6 +19,7 @@ window.ciResponsive = new window.CIResponsive({
   lazyLoading: true,
   exactSize: false,
   limitFactor: 10,
+
   //ignoreNodeImgSize: false,
   //saveNodeImgRatio: false,
   //ignoreStyleImgSize: false,
@@ -40,7 +41,7 @@ spinner.style.display = 'none';
 *  logic for image containers;
 */
 
-const containerBox = document.querySelectorAll('.container-width-box');
+const containerBox = document.querySelectorAll('.container-width-box:not(.custom)');
 const devicePixelRatio = document.querySelector('#device-pixel-ratio span');
 const setBoxSizes = () => {
   [].slice.call(containerBox).forEach(box => {

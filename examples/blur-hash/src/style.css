@@ -506,18 +506,35 @@ img {
   bottom: 15px;
   right: 15px;
   z-index: 100;
+  max-width: 230px;
 }
 
 .device-pixel-ratio span {
   background: #fff;
   display: inline-block;
-  border-radius: 50%;
-  width: 30px;
+  border-radius: 4px;
+  padding: 0 4px;
+  min-width: 30px;
   height: 30px;
   line-height: 30px;
   color: #222;
   text-align: center;
   vertical-align: middle;
+}
+
+.device-pixel-ratio .window-width-box {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.device-pixel-ratio hr {
+  margin: 0;
+  margin-top: 5px;
+}
+
+.device-pixel-ratio .label {
+  min-width: 150px;
+  display: inline-block;
 }
 
 .ready-to-start.filerobot-ui-family {
