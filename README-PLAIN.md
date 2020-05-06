@@ -69,6 +69,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 * [Step 1: Installation](#installation)
 * [Step 2: Initialize](#initialize)
 * [Step 3: Implement](#implement)
+* [Step 4: Prevent seeing broken images](#prevent_styles)
 * [Configuration](#configuration)
 * [Image properties](#image_properties)
 * [Lazy loading](#lazy_loading)
@@ -165,6 +166,21 @@ Use the `ci-bg-url` instead of CSS background-image property `background-image: 
 ```
 
 <a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+
+## <a name="prevent_styles"></a>Step 4: Prevent seeing broken images
+
+Add the following styles in the head of your site
+
+```html
+<style>
+    img[ci-src] {
+        opacity: 0;
+    }
+    img.ci-image-loaded {
+        opacity: 1;
+    }
+</style>
+```
 
 ## <a name="configuration"></a> Config
 
