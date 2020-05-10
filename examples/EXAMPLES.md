@@ -3,7 +3,7 @@
 
 ### Cropping
 
-To make the crop automatic `func=crop` should be set in **ci-params** attribute
+To make the crop automatic `func=crop&gravity=auto` should be set in **ci-params** attribute
 
 <p align="center">
 	<img
