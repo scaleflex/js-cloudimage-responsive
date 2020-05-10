@@ -29,7 +29,7 @@
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=16.04.2020_2" target="_blank">Demo</a>
+		<a href="https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=28.04.2020" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
 		•
@@ -69,6 +69,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 * [Step 1: Installation](#installation)
 * [Step 2: Initialize](#initialize)
 * [Step 3: Implement](#implement)
+* [Step 4: Prevent seeing broken images](#prevent_styles)
 * [Configuration](#configuration)
 * [Image properties](#image_properties)
 * [Lazy loading](#lazy_loading)
@@ -82,7 +83,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the
-[Demo page](https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=16.04.2020_2).
+[Demo page](https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=28.04.2020).
 Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
@@ -165,6 +166,21 @@ Use the `ci-bg-url` instead of CSS background-image property `background-image: 
 ```
 
 <a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+
+## <a name="prevent_styles"></a>Step 4: Prevent seeing broken images
+
+Add the following styles in the head of your site
+
+```html
+<style>
+    img[ci-src] {
+        opacity: 0;
+    }
+    img.ci-image-loaded {
+        opacity: 1;
+    }
+</style>
+```
 
 ## <a name="configuration"></a> Config
 
