@@ -3,12 +3,12 @@ import {
   filterImages,
   getBackgroundImageProps,
   getImageProps,
-  isApplyLowQualityPreview,
   isLazy,
   setBackgroundSrc,
   setSrc,
   setSrcset
 } from '../common/ci.utils';
+import { isLowQualityPreview } from 'cloudimage-responsive-utils/dist/utils/is-low-quality-preview';
 import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
 import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
 import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
@@ -111,7 +111,7 @@ export default class CIResponsive {
 
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
     const { width } = containerProps;
-    const isPreview = isApplyLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
+    const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
     const generateURLbyDPR = devicePixelRatio => generateURL({ src, params, config, containerProps, devicePixelRatio })
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));

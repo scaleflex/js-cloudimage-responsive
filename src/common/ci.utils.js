@@ -135,9 +135,6 @@ export const isLazy = (lazyLoading, isLazyCanceled, isUpdate) => {
   return lazyLoading;
 };
 
-export const isApplyLowQualityPreview = (isAdaptive, width, isSVG, minLowQualityWidth) =>
-  isAdaptive ? width > minLowQualityWidth : width > minLowQualityWidth && !isSVG;
-
 export const setSrc = (image, url, propertyName, lazy, imgSrc, isSVG, dataSrcAttr) => {
   image.setAttribute(
     lazy ? (propertyName ? propertyName : 'data-src') : (dataSrcAttr ? dataSrcAttr : 'src'),
