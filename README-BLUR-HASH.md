@@ -274,6 +274,27 @@ For example
 * for an image with width **358px** and limitFactor equals **100** the plugin will round up to 400px
 * for an image with width **358px** and limitFactor equals **5** the plugin will round up to 360px
 
+### presets
+
+###### Type: **Object**
+
+Default:
+
+```javascript
+const cloudimageConfig = {
+  token: 'demo',
+  baseURL: 'https://jolipage.airstore.io/',
+  ...
+  presets: {
+      xs: '(max-width: 575px)', // up to 575    PHONE
+      sm: '(min-width: 576px)', // 576 - 767    PHABLET
+      md: '(min-width: 768px)', // 768 - 991    TABLET
+      lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
+      xl: '(min-width: 1200px)' // from 1200    USUALSCREEN
+  }
+};
+```
+
 ### devicePixelRatioList
 
 ###### Type: **[Number,...]** | Default: **[1, 1.5, 2, 3, 4]** | _optional_
