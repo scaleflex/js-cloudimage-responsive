@@ -73,13 +73,13 @@ export default class CIResponsive {
     const { config } = this;
     const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
     const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
-    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize } = imgProps;
+    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
 
     if (!imgNodeSRC) return;
 
     const [src, isSVG] = getImgSRC(imgNodeSRC, baseURL);
     const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
-    let size
+    let size;
 
     if (!isSupportedInBrowser(true)) {
       if (isImage) {
@@ -88,6 +88,11 @@ export default class CIResponsive {
         imgNode.style.backgroundImage = 'url(' + src + ')';
       }
 
+      return;
+    }
+
+    if (window.innerWidth < minWindowWidth && !isImage) {
+      imgNode.style.backgroundImage = 'none';
       return;
     }
 

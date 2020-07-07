@@ -94,7 +94,8 @@ export const getImageProps = (image) => {
 export const getBackgroundImageProps = (image) => {
   const props = {
     ...getCommonImageProps(image),
-    imgNodeSRC: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined
+    imgNodeSRC: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined,
+    minWindowWidth: attr(image, 'ci-min-window-width') || attr(image, 'data-min-window-width') || undefined
   };
   const params = {
     ...getParamsFromURL(props.imgNodeSRC || ''),
