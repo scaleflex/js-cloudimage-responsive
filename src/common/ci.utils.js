@@ -73,10 +73,10 @@ const getSize = (sizes) => {
   return resultSizes;
 }
 
-export const getImageProps = (image) => {
+export const getImageProps = (image, imgSelector) => {
   const props = {
     ...getCommonImageProps(image),
-    imgNodeSRC: attr(image, 'ci-src') || attr(image, 'data-ci-src') || undefined
+    imgNodeSRC: attr(image, imgSelector) || undefined
   };
   const params = {
     ...getParamsFromURL(props.imgNodeSRC || ''),
@@ -91,10 +91,10 @@ export const getImageProps = (image) => {
   };
 };
 
-export const getBackgroundImageProps = (image) => {
+export const getBackgroundImageProps = (image, bgSelector) => {
   const props = {
     ...getCommonImageProps(image),
-    imgNodeSRC: attr(image, 'ci-bg-url') || attr(image, 'data-ci-bg-url') || undefined,
+    imgNodeSRC: attr(image, bgSelector)|| undefined,
     minWindowWidth: attr(image, 'ci-min-window-width') || attr(image, 'data-min-window-width') || undefined
   };
   const params = {

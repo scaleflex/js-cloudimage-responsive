@@ -4,6 +4,8 @@ import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/consta
 
 export const getInitialConfigBlurHash = (config) => {
   const {
+    imgSelector = 'ci-src',
+    bgSelector = 'ci-bg-url',
     token = '',
     domain = 'cloudimg.io',
     lazyLoading = false,
@@ -29,6 +31,8 @@ export const getInitialConfigBlurHash = (config) => {
   } = config;
 
   return {
+    imgSelector,
+    bgSelector,
     token,
     domain,
     lazyLoading,

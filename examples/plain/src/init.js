@@ -7,6 +7,9 @@ window.ciResponsive = new window.CIResponsive({
   exactSize: false,
   limitFactor: 10,
 
+  // imgSelector: 'data-src',
+  // bgSelector: 'data-bg-src'
+
   //ignoreNodeImgSize: false,
   //saveNodeImgRatio: false,
   //ignoreStyleImgSize: false,

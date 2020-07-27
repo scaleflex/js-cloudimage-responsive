@@ -57,11 +57,11 @@ export default class CIResponsive {
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
 
     if (isUpdate) {
-      images = document.querySelectorAll('img[ci-src]');
-      backgroundImages = document.querySelectorAll('[ci-bg-url]');
+      images = document.querySelectorAll(`img[${this.config.imgSelector}]`);
+      backgroundImages = document.querySelectorAll(`[${this.config.imgSelector}]`);
     } else {
-      images = filterImages(document.querySelectorAll('img[ci-src]'), 'ci-image');
-      backgroundImages = filterImages(document.querySelectorAll('[ci-bg-url]'), 'ci-bg');
+      images = filterImages(document.querySelectorAll(`img[${this.config.imgSelector}]`), 'ci-image');
+      backgroundImages = filterImages(document.querySelectorAll(`[${this.config.imgSelector}]`), 'ci-bg');
     }
 
     if (images.length > -1) {
@@ -80,8 +80,9 @@ export default class CIResponsive {
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
-    const { baseURL, lazyLoading, presets, devicePixelRatioList } = config;
-    const imgProps = isImage ? getImageProps(imgNode) : getBackgroundImageProps(imgNode);
+    const { baseURL, lazyLoading, presets, devicePixelRatioList, imgSelector, bgSelector } = config;
+    const imgProps = isImage ?
+        getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
     const { params, imgNodeSRC, blurHash, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
 
     if (!imgNodeSRC) return;
