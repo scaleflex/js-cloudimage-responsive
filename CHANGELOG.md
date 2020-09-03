@@ -26,6 +26,10 @@ Types of changes:
 
 -------------
 
+## 4.6.1 - 2020-09-03
+### Fixed
+- background images doesn't appear
+
 ## 4.6.0 - 2020-07-27
 ### Added
 - possibility to change cloudimage responsive selector
