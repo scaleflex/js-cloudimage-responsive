@@ -49,11 +49,11 @@ Cloudimage's resizing servers will download the origin image from
 the source, resize it for the client's screen size and deliver to your users through one or multiple
 Content Delivery Networks (CDNs). The generated image formats are cached in the CDN and will be delivered rocket fast on any subsequent request.
 
-**NOTE:** Your original (master) images should be stored on a server
+**NOTE:** Your original (master) images have to be stored on a server
 or storage bucket (S3, Google Cloud, Azure Blob...) reachable over
-HTTP or HTTPS by Cloudimage. If you want to upload your master images to
-Cloudimage, contact us at
-[hello@cloudimage.io](mailto:hello@cloudimage.io).
+HTTP or HTTPS by Cloudimage. If you want to store your master images with us,
+you can check our all-in-one Digital Asset Management solution
+[Filerobot](https://www.filerobot.com/).
 
 <p align="center">
 	<img
@@ -105,15 +105,15 @@ CDN traffic per month for free.
 
 ### Layout/CSS
 
-In order to use smooth transition between preview image and good quality and size image, the plugin uses absolute positioning for images and wraps an image tag with div element with relative positioning. 
+In order to use smooth transition between preview image and good quality and size image, the plugin uses absolute positioning for images and wraps an image tag with a div element with relative positioning. 
 
-You have to pay attention on the following things:
+You have to pay attention to the following things:
 
-- the plugin sets 100% width for img tag and position absolute (You should not apply other sizes or change position property. If you need to change width of image or position, you have to set it to wrapper)
+- the plugin sets 100% width for the img tag and position:absolute (You should not apply other sizes or change position property. If you need to change the width of an image or its position, you have to set it to the wrapper element)
 
 ## <a name="installation"></a>Step 1: Installation
 
-Add script tag with CDN link to js-cloudimage-responsive
+Add a script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
 <script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.6.0/js-cloudimage-responsive.min.js"></script>
@@ -127,7 +127,7 @@ $ npm install --save js-cloudimage-responsive
 
 ## <a name="initialize"></a>Step 2: Initialize
 
-After adding the js-cloudimage-responsive lib, simply iniatialize it with your **token** and the **baseURL** of your image storage:
+After adding the js-cloudimage-responsive library, simply iniatialise it with your **token** and the **baseURL** of your image storage:
 
 ```javascript
 <script>
@@ -150,35 +150,35 @@ const ciResponsive = new window.CIResponsive({
 });
 ```
 
-**NOTE**: You should put the scripts below all your content in the body tag and above all other scripts. After inserting the scripts the plugin starts immediately processing all images with ci-src, ci-bg-url attributes. (If the scripts are put into the head tag, no images will be detected and processed. If the scripts are put below all other scripts on your page, the images will be not showed until all the scripts downloaded.)
+**NOTE**: You should put the scripts below all your content in the body tag and above all other scripts. After inserting the scripts, the plugin immediately starts processing all images with ci-src and ci-bg-url attributes. (If the scripts are put into the head tag, no images will be detected and processed. If the scripts are put below all other scripts on your page, the images will be not showed until all the scripts are downloaded.)
 
-## <a name="implement"></a>Step 3: Implement in img tag or use it as background image
+## <a name="implement"></a>Step 3: Implement in an img tag or use it as a background image
 
 ### img tag
 
-Finally, just use the `ci-src` instead of the `src` attribute in image tag:
+Finally, just use `ci-src` instead of the `src` attribute in image tag:
 
 ```html
 <img ci-src="magnus-lindvall.jpg" ci-ratio="1.5"/>
 ```
 
-NOTE: "ci-ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
+NOTE: setting "ci-ratio" is recommended to prevent page layout jumping. The parameter is used to calculate the image height to hold the image position while the image is loading.
 
-<a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ### background image
 
-Use the `ci-bg-url` instead of CSS background-image property `background-image: url(...)`:
+Use `ci-bg-url` instead of the CSS background-image property `background-image: url(...)`:
 
 ```html
 <div ci-bg-url="magnus-lindvall.jpg"></div>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ## <a name="prevent_styles"></a>Step 4: Prevent seeing broken images
 
-Add the following styles in the head of your site
+Add the following styles in the head of your site:
 
 ```html
 <style>
@@ -188,7 +188,7 @@ Add the following styles in the head of your site
 </style>
 ```
 
-## <a name="configuration"></a> Config
+## <a name="configuration"></a> Configuration
 
 ### token
 
@@ -221,13 +221,13 @@ Cloudimage Responsive Selector for background images.
 
 ###### Type: **bool** | Default: **false**
 
-If set to **true** the plugin will only add query params to the given source of image.
+If set to **true**, the plugin will only add query parameters to the provided image source URL.
 
 ### baseURL
 
 ###### Type: **String** | _optional_
 
-Your image folder on server, this alows to shorten your origin image URLs.
+Your image folder on server; this alows to shorten your origin image URLs.
 
 ### <a name="lazy_loading_config"></a>lazyLoading
 
@@ -239,7 +239,7 @@ Only images close to the client's viewport will be loaded, hence accelerating th
 
 ###### Type: **String** | Default: **'org_if_sml=1'** | _optional_
 
-Applies default Cloudimage operations/ filters to your image, e.g. brightness, contrast, rotation...
+Applies default Cloudimage operations/filters to your image like brightness, contrast, rotation, etc.
 Multiple params can be applied, separated by "```&```" e.g. wat_scale=35&wat_gravity=northeast&wat_pad=10&grey=1
 
 ```javascript
@@ -271,7 +271,7 @@ Multiple params can be applied, separated by "```&```" e.g. wat_scale=35&wat_gra
 
 ###### Type: **String** | Default: **'#f4f4f4'** | _optional_
 
-Placeholder colored background while the image is loading
+Placeholder coloured background while the image is loading
 
 
 ### exactSize
@@ -279,18 +279,18 @@ Placeholder colored background while the image is loading
 ###### Type: **Bool** | Default: **false** | _optional_
 
 Forces to load exact size of images.
-By default the plugin rounds container width to next possible value which can be divided by 100 without the remainder.
-It’s done for cache reasons so that not all images are cached by 1px, but only 100px, 200px, 300px …
+By default, the plugin rounds the container width to next possible value which can be divided by 100 without the remainder.
+This is done for caching reasons so that not all images are cached by 1px, but only 100px, 200px, 300px...
 
 ### limitFactor
 
 ###### Type: **Number** | Default: **100** | _optional_
 
-Rounds up size of an image to nearest limitFactor value.
+Rounds up the size of the image to the nearest limitFactor value.
 
-For example
-* for an image with width **358px** and limitFactor equals **100** the plugin will round up to 400px
-* for an image with width **358px** and limitFactor equals **5** the plugin will round up to 360px
+For example:
+* for an image with width **358px** and limitFactor equal to **100**, the plugin will round up to 400px;
+* for an image with width **358px** and limitFactor equal to **5**, the plugin will round up to 360px.
 
 
 ### devicePixelRatioList
@@ -304,7 +304,7 @@ List of supported device pixel ratios. If there is no need to support retina dev
 
 ###### Type: **Object**
 
-* `lowQualityPreview.minImgWidth` number (default: 400) - minimal width of an image to load low quality preview image
+* `lowQualityPreview.minImgWidth` number (default: 400) - minimal width of an image to load a low-quality preview image
 
 Example:
 
@@ -333,41 +333,41 @@ Default:
 }
 ```
 
-Breakpoints shortcuts to use in image size property, can be overwritten.
+Breakpoints shortcuts to use in image size property, can be overridden.
 
 ## <a name="image_properties"></a> Image properties
 
-Cloudimage responsive plugin will make image on your page responsive if you replace the `src` with `ci-src` attribute in the `<img>` tag:
+The Cloudimage responsive plugin will make an image on your page responsive if you replace the `src` with a `ci-src` attribute in the `<img>` tag:
 
 ### ci-src
 
 ###### Type: **String** | Default: **undefined** | _required_
 
 Original image hosted on your web server. You can use absolute path or
-relative to baseURL in your config.
+relative to the baseURL in your config.
 
 **NOTES:**
-* The plugin uses a special algorithm to detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
+* The plugin uses a special algorithm to detect the width of the image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 * Images where `ci-src` is not used will be delivered in a standard, non-responsive way.
 
 ### width
 
 ###### Type: **String** (e.g. 300px, 20vw) | Default: **undefined**
 
-If it's set the plugin will use width as fixed value and change only according device pixel ratio.
+If it's set, the plugin will use width as a fixed value and change only according device pixel ratio.
 
 ### height
 
 ###### Type: **String** (e.g. 300px, 20vh) | Default: **undefined**
 
-If it's set the plugin will use height as fixed value and change only according device pixel ratio.
+If it's set, the plugin will use height as fixed value and change only according device pixel ratio.
 
 ### ci-params
 
 ###### Type: **String** | Default: **undefined** | _optional_
 
-You can apply any Cloudimage operations/ filters to your image, e.g. brightness, contrast, rotation...
-Multiple params can be applied, separated by "```&```" e.g. **wat_scale=35&wat_gravity=northeast&wat_pad=10&grey=1**
+You can apply any Cloudimage operations/filters to your image, e.g. brightness, contrast, rotation...
+Multiple parameters can be applied, separated by "```&```" e.g. **wat_scale=35&wat_gravity=northeast&wat_pad=10&grey=1**
 
 ```javascript
 ci-params="gray=1&bright=10"
@@ -422,7 +422,7 @@ You can drop some breakpoints, for example:
 
 md: { w: '40vw', h: 350 } or md: { w: 250, h: '20vh' }
 
-adds possibility to use fixed height or width and change dynamically other dimension
+adds a possibility to use fixed height or width and change the other dimension dynamically
 
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
@@ -431,21 +431,21 @@ detect the width of image container and set the image size accordingly. This is 
 
 ###### Type: **Number** | _optional_
 
-It is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
+It is recommended to set this parameter to prevent page layout jumping. It is used to calculate the image height to hold the image position while the image is loading.
 
-To see the full cloudimage documentation [click here](https://docs.cloudimage.io/go/cloudimage-documentation)
+To see the full Cloudimage documentation, [click here](https://docs.cloudimage.io/go/cloudimage-documentation).
 
 ### ci-not-lazy (or data-ci-not-lazy)
 
 ###### Type: **Bool**
 
-Switch off lazyload per image.
+Switch off lazy loading on a per-image basis.
 
 ## <a name="lazy_loading"></a> Lazy Loading
 
 Lazy loading is not included into js-cloudimage-responsive by default. If you [enable lazy loading](#lazy_loading_config) in the configuration, you need to add an additional library.
 
-The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
+The example below uses the [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
 
 [Code Sandbox example](https://codesandbox.io/s/6jkovjvkxz)
@@ -502,7 +502,7 @@ ciResponsive.process(); // -> call when you need to process dynamically loaded i
 
 Tested in all modern browsers and IE 11,10,9.
 
-If you want to address the use case where your visitors disable JS. You have to add noscript tag.
+If you want to address the use case where your visitors disable JS, You have to add a noscript tag:
 
 ```html
 <noscript><img src="path-to-original-image"/></noscript>
@@ -526,5 +526,5 @@ All contributions are super welcome!
 
 
 ## <a name="license"></a>License
-JS Cloudimage Responsive is provided under the [MIT License](https://opensource.org/licenses/MIT)
+JS Cloudimage Responsive is provided under the [MIT License](https://opensource.org/licenses/MIT).
 
