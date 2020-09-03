@@ -61,10 +61,10 @@ export default class CIResponsive {
 
     if (isUpdate) {
       images = document.querySelectorAll(`img[${this.config.imgSelector}]`);
-      backgroundImages = document.querySelectorAll(`[${this.config.imgSelector}]`);
+      backgroundImages = document.querySelectorAll(`[${this.config.bgSelector}]`);
     } else {
       images = filterImages(document.querySelectorAll(`img[${this.config.imgSelector}]`), 'ci-image');
-      backgroundImages = filterImages(document.querySelectorAll(`[${this.config.imgSelector}]`), 'ci-bg');
+      backgroundImages = filterImages(document.querySelectorAll(`[${this.config.bgSelector}]`), 'ci-bg');
     }
 
     if (images.length > -1) {
