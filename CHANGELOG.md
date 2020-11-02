@@ -25,6 +25,9 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.2 - 2020-11-02
+### updated
+- utils version 
 
 ## 4.6.1 - 2020-09-03
 ### Fixed
