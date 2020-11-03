@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.3 - 2020-11-02
+### updated
+- utils version to enable params by queries
+
 ## 4.6.2 - 2020-11-02
 ### updated
 - utils version 
