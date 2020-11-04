@@ -25,6 +25,9 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.4 - 2020-11-04
+### updated
+- utils version to fix getComputed function
 ## 4.6.3 - 2020-11-02
 ### updated
 - utils version to enable params by queries
