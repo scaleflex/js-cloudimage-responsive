@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.4 - 2020-11-09
+### updated
+- utils version to add src to each size
+
 ## 4.6.4 - 2020-11-04
 ### updated
 - utils version to fix getComputed function
