@@ -80,9 +80,6 @@ export default class CIResponsive {
     }
   }
 
-  
-
-
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
