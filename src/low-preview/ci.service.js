@@ -80,6 +80,9 @@ export default class CIResponsive {
     }
   }
 
+  
+
+
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
@@ -89,8 +92,8 @@ export default class CIResponsive {
     const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
 
     if (!imgNodeSRC) return;
-
-    const [src, isSVG] = getImgSRC(imgNodeSRC, baseURL);
+                                                
+    let [src, isSVG] = getImgSRC(imgNodeSRC, baseURL);
     const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
     let size;
 
@@ -108,13 +111,17 @@ export default class CIResponsive {
       imgNode.style.backgroundImage = 'none';
       return;
     }
-
+   
     if (isAdaptive) {
       size = getBreakpoint(sizes, presets);
     } else {
       if (isUpdate && !windowScreenBecomesBigger) return;
     }
-
+    if(size){
+      if(size.params.src){
+        [src, isSVG] = getImgSRC(size.params.src, baseURL);
+      }
+    }
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
     const { width } = containerProps;
     const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);

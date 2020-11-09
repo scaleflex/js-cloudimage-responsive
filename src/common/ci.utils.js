@@ -49,19 +49,23 @@ export const getParams = (params) => {
 
 const getSize = (sizes) => {
   let resultSizes = null;
-
+ 
   try {
     // add quotes around params
     let temp = sizes.replace(/(\w+:)|(\w+ :)/g, function (matchedStr) {
+     if(matchedStr === 'https:' || matchedStr === 'http:'){
+        return matchedStr
+      }else {
       return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
+      }
     });
-    // change single quotes to double quotes
+   // change single quotes to double quotes
     temp = temp.replace(/'/g, '"').replace(/-"width":/g, '-width:');
     resultSizes = JSON.parse(temp);
   } catch (e) {}
 
   if (resultSizes) {
-    Object.keys(resultSizes).forEach(key => {
+   Object.keys(resultSizes).forEach(key => {
       if (typeof resultSizes[key] === 'string') {
         try {
           resultSizes[key] = JSON.parse('{"' + decodeURI(resultSizes[key].replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
@@ -78,7 +82,7 @@ export const getImageProps = (image, imgSelector) => {
     ...getCommonImageProps(image),
     imgNodeSRC: attr(image, imgSelector) || undefined
   };
-  const params = {
+ const params = {
     ...getParamsFromURL(props.imgNodeSRC || ''),
     ...props.params
   };
