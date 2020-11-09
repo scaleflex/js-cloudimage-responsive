@@ -111,14 +111,15 @@ export default class CIResponsive {
    
     if (isAdaptive) {
       size = getBreakpoint(sizes, presets);
+      if(size){
+        if(size.params.src){
+          [src, isSVG] = getImgSRC(size.params.src, baseURL);
+        }
+      }
     } else {
       if (isUpdate && !windowScreenBecomesBigger) return;
     }
-    if(size){
-      if(size.params.src){
-        [src, isSVG] = getImgSRC(size.params.src, baseURL);
-      }
-    }
+  
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
     const { width } = containerProps;
     const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
