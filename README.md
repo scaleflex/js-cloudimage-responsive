@@ -392,14 +392,19 @@ ci-params="{
 **{ preset breakpoint | 'media query': imageProps }**:
 
 preset breakpoints: **xs, sm, md, lg, xl** ([can be changed with](#presets))
-imageProps: **{ w, h, r }** where w - width, h - height, r - ratio
+imageProps: **{ w, h, r, src }** where 
+
+* **w** - width, 
+* **h** - height, 
+* **r** - ratio, 
+* **src** - original image hosted on your web server. You can use absolute path or relative to the baseURL in your config.
 
 ```jsx
 <img
   ci-src="dino-reichmuth-1.jpg"
   ci-sizes="{
      '(max-width: 575px)': { w: 400, h: 150 },
-     '(min-width): 576px)': { r: 1 },
+     '(min-width): 576px)': { src: 'dino-reichmuth-square.jpg', r: 1 },
      '(min-width: 620px)': { h: 560 },
      '(min-width: 768px)': { w: '50vw' },
      lg: { w: '55vw', h: 300 },
