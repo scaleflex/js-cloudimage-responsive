@@ -327,6 +327,7 @@ relative to baseURL in your config.
 **NOTES:** 
 * The plugin uses a special algorithm to detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 * Images where `ci-src` is not used will be delivered in a standard, non-responsive way.
+* Parameters after "?" question mark will be added at the end of result URL after processing by the plugin.
 
 ### width
 
