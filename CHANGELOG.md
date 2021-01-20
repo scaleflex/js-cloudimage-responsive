@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.6 - 2020-1-20
+### updated
+- highlight js
+
 ## 4.6.5 - 2020-11-09
 ### updated
 - utils version to add src to each size
