@@ -5,11 +5,9 @@ export const wrapBackgroundContainer = (imgNode) => {
   let previewBox = document.createElement('div');
   let contentBox = document.createElement('div');
 
-  contentBox.innerHTML = imgNode.innerHTML;
+  wrapAll(contentBox, imgNode.children);
 
-  imgNode.innerHTML = '';
-  imgNode.appendChild(previewBox);
-  imgNode.appendChild(contentBox);
+  imgNode.prepend(previewBox);
 
   return [previewBox, contentBox]
 };
@@ -211,4 +209,22 @@ export const updateSizeWithPixelRatio = (size, devicePixelRatio) => {
   });
 
   return result.join('x');
+};
+
+const wrapAll = function(wrapper, elms) {
+  const el = elms.length ? elms[0] : elms;
+  const parent  = el.parentNode;
+  const sibling = el.nextSibling;
+
+  wrapper.appendChild(el);
+
+  while (elms.length) {
+    wrapper.appendChild(elms[0]);
+  }
+
+  if (sibling) {
+    parent.insertBefore(wrapper, sibling);
+  } else {
+    parent.appendChild(wrapper);
+  }
 };
