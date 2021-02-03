@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.7 - 2020-02-03
+### fixed
+- problem with rendering images inside background image
+
 ## 4.6.6 - 2020-1-20
 ### updated
 - highlight js
