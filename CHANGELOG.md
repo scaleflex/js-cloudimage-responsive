@@ -25,6 +25,24 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.6 - 2020-1-20
+### updated
+- highlight js
+
+## 4.6.5 - 2020-11-09
+### updated
+- utils version to add src to each size
+
+## 4.6.4 - 2020-11-04
+### updated
+- utils version to fix getComputed function
+## 4.6.3 - 2020-11-02
+### updated
+- utils version to enable params by queries
+
+## 4.6.2 - 2020-11-02
+### updated
+- utils version 
 
 ## 4.6.1 - 2020-09-03
 ### Fixed
