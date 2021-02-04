@@ -5,7 +5,9 @@ export const wrapBackgroundContainer = (imgNode) => {
   let previewBox = document.createElement('div');
   let contentBox = document.createElement('div');
 
-  wrapAll(contentBox, imgNode.children);
+  if (imgNode.children && imgNode.children.length > 0) {
+    wrapAll(contentBox, imgNode.children);
+  }
 
   imgNode.prepend(previewBox);
 
