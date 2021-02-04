@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.6.8 - 2020-02-04
+### fixed
+- problem with background images with no children
+
 ## 4.6.7 - 2020-02-03
 ### fixed
 - problem with rendering images inside background image
