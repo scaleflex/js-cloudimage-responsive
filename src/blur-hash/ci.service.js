@@ -1,7 +1,7 @@
 import {
   destroyNodeImgSize,
-  filterImages,
   getBackgroundImageProps,
+  getFreshCIElements,
   getImageProps,
   isLazy,
   setBackgroundSrc,
@@ -53,20 +53,9 @@ export default class CIResponsive {
   }
 
   process(isUpdate, rootElement = document) {
-    let images, backgroundImages;
+    const { imgSelector, bgSelector } = this.config;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
-
-    if (rootElement !== document && !rootElement instanceof HTMLElement) {
-      throw new TypeError('rootElement should be an HTMLElement');
-    }
-
-    if (isUpdate) {
-      images = rootElement.querySelectorAll(`img[${this.config.imgSelector}]`);
-      backgroundImages = rootElement.querySelectorAll(`[${this.config.bgSelector}]`);
-    } else {
-      images = filterImages(rootElement.querySelectorAll(`img[${this.config.imgSelector}]`), 'ci-image');
-      backgroundImages = filterImages(rootElement.querySelectorAll(`[${this.config.bgSelector}]`), 'ci-bg');
-    }
+    let [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
 
     if (images.length > -1) {
       images.forEach(imgNode => {

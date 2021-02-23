@@ -25,7 +25,10 @@ export const getInitialConfigPlain = (config) => {
     processOnlyWidth = false,
     devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
     // callbacks
-    onImageLoad = null
+    onImageLoad = null,
+    // methods
+    processURL = null,
+    processQueryString = null
   } = config;
 
   return {
@@ -56,7 +59,9 @@ export const getInitialConfigPlain = (config) => {
     saveNodeImgRatio,
     detectImageNodeCSS,
     processOnlyWidth,
-    onImageLoad
+    onImageLoad,
+    processURL,
+    processQueryString
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };

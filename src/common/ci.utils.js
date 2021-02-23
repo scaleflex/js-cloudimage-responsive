@@ -49,7 +49,7 @@ export const getParams = (params) => {
 
 const getSize = (sizes) => {
   let resultSizes = null;
- 
+
   try {
     // add quotes around params
     let temp = sizes.replace(/(\w+:)|(\w+ :)/g, function (matchedStr) {
@@ -164,6 +164,24 @@ export const setBackgroundSrc = (image, url, lazy, imgSrc, isSVG, dataSrcAttr) =
   } else {
     image.style.backgroundImage = `url('${resultLink}')`
   }
+};
+
+export const getFreshCIElements = (isUpdate, rootElement, imgSelector, bgSelector) => {
+  let images, backgroundImages;
+
+  if (rootElement !== document && !(rootElement instanceof HTMLElement)) {
+    throw new TypeError('rootElement should be an HTMLElement');
+  }
+
+  if (isUpdate) {
+    images = rootElement.querySelectorAll(`img[${imgSelector}]`);
+    backgroundImages = rootElement.querySelectorAll(`[${bgSelector}]`);
+  } else {
+    images = filterImages(rootElement.querySelectorAll(`img[${imgSelector}]`), 'ci-image');
+    backgroundImages = filterImages(rootElement.querySelectorAll(`[${bgSelector}]`), 'ci-bg');
+  }
+
+  return [images, backgroundImages];
 };
 
 export const destroyNodeImgSize = imgNode => {

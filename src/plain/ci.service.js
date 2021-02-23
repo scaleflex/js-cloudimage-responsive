@@ -1,8 +1,8 @@
 import {
   addClass,
   destroyNodeImgSize,
-  filterImages,
   getBackgroundImageProps,
+  getFreshCIElements,
   getImageProps,
   isLazy,
   setBackgroundSrc,
@@ -43,17 +43,10 @@ export default class CIResponsive {
     }
   }
 
-  process(isUpdate) {
-    let images, backgroundImages;
+  process(isUpdate, rootElement = document) {
+    const { imgSelector, bgSelector } = this.config;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
-
-    if (isUpdate) {
-      images = document.querySelectorAll(`img[${this.config.imgSelector}]`);
-      backgroundImages = document.querySelectorAll(`[${this.config.bgSelector}]`);
-    } else {
-      images = filterImages(document.querySelectorAll(`img[${this.config.imgSelector}]`), 'ci-image');
-      backgroundImages = filterImages(document.querySelectorAll(`[${this.config.bgSelector}]`), 'ci-bg');
-    }
+    let [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
 
     if (images.length > -1) {
       images.forEach(imgNode => {
@@ -71,7 +64,9 @@ export default class CIResponsive {
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
-    const { baseURL, lazyLoading, presets, devicePixelRatioList, imgSelector, bgSelector } = config;
+    const {
+      baseURL, lazyLoading, presets, devicePixelRatioList, imgSelector, bgSelector, processURL, processQueryString
+    } = config;
     const imgProps = isImage ?
         getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
     const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
@@ -104,7 +99,12 @@ export default class CIResponsive {
     }
 
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
-    const generateURLbyDPR = devicePixelRatio => generateURL({ src, params, config, containerProps, devicePixelRatio })
+    const service = {
+      props: { imgNode, imgProps, config },
+      methods: {}
+    };
+    const generateURLbyDPR = devicePixelRatio =>
+        generateURL({ src, params, config, containerProps, devicePixelRatio, processURL, processQueryString, service });
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = { imgNode, isUpdate, imgProps, lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize };

@@ -1,7 +1,7 @@
 import {
   destroyNodeImgSize,
-  filterImages,
   getBackgroundImageProps,
+  getFreshCIElements,
   getImageProps,
   isLazy,
   setBackgroundSrc,
@@ -55,17 +55,10 @@ export default class CIResponsive {
     }
   }
 
-  process(isUpdate) {
-    let images, backgroundImages;
+  process(isUpdate, rootElement = document) {
+    const { imgSelector, bgSelector } = this.config;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
-
-    if (isUpdate) {
-      images = document.querySelectorAll(`img[${this.config.imgSelector}]`);
-      backgroundImages = document.querySelectorAll(`[${this.config.bgSelector}]`);
-    } else {
-      images = filterImages(document.querySelectorAll(`img[${this.config.imgSelector}]`), 'ci-image');
-      backgroundImages = filterImages(document.querySelectorAll(`[${this.config.bgSelector}]`), 'ci-bg');
-    }
+    let [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
 
     if (images.length > -1) {
       images.forEach(imgNode => {
@@ -89,7 +82,7 @@ export default class CIResponsive {
     const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
 
     if (!imgNodeSRC) return;
-                                                
+
     let [src, isSVG] = getImgSRC(imgNodeSRC, baseURL);
     const lazy = isLazy(lazyLoading, isLazyCanceled, isUpdate);
     let size;
@@ -108,7 +101,7 @@ export default class CIResponsive {
       imgNode.style.backgroundImage = 'none';
       return;
     }
-   
+
     if (isAdaptive) {
       size = getBreakpoint(sizes, presets);
       if(size){
@@ -119,7 +112,7 @@ export default class CIResponsive {
     } else {
       if (isUpdate && !windowScreenBecomesBigger) return;
     }
-  
+
     const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
     const { width } = containerProps;
     const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
