@@ -5,7 +5,7 @@ const isDist = process.env.NODE_ENV === 'dist';
 
 const now = new Date();
 const banner = `
- ${pkg.name} v${pkg.version} with low quality image placeholder technique
+ ${pkg.name} v${pkg.version} wordpress version
  ${pkg.repository.url}
 
  Copyright (c) 2019 ${pkg.author}
