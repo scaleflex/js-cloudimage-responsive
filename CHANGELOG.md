@@ -25,6 +25,14 @@ Types of changes:
 - ...
 
 -------------
+## 4.7.0 - 2020-02-23
+### added
+- add custom root element to process function
+- process result coudimage URL before inserting into dom (plain version only)
+
+### fixed
+- banners in build files
+
 ## 4.6.8 - 2020-02-04
 ### fixed
 - problem with background images with no children
