@@ -499,6 +499,8 @@ ciResponsive.process(); // -> call when you need to process dynamically loaded i
 </script>
 ```
 
+The process function accepts a second argument. It expects an [HTML Element](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement), if provided it will be used as the root for the images lookup.
+
 ## <a name="examples_workarounds"></a> Examples & workarounds
 * [See all](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/examples/EXAMPLES.md)
 * [Cropping](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/examples/EXAMPLES.md#cropping)

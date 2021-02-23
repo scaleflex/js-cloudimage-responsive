@@ -52,16 +52,20 @@ export default class CIResponsive {
     }
   }
 
-  process(isUpdate) {
+  process(isUpdate, rootElement = document) {
     let images, backgroundImages;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
 
+    if (rootElement !== document && !rootElement instanceof HTMLElement) {
+      throw new TypeError('rootElement should be an HTMLElement');
+    }
+
     if (isUpdate) {
-      images = document.querySelectorAll(`img[${this.config.imgSelector}]`);
-      backgroundImages = document.querySelectorAll(`[${this.config.bgSelector}]`);
+      images = rootElement.querySelectorAll(`img[${this.config.imgSelector}]`);
+      backgroundImages = rootElement.querySelectorAll(`[${this.config.bgSelector}]`);
     } else {
-      images = filterImages(document.querySelectorAll(`img[${this.config.imgSelector}]`), 'ci-image');
-      backgroundImages = filterImages(document.querySelectorAll(`[${this.config.bgSelector}]`), 'ci-bg');
+      images = filterImages(rootElement.querySelectorAll(`img[${this.config.imgSelector}]`), 'ci-image');
+      backgroundImages = filterImages(rootElement.querySelectorAll(`[${this.config.bgSelector}]`), 'ci-bg');
     }
 
     if (images.length > -1) {
