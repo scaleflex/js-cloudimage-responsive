@@ -71,7 +71,6 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 * [Step 1: Installation](#installation)
 * [Step 2: Initialize](#initialize)
 * [Step 3: Implement](#implement)
-* [Step 4: Prevent seeing broken images](#prevent_styles)
 * [Configuration](#configuration)
 * [Image properties](#image_properties)
 * [Lazy loading](#lazy_loading)
@@ -112,6 +111,12 @@ You have to pay attention to the following things:
 - the plugin sets 100% width for the img tag and position:absolute (You should not apply other sizes or change position property. If you need to change the width of an image or its position, you have to set it to the wrapper element)
 
 ## <a name="installation"></a>Step 1: Installation
+
+Add a style tag with CDN link to js-cloudimage-responsive in the head of your site
+
+```javascript
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.7.0/js-cloudimage-responsive.min.css"></script>
+```
 
 Add a script tag with CDN link to js-cloudimage-responsive
 
@@ -175,18 +180,6 @@ Use `ci-bg-url` instead of the CSS background-image property `background-image: 
 ```
 
 <a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
-
-## <a name="prevent_styles"></a>Step 4: Prevent seeing broken images
-
-Add the following styles in the head of your site:
-
-```html
-<style>
-  img[ci-src] {
-    opacity: 0;
-  }
-</style>
-```
 
 ## <a name="configuration"></a> Configuration
 
