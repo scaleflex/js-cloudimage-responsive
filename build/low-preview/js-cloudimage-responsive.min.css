@@ -1,0 +1,12 @@
+/*!
+ * 
+ *  js-cloudimage-responsive v4.7.0 with low quality image placeholder technique
+ *  https://github.com/scaleflex/js-cloudimage-responsive
+ * 
+ *  Copyright (c) 2019 scaleflex
+ *  Released under the MIT license
+ * 
+ *  Date: 2021-02-24T07:32:07.496Z
+ * 
+ */img[ci-src]{opacity:0}div.ci-image-wrapper{display:block;width:100%;overflow:hidden;position:relative}img.ci-image{display:block;width:100%;padding:0!important;position:absolute;top:0;left:0;height:auto}img.ci-image-loaded{opacity:1}img.ci-image-ratio.ci-image-preview{height:100%}.ci-bg{position:relative}.ci-bg>*{position:relative}.ci-bg:before{content:"";position:absolute;top:0;bottom:0;right:0;left:0;background:inherit;filter:blur(0);transition:filter .4s ease-in-out}.ci-bg.ci-bg-animation:before{filter:blur(10px)}
+/*# sourceMappingURL=js-cloudimage-responsive.min.css.map*/
