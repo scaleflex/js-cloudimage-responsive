@@ -115,7 +115,7 @@ You have to pay attention to the following things:
 Add a style tag with CDN link to js-cloudimage-responsive in the head of your site
 
 ```javascript
-<style src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.7.0/js-cloudimage-responsive.min.css"></style>
+<link href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.7.0/js-cloudimage-responsive.min.css"></link>
 ```
 
 Add a script tag with CDN link to js-cloudimage-responsive
