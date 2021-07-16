@@ -7,6 +7,42 @@ window.ciResponsive = new window.CIResponsive({
   exactSize: false,
   limitFactor: 10,
 
+  // processURL: (props) => {
+  //   console.log(props)
+  //
+  //   return props.url;
+  // },
+  // props: {
+  //   query,
+  //   widthQ,
+  //   heightQ,
+  //   restParamsQ,
+  //   processOnlyWidth,
+  //   devicePixelRatio,
+  //   service: {
+  //     methods: {},
+  //     props: {
+  //       imgNode,
+  //       imgProps,
+  //       config
+  //     }
+  //   }
+  // }
+  // processQueryString: (props) => {
+  //   var imgNode = props.service.props.imgNode;
+  //   var maxWidth = imgNode.getAttribute('max-width');
+  //   var maxHeight = imgNode.getAttribute('max-height');
+  //
+  //   if (maxWidth && maxHeight) {
+  //     return [
+  //       `${props.restParamsQ}`,
+  //       `&w=${maxWidth * props.devicePixelRatio}&h=${maxHeight * props.devicePixelRatio}&func=fit`
+  //     ].join('');
+  //   } else {
+  //     return props.query;
+  //   }
+  // }
+
   // imgSelector: 'data-src',
   // bgSelector: 'data-bg-src'
 
