@@ -19,7 +19,8 @@ export const getInitialConfigBlurHash = (config) => {
     doNotReplaceURL = false,
     limitFactor = 100,
     devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
-    ignoreNodeImgSize = false,
+    ignoreNodeImgSize,
+    imageSizeAttributes = 'use',
     ignoreStyleImgSize = false,
     destroyNodeImgSize = false,
     saveNodeImgRatio = false,
@@ -60,7 +61,7 @@ export const getInitialConfigBlurHash = (config) => {
     saveNodeImgRatio,
     detectImageNodeCSS,
     processOnlyWidth,
-
+    imageSizeAttributes,
     onImageLoad
   };
 };
