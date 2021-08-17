@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const pkg = require('../../package');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const isDist = process.env.NODE_ENV === 'dist';
 
 const now = new Date();
@@ -44,6 +45,9 @@ module.exports = {
   optimization: {
     minimizer: [
       new CssMinimizerPlugin(),
+      new UglifyJsPlugin({
+        include: /\.min\.js$/
+      })
     ],
   },
   resolve: {
