@@ -25,6 +25,11 @@ Types of changes:
 - ...
 
 -------------
+## 4.8.1 - 2021-08-17
+
+### fixed
+
+- Minifying build in low preview
 ## 4.8.0 - 2021-06-16
 
 ### Deprecated
