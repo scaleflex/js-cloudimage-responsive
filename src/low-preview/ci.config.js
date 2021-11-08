@@ -16,6 +16,7 @@ export const getInitialConfigLowPreview = (config) => {
     ratio,
     presets,
     params = 'org_if_sml=1',
+    apiVersion = 'v7',
     init = true,
     exactSize = false,
     doNotReplaceURL = false,
@@ -56,6 +57,7 @@ export const getInitialConfigLowPreview = (config) => {
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
     params: getParams(params),
+    apiVersion,
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,

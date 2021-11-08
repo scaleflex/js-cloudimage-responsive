@@ -14,6 +14,7 @@ export const getInitialConfigBlurHash = (config) => {
     presets,
     ratio = 1.5,
     params = 'org_if_sml=1',
+    apiVersion = 'v7',
     init = true,
     exactSize = false,
     doNotReplaceURL = false,
@@ -49,6 +50,7 @@ export const getInitialConfigBlurHash = (config) => {
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
     params: getParams(params),
+    apiVersion,
     innerWidth: typeof window !== 'undefined' ? window.innerWidth : null,
     init,
     previewQualityFactor: 10,

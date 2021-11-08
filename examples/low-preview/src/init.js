@@ -5,6 +5,7 @@ window.ciResponsive = new window.CIResponsive({
   lazyLoading: true,
   exactSize: false,
   limitFactor: 10,
+  apiVersion: 'v7',
   lowQualityPreview: {
     minImgWidth: 180
   }
