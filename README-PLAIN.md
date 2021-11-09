@@ -225,8 +225,30 @@ If set to **true** the plugin will only add query params to the given source of 
 Your image folder on server, this alows to shorten your origin image URLs.
 
 ### apiVersion
+
 ###### Type: **String** |Default: **'v7'** | _optional_
-allow to use a specific version of API.
+Allow to use a specific version of API.
+
+- set a specific version of API
+```javascript
+<script>
+    const ciResponsive = new window.CIResponsive({
+      token: 'demo',
+      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      apiVersion: 'v7'                                       // optional
+    });
+</script>
+```
+- disable API version
+```javascript
+<script>
+    const ciResponsive = new window.CIResponsive({
+      token: 'demo',
+      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      apiVersion: null                                       // optional
+    });
+</script>
+```
 
 - set a specific version of API
 ```javascript
