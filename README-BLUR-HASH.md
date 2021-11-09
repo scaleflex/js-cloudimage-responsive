@@ -236,8 +236,16 @@ Your image folder on server, this alows to shorten your origin image URLs.
 ### apiVersion
 
 ###### Type: **String** |Default: **'v7'** | _optional_
+allow to use a specific version of API.
 
-allow to use a specific version of API
+- set a specific version of API
+```javascript
+apiVersion: 'v7'
+```
+- disable API version
+```javascript
+apiVersion: null
+```
 
 ### <a name="lazy_loading_config"></a>lazyLoading
 
