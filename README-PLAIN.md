@@ -250,15 +250,6 @@ Allow to use a specific version of API.
 </script>
 ```
 
-- set a specific version of API
-```javascript
-apiVersion: 'v7'
-```
-- disable API version
-```javascript
-apiVersion: null
-```
-
 ### <a name="lazy_loading_config"></a>lazyLoading
 
 ###### Type: **Bool** | Default: **false** | _optional_
