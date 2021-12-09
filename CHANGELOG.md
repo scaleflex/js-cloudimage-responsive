@@ -25,10 +25,14 @@ Types of changes:
 - ...
 
 -------------
+## 4.8.3 - 2021-12-09
+### Fixed
+-  img-src starts with "//"
+
 ## 4.8.2 - 2021-11-08
 
 ### Fixed
--  possibility to remove API version in blur-hash, low-preview, wp and plain
+- possibility to remove API version in blur-hash, low-preview, wp and plain
 ## 4.8.1 - 2021-08-17
 
 ### fixed
