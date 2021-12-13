@@ -104,8 +104,9 @@ export default class CIResponsive {
 
     if (isAdaptive) {
       size = getBreakpoint(sizes, presets);
-      if(size){
-        if(size.params.src){
+
+      if (size) {
+        if (size.params.src) {
           [src, isSVG] = getImgSRC(size.params.src, baseURL);
         }
       }

@@ -53,9 +53,9 @@ const getSize = (sizes) => {
   try {
     // add quotes around params
     let temp = sizes.replace(/(\w+:)|(\w+ :)/g, function (matchedStr) {
-     if(matchedStr === 'https:' || matchedStr === 'http:'){
+     if (matchedStr === 'https:' || matchedStr === 'http:') {
         return matchedStr
-      }else {
+      } else {
       return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
       }
     });
