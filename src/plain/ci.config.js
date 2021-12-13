@@ -13,6 +13,7 @@ export const getInitialConfigPlain = (config) => {
     baseURL,
     presets,
     params = 'org_if_sml=1',
+    apiVersion = 'v7',
     init = true,
     exactSize = false,
     doNotReplaceURL = false,
@@ -49,6 +50,7 @@ export const getInitialConfigPlain = (config) => {
         xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
       },
     params: getParams(params),
+    apiVersion,
     innerWidth: window.innerWidth,
     init,
     doNotReplaceURL,

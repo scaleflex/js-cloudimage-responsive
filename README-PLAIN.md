@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v4.8.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v4.8.3-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -110,7 +110,7 @@ This version of plugin doesn't add any CSS or change layout thus no effect on yo
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.0/plain/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.3/plain/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -127,7 +127,7 @@ After adding the js-cloudimage-responsive lib, simply iniatialize it with your *
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/' // optional
+      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional,
     });
 </script>
 ```
@@ -223,6 +223,32 @@ If set to **true** the plugin will only add query params to the given source of 
 ###### Type: **String** | _optional_
 
 Your image folder on server, this alows to shorten your origin image URLs.
+
+### apiVersion
+
+###### Type: **String** |Default: **'v7'** | _optional_
+Allow to use a specific version of API.
+
+- set a specific version of API
+```javascript
+<script>
+    const ciResponsive = new window.CIResponsive({
+      token: 'demo',
+      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      apiVersion: 'v7'                                       // optional
+    });
+</script>
+```
+- disable API version
+```javascript
+<script>
+    const ciResponsive = new window.CIResponsive({
+      token: 'demo',
+      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      apiVersion: null                                       // optional
+    });
+</script>
+```
 
 ### <a name="lazy_loading_config"></a>lazyLoading
 
@@ -446,7 +472,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.0/plain/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.3/plain/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 

@@ -1,16 +1,36 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
-          "browsers": ["last 2 versions", "ie 11", "ie 10", "ie 9"]
+          "browsers": [
+            "last 2 versions",
+            "ie 11",
+            "ie 10",
+            "ie 9"
+          ]
         }
       }
-    ],
-    "stage-2"
+    ]
   ],
-  "plugins": ["array-includes"],
+  "plugins": [
+    "array-includes",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-import-meta",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-json-strings",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-numeric-separator",
+    "@babel/plugin-proposal-throw-expressions"
+  ],
   "env": {
     "production": {
       "presets": [
