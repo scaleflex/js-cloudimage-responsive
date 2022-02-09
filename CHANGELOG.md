@@ -25,13 +25,17 @@ Types of changes:
 - ...
 
 -------------
+## 4.8.5 - 2021-02-09
+### Fixed
+- change devicePixelRatioList to [1, 1.5, 2]
+
 ## 4.8.4 - 2021-01-04
 ### Fixed
--  removed hardcoded ci_info query parameter to fix image caching
+- removed hardcoded ci_info query parameter to fix image caching
 
 ## 4.8.3 - 2021-12-09
 ### Fixed
--  img-src starts with "//"
+- img-src starts with "//"
 
 ## 4.8.2 - 2021-11-08
 
