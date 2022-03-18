@@ -12,7 +12,12 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
   chunkFilename: "[id].css"
 })
 module.exports = {
-  entry: path.join(__dirname, "../../examples/plain/src/index.js"),
+  entry: {
+    index: [
+      path.resolve(__dirname, "../../examples/blur-hash/src/index.js"),
+      path.resolve(__dirname, "../../examples/blur-hash/src/styles/main.css"),
+    ],
+  },
   output: {
     path: path.join(__dirname, "../../examples/plain/dist"),
     filename: "bundle[hash].js"
@@ -26,17 +31,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // you can specify a publicPath here
-              // by default it use publicPath in webpackOptions.output
-              publicPath: '../'
-            }
-          },
-          "css-loader"
-        ]
+        use: [ MiniCssExtractPlugin.loader, "css-loader" ],
       }
     ]
   },
