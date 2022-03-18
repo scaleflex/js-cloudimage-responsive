@@ -1,10 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
   template: path.join(__dirname, "../../examples/low-preview/src/index.html"),
   filename: "./index.html"
 });
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
   // Options similar to the same options in webpackOptions.output
   // both options are optional
@@ -12,7 +13,12 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
   chunkFilename: "[id].css"
 })
 module.exports = {
-  entry: path.join(__dirname, "../../examples/low-preview/src/index.js"),
+  entry: {
+    index: [
+      path.resolve(__dirname, "../../examples/low-preview/src/index.js"),
+      path.resolve(__dirname, "../../examples/low-preview/src/styles/main.css"),
+    ],
+  },
   output: {
     path: path.join(__dirname, "../../examples/low-preview/dist"),
     filename: "bundle[hash].js"
@@ -26,18 +32,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // you can specify a publicPath here
-              // by default it use publicPath in webpackOptions.output
-              publicPath: '../'
-            }
-          },
-          "css-loader"
-        ]
-      }
+        use: [ MiniCssExtractPlugin.loader, "css-loader" ],
+      },
     ]
   },
   plugins: [htmlWebpackPlugin, miniCssExtractPlugin],
