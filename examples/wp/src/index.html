@@ -1,630 +1,835 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <link rel="stylesheet"
-        href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/styles/default.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/highlight.min.js"></script>
-  <style>
-  .spinner-grow {
-    color: #343a40 !important;
-    display: inline-block;
-    vertical-align: text-bottom;
-    background-color: currentColor;
-    border-radius: 50%;
-    opacity: 0;
-    -webkit-animation: spinner-grow .75s linear infinite;
-    animation: spinner-grow .75s linear infinite;
-    width: 100px;
-    height: 100px;
-    z-index: 1;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-  }
-  </style>
-  <style>
-    img[ci-src] {
-      opacity: 0;
-    }
-    img.ci-image-loaded {
-      opacity: 1;
-    }
-  </style>
-  <title>JS Cloudimage Responsive</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="image is responsive" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.5/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"/></link>
+    <title>JS Cloudimage Responsive</title>
+  </head>
 
+  <body>
+    <section class="content-wrapper">
+      <header class="header">
+        <div class="header-logo">
+          <a href="https://www.scaleflex.com/en/home" target="_blank">
+            <img src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/logo-scaleflex.png" alt="scaleflex logo" />
+          </a>
+          <a
+            class="cloud-img-title"
+            href="https://github.com/scaleflex/js-cloudimage-responsive"
+            target="_blank"
+          >
+            JS Cloudimage Responsive
+          </a>
+        </div>
+        <div class="navbar">
+          <a
+            class="stars-button"
+            href="https://github.com/scaleflex/js-cloudimage-responsive/stargazers"
+            target="_blank"
+          >
+            <img
+              class="github-icons"
+              src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/star-icon.svg"
+              alt="star"
+            />
+            <img
+              class="stars-numbers"
+              src="https://img.shields.io/github/stars/scaleflex/js-cloudimage-responsive?logo=none&style=social"
+              alt="star-img"
+            />
+          </a>
+          <a
+            class="git-button"
+            href="https://github.com/scaleflex/js-cloudimage-responsive"
+            target="_blank"
+          >
+            <img
+              class="github-icons"
+              src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/github-icon.svg"
+              alt="github-icon"
+            />
+            GutHub
+          </a>
+        </div>
+      </header>
 
-<div id="spinner" class="spinner-grow text-dark" role="status"></div>
-
-<div id="main" class="wrapper" style="visibility: hidden;">
-  <section class="home">
-    <div class="container">
-      <a class="logo" href="https://scaleflex.github.io/js-cloudimage-responsive/">JS Cloudimage Responsive</a>
-      <p>(Plain version)</p>
-      <div style="margin-top: 10px;">
-        <a class="github-button" target="_blank"
-           href="https://github.com/Scaleflex/js-cloudimage-responsive/subscription" data-icon="octicon-eye"
-           aria-label="Watch Scaleflex/js-cloudimage-responsive on GitHub">Watch</a>
-        <a class="github-button" target="_blank" href="https://github.com/Scaleflex/js-cloudimage-responsive"
-           data-icon="octicon-star" aria-label="Star Scaleflex/js-cloudimage-responsive on GitHub">Star</a>
-        <a class="github-button" target="_blank" href="https://github.com/Scaleflex/js-cloudimage-responsive/fork"
-           data-icon="octicon-repo-forked" aria-label="Fork Scaleflex/js-cloudimage-responsive on GitHub">Fork</a>
-        <a class="twitter-share-button btn btn-info" target="_blank"
-           href="https://twitter.com/intent/tweet?text=Responsive%20images,%20now%20easier%20than%20ever&url=https://scaleflex.github.io/js-cloudimage-responsive/&via=cloudimage&hashtags=images,cloudimage,responsive_images,lazy_loading,web_acceleration,image_managementimage_resizing,image_compression,image_optimization,image_CDN,image_CDNwebp,jpeg_xr,jpg_optimization,image_resizing_and_CDN,cropresize">
-          <i> </i>
-          <span>Tweet</span>
-        </a>
-        <!--<a class="github-button" href="https://github.com/Scaleflex/filerobot-uploader/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download Scaleflex/filerobot-uploader on GitHub">Download</a>-->
+      <div class="content">
+        <h1><span>Responsive images</span> now easier than ever</h1>
+        <h2 class="content-text">
+          Make your existing images <strong>responsive</strong> without creating
+          new images. <strong>Upload</strong> one high quality original image
+          and the plugin will <strong>resize</strong>,
+          <strong>compress and accelerate</strong> images across the World in
+          your site for all devices. The plugin supports lazy load with fancy
+          animation on image load.
+        </h2>
+        <div class="github-sandbox-buttons-wrapper">
+          <a
+            class="github-button"
+            href="https://github.com/scaleflex/js-cloudimage-responsive"
+            target="_blank"
+          >
+            View on GitHub
+          </a>
+          <a
+            class="code-sand-box-button"
+            href="https://codesandbox.io/s/6jkovjvkxz"
+            target="_blank"
+          >
+            Edit to CodeSandbox
+          </a>
+        </div>
+        <div class="sea-coast container">
+          <img ci-params="ci_info=2" ci-src="sea-coast.jpg" alt="sea-coast" />
+          <div class="green-blur-circle hide-in-mobile"></div>
+          <div class="blue-blur-circle hide-in-mobile"></div>
+        </div>
+        <div class="features-wrapper container">
+          <h2>Features</h2>
+          <div class="features">
+            <div>
+              <label class="checkbox-container features-content">
+                <strong>Resize large images</strong> to the size needed by your
+                design and <strong>generate multiple images</strong> for
+                different device screen size.
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="features-content">
+              <label class="checkbox-container features-content">
+                <span class="features-text">Strip all unnecessary</span>
+                metadata and
+                <strong>optimize JPEG, PNG and GIF compression.</strong>
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="features-content">
+              <label class="checkbox-container features-content">
+                <span class="features-text">Efficiently</span
+                ><strong> lazy load images</strong> to speed initial page load
+                and save bandwidth.
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="features-content">
+              <label class="checkbox-container features-content">
+                <span class="features-text">Use the low quality</span> image
+                with "blur-up" technique to <strong>show a preview</strong> of
+                the image <strong>while it loads.</strong>
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="features-content">
+              <label class="checkbox-container features-content">
+                <strong>Hold the image position</strong> so your page doesn't
+                jump while images load
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1><strong>Responsive images</strong>, now easier than ever.</h1>
-      <h2>
-        Make your existing images <strong>responsive</strong> without creating new images. <strong>Upload</strong> one
-        high quality original image and the plugin will <strong>resize, compress and accelerate</strong> images across
-        the World in your site for all devices. The plugin supports <strong>lazy load</strong> with <strong>fancy
-        animation</strong> on image load.
-      </h2>
-
-
-      <div class="actions-wrapper">
-        <a
-           id="view-github-btn"
-           href="https://github.com/scaleflex/js-cloudimage-responsive"
-           class="btn btn-primary"
-           target="_blank"
-        >View on GitHub</a>
-        <a
-           href="https://codesandbox.io/s/6jkovjvkxz"
-           class="btn btn-light"
-           target="_blank"
-        >Edit on CodeSandbox</a>
-        <!--<a href="#" class="btn btn-light btn-lg">Read on Medium</a>-->
-      </div>
-    </div>
-
-    <a href="https://github.com/scaleflex/js-cloudimage-responsive" target="_blank">
-      <img
-         class="fork-me-on-github"
-         src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-         alt="Fork me on GitHub">
-    </a>
-
-    <a href="https://www.filerobot.com/" class="robot-icon">
-      <img style="width:100%;" id="robot-icon"
-           src="https://demo.cloudimg.io/width/800/q35.foil1/https://cdn.scaleflex.it/filerobot/assets/robot-icon-left.png"
-           alt="">
-    </a>
-    <!--<a href="https://www.filerobot.com/" class="cloudimage-logo">-->
-    <!--<img style="width:100%;" id="cloudimage-logo" src="https://cdn.scaleflex.it/filerobot/assets/cloudimage-icon.png" alt="cloudimage logo">-->
-    <!--</a>-->
-  </section>
-
-  <section>
-    <div class="container-width-box">container width: <span>---</span> px</div>
-    <img ci-src="luca-bravo-121932.jpg"/>
-<!--    <div-->
-<!--       ci-bg-url="luca-bravo-121932.jpg"-->
-<!--       style="min-height: 200px;background: #e7e7e7 50% 50% / cover no-repeat"-->
-<!--    ></div>-->
-  </section>
-
-  <div style="background: #fff">
-    <section class="container ready-to-start">
-      <h2 class="text-center">Features</h2>
-
-      <ul>
-        <li><strong>Resize large images</strong> to the size needed by your design and
-          <strong>generate multiple images</strong> for different device screen size
-        </li>
-        <li>Strip all unnecessary metadata and <strong>optimize JPEG, PNG and GIF compression</strong></li>
-        <li>Efficiently <strong>lazy load images</strong> to speed initial page load and save bandwidth</li>
-        <li>Use the low quality image with "blur-up" technique to <strong>show a preview</strong> of the image
-          <strong>while it loads</strong></li>
-        <li><strong>Hold the image position</strong> so your page doesn't jump while images load</li>
-      </ul>
-
     </section>
-  </div>
 
-  <section class="container ready-to-start">
-    <h2 class="text-center">How it works</h2>
-    <p>
-      The plugin detects the <strong>width of image's container</strong> and <strong>pixel ratio density</strong> of
-      your device to load the exact image size you need. It <strong>processes</strong> images via
-      <a href="https://www.cloudimage.io/en/home">Cloudimage.io</a> service which offers comprehensive <strong>automated
-      image optimization</strong> solutions.
-    </p>
-    <p style="margin-top: 20px;">
-      When an image is first loaded on your website or mobile app, Cloudimage's resizing servers will
-      <strong>download</strong> your origin image from your origin server, <strong>resize</strong> it and
-      <strong>deliver</strong> to your user via lightning-fast Content Delivery Networks (CDNs). Once the image is
-      resized
-      in the format of your choice, Cloudimage will send it to a Content Delivery Network, which will in turn deliver
-      it rocket fast to your visitors, <strong>responsively across various screen sizes</strong>.
-    </p>
-    <p style="margin-top: 20px;">
-      Read the following
-      <a href="https://medium.com/cloudimage/cloudimage-resizes-your-images-saves-time-accelerates-your-website-and-increases-your-conversion-eb128903d4c2">article</a>
-      to learn more about Cloudimage.io service.
-    </p>
-  </section>
-
-  <div style="background: #fff">
-    <section class="container ready-to-start">
-      <h2 class="text-center">In numbers</h2>
-
-      <p>
-        We have original image stored via CDN with <strong>6240×4160 px resolution</strong> and
-        <strong>8.7 mb size</strong>:
-        <code>https://cdn.scaleflex.it/demo/redcharlie.jpg</code>
-        <a target="_blank" href="https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-        In the table below we can see what size and resolution will be loaded depending on the image's container.
-      </p>
-
-      <table class="table table-bordered">
-        <thead>
-        <tr>
-          <th>container size</th>
-          <th>pixel ratio density</th>
-          <th>calculated width</th>
-          <th>result: dimantion | size | link</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr>
-          <td rowspan="2" style="vertical-align: middle;">
-            400px
-          </td>
-          <td>1</td>
-          <td>400px</td>
-          <td>400×267 | 18.7 kb | <a target="_blank"
-                                     href="https://demo.cloudimg.io/width/400/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>800px</td>
-          <td>800×533 | 58.1 kb | <a target="_blank"
-                                     href="https://demo.cloudimg.io/width/800/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-
-        <tr>
-          <td rowspan="2" style="vertical-align: middle;">
-            570px
-          </td>
-          <td>1</td>
-          <td>600px</td>
-          <td>600×400 | 35.4 kb | <a target="_blank"
-                                     href="https://demo.cloudimg.io/width/600/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>1200px</td>
-          <td>1200x800 | 119 kb | <a target="_blank"
-                                     href="https://demo.cloudimg.io/width/1200/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-
-
-        <tr>
-          <td rowspan="2" style="vertical-align: middle;">
-            720px
-          </td>
-          <td>1</td>
-          <td>800px</td>
-          <td>800×533 | 58.1 kb | <a target="_blank"
-                                     href="https://demo.cloudimg.io/width/800/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>1600px</td>
-          <td>1600×1066 | 200 kb | <a target="_blank"
-                                        href="https://demo.cloudimg.io/width/1600/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-
-        <tr>
-          <td rowspan="2" style="vertical-align: middle;">
-            1170px
-          </td>
-          <td>1</td>
-          <td>1200px</td>
-          <td>1200x800 | 119 kb | <a target="_blank"
-                                     href="https://demo.cloudimg.io/width/1200/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>2400px</td>
-          <td>2400x1600 | 405 kb | <a target="_blank"
-                                      href="https://demo.cloudimg.io/width/2400/q35.foil1/https://cdn.scaleflex.it/demo/redcharlie.jpg">link</a>
-          </td>
-        </tr>
-
-        </tbody>
-
-      </table>
-
-      <p>
-        * The plugin <strong>rounds container width</strong> to next possible value which can be divided by 100 (configurable) without
-        the remainder. It's done for <strong>cache reasons</strong> so that we cache not all images different by 1px,
-        but only 100px, 200px, 300px …
-      </p>
+    <section class="usage-section">
+      <div class="usage-content container-fluid">
+        <h2>How it works</h2>
+        <p>
+          <span>
+            The plugin detects the width of image's container and pixel ratio
+            density of your device to load the exact image size you need. It
+            processes images via Cloudimage.io service which offers
+            comprehensive automated image optimization solutions. </span
+          ><br />
+          <span>
+            When an image is first loaded on your website or mobile app,
+            Cloudimage's resizing servers will download your origin image from
+            your origin server, resize it and deliver to your user via
+            lightning-fast Content Delivery Networks (CDNs). Once the image is
+            resized in the format of your choice, Cloudimage will send it to a
+            Content Delivery Network, which will in turn deliver it rocket fast
+            to your visitors, responsively across various screen sizes.</span
+          ><br />
+          <span>
+            Read the following article to learn more about
+            <strong>
+              <a
+              href="https://www.cloudimage.io/en/home"
+              target="_blank"
+              >
+                Cloudimage.io
+              </a>
+            </strong>
+            service.
+          </span>
+        </p>
+      </div>
     </section>
-  </div>
 
-
-  <section class="ready-to-start">
-    <h2 class="text-center">Gallery demo</h2>
-
-    <p>Change the size of your browser's window and reload the page to see how the Cloudimage Responsive plugin will
-      deliver an optimized image for the screen size.</p>
-
-    <div class="container-fluid" style="max-width: 1200px; margin-left: auto; margin-right: auto; padding-top: 20px;">
-      <div class="row images-in-columns">
-        <div class="col-12">
-          <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="jordan-hubbard.jpg" alt="jordan-hubbard.jpg"/>
+    <section class="demo-gallery">
+      <div class="container-fluid">
+        <div class="demo-gallery-title">
+          <h2>Demo gallery</h2>
+          <p class="demo-gallery-text">
+            Change the size of your browser's window and reload the page to see
+            how the Cloudimage Responsive plugin will deliver an optimized image
+            for the screen size.
+          </p>
         </div>
-
-        <div class="col-6">
-          <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="alain.jpg" alt="alain.jpg"/>
-          original: <i>5.8mb</i>
-          <a href="https://cloudimage.public.airstore.io/demo/alain.jpg" target="_blank"> link</a><br/>
-        </div>
-        <div class="col-6">
-          <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="ameen-fahmy.jpg" alt="ameen-fahmy.jpg"/>
-          original: <i>0.5mb</i>
-          <a href="https://cloudimage.public.airstore.io/demo/ameen-fahmy.jpg" target="_blank"> link</a><br/>
-        </div>
-        <div class="col-6">
-          <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="tim-patch.jpg" alt="tim-patch.jpg"/>
-          original: <i>7.5mb</i>
-          <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-9.jpg" target="_blank"> link</a><br/>
-        </div>
-        <div class="col-6">
-          <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="veeterzy.jpg" alt="veeterzy.jpg"/>
-          original: <i>8.5mb</i>
-          <a href="https://cloudimage.public.airstore.io/demo/ishan-seefromthesky.jpg" target="_blank"> link</a><br/>
-        </div>
-        <div class="col-6">
-          <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="dino-reichmuth.jpg" alt="dino-reichmuth.jpg"/>
-          original: <i>11.9mb</i>
-          <a href="https://cloudimage.public.airstore.io/demo/dino-reichmuth.jpg" target="_blank"> link</a><br/>
-        </div>
-        <div class="col-6">
-          <div class="container-width-box">container width: <span>---</span> px</div>
-          <img ci-src="inma-lesielle.jpg" alt="inma-lesielle.jpg"/>
-          original: <i>3.0mb</i>
-          <a href="https://cloudimage.public.airstore.io/demo/inma-lesielle.jpg" target="_blank"> link</a><br/>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6 col-lg-7">
-          <!--<div class="container-width-box">container width: <span>---</span> px</div>-->
-          <img
-             ci-src="dino-reichmuth-1.jpg"
-             ci-sizes="{
-              xs: { w: 400, h: 150 },
-              sm: { r: 1 },
-              '(min-width: 620px)': { h: 560 },
-              md: { w: '50vw' },
-              lg: {  w: '55vw', h: 300 },
-              xl: { w: 1200 }
-             }"
-          />
-
-<!--          <img-->
-<!--             alt="dino-reichmuth-1.jpg"-->
-<!--             ci-src="dino-reichmuth-1.jpg"-->
-<!--             ci-sizes="{-->
-<!--              xs: { r: 1 },-->
-<!--              sm: { r: 4},-->
-<!--              '(min-width: 620px)': { r: 0.5 },-->
-<!--              md: { r: 0.3 },-->
-<!--              lg: { r: 1.3 },-->
-<!--              xl: { r: 3 }-->
-<!--             }"-->
-<!--          />-->
-          <!--<div-->
-             <!--style="min-height: 500px; background: #e7e7e7 50% 50% / cover no-repeat"-->
-             <!--ci-bg="dino-reichmuth-1.jpg"-->
-             <!--operation="crop"-->
-             <!--size="sm 400x200, (min-width: 620px) 200x60, md 250x350, lg 350x300, xl 400x250"-->
-          <!--&gt;</div>-->
-          <small>
-            original: <i>9.2mb</i> <a
-             href="https://cloudimage.public.airstore.io/demo/dino-reichmuth-1.jpg" target="_blank"> link</a><br/>
-          </small>
-        </div>
-        <div class="col-md-6 col-lg-5 desc-wrapper-with-media-query">
-          <h4>You can control your image size/ratio/crop with media query breakpoints</h4>
-          <p>Resize your browser window to see how it works</p>
-          <pre><code class="html">
-&lt;img
-  operation="crop"
-  ci-src="dino-reichmuth-1.jpg"
-  ci-sizes="{
-    '(max-width: 575px)': { w: 400, h: 150 },
-    '(min-width): 576px)': { r: 1 },
-    '(min-width: 620px)': { h: 560 },
-    '(min-width: 768px)': { w: '50vw' },
-    '(min-width: 992px)': { w: '55vw', h: 300 },
-    '(min-width: 1200px)': { w: 1200 }
-   }"
-"/&gt;
-      </code></pre>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="ready-to-start">
-    <div class="container">
-      <h2 class="text-center">Crop your images</h2>
-
-      <div class="row">
-        <div class="col-md-4">
-          <p>Original Image</p>
-          <div>
-            <div style="width: 200px" class="container-width-box custom">container size: 200x200px</div>
-            <div class="container-box-wrapper" style="display: inline-block;width:200px;height:200px">
-              <div>
-                <img src="https://doc.cloudimg.io/sample.li/boat.jpg" alt=""/>
+        <div class="image-wrapper">
+          <div class="first-column-image">
+            <img
+              ci-src="josh-withers-xMTXJbHxOZk-unsplash.jpg"
+              alt="img"
+              id="left-column-image"
+              ci-params="ci_info=2"
+            />
+            <p class="square-img-text">
+              Container-square: <strong><span id="left-column-image-size"></span> px</strong>
+            </p>
+            <p class="original-size-text">
+              Original size: <strong>180 kB</strong>
+              <a
+                target="_blank"
+                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/josh-withers-xMTXJbHxOZk-unsplash.jpg?ci_info=2">
+                Link
+              </a>
+            </p>
+          </div>
+          <div class="right-column">
+            <div class="square-with-circle-img">
+              <div class="second-column-image hide-in-mobile">
+                <img
+                  ci-src="miroslav-skopek-7Wd3_WwpPb0-unsplash.jpg"
+                  alt="img"
+                  id="right-column-first-image"
+                  ci-params="ci_info=2"
+                />
+                <p class="square-img-text">
+                  Container-square: <strong><span id="right-column-first-image-size"></span> px</strong>
+                </p>
+                <p class="original-size-text">
+                  Original size: <strong>57.5 kB</strong>
+                  <a
+                  target="_blank"
+                  href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/miroslav-skopek-7Wd3_WwpPb0-unsplash.jpg?ci_info=2"
+                  >
+                    Link
+                  </a>
+                </p>
+              </div>
+              <div class="circle-image-wrapper">
+                <img
+                  class="ellipse-image"
+                  ci-src="ibrahima-toure-qVrgGyQqZgg-unsplash.jpg"
+                  alt="img"
+                  id="right-column-second-image"
+                />
+                <div class="circle-image-text-wrapper">
+                  <p class="square-img-text">
+                    Container-circle: <strong><span id="right-column-second-image-size"></span> px</strong>
+                  </p>
+                  <p class="original-size-text">
+                    Original size: <strong>39.7 kB</strong>
+                    <a
+                    target="_blank"
+                    href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/ibrahima-toure-qVrgGyQqZgg-unsplash.jpg?ci_info=2"
+                    >
+                      Link
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <pre><code class="html">&lt;div style="width: 200px; height: 200px;"&gt;
-  &lt;img
-      src="https://doc.cloudimg.io/sample.li/boat.jpg"
-    /&gt;
-&lt;/div&gt;</code></pre>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <p>Crop</p>
-          <div>
-            <div style="width: 200px" class="container-width-box custom">container size: 200x200px</div>
-            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px;">
-              <img ci-src="boat.jpg" ci-params="func=crop"/>
+            <div class="horizontal-image">
+              <img
+                id="first-horizontal-image"
+                ci-src="alexandra-lawrence-N-zxiG46luY-unsplash.jpg"
+                alt="img"
+                ci-params="ci_info=2"
+              />
+              <p class="square-img-text">
+                Container-square: <strong><span id="first-horizontal-image-size"></span> px</strong>
+              </p>
+              <p class="original-size-text">
+                Original size: <strong>106 kB</strong>
+                <a
+                target="_blank"
+                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/alexandra-lawrence-N-zxiG46luY-unsplash.jpg?ci_info=2"
+                >
+                  Link
+                </a>
+              </p>
             </div>
           </div>
-          <div>
-            <pre><code class="html">&lt;div style="width: 200px; height: 200px;"&gt;
-  &lt;img
-    ci-src="boat.jpg"
-    ci-params="func=crop"
-  /&gt;
-&lt;/div&gt;</code></pre>
-          </div>
         </div>
-
-        <div class="col-md-4">
-          <p>Auto crop</p>
-          <div>
-            <div style="width: 200px" class="container-width-box custom">container size: 200x200px</div>
-            <div class="container-box-wrapper" style="display: inline-block; width: 200px; height: 200px">
-              <img ci-src="boat.jpg" ci-params="func=crop&gravity=auto"/>
-            </div>
-          </div>
-          <div>
-            <pre><code class="html">&lt;div style="width: 200px; height: 200px;"&gt;
-  &lt;img
-    ci-src="boat.jpg"
-    ci-params="func=crop&gravity=auto"
-  /&gt;
-&lt;/div&gt;</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="ready-to-start">
-    <div class="container">
-      <h2 class="text-center">Use with background images</h2>
-
-      <pre><code>&lt;div
-   ci-bg-url="ameen-fahmy.jpg"
-   style="background:#000 50% 50% / cover no-repeat;color:#fff;"
-&gt;...your content...&lt;div/&gt;</code></pre>
-    </div>
-
-    <div
-       ci-bg-url="ameen-fahmy.jpg"
-       ci-params="ci_info=0"
-       style="background:#000 50% 50% / cover no-repeat;color:#fff;"
-    >
-      <div style="position:relative;z-index:1;padding:40px;background:rgba(0,0,0,0.3);">
-        <div class="container" >
-          <h2>What is Lorem Ipsum?</h2>
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        <div class="mobile-screen-horizontal-image">
+          <img
+            ci-src="alexandra-lawrence-N-zxiG46luY-unsplash.jpg"
+            alt="img"
+            id="second-horizontal-image"
+            ci-params="ci_info=2"
+          />
+          <p class="square-img-text">
+            Container-square: <strong><span id="second-horizontal-image-size"></span> px</strong>
+          </p>
+          <p class="original-size-text">
+            Original size: <strong>3 MB</strong>
+            <a
+              target="_blank"
+              href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/alexandra-lawrence-N-zxiG46luY-unsplash.jpg?ci_info=2"
+            >
+              Link
+            </a>
           </p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="container ready-to-start">
-    <h2 class="text-center">Ready to get started?</h2>
-    <p>To use the plugin, you will need a Cloudimage token. Don't worry, it only takes seconds to get one by registering
-      <a
-         href="https://www.cloudimage.io/en/register_page">here</a>. Once your token is created, you can configure
-      it as
-      described below.
-      This token allows you to use 25GB of image cache and 25GB of worldwide CDN traffic per month for free.</p>
-  </section>
-
-  <section class="container">
-    <div class="text-center">
-      <div id="plugin-version-switcher" class="plugin-version-switcher btn-group btn-toggle">
-        <!--<button id="js-btn" class="btn btn-primary">JS version</button>-->
-        <!--<a href="#" class="btn btn-light">React version</a>-->
-        <!--<a href="#" class="btn btn-light">Angular version</a>-->
+    <section class="crop-images-section">
+      <div class="crop-images-wrapper container">
+        <h2>Crop your images</h2>
+        <p class="crop-section-title">
+          Resize your browser window to see how it works.
+        </p>
+        <div class="crop-options">
+          <div class="crop-options-content">
+            <h3>Original Image</h3>
+            <p>Resize your browser window to see how it works.</p>
+            <img id="car-image" ci-src="green-car.jpg" alt="green-car" />
+            <h4>Container width: <span id="original-car-image-size"></span> px
+              <a
+                target="_blank"
+                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg"
+              >
+                Link
+              </a>
+            </h4>
+            <pre class="original-image-code-block">
+&lt;<strong class="code-yellow-color">img</strong>
+  <span class="code-yellow-color">src</span>="<strong class="code-blue-color">https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg</strong>"
+/>
+            </pre>
+          </div>
+          <div class="crop-options-content">
+            <h3>Crop</h3>
+            <p>
+              If we use just simpe Crop, it cuts same parts from every side.
+            </p>
+            <img ci-src="green-car.jpg" ci-params="func=crop&h=200" alt="green-car" />
+            <h4>Container width:<span id="crop-car-image-size"></span> px
+              <a
+              target="_blank"
+              href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg?func=crop&h=200""
+              >
+                Link
+              </a>
+            </h4>
+            <pre class="original-image-code-block">
+&lt;<span class="code-yellow-color">img</span>
+  <span class="code-yellow-color">ci-src</span>="green-car.jpg"
+  <span class="code-yellow-color">ci-params</span>="func=crop&h=200"
+/&gt;
+</pre>
+          </div>
+          <div class="crop-options-content">
+            <h3>Auto Crop</h3>
+            <p>
+              Artificial intelligence itself finds the main object and crops it
+              so that it turns out strictly in the center.
+            </p>
+            <img ci-params="func=crop&h=150&gravity=auto" ci-src="green-car.jpg" alt="green-car" />
+            <h4>Container width: <span id="auto-crop-car-image-size"></span> px
+              <a
+                target="_blank"
+                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg?func=crop&h=150&gravity=auto"
+               >
+                Link
+              </a>
+            </h4>
+            <pre class="original-image-code-block">
+<span class="code-yellow-color">&lt;img</span>
+  <span class="code-yellow-color">ci-src</span>="green-car.jpg"
+  <span class="code-yellow-color">ci-params</span>="func=crop&h=150&gravity=auto"
+/&gt;
+              </pre>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div id="js-version-box" class="">
-      <div class="action-wrapper first-action">
-        <p>
-          Use the <code>ci-src</code> instead of the <code>src</code> attribute in image tag.
-        </p>
-        <figure class="highlight">
-          <pre><code class="html">&lt;img ci-src="magnus-lindvall.jpg"/&gt;</code></pre>
-        </figure>
-
-<!--        <p>-->
-<!--          <small>NOTE: "ci-ratio" is recommended to prevent page layout jumping.-->
-<!--            The parameter is used to calculate image height to hold the image position while image is loading.-->
-<!--          </small>-->
-<!--        </p>-->
+    <section
+     class="background-images-section"
+     ci-bg-url="green-trees.jpg"
+    >
+      <div class="images-content">
+        <h2>Use with background images</h2>
+        <div class="images-code-wrapper">
+          <div id="bg-copy-button" class="copy-wrapper">
+            <img  src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/copy-icon.svg" alt="copy">
+            <p>Copy</p>
+          </div>
+          <pre id="bg-code" class="code">
+&lt;div
+ci-bg-url="ameen-fahmy.jpg"
+ci-params="func=crop"
+style="background:#000 50% 50% / cover no-repeat;color:#fff;"
+>
+...your content...
+&lt;/div>
+          </pre>
+        </div>
       </div>
+    </section>
 
-      <div class="action-wrapper second-action">
+    <section class="numbers-section container-fluid">
+      <div class="numbers-section-title">
+        <h2>In numbers</h2>
         <p>
-          Include the following scripts into your project after all content in body tag
-        </p>
-        <figure class="highlight">
-        <pre><code class="html javascript">&lt;script&gt;
-  window.lazySizesConfig = window.lazySizesConfig || {};
-  window.lazySizesConfig.init = false;
-&lt;/script&gt;
-
-// lazy load is a separate feature
-&lt;script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"&gt;&lt;/script&gt;
-// main core
-&lt;script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.5.0/plain/js-cloudimage-responsive.min.js"&gt;&lt;/script&gt;
-</code></pre>
-        </figure>
-      </div>
-
-      <div class="action-wrapper third-action">
-        <p>
-          Initialize Cloudimage Responsive just right after scripts from the step above
-        </p>
-        <figure class="highlight">
-        <pre><code class="javascript">&lt;script/&gt;
-  var ciResponsive = new window.CIResponsive({
-    token: 'demo',
-    baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
-    lazyLoading: true                                       // optional
-  });
-
-  // lazy load is a separate feature
-  window.lazySizes.init();
-&lt;/script&gt;
-</code></pre>
-        </figure>
-        <p>
-          <small style="font-weight: lighter;"><b>NOTE</b>: You should put the scripts below all your content in the body tag and above all other scripts. After inserting the scripts the plugin starts immediately processing all images with ci-src, ci-bg-url attributes. (If the scripts are put into the head tag, no images will be detected and processed. If the scripts are put below all other scripts on your page, the images will be not showed until all the scripts downloaded.)</small>
-        </p>
-        <p>
-          Get your Cloudimage tokens <a href="https://www.cloudimage.io/en/register_page">here</a>.
-        </p>
-      </div>
-
-      <div class="action-wrapper forth-action">
-        <p>
-          …and you're done!
-          <a href="https://github.com/scaleflex/js-cloudimage-responsive#table-of-contents" target="_blank">
-            Visit the full documentation here.
+          We have original image stored via CDN with
+          <strong>6240×4160 px resolution</strong> and
+          <strong>8.7 mb size:</strong>
+          <a
+          target="_blank"
+          href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg"
+          >
+            https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg
           </a>
+          link In the table below we can see what size and resolution will be
+          loaded depending on the image's container.
         </p>
       </div>
-    </div>
-  </section>
+      <div class="images-dimensions-table">
+        <div class="table-header">
+          <p>Container size</p>
+          <p>Pixel Radio density</p>
+          <p>Calculated width</p>
+          <p>Result: dimantion | size | Link</p>
+        </div>
+        <div class="table-row">
+          <p class="content"><span class="yellow-color">400 px</span></p>
+          <div class="content">
+            <p>1</p>
+            <p>2</p>
+          </div>
+          <div class="content">
+            <p>400 px</p>
+            <p>800 px</p>
+          </div>
+          <div class="content">
+            <p>400 x 267 | 42.3 kb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=400" class="cyan-color">Link</a></p>
+            <p>800 x 533 | 159 kb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=800" class="cyan-color">Link</a></p>
+          </div>
+        </div>
+        <div class="table-row">
+          <p class="content"><span class="yellow-color">570 px</span></p>
+          <div class="content">
+            <p>1</p>
+            <p>2</p>
+          </div>
+          <div class="content">
+            <p>600 px</p>
+            <p>1200 px</p>
+          </div>
+          <div class="content">
+            <p>600 x 400 | 91.5 kb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=600" class="cyan-color">Link</a></p>
+            <p>1200 x 800 | 337 kb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=1200" class="cyan-color">Link</a></p>
+          </div>
+        </div>
+        <div class="table-row">
+          <p class="content"><span class="yellow-color">720 px</span></p>
+          <div class="content">
+            <p>1</p>
+            <p>2</p>
+          </div>
+          <div class="content">
+            <p>800 px</p>
+            <p>1600 px</p>
+          </div>
+          <div class="content">
+            <p>800 x 533 | 159 kb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=800" class="cyan-color">Link</a></p>
+            <p>1600 x 1066 | 569 kb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=1600" class="cyan-color">Link</a></p>
+          </div>
+        </div>
+        <div class="table-row">
+          <p class="content"><span class="yellow-color">1170 px</span></p>
+          <div class="content">
+            <p>1</p>
+            <p>2</p>
+          </div>
+          <div class="content">
+            <p>1200 px</p>
+            <p>2400 px</p>
+          </div>
+          <div class="content">
+            <p>1200 x 800 | 337 kb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=1200" class="cyan-color">Link</a></p>
+            <p>2400 x 1600 | 1.2 mb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=2400" class="cyan-color">Link</a></p>
+          </div>
+        </div>
+        <p class="table-text">
+          * The plugin rounds container width to next possible value which can
+          be divided by 100 (configurable) without the remainder. It's done for
+          cache reasons so that we cache not all images different by 1px, but
+          only 100px, 200px, 300px …
+        </p>
+      </div>
+    </section>
 
-  <section style="text-align: center;">
-    <div class="container ready-to-start">
+    <section class="code-versions">
+      <div class="code-versions-wrapper container-fluid">
+        <div class="description">
+          <h2>Ready to get started?</h2>
+          <p>
+            To use the plugin, you will need a Cloudimage <a target="_blank" href="https://www.cloudimage.io/en/registration">token</a>. Don't worry, it
+            only takes seconds to get one by registering here. Once your token
+            is created, you can configure it as described below. This token
+            allows you to use 25GB of image cache and 25GB of worldwide CDN
+            traffic per month for free.
+          </p>
+        </div>
+        <div class="code-wrapper">
+          <div>
+            <button selected-tab code-tab class="code-tab" id="js">JS</button>
+            <button code-tab class="code-tab" id="react">React</button>
+            <button code-tab class="code-tab" id="angular">Angular</button>
+            <button code-tab class="code-tab" id="vue">Vue</button>
+          </div>
+          <div id="js-code-block" class="js-code-block">
+            <div class="copy-button-wrapper copy-button">
+              <img src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/cyan-copy-icon.svg" alt="copy">
+              <p>Copy</p>
+            </div>
+            <pre id="js-code" class="code">
+&lt;<span class="yellow-color">script</span>>
+      <span class="yellow-color">const ciResponsive</span> = new window.CIResponsive({
+      <span class="yellow-color">token</span>: 'demo',
+      <span class="yellow-color">baseURL</span>: '<span class="blue-color">https://cloudimage.public.airstore.io/demo/</span>'  <span class="gray-color">//optional</span>
+    });
+&lt;/<span class="yellow-color">script</span>>
+
+<span class="gray-color">// lazy load is a separate feature</span>
+&lt;<span class="yellow-color">script src</span>="<span class="blue-color">"https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"</span>>&lt;/<span class="yellow-color">script</span>>
+
+<span class="gray-color">// main core</span>
+&lt;<span class="yellow-color">script src</span>="<span class="blue-color">https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.5/js-cloudimage-responsive.min.js</span>">&lt;/<span class="yellow-color">script</span>>
+            </pre>
+          </div>
+
+          <div id="react-code-block" class="react-code-block">
+            <div class="copy-button-wrapper copy-button">
+              <img src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/cyan-copy-icon.svg" alt="copy">
+              <p>Copy</p>
+            </div>
+            <pre id="react-code" class="code">
+<span class="red-color">import</span> React from 'react';
+<span class="red-color">import</span> { render } from 'react-dom';
+<span class="red-color">import</span> Img, { CloudimageProvider } from 'react-cloudimage-responsive';
+
+<span class="yellow-color">const cloudimageConfig</span> = {
+  token: 'demo',
+  baseURL: '<span class="blue-color">https://jolipage.airstore.io/</span>'
+};
+
+<span class="yellow-color">const cloudimageConfigWithCustomCNAMEDomain</span> = {
+  token: 'demo',
+  baseURL: '<span class="blue-color">https://jolipage.airstore.io/</span>',
+  customDomain: 'images.airstore.io'
+};
+
+<span class="yellow-color">const App</span> = () => {
+  return (
+    &lt;CloudimageProvider config={cloudimageConfig}>
+    &lt;h1>Simple demo of react-cloudimage-responsive&lt;/h1>
+    &lt;Img src="img.jpg" alt="Demo image" ratio={1.5}/>
+    &lt;/CloudimageProvider>
+  );
+};
+
+render(&lt;App />, document.body);
+            </pre>
+          </div>
+
+          <div id="angular-code-block" class="angular-code-block">
+            <div class="copy-button-wrapper copy-button">
+              <img src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/cyan-copy-icon.svg" alt="copy">
+              <p>Copy</p>
+            </div>
+            <pre id="angular-code" class="code">
+<span class="red-color">import</span> { NgModule } from '@angular/core';
+<span class="red-color">import</span> { BrowserModule } from '@angular/platform-browser';
+<span class="red-color">import</span> { CIModule, CIConfig } from 'ng-cloudimage-responsive';
+<span class="red-color">import</span> { AppComponent } from './app.component';
+
+<span class="yellow-color">const ciConfig</span> = {
+  token: 'demo',
+  baseUrl: '<span class="blue-color">https://jolipage.airstore.io/</span>'
+};
+
+<span class="yellow-color">@NgModule</span>({
+    declarations: [ AppComponent ],
+    imports: [ BrowserModule, CIModule ],
+    providers: [
+      {provide: CIConfig, useValue: ciConfig}
+    ],
+    bootstrap: [ AppComponent ]
+})
+export class MyAppModule {}
+            </pre>
+          </div>
+
+          <div id="vue-code-block" class="vue-code-block">
+            <div class="copy-button-wrapper copy-button">
+              <img src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/cyan-copy-icon.svg" alt="copy">
+              <p>Copy</p>
+            </div>
+            <pre id="vue-code" class="code">
+&lt;<span class="yellow-color">template</span>>
+  &lt;<span class="yellow-color">div</span> id="app">
+    &lt;<span class="yellow-color">CloudImageProvider</span> v-bind:cloudImageConfig="cloudimageConfig">
+      &lt;<span class="yellow-color">h1</span>>Simple demo of vue-cloudimage-responsive&lt;/<span class="yellow-color">h1</span>>
+      &lt;<span class="yellow-color">Img</span> src="img.jpg" alt="Demo image"/>
+    &lt;/<span class="yellow-color">CloudImageProvider</span>>
+  &lt;/<span class="yellow-color">div</span>>
+&lt;/<span class="yellow-color">template</span>>
+
+&lt;<span class="yellow-color">script</span>>
+  <span class="red-color">import</span> Vue from 'vue';
+  <span class="red-color">import</span> Img, { CloudImageProvider } from 'vue-cloudimage-responsive';
+
+  <span class="yellow-color">const cloudimageConfig</span> = {
+    token: 'demo',
+    baseURL: '<span class="blue-color">https://jolipage.airstore.io/</span>'
+  };
+
+  export default{
+      components: {
+      CloudImageProvider,
+      Img
+      }
+  }
+  &lt;/<span class="yellow-color">script</span>>
+            </pre>
+          </div>
+          <div class="sandbox-button-wrapper">
+            <a class="sandbox-button">Code sandbox</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="questions">
       <h2>Any questions?</h2>
       <p>
-        Contact us at <a href="mailto:hello@cloudimage.io">hello@cloudimage.io</a>, our experts will be happy to help!
+        Contact us at <span>hello@filerobot.com</span>, our experts will be
+        happy to help!
       </p>
-    </div>
-  </section>
+      <div class="github-issue">
+        <a
+          href="https://github.com/scaleflex/js-cloudimage-responsive/issues"
+          target="_blank"
+        >
+          Submit GitHub issue
+        </a>
+      </div>
+    </section>
 
-  <footer>
-    <div style="background: #fff">
-      <section class="container ready-to-start filerobot-ui-family">
-        <div class="row">
-          <div class="col-sm-3 filerobot-ui-family-label" style="max-width: 200px; min-width: 200px;">
-            <h5>Filerobot UI family:</h5>
+    <section class="footer">
+      <div class="accordion-wrapper">
+        <div>
+          <div class="filerobot-accordion">
+            <button data-accordion="2">Info</button>
+            <img
+              data-accordion="2"
+              src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/down-arrow-icon.png"
+              alt="down-arrow"
+            />
           </div>
-          <div class="col-sm-9 filerobot-ui-family-libs" style="max-width: calc(100% - 200px);">
-            <ul>
-              <li><a target="_blank" href="https://github.com/scaleflex/react-cloudimage-responsive">React Cloudimage Responsive</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/ng-cloudimage-responsive">Angular Cloudimage Responsive</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/js-cloudimage-360-view">JS Cloudimage 360 View</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/filerobot-uploader">Uploader</a></li>
-              <li><a target="_blank" href="https://github.com/scaleflex/filerobot-image-editor">Image Editor</a></li>
-            </ul>
+          <div class="accordion-content" data-accordion-content="2">
+            <div class="footer-info-content">
+              <a
+                href="https://github.com/scaleflex/filerobot-image-editor"
+                target="_blank"
+              >
+                View GitHub
+              </a>
+              <a
+                href="https://github.com/scaleflex/filerobot-image-editor/issues/new"
+                target="_blank"
+              >
+                Current Issues
+              </a>
+              <a
+                href=" https://github.com/scaleflex/filerobot-image-editor"
+                target="_blank"
+              >
+                Documentation
+              </a>
+            </div>
           </div>
         </div>
-      </section>
-    </div>
-    <hr/>
-    <div class="copyright">
-      <div class="container">
-        <div class="row">
-          <div class="team-desc col-sm-8">
-            <div>Made with ❤ in 2019 in Paris, Munich and Sofia by the Scaleflex team, the guys behind <a
-               href="https://www.cloudimage.io/en/home" target="_blank">Cloudimage.io</a>.
-            </div>
-            <div style="margin-top: 10px;">Powered by <a href="https://www.scaleflex.it/en/home" target="_blank">Scaleflex team</a>.
-              All rights reserved.
-            </div>
+        <div>
+          <div class="filerobot-accordion">
+            <button data-accordion="1">Filerobot</button>
+            <img
+              data-accordion="1"
+              src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/down-arrow-icon.png"
+              alt="down-arrow"
+            />
           </div>
-          <div class="footer-menu col-sm-4">
-            <ul>
-              <li><a href="https://github.com/scaleflex/js-cloudimage-responsive" target="_blank">View GitHub</a></li>
-              <li><a href="https://github.com/scaleflex/js-cloudimage-responsive/issues" target="_blank">Current
-                Issues</a>
-              </li>
-              <li><a href="https://github.com/scaleflex/js-cloudimage-responsive#table-of-contents" target="_blank">Documentation</a>
-              </li>
-            </ul>
+          <div class="accordion-content" data-accordion-content="1">
+            <div class="footer-filerobot-content">
+              <a
+                href="https://www.npmjs.com/package/@filerobot/readme"
+                target="_blank"
+              >
+                Filerobot Media Asset Widget
+              </a>
+              <a
+                href="https://github.com/scaleflex/react-cloudimage-responsive"
+                target="_blank"
+              >
+                React Cloudimage Responsive
+              </a>
+              <a
+                href="https://github.com/scaleflex/js-cloudimage-responsive"
+                target="_blank"
+              >
+                JS Cloudimage Responsive
+              </a>
+              <a
+                href="https://github.com/scaleflex/js-cloudimage-360-view"
+                target="_blank"
+              >
+                JS Cloudimage 360 view
+              </a>
+              <a
+                href="https://github.com/scaleflex/js-cloudimage-responsive"
+                target="_blank"
+              >
+                JS Cloudimage Responsive
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </footer>
-
-  <div id="device-pixel-ratio" class="device-pixel-ratio">
-    <div class="label">Your device pixel ratio:</div> <span>---</span>
-    <hr>
-    <div class="label">Your device width:</div><div class="window-width-box"><span>---</span></div>
-  </div>
-</div>
-
-
-<script>
-  window.lazySizesConfig = window.lazySizesConfig || {};
-  window.lazySizesConfig.init = false;
-</script>
-
-<script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
-</body>
+      <div class="navbar">
+        <a
+          class="stars"
+          href="https://github.com/scaleflex/js-cloudimage-responsive/stargazers"
+          target="_blank"
+        >
+          <img class="star" src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/star-icon.svg" alt="star" />
+          <img
+            class="stars-label"
+            src="https://img.shields.io/github/stars/scaleflex/js-cloudimage-responsive?logo=none&style=social"
+            alt="star-img"
+          />
+        </a>
+        <a
+          class="git-hub"
+          href="https://github.com/scaleflex/filerobot-image-editor"
+          target="_blank"
+        >
+          <img
+            src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/github-icon.svg"
+            alt="github-icon"
+          />
+          <p>GitHub</p>
+        </a>
+      </div>
+      <div class="footer-logo">
+        <a href="https://www.scaleflex.com/en/home" target="_blank">
+          <img src="https://scaleflex.cloudimg.io/v7/assets/cloudimage-responsive-assets/scaleflex-logo.svg" alt="scaleflex-logo" />
+        </a>
+        <p>
+          Made with ❤ by the
+          <span>
+            <a href=" https://scaleflex.com/" target="_blank">Scaleflex</a>
+          </span>
+          team, the guys behind
+          <span>
+            <a href=" https://cloudimage.io/" target="_blank"
+              >Cloudimage.io</a
+            > </span
+          >.Powered by
+          <span>
+            <a href="https://filerobot.com/" target="_blank"
+              >Filerobot</a
+            > </span
+          >. All rights reserved.
+        </p>
+        <div class="footer-blur-circle"></div>
+      </div>
+      <div class="footer-wrapper">
+        <div class="footer-info">
+          <h4>Info</h4>
+          <div class="footer-info-content">
+            <a
+              href="https://github.com/scaleflex/filerobot-image-editor"
+              target="_blank"
+            >
+              View GitHub
+            </a>
+            <a
+              href="https://github.com/scaleflex/filerobot-image-editor/issues/new"
+              target="_blank"
+            >
+              Current Issues
+            </a>
+            <a
+              href=" https://github.com/scaleflex/filerobot-image-editor"
+              target="_blank"
+            >
+              Documentation
+            </a>
+          </div>
+        </div>
+        <div class="footer-filerobot">
+          <h4>Filerobot UI Family</h4>
+          <div class="footer-filerobot-content">
+            <a
+              href="https://www.npmjs.com/package/@filerobot/readme"
+              target="_blank"
+            >
+              Filerobot Media Asset Widget
+            </a>
+            <a
+              href="https://github.com/scaleflex/react-cloudimage-responsive"
+              target="_blank"
+            >
+              React Cloudimage Responsive
+            </a>
+            <a
+              href="https://github.com/scaleflex/js-cloudimage-responsive"
+              target="_blank"
+            >
+              JS Cloudimage Responsive
+            </a>
+            <a
+              href="https://github.com/scaleflex/js-cloudimage-360-view"
+              target="_blank"
+            >
+              JS Cloudimage 360 view
+            </a>
+            <a
+              href="https://github.com/scaleflex/js-cloudimage-responsive"
+              target="_blank"
+            >
+              JS Cloudimage Responsive
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
+  </body>
 </html>

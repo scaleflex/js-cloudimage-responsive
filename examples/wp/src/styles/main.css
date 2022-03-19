@@ -1350,7 +1350,7 @@ img.ci-image {
   }
 
   .usage-section .usage-content p {
-    text-align: left;
+   text-align: left;
   }
 
   .demo-gallery {
@@ -1374,8 +1374,8 @@ img.ci-image {
   }
 
   .demo-gallery .image-wrapper .square-img-text {
-    text-align: left;
-    white-space: nowrap;
+   text-align: left;
+   white-space: nowrap;
   }
 
   .demo-gallery .image-wrapper .original-size-text {
