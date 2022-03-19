@@ -1,64 +1,40 @@
 import '../../../src/low-preview';
 import './init';
+import { getElementById } from "./utils";
 
 const codeTabs = document.querySelectorAll("[code-tab]");
 const accordions = document.querySelectorAll("[data-accordion]");
-
-const jsCode = document.getElementById("js-code");
-const jsCodeWrapper = document.getElementById("js-code-block");
-const reactCode = document.getElementById("react-code");
-const reactCodeWrapper = document.getElementById("react-code-block");
-const angularCode = document.getElementById("angular-code");
-const angularCodeWrapper = document.getElementById("angular-code-block");
-const vueCode = document.getElementById("vue-code");
-const vueCodeWrapper = document.getElementById("vue-code-block");
-
-const bgCode = document.getElementById("bg-code");
-const bgCopyButton = document.getElementById("bg-copy-button");
 const copyButtons = document.querySelectorAll(".copy-button");
 
-const leftColumnImage = document.getElementById("left-column-image");
-const leftColumnImageSize = document.getElementById("left-column-image-size");
+const jsCode = getElementById("js-code");
+const jsCodeWrapper = getElementById("js-code-block");
+const reactCode = getElementById("react-code");
+const reactCodeWrapper = getElementById("react-code-block");
+const angularCode = getElementById("angular-code");
+const angularCodeWrapper = getElementById("angular-code-block");
+const vueCode = getElementById("vue-code");
+const vueCodeWrapper = getElementById("vue-code-block");
 
-const carImage = document.getElementById("car-image");
-const carImageSize = document.getElementById("car-image-size");
-const secondCarImage = document.getElementById("second-car-image");
-const secondCarImageSize = document.getElementById("second-car-image-size");
-const thirdCarImage = document.getElementById("third-car-image");
-const thirdCarImageSize = document.getElementById("third-car-image-size");
+const bgCode = getElementById("bg-code");
+const bgCopyButton = getElementById("bg-copy-button");
 
-const firstCodeBlockWidth = document.getElementById("first-code-block-width");
-const firstCodeBlockHeight = document.getElementById("first-code-block-height");
-const secondCodeBlockWidth = document.getElementById("second-code-block-width");
-const secondCodeBlockHeight = document.getElementById(
-  "second-code-block-height",
-);
-const thirdCodeBlockWidth = document.getElementById("third-code-block-width");
-const thirdCodeBlockHeight = document.getElementById("third-code-block-height");
+const leftColumnImage = getElementById("left-column-image");
+const leftColumnImageSize = getElementById("left-column-image-size");
 
-const firstHorizontalImage = document.getElementById("first-horizontal-image");
-const firstHorizontalImageSize = document.getElementById(
-  "first-horizontal-image-size",
-);
-const secondHorizontalImage = document.getElementById(
-  "second-horizontal-image",
-);
-const secondHorizontalImageSize = document.getElementById(
-  "second-horizontal-image-size",
-);
+const carImage = getElementById("car-image");
+const originalCarImageSize = getElementById("original-car-image-size");
+const cropCarImageSize = getElementById("crop-car-image-size");
+const autoCropCarImageSize = getElementById("auto-crop-car-image-size");
 
-const rightColumnFirstImage = document.getElementById(
-  "right-column-first-image",
-);
-const rightColumnFirstImageSize = document.getElementById(
-  "right-column-first-image-size",
-);
-const rightColumnSecondImage = document.getElementById(
-  "right-column-second-image",
-);
-const rightColumnSecondImageSize = document.getElementById(
-  "right-column-second-image-size",
-);
+const firstHorizontalImage = getElementById("first-horizontal-image");
+const firstHorizontalImageSize = getElementById("first-horizontal-image-size");
+const secondHorizontalImage = getElementById("second-horizontal-image");
+const secondHorizontalImageSize = getElementById("second-horizontal-image-size");
+
+const rightColumnFirstImage = getElementById("right-column-first-image");
+const rightColumnFirstImageSize = getElementById("right-column-first-image-size");
+const rightColumnSecondImage = getElementById("right-column-second-image");
+const rightColumnSecondImageSize = getElementById("right-column-second-image-size");
 
 const EXAMPLE_CODE_TABS = {
   js: jsCodeWrapper,
@@ -126,42 +102,13 @@ function showAccordionContent(event) {
     ` [data-accordion-content="${contentID}"]`,
   );
 
-  accordionContent.style.display = !accordionContent.offsetWidth
-    ? "block"
-    : "none";
+  accordionContent.style.display = !accordionContent.offsetWidth ? "block" : "none";
 }
 
 function updateImageSize() {
-  firstCodeBlockWidth.innerHTML = carImage.offsetWidth;
-  firstCodeBlockHeight.innerHTML = carImage.offsetHeight;
-  secondCodeBlockWidth.innerHTML = secondCarImage.offsetWidth;
-  secondCodeBlockHeight.innerHTML = secondCarImage.offsetHeight;
-  thirdCodeBlockWidth.innerHTML = thirdCarImage.offsetWidth;
-  thirdCodeBlockHeight.innerHTML = thirdCarImage.offsetHeight;
-
-  carImageSize.innerHTML = carImage.offsetWidth;
-  secondCarImageSize.innerHTML = secondCarImage.offsetWidth;
-  thirdCarImageSize.innerHTML = thirdCarImage.offsetWidth;
-
-  leftColumnImageSize.innerHTML = leftColumnImage.offsetWidth;
-  rightColumnFirstImageSize.innerHTML = rightColumnFirstImage.offsetWidth;
-  rightColumnSecondImageSize.innerHTML = rightColumnSecondImage.offsetWidth;
-
-  firstHorizontalImageSize.innerHTML = firstHorizontalImage.offsetWidth;
-  secondHorizontalImageSize.innerHTML = secondHorizontalImage.offsetWidth;
-}
-
-function updateImageSizeOnLoad() {
-  firstCodeBlockWidth.innerHTML = carImage.offsetWidth;
-  firstCodeBlockHeight.innerHTML = carImage.offsetHeight;
-  secondCodeBlockWidth.innerHTML = secondCarImage.offsetWidth;
-  secondCodeBlockHeight.innerHTML = secondCarImage.offsetHeight;
-  thirdCodeBlockWidth.innerHTML = thirdCarImage.offsetWidth;
-  thirdCodeBlockHeight.innerHTML = thirdCarImage.offsetHeight;
-
-  carImageSize.innerHTML = carImage.offsetWidth;
-  secondCarImageSize.innerHTML = secondCarImage.offsetWidth;
-  thirdCarImageSize.innerHTML = thirdCarImage.offsetWidth;
+  originalCarImageSize.innerHTML = carImage.offsetWidth;
+  cropCarImageSize.innerHTML = carImage.offsetWidth;
+  autoCropCarImageSize.innerHTML = carImage.offsetWidth;
 
   leftColumnImageSize.innerHTML = leftColumnImage.offsetWidth;
   rightColumnFirstImageSize.innerHTML = rightColumnFirstImage.offsetWidth;
@@ -172,7 +119,7 @@ function updateImageSizeOnLoad() {
 }
 
 window.addEventListener("resize", updateImageSize);
-window.addEventListener("load", updateImageSizeOnLoad);
+window.addEventListener("load", updateImageSize);
 bgCopyButton.addEventListener("click", copyBackgroundCodeHandler);
 copyButtons.forEach((copyButton) =>
   copyButton.addEventListener("click", copyVersionCodeHandler),
