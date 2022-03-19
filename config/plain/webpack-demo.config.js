@@ -14,8 +14,8 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
 module.exports = {
   entry: {
     index: [
-      path.resolve(__dirname, "../../examples/blur-hash/src/index.js"),
-      path.resolve(__dirname, "../../examples/blur-hash/src/styles/main.css"),
+      path.resolve(__dirname, "../../examples/plain/src/index.js"),
+      path.resolve(__dirname, "../../examples/plain/src/styles/main.css"),
     ],
   },
   output: {
