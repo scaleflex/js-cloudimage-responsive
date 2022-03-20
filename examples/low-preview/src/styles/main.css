@@ -639,9 +639,11 @@ body {
 }
 
 .numbers-section .numbers-section-title a {
+  display: inline-block;
   font-weight: 600;
   color: #3daba4;
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
 .numbers-section .images-dimensions-table {
