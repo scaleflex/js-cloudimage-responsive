@@ -9,6 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/png" href="https://cdn.jolipage.co/5c1376c5-e4cd-4250-b760-4c810d7f5fdd/fdf058fa-5faf-4c83-bffa-4faa42b6d252/dc8ef1f26116405e2b275c5020ad8ce1ac071f86bf2134f143c23e692e396f76.png?vh=3632c0">
     <link
       rel="stylesheet"
       href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.5/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"/></link>
@@ -74,22 +75,22 @@
         </h2>
         <div class="github-sandbox-buttons-wrapper">
           <a
-            class="github-button"
+            class="github-button transition-filled-button"
             href="https://github.com/scaleflex/js-cloudimage-responsive"
             target="_blank"
           >
             View on GitHub
           </a>
           <a
-            class="code-sand-box-button"
+            class="code-sand-box-button transition-outline-button"
             href="https://codesandbox.io/s/6jkovjvkxz"
             target="_blank"
           >
-            Edit to CodeSandbox
+            Edit in CodeSandbox
           </a>
         </div>
         <div class="sea-coast container">
-          <img ci-params="ci_info=2" ci-src="sea-coast.jpg" alt="sea-coast" />
+          <img ci-params="ci_info=2" ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/Main+image.jpg?vh=e4cc36" alt="sea-coast" />
           <div class="green-blur-circle hide-in-mobile"></div>
           <div class="blue-blur-circle hide-in-mobile"></div>
         </div>
@@ -188,7 +189,7 @@
         <div class="image-wrapper">
           <div class="first-column-image">
             <img
-              ci-src="josh-withers-xMTXJbHxOZk-unsplash.jpg"
+              ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/House+img.jpg?vh=53b704"
               alt="img"
               id="left-column-image"
               ci-params="ci_info=2"
@@ -209,7 +210,7 @@
             <div class="square-with-circle-img">
               <div class="second-column-image hide-in-mobile">
                 <img
-                  ci-src="miroslav-skopek-7Wd3_WwpPb0-unsplash.jpg"
+                  ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/Church+square+img.jpg?vh=815dc3"
                   alt="img"
                   id="right-column-first-image"
                   ci-params="ci_info=2"
@@ -230,9 +231,11 @@
               <div class="circle-image-wrapper">
                 <img
                   class="ellipse-image"
-                  ci-src="ibrahima-toure-qVrgGyQqZgg-unsplash.jpg"
+                  ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/Girl+img.jpg"
                   alt="img"
+                  ci-params="w=265&h=265&gravity=north"
                   id="right-column-second-image"
+                  style="border-radius: 50%;"
                 />
                 <div class="circle-image-text-wrapper">
                   <p class="square-img-text">
@@ -253,7 +256,7 @@
             <div class="horizontal-image">
               <img
                 id="first-horizontal-image"
-                ci-src="alexandra-lawrence-N-zxiG46luY-unsplash.jpg"
+                ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/Dresses+img.jpg?vh=461af4"
                 alt="img"
                 ci-params="ci_info=2"
               />
@@ -274,7 +277,7 @@
         </div>
         <div class="mobile-screen-horizontal-image">
           <img
-            ci-src="alexandra-lawrence-N-zxiG46luY-unsplash.jpg"
+            ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/Dresses+img.jpg?vh=461af4s"
             alt="img"
             id="second-horizontal-image"
             ci-params="ci_info=2"
@@ -296,7 +299,7 @@
     </section>
 
     <section class="crop-images-section">
-      <div class="crop-images-wrapper container">
+      <div class="crop-images-wrapper container-fluid">
         <h2>Crop your images</h2>
         <p class="crop-section-title">
           Resize your browser window to see how it works.
@@ -305,18 +308,23 @@
           <div class="crop-options-content">
             <h3>Original Image</h3>
             <p>Resize your browser window to see how it works.</p>
-            <img id="car-image" ci-src="green-car.jpg" alt="green-car" />
+            <img
+              id="car-image"
+              ci-params="func=fit&w=400&h=400&bg_colour=f2f7fa"
+              ci-src="https://scaleflex.cloudimg.io/v7/olia-gozha-JiO0j9tEre4-unsplash.jpg"
+              alt="green-car"
+            />
             <h4>Container width: <span id="original-car-image-size"></span> px
               <a
                 target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg"
+                href="https://scaleflex.cloudimg.io/v7/olia-gozha-JiO0j9tEre4-unsplash.jpg"
               >
                 Link
               </a>
             </h4>
             <pre class="original-image-code-block">
 &lt;<strong class="code-yellow-color">img</strong>
-  <span class="code-yellow-color">src</span>="<strong class="code-blue-color">https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg</strong>"
+  <span class="code-yellow-color">src</span>="<strong class="code-blue-color">https://scaleflex.cloudimg.io/v7/olia-gozha-JiO0j9tEre4-unsplash.jpg</strong>"
 />
             </pre>
           </div>
@@ -325,19 +333,23 @@
             <p>
               If we use just simpe Crop, it cuts same parts from every side.
             </p>
-            <img ci-src="green-car.jpg" ci-params="func=crop&h=200" alt="green-car" />
+            <img
+              ci-src="https://scaleflex.cloudimg.io/v7/olia-gozha-JiO0j9tEre4-unsplash.jpg"
+              ci-params="func=crop&w=400&h=400"
+              alt="green-car"
+            />
             <h4>Container width:<span id="crop-car-image-size"></span> px
               <a
               target="_blank"
-              href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg?func=crop&h=200""
+              href="https://scaleflex.cloudimg.io/v7/olia-gozha-JiO0j9tEre4-unsplash.jpg?vh=c61740&w=400&h=400&func=crop"
               >
                 Link
               </a>
             </h4>
             <pre class="original-image-code-block">
 &lt;<span class="code-yellow-color">img</span>
-  <span class="code-yellow-color">ci-src</span>="green-car.jpg"
-  <span class="code-yellow-color">ci-params</span>="func=crop&h=200"
+  <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
+  <span class="code-yellow-color">ci-params</span>="func=crop&w=400&h=400"
 /&gt;
 </pre>
           </div>
@@ -347,19 +359,23 @@
               Artificial intelligence itself finds the main object and crops it
               so that it turns out strictly in the center.
             </p>
-            <img ci-params="func=crop&h=150&gravity=auto" ci-src="green-car.jpg" alt="green-car" />
+            <img
+              ci-params="w=400&h=400&func=crop&gravity=auto"
+              ci-src="https://scaleflex.cloudimg.io/v7/olia-gozha-JiO0j9tEre4-unsplash.jpg"
+              alt="green-car"
+             />
             <h4>Container width: <span id="auto-crop-car-image-size"></span> px
               <a
                 target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/green-car.jpg?func=crop&h=150&gravity=auto"
+                href="https://scaleflex.cloudimg.io/v7/olia-gozha-JiO0j9tEre4-unsplash.jpg?vh=c61740&w=400&h=400&func=crop&gravity=auto"
                >
                 Link
               </a>
             </h4>
             <pre class="original-image-code-block">
 <span class="code-yellow-color">&lt;img</span>
-  <span class="code-yellow-color">ci-src</span>="green-car.jpg"
-  <span class="code-yellow-color">ci-params</span>="func=crop&h=150&gravity=auto"
+  <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
+  <span class="code-yellow-color">ci-params</span>="func=crop&w=400&h=400&gravity=auto"
 /&gt;
               </pre>
           </div>
@@ -369,7 +385,7 @@
 
     <section
      class="background-images-section"
-     ci-bg-url="green-trees.jpg"
+     ci-bg-url="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/BG+image.jpg?vh=5d6674"
     >
       <div class="images-content">
         <h2>Use with background images</h2>
@@ -475,13 +491,13 @@ style="background:#000 50% 50% / cover no-repeat;color:#fff;"
             <p>2400 x 1600 | 1.2 mb | <a target="_blank" href="https://scaleflex.cloudimg.io/v7/demo/redcharlie.jpg?w=2400" class="cyan-color">Link</a></p>
           </div>
         </div>
-        <p class="table-text">
-          * The plugin rounds container width to next possible value which can
-          be divided by 100 (configurable) without the remainder. It's done for
-          cache reasons so that we cache not all images different by 1px, but
-          only 100px, 200px, 300px …
-        </p>
       </div>
+      <p class="table-text">
+        * The plugin rounds container width to next possible value which can
+        be divided by 100 (configurable) without the remainder. It's done for
+        cache reasons so that we cache not all images different by 1px, but
+        only 100px, 200px, 300px …
+      </p>
     </section>
 
     <section class="code-versions">
@@ -495,6 +511,15 @@ style="background:#000 50% 50% / cover no-repeat;color:#fff;"
             allows you to use 25GB of image cache and 25GB of worldwide CDN
             traffic per month for free.
           </p>
+          <div class="sandbox-button-wrapper">
+            <a
+              target="_blank"
+              href="https://codesandbox.io/s/6jkovjvkxz"
+              class="sandbox-button transition-outline-button"
+            >
+              Code sandbox
+            </a>
+          </div>
         </div>
         <div class="code-wrapper">
           <div>
@@ -619,9 +644,6 @@ export class MyAppModule {}
   &lt;/<span class="yellow-color">script</span>>
             </pre>
           </div>
-          <div class="sandbox-button-wrapper">
-            <a class="sandbox-button">Code sandbox</a>
-          </div>
         </div>
       </div>
     </section>
@@ -636,6 +658,7 @@ export class MyAppModule {}
         <a
           href="https://github.com/scaleflex/js-cloudimage-responsive/issues"
           target="_blank"
+          class="transition-filled-button"
         >
           Submit GitHub issue
         </a>
@@ -753,19 +776,14 @@ export class MyAppModule {}
         <p>
           Made with ❤ by the
           <span>
-            <a href=" https://scaleflex.com/" target="_blank">Scaleflex</a>
+            <a href=" https://scaleflex.com/en/home" target="_blank">Scaleflex</a>
           </span>
           team, the guys behind
           <span>
-            <a href=" https://cloudimage.io/" target="_blank"
-              >Cloudimage.io</a
-            > </span
-          >.Powered by
+            <a href=" https://cloudimage.io/en/home" target="_blank"
+              >Cloudimage.io</a></span>. Powered by
           <span>
-            <a href="https://filerobot.com/" target="_blank"
-              >Filerobot</a
-            > </span
-          >. All rights reserved.
+            <a href="https://filerobot.com/en/home" target="_blank">Filerobot</a></span>. All rights reserved.
         </p>
         <div class="footer-blur-circle"></div>
       </div>
