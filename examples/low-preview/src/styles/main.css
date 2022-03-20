@@ -949,6 +949,10 @@ body {
   text-decoration: none;
 }
 
+.questions a:hover {
+  background-color: #35918a;
+}
+
 .footer {
   position: relative;
   padding: 60px 25px;
@@ -1255,6 +1259,7 @@ body {
 
   .content-wrapper .content {
     padding: 0 16px;
+    align-items: flex-start;
   }
 
   .content-wrapper .content h1 {
@@ -1426,6 +1431,10 @@ body {
     text-align: start;
   }
 
+  .code-versions .description .sandbox-button-wrapper {
+    justify-content: flex-start;
+  }
+
   .code-versions .code-wrapper .code-tab {
     width: 23.7%;
   }
@@ -1433,6 +1442,10 @@ body {
   .questions {
     padding: 60px 16px;
     align-items: flex-start;
+  }
+
+  .questions .github-issue {
+    justify-content: flex-start;
   }
 
   .crop-images-section .crop-options {
