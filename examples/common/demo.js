@@ -95,7 +95,7 @@ function changeCodeTabHandler(event) {
 
 function showAccordionContent(event) {
   const contentID = event.target.getAttribute("data-accordion");
-  const accordionContent = document.querySelector(`[data-accordion-content="${contentID}"]`)
+  const accordionContent = document.querySelector(`[data-accordion-content="${contentID}"]`);
 
   accordionContent.style.display = !accordionContent.offsetWidth ? "block" : "none";
 }

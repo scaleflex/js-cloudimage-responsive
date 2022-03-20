@@ -136,9 +136,6 @@ body {
   white-space: nowrap;
 }
 
-.content-wrapper .github-sandbox-buttons-wrapper .github-button:hover {
-  background-color: #35918a;
-}
 
 .content-wrapper .github-sandbox-buttons-wrapper .code-sand-box-button {
   display: flex;
@@ -155,9 +152,6 @@ body {
   color: #3daba4;
 }
 
-.content-wrapper .github-sandbox-buttons-wrapper .code-sand-box-button:hover {
- background-color: #eff5ef;
-}
 
 .content-wrapper .content .sea-coast {
   margin-top: 32px;
@@ -812,10 +806,6 @@ body {
   text-decoration: none;
 }
 
-.code-versions .description .sandbox-button:hover {
-  background-color: #d9dbd9;
-}
-
 .code-versions .code-versions-wrapper .code-wrapper {
   display: flex;
   flex-direction: column;
@@ -1219,6 +1209,23 @@ body {
   }
 }
 
+.transition-outline-button {
+  transition: all 300ms ease-in-out;
+}
+
+.transition-outline-button:hover {
+  background-color: #3daba4;
+  color: #FFF !important;
+}
+
+.transition-filled-button {
+  transition: all 300ms ease-in-out;
+}
+
+.transition-filled-button:hover {
+  background-color: #35918a !important;
+}
+
 @media(max-width: 971px) {
   .content-wrapper .features-wrapper .features {
     grid-template-columns: repeat(auto-fill, minmax(171px, 1fr));
@@ -1305,8 +1312,8 @@ body {
   }
 
   .demo-gallery .image-wrapper .square-img-text {
-   text-align: left;
-   white-space: nowrap;
+    text-align: left;
+    white-space: nowrap;
   }
 
   .demo-gallery .image-wrapper .original-size-text {
