@@ -1,4 +1,4 @@
-import { getElementById } from "./utils";
+import { copyTextToClipboard, getElementById } from "./utils";
 
 const codeTabs = document.querySelectorAll("[code-tab]");
 const accordions = document.querySelectorAll("[data-accordion]");
@@ -53,8 +53,7 @@ function copyVersionCodeHandler(event) {
   const currentCodeTab = document.querySelector("[selected-tab]");
   const currentCodeToCopy = EXAMPLE_CODE[currentCodeTab.id];
 
-  navigator.clipboard.writeText(currentCodeToCopy.innerText);
-
+  copyTextToClipboard(currentCodeToCopy.innerText);
   copyButton.innerHTML = "copied";
 
   setTimeout(() => {
@@ -65,8 +64,7 @@ function copyVersionCodeHandler(event) {
 function copyBackgroundCodeHandler(event) {
   const copyButton = event.currentTarget.getElementsByTagName("p")[0];
 
-  navigator.clipboard.writeText(bgCode.innerText);
-
+  copyTextToClipboard(bgCode.innerText);
   copyButton.innerHTML = "copied";
 
   setTimeout(() => {
@@ -85,9 +83,10 @@ function changeCodeTabHandler(event) {
     prevCodeTab.removeAttribute("selected-tab");
   }
 
-  Object.values(EXAMPLE_CODE_TABS).forEach((codeTab) => {
-    codeTab.style.display = "none";
-  });
+  Object.values(EXAMPLE_CODE_TABS)
+    .forEach((codeTab) => {
+      codeTab.style.display = "none";
+    });
 
   selectedCodeBlock.style.display = "unset";
 
@@ -96,9 +95,7 @@ function changeCodeTabHandler(event) {
 
 function showAccordionContent(event) {
   const contentID = event.target.getAttribute("data-accordion");
-  const accordionContent = document.querySelector(
-    ` [data-accordion-content="${contentID}"]`,
-  );
+  const accordionContent = document.querySelector(`[data-accordion-content="${contentID}"]`)
 
   accordionContent.style.display = !accordionContent.offsetWidth ? "block" : "none";
 }
@@ -118,13 +115,17 @@ function updateImageSize() {
 
 window.addEventListener("resize", updateImageSize);
 window.addEventListener("load", updateImageSize);
+
 bgCopyButton.addEventListener("click", copyBackgroundCodeHandler);
+
 copyButtons.forEach((copyButton) =>
   copyButton.addEventListener("click", copyVersionCodeHandler),
 );
+
 codeTabs.forEach((tab) => {
   tab.addEventListener("click", changeCodeTabHandler);
 });
+
 accordions.forEach((accordion) => {
   accordion.addEventListener("click", showAccordionContent);
 });
