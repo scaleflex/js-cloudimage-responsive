@@ -1,3 +1,4 @@
 import './init';
 import '../../../src/wp';
-import '../../common/demo'
+import '../../common/demo';
+import './styles/main.css';

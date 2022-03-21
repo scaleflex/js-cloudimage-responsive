@@ -13,12 +13,7 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
   chunkFilename: "[id].css"
 })
 module.exports = {
-  entry: {
-    index: [
-      path.resolve(__dirname, "../../examples/blur-hash/src/index.js"),
-      path.resolve(__dirname, "../../examples/blur-hash/src/styles/main.css"),
-    ],
-  },
+  entry: path.resolve(__dirname, "../../examples/blur-hash/src/index.js"),
   output: {
     path: path.join(__dirname, "../../examples/blur-hash/dist"),
     filename: "bundle[hash].js"

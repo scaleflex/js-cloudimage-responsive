@@ -12,12 +12,7 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
   chunkFilename: "[id].css"
 })
 module.exports = {
-  entry: {
-    index: [
-      path.resolve(__dirname, "../../examples/wp/src/index.js"),
-      path.resolve(__dirname, "../../examples/wp/src/styles/main.css"),
-    ],
-  },
+  entry: path.resolve(__dirname, "../../examples/wp/src/index.js"),
   output: {
     path: path.join(__dirname, "../../examples/wp/dist"),
     filename: "bundle[hash].js"

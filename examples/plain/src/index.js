@@ -1,3 +1,4 @@
 import '../../../src/plain';
 import './init';
-import '../../common/demo'
+import '../../common/demo';
+import './styles/main.css';
