@@ -29,7 +29,7 @@
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=28.04.2020" target="_blank">Demo</a>
+		<a href="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-responsive/demo/plain/index.html?vh=3a00b7&func=proxy" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
 		•
