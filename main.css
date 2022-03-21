@@ -9,6 +9,10 @@ body {
   overflow-x: hidden;
 }
 
+img.ci-image {
+  position: relative;
+}
+
 .container {
   max-width: 1163px;
   margin: 0 auto;
