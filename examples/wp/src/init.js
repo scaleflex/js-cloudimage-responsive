@@ -5,6 +5,4 @@ window.CIResponsiveConfig = {
   apiVersion: 'v7',
   lazyLoadOffset: 100,
   lazyLoading: true,
-  exactSize: false,
-  limitFactor: 10,
 };
