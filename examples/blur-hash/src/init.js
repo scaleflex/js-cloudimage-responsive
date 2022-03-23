@@ -5,8 +5,6 @@ window.ciResponsive = new window.CIResponsive({
   lazyLoadOffset: 100,
   apiVersion: 'v7',
   lazyLoading: true,
-  exactSize: false,
-  limitFactor: 10
 });
 
 setTimeout(() => {

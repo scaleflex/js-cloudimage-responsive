@@ -550,7 +550,7 @@ img.ci-image {
 .background-images-section .images-content {
   position: relative;
   padding: 32px 0 32px 0;
-  width: 100vw;
+  width: 97vw;
   max-width: 701px;
   display: flex;
   flex-direction: column;
@@ -767,7 +767,7 @@ img.ci-image {
 }
 
 .code-versions .code-versions-wrapper .description {
-  max-width: 368px;
+  max-width: 471px;
 }
 
 .code-versions .code-versions-wrapper .description h2 {
@@ -775,7 +775,7 @@ img.ci-image {
   line-height: 54px;
   font-weight: 600;
   color: #203254;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .code-versions .code-versions-wrapper .description p {
@@ -815,7 +815,7 @@ img.ci-image {
 .code-versions .code-versions-wrapper .code-wrapper {
   display: flex;
   flex-direction: column;
-  max-width: 772.92px;
+  max-width: 669.92px;
   width: 100%;
 }
 
@@ -963,7 +963,6 @@ img.ci-image {
   position: relative;
   padding: 60px 25px;
   box-sizing: content-box;
-  height: 325px;
   display: flex;
   justify-content: space-between;
   max-width: 1170px;
