@@ -2,7 +2,7 @@
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.it/en/home)
+[![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.com/en/home)
 
 ## VERSIONS
 
@@ -29,7 +29,7 @@
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
-		<a href="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-responsive/demo/plain/index.html?vh=3a00b7&func=proxy" target="_blank">Demo</a>
+		<a href="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-responsive/demo/plain/index.html?vh=942256&func=proxy" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
 		•
