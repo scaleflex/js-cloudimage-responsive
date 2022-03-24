@@ -23,6 +23,8 @@ const bgCopyButton = getElementById("bg-copy-button");
 const leftColumnImage = getElementById("left-column-image");
 const leftColumnImageSize = getElementById("left-column-image-size");
 
+const heroSectionImage = getElementById("hero-section-image");
+const heroSectionImageSize = getElementById("hero-section-image-size");
 const carImage = getElementById("car-image");
 const originalCarImageSize = getElementById("original-car-image-size");
 const cropCarImageSize = getElementById("crop-car-image-size");
@@ -109,6 +111,7 @@ function updateImageAndBoxSize() {
   setWindowBoxes();
 
   devicePixelRatio.innerText = window.devicePixelRatio.toFixed(1);
+  heroSectionImageSize.innerHTML = heroSectionImage.offsetWidth;
   originalCarImageSize.innerHTML = carImage.offsetWidth;
   cropCarImageSize.innerHTML = carImage.offsetWidth;
   autoCropCarImageSize.innerHTML = carImage.offsetWidth;
