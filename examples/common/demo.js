@@ -1,8 +1,12 @@
+import { debounce } from "throttle-debounce";
 import { copyTextToClipboard, getElementById } from "./utils";
 
 const codeTabs = document.querySelectorAll("[code-tab]");
 const accordions = document.querySelectorAll("[data-accordion]");
 const copyButtons = document.querySelectorAll(".copy-button");
+const containerBox = document.querySelectorAll('.container-width-box:not(.custom)');
+const windowBox = document.querySelectorAll('.window-width-box:not(.custom)');
+const devicePixelRatio = document.querySelector('#device-pixel-ratio span');
 
 const jsCode = getElementById("js-code");
 const jsCodeWrapper = getElementById("js-code-block");
@@ -100,7 +104,11 @@ function showAccordionContent(event) {
   accordionContent.style.display = !accordionContent.offsetWidth ? "block" : "none";
 }
 
-function updateImageSize() {
+function updateImageAndBoxSize() {
+  setBoxSizes();
+  setWindowBoxes();
+
+  devicePixelRatio.innerText = window.devicePixelRatio.toFixed(1);
   originalCarImageSize.innerHTML = carImage.offsetWidth;
   cropCarImageSize.innerHTML = carImage.offsetWidth;
   autoCropCarImageSize.innerHTML = carImage.offsetWidth;
@@ -113,8 +121,20 @@ function updateImageSize() {
   secondHorizontalImageSize.innerHTML = secondHorizontalImage.offsetWidth;
 }
 
-window.addEventListener("resize", updateImageSize);
-window.addEventListener("load", updateImageSize);
+const setBoxSizes = () => {
+  [].slice.call(containerBox).forEach((box) => {
+    box.querySelector('span').innerText = box.offsetWidth;
+  });
+}
+
+const setWindowBoxes = () => {
+  [].slice.call(windowBox).forEach((box) => {
+    box.querySelector('span').innerText = window.innerWidth.toString() + 'px';
+  });
+}
+
+window.addEventListener("resize", debounce(400, () => updateImageAndBoxSize()));
+window.addEventListener("load", updateImageAndBoxSize);
 
 bgCopyButton.addEventListener("click", copyBackgroundCodeHandler);
 
