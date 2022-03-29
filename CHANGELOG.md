@@ -25,11 +25,15 @@ Types of changes:
 - ...
 
 -------------
-## 4.8.5 - 2021-02-09
+## 4.8.6 - 2022-03-29
+### Fixed
+- remove token from custom CNAME
+
+## 4.8.5 - 2022-02-09
 ### Fixed
 - change devicePixelRatioList to [1, 1.5, 2]
 
-## 4.8.4 - 2021-01-04
+## 4.8.4 - 2022-01-04
 ### Fixed
 - removed hardcoded ci_info query parameter to fix image caching
 
