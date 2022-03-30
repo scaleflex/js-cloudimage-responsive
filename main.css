@@ -524,6 +524,7 @@ body {
   font-family: "Inter";
   color: #4d5c74;
   overflow-x: scroll;
+  margin-top: 24px;
 }
 
 .crop-images-section .original-image-code-block::-webkit-scrollbar {
@@ -975,7 +976,7 @@ body {
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 839px;
+  bottom: 16px;
   right: 18px;
   width: 314px;
   height: 112px;
@@ -984,6 +985,8 @@ body {
   box-shadow: 0px 2px 41px 10px rgba(0, 0, 0, 0.05);
   border-radius: 4px;
   row-gap: 8px;
+  z-index: 100;
+  transition: 1s ease-in-out;
 }
 
 .device-pixel-ratio .label {
@@ -1210,7 +1213,7 @@ body {
 .image-size-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 15px;
+  margin-top: 13px;
 }
 
 .image-size-wrapper::before {

@@ -90,7 +90,12 @@
           </a>
         </div>
         <div class="sea-coast container">
-          <img ci-params="ci_info=1" ci-src="Main+image.jpg?vh=a1983b" alt="sea-coast" />
+          <img id="hero-section-image" ci-params="ci_info=1" ci-src="Main+image.jpg?vh=a1983b" alt="sea-coast" />
+          <div class="image-size-wrapper">
+            <p class="text">
+              <span><span id="hero-section-image-size"></span> px</span>
+            </p>
+          </div>
           <div class="green-blur-circle hide-in-mobile"></div>
           <div class="blue-blur-circle hide-in-mobile"></div>
         </div>
@@ -275,19 +280,10 @@
             <h3>Original Image</h3>
             <p>Resize your browser window to see how it works.</p>
             <img
-              id="car-image"
               ci-params="func=fit&w=400&h=400&bg_colour=f2f7fa"
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
               alt="car-image"
             />
-            <h4>Container width: <span id="original-car-image-size"></span> px
-              <a
-                target="_blank"
-                href="shayna-douglas-VibRcV8tMDM-unsplash.jpg"
-              >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 &lt;<strong class="code-yellow-color">img</strong>
   <span class="code-yellow-color">src</span>="<strong class="code-blue-color">https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg</strong>"
@@ -302,16 +298,8 @@
             <img
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
               ci-params="func=crop&w=400&h=400"
-              alt="car-image"
+              alt="unsplash-image"
             />
-            <h4>Container width:<span id="crop-car-image-size"></span> px
-              <a
-              target="_blank"
-              href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096&w=400&h=400&func=crop"
-              >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 &lt;<span class="code-yellow-color">img</span>
   <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
@@ -330,14 +318,6 @@
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
               alt="car-image"
              />
-            <h4>Container width: <span id="auto-crop-car-image-size"></span> px
-              <a
-                target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096&w=400&h=400&func=crop&gravity=auto"
-               >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 <span class="code-yellow-color">&lt;img</span>
   <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
@@ -503,7 +483,7 @@ style="background:#000 50% 50% / cover no-repeat;color:#fff;"
 &lt;<span class="yellow-color">script</span>>
       <span class="yellow-color">const ciResponsive</span> = new window.CIResponsive({
       <span class="yellow-color">token</span>: 'demo',
-      <span class="yellow-color">baseURL</span>: '<span class="blue-color">https://cloudimage.public.airstore.io/demo/</span>'  <span class="gray-color">//optional</span>
+      <span class="yellow-color">baseURL</span>: '<span class="blue-color">https://cdn.scaleflex.it/demo/</span>'  <span class="gray-color">//optional</span>
     });
 &lt;/<span class="yellow-color">script</span>>
 
@@ -617,7 +597,7 @@ export class MyAppModule {}
     <section class="questions">
       <h2>Any questions?</h2>
       <p>
-        Contact us at <span>hello@filerobot.com</span>, our experts will be
+        Contact us at <span>hello@cloudimage.io</span>, our experts will be
         happy to help!
       </p>
       <div class="github-issue">
@@ -642,7 +622,7 @@ export class MyAppModule {}
         </div>
       </div>
     </div>
-    <section class="footer">
+    <section class="footer" id="footer-section">
       <div class="accordion-wrapper">
         <div>
           <div class="filerobot-accordion">
@@ -814,5 +794,5 @@ export class MyAppModule {}
       </div>
     </section>
     <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
-  <script type="text/javascript" src="bundle8018357ffdc513efad0f.js"></script></body>
+  <script type="text/javascript" src="bundleb288961fa0de173eb45d.js"></script></body>
 </html>
