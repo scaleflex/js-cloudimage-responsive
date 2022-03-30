@@ -280,19 +280,10 @@
             <h3>Original Image</h3>
             <p>Resize your browser window to see how it works.</p>
             <img
-              id="car-image"
               ci-params="func=fit&w=400&h=400&bg_colour=f2f7fa"
               ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
-              alt="car-image"
+              alt="unsplash-image"
             />
-            <h4>Container width: <span id="original-car-image-size"></span> px
-              <a
-                target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg"
-              >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 &lt;<strong class="code-yellow-color">img</strong>
   <span class="code-yellow-color">src</span>="<strong class="code-blue-color">https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg</strong>"
@@ -307,16 +298,8 @@
             <img
               ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
               ci-params="func=crop&w=400&h=400"
-              alt="car-image"
+              alt="unsplash-image"
             />
-            <h4>Container width:<span id="crop-car-image-size"></span> px
-              <a
-              target="_blank"
-              href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096&w=400&h=400&func=crop"
-              >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 &lt;<span class="code-yellow-color">img</span>
   <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
@@ -333,16 +316,8 @@
             <img
               ci-params="w=400&h=400&func=crop&gravity=auto"
               ci-src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
-              alt="car-image"
+              alt="unsplash-image"
              />
-            <h4>Container width: <span id="auto-crop-car-image-size"></span> px
-              <a
-                target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096&w=400&h=400&func=crop&gravity=auto"
-               >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 <span class="code-yellow-color">&lt;img</span>
   <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
@@ -622,7 +597,7 @@ export class MyAppModule {}
     <section class="questions">
       <h2>Any questions?</h2>
       <p>
-        Contact us at <span>hello@filerobot.com</span>, our experts will be
+        Contact us at <span>hello@cloudimage.io</span>, our experts will be
         happy to help!
       </p>
       <div class="github-issue">
@@ -647,7 +622,7 @@ export class MyAppModule {}
         </div>
       </div>
     </div>
-    <section class="footer">
+    <section class="footer" id="footer-section">
       <div class="accordion-wrapper">
         <div>
           <div class="filerobot-accordion">

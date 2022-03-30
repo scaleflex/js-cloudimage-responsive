@@ -1,5 +1,5 @@
 import { debounce } from "throttle-debounce";
-import { copyTextToClipboard, getElementById } from "./utils";
+import { copyTextToClipboard, getElementById, checkElementVisibility} from "./utils";
 
 const codeTabs = document.querySelectorAll("[code-tab]");
 const accordions = document.querySelectorAll("[data-accordion]");
@@ -7,6 +7,7 @@ const copyButtons = document.querySelectorAll(".copy-button");
 const containerBox = document.querySelectorAll('.container-width-box:not(.custom)');
 const windowBox = document.querySelectorAll('.window-width-box:not(.custom)');
 const devicePixelRatio = document.querySelector('#device-pixel-ratio span');
+const devicePixelRatioContainer = getElementById('device-pixel-ratio');
 
 const jsCode = getElementById("js-code");
 const jsCodeWrapper = getElementById("js-code-block");
@@ -25,15 +26,12 @@ const leftColumnImageSize = getElementById("left-column-image-size");
 
 const heroSectionImage = getElementById("hero-section-image");
 const heroSectionImageSize = getElementById("hero-section-image-size");
-const carImage = getElementById("car-image");
-const originalCarImageSize = getElementById("original-car-image-size");
-const cropCarImageSize = getElementById("crop-car-image-size");
-const autoCropCarImageSize = getElementById("auto-crop-car-image-size");
 
 const firstHorizontalImage = getElementById("first-horizontal-image");
 const firstHorizontalImageSize = getElementById("first-horizontal-image-size");
 const secondHorizontalImage = getElementById("second-horizontal-image");
 const secondHorizontalImageSize = getElementById("second-horizontal-image-size");
+const footerSection = getElementById("footer-section");
 
 const rightColumnFirstImage = getElementById("right-column-first-image");
 const rightColumnFirstImageSize = getElementById("right-column-first-image-size");
@@ -60,10 +58,10 @@ function copyVersionCodeHandler(event) {
   const currentCodeToCopy = EXAMPLE_CODE[currentCodeTab.id];
 
   copyTextToClipboard(currentCodeToCopy.innerText);
-  copyButton.innerHTML = "copied";
+  copyButton.innerHTML = "Copied";
 
   setTimeout(() => {
-    copyButton.innerHTML = "copy";
+    copyButton.innerHTML = "Copy";
   }, 500);
 }
 
@@ -71,10 +69,10 @@ function copyBackgroundCodeHandler(event) {
   const copyButton = event.currentTarget.getElementsByTagName("p")[0];
 
   copyTextToClipboard(bgCode.innerText);
-  copyButton.innerHTML = "copied";
+  copyButton.innerHTML = "Copied";
 
   setTimeout(() => {
-    copyButton.innerHTML = "copy";
+    copyButton.innerHTML = "Copy";
   }, 500);
 }
 
@@ -112,9 +110,6 @@ function updateImageAndBoxSize() {
 
   devicePixelRatio.innerText = window.devicePixelRatio.toFixed(1);
   heroSectionImageSize.innerHTML = heroSectionImage.offsetWidth;
-  originalCarImageSize.innerHTML = carImage.offsetWidth;
-  cropCarImageSize.innerHTML = carImage.offsetWidth;
-  autoCropCarImageSize.innerHTML = carImage.offsetWidth;
 
   leftColumnImageSize.innerHTML = leftColumnImage.offsetWidth;
   rightColumnFirstImageSize.innerHTML = rightColumnFirstImage.offsetWidth;
@@ -136,8 +131,19 @@ const setWindowBoxes = () => {
   });
 }
 
+const hideWindowBoxSize = () => {
+  const isFooterSectionVisible = checkElementVisibility(footerSection);
+
+  if(isFooterSectionVisible) {
+    devicePixelRatioContainer.style.transform  = "translateX(336px)"
+  }else {
+    devicePixelRatioContainer.style.transform  = "translate(0)"
+  }
+}
+
 window.addEventListener("resize", debounce(400, () => updateImageAndBoxSize()));
 window.addEventListener("load", updateImageAndBoxSize);
+window.addEventListener('scroll', hideWindowBoxSize);
 
 bgCopyButton.addEventListener("click", copyBackgroundCodeHandler);
 
