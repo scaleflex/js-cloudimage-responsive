@@ -128,7 +128,7 @@ import 'js-cloudimage-responsive';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseUrl: 'https://cloudimage.public.airstore.io/demo/' // optional
+  baseUrl: 'https://cdn.scaleflex.it/demo/' // optional
 });
 ```
 
@@ -227,7 +227,7 @@ Default:
 <script>
 const ciResponsive = new window.CIResponsive({
     token: 'demo',
-    baseUrl: 'https://cloudimage.public.airstore.io/demo/',
+    baseUrl: 'https://cdn.scaleflex.it/demo/',
     presets: {
 	xs: '(max-width: 575px)', // up to 575    PHONE
 	sm: '(min-width: 576px)', // 576 - 767    PHABLET
@@ -417,7 +417,7 @@ the initialization script
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseUrl: 'https://cdn.scaleflex.it/demo/', // optional
       lazyLoading: true                                       // optional
     });
 
@@ -433,7 +433,7 @@ In case you load some images dynamically you need to trigger `ciResponsive.proce
 <script>
 const ciResponsive = new window.CIResponsive({
    token: 'demo',
-   baseUrl: 'https://cloudimage.public.airstore.io/demo/', // optional
+   baseUrl: 'https://cdn.scaleflex.it/demo/', // optional
    lazyLoading: true                                       // optional
 });
 

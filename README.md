@@ -144,7 +144,7 @@ After adding the js-cloudimage-responsive library, simply iniatialise it with yo
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/' // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/' // optional
     });
 </script>
 ```
@@ -157,7 +157,7 @@ import 'js-cloudimage-responsive';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseURL: 'https://cloudimage.public.airstore.io/demo/' // optional
+  baseURL: 'https://cdn.scaleflex.it/demo/' // optional
 });
 ```
 
@@ -247,7 +247,7 @@ Allow to use a specific version of API.
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/', // optional
       apiVersion: 'v7'                                       // optional
     });
 </script>
@@ -257,7 +257,7 @@ Allow to use a specific version of API.
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/', // optional
       apiVersion: null                                       // optional
     });
 </script>
@@ -524,7 +524,7 @@ the initialization script
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/', // optional
       lazyLoading: true                                       // optional
     });
 
@@ -540,7 +540,7 @@ In case you load some images dynamically you need to trigger `ciResponsive.proce
 <script>
 const ciResponsive = new window.CIResponsive({
    token: 'demo',
-   baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+   baseURL: 'https://cdn.scaleflex.it/demo/', // optional
    lazyLoading: true                                       // optional
 });
 

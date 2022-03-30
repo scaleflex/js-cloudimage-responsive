@@ -140,7 +140,7 @@ After adding the js-cloudimage-responsive lib, simply iniatialize it with your *
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional,
+      baseURL: 'https://cdn.scaleflex.it/demo/', // optional,
     });
 </script>
 ```
@@ -153,7 +153,7 @@ import 'js-cloudimage-responsive/plain';
 
 const ciResponsive = new window.CIResponsive({
   token: 'demo',
-  baseURL: 'https://cloudimage.public.airstore.io/demo/' // optional
+  baseURL: 'https://cdn.scaleflex.it/demo/' // optional
 });
 ```
 
@@ -255,7 +255,7 @@ Allow to use a specific version of API.
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/', // optional
       apiVersion: 'v7'                                       // optional
     });
 </script>
@@ -265,7 +265,7 @@ Allow to use a specific version of API.
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/', // optional
       apiVersion: null                                       // optional
     });
 </script>
@@ -341,7 +341,7 @@ Default:
 <script>
 const ciResponsive = new window.CIResponsive({
     token: 'demo',
-    baseURL: 'https://cloudimage.public.airstore.io/demo/',
+    baseURL: 'https://cdn.scaleflex.it/demo/',
     presets: {
 	xs: '(max-width: 575px)', // up to 575    PHONE
 	sm: '(min-width: 576px)', // 576 - 767    PHABLET
@@ -503,7 +503,7 @@ the initialization script
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/', // optional
       lazyLoading: true                                       // optional
     });
 
@@ -519,7 +519,7 @@ In case you load some images dynamically you need to trigger `ciResponsive.proce
 <script>
 const ciResponsive = new window.CIResponsive({
    token: 'demo',
-   baseURL: 'https://cloudimage.public.airstore.io/demo/', // optional
+   baseURL: 'https://cdn.scaleflex.it/demo/', // optional
    lazyLoading: true                                       // optional
 });
 
