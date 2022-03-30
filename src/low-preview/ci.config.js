@@ -27,6 +27,7 @@ export const getInitialConfigLowPreview = (config) => {
     destroyNodeImgSize = false,
     saveNodeImgRatio = false,
     detectImageNodeCSS = false,
+    customDomain = false,
     processOnlyWidth = false,
     devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
     lowQualityPreview: {
@@ -58,6 +59,7 @@ export const getInitialConfigLowPreview = (config) => {
       },
     params: getParams(params),
     apiVersion,
+    customDomain,
     innerWidth: window.innerWidth,
     init,
     previewQualityFactor: 10,
