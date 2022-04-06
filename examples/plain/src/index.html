@@ -90,7 +90,12 @@
           </a>
         </div>
         <div class="sea-coast container">
-          <img ci-params="ci_info=2" ci-src="Main+image.jpg?vh=a1983b" alt="sea-coast" />
+          <img id="hero-section-image" ci-params="ci_info=1" ci-src="Main+image.jpg?vh=a1983b" alt="sea-coast" />
+          <div class="image-size-wrapper">
+            <p class="text">
+              <span><span id="hero-section-image-size"></span> px</span>
+            </p>
+          </div>
           <div class="green-blur-circle hide-in-mobile"></div>
           <div class="blue-blur-circle hide-in-mobile"></div>
         </div>
@@ -194,17 +199,11 @@
               id="left-column-image"
               ci-params="ci_info=2"
             />
-            <p class="square-img-text">
-              Container-square: <strong><span id="left-column-image-size"></span> px</strong>
-            </p>
-            <p class="original-size-text">
-              Original size: <strong>180 kB</strong>
-              <a
-                target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/josh-withers-xMTXJbHxOZk-unsplash.jpg?ci_info=2">
-                Link
-              </a>
-            </p>
+            <div class="image-size-wrapper">
+              <div class="text">
+                <span><span id="left-column-image-size"></span> px</span>
+              </div>
+            </div>
           </div>
           <div class="right-column">
             <div class="square-with-circle-img">
@@ -215,18 +214,11 @@
                   id="right-column-first-image"
                   ci-params="ci_info=2"
                 />
-                <p class="square-img-text">
-                  Container-square: <strong><span id="right-column-first-image-size"></span> px</strong>
-                </p>
-                <p class="original-size-text">
-                  Original size: <strong>57.5 kB</strong>
-                  <a
-                  target="_blank"
-                  href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/miroslav-skopek-7Wd3_WwpPb0-unsplash.jpg?ci_info=2"
-                  >
-                    Link
-                  </a>
-                </p>
+                <div class="image-size-wrapper">
+                  <p class="text">
+                    <span><span id="right-column-first-image-size"></span> px</span>
+                  </p>
+                </div>
               </div>
               <div class="circle-image-wrapper">
                 <img
@@ -238,18 +230,11 @@
                   style="border-radius: 50%;"
                 />
                 <div class="circle-image-text-wrapper">
-                  <p class="square-img-text">
-                    Container-circle: <strong><span id="right-column-second-image-size"></span> px</strong>
-                  </p>
-                  <p class="original-size-text">
-                    Original size: <strong>39.7 kB</strong>
-                    <a
-                    target="_blank"
-                    href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/ibrahima-toure-qVrgGyQqZgg-unsplash.jpg?ci_info=2"
-                    >
-                      Link
-                    </a>
-                  </p>
+                  <div class="image-size-wrapper">
+                    <p class="text">
+                      <span><span id="right-column-second-image-size"></span> px</span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -260,18 +245,11 @@
                 alt="img"
                 ci-params="ci_info=2"
               />
-              <p class="square-img-text">
-                Container-square: <strong><span id="first-horizontal-image-size"></span> px</strong>
-              </p>
-              <p class="original-size-text">
-                Original size: <strong>106 kB</strong>
-                <a
-                target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/alexandra-lawrence-N-zxiG46luY-unsplash.jpg?ci_info=2"
-                >
-                  Link
-                </a>
-              </p>
+              <div class="image-size-wrapper">
+                <p class="text">
+                  <span><span id="first-horizontal-image-size"></span> px</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -282,18 +260,11 @@
             id="second-horizontal-image"
             ci-params="ci_info=2"
           />
-          <p class="square-img-text">
-            Container-square: <strong><span id="second-horizontal-image-size"></span> px</strong>
-          </p>
-          <p class="original-size-text">
-            Original size: <strong>3 MB</strong>
-            <a
-              target="_blank"
-              href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/alexandra-lawrence-N-zxiG46luY-unsplash.jpg?ci_info=2"
-            >
-              Link
-            </a>
-          </p>
+          <div class="image-size-wrapper">
+            <p class="text">
+              <span><span id="second-horizontal-image-size"></span> px</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -309,19 +280,10 @@
             <h3>Original Image</h3>
             <p>Resize your browser window to see how it works.</p>
             <img
-              id="car-image"
               ci-params="func=fit&w=400&h=400&bg_colour=f2f7fa"
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
               alt="car-image"
             />
-            <h4>Container width: <span id="original-car-image-size"></span> px
-              <a
-                target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-dougl as-VibRcV8tMDM-unsplash.jpg"
-              >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 &lt;<strong class="code-yellow-color">img</strong>
   <span class="code-yellow-color">src</span>="<strong class="code-blue-color">https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg</strong>"
@@ -336,16 +298,8 @@
             <img
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
               ci-params="func=crop&w=400&h=400"
-              alt="car-image"
+              alt="unsplash-image"
             />
-            <h4>Container width:<span id="crop-car-image-size"></span> px
-              <a
-              target="_blank"
-              href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096&w=400&h=400&func=crop"
-              >
-                Link
-              </a>
-            </h4>
             <pre class="original-image-code-block">
 &lt;<span class="code-yellow-color">img</span>
   <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
@@ -363,15 +317,7 @@
               ci-params="w=400&h=400&func=crop&gravity=auto"
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096"
               alt="car-image"
-            />
-            <h4>Container width: <span id="auto-crop-car-image-size"></span> px
-              <a
-                target="_blank"
-                href="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/shayna-douglas-VibRcV8tMDM-unsplash.jpg?vh=feb096&w=400&h=400&func=crop&gravity=auto"
-              >
-                Link
-              </a>
-            </h4>
+             />
             <pre class="original-image-code-block">
 <span class="code-yellow-color">&lt;img</span>
   <span class="code-yellow-color">ci-src</span>="<span class="code-blue-color">unsplash.jpg</span>"
@@ -384,8 +330,8 @@
     </section>
 
     <section
-      class="background-images-section"
-      ci-bg-url="BG+image.jpg?vh=397cef"
+     class="background-images-section"
+     ci-bg-url="BG+image.jpg?vh=397cef"
     >
       <div class="images-content">
         <h2>Use with background images</h2>
@@ -545,7 +491,7 @@ style="background:#000 50% 50% / cover no-repeat;color:#fff;"
 &lt;<span class="yellow-color">script src</span>="<span class="blue-color">"https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"</span>>&lt;/<span class="yellow-color">script</span>>
 
 <span class="gray-color">// main core</span>
-&lt;<span class="yellow-color">script src</span>="<span class="blue-color">https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.6/plain/js-cloudimage-responsive.min.js</span>">&lt;/<span class="yellow-color">script</span>>
+&lt;<span class="yellow-color">script src</span>="<span class="blue-color">https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.6/js-cloudimage-responsive.min.js</span>">&lt;/<span class="yellow-color">script</span>>
             </pre>
           </div>
 
@@ -560,13 +506,7 @@ style="background:#000 50% 50% / cover no-repeat;color:#fff;"
 
 <span class="yellow-color">const cloudimageConfig</span> = {
   token: 'demo',
-  baseURL: '<span class="blue-color">https://jolipage.airstore.io/</span>'
-};
-
-<span class="yellow-color">const cloudimageConfigWithCustomCNAMEDomain</span> = {
-  token: 'demo',
-  baseURL: '<span class="blue-color">https://jolipage.airstore.io/</span>',
-  customDomain: 'images.airstore.io'
+  baseURL: '<span class="blue-color">https://cdn.scaleflex.it/demo/</span>'
 };
 
 <span class="yellow-color">const App</span> = () => {
@@ -595,7 +535,7 @@ render(&lt;App />, document.body);
 
 <span class="yellow-color">const ciConfig</span> = {
   token: 'demo',
-  baseUrl: '<span class="blue-color">https://jolipage.airstore.io/</span>'
+  baseUrl: '<span class="blue-color">https://cdn.scaleflex.it/demo/</span>'
 };
 
 <span class="yellow-color">@NgModule</span>({
@@ -631,7 +571,7 @@ export class MyAppModule {}
 
   <span class="yellow-color">const cloudimageConfig</span> = {
     token: 'demo',
-    baseURL: '<span class="blue-color">https://jolipage.airstore.io/</span>'
+    baseURL: '<span class="blue-color">https://cdn.scaleflex.it/demo/</span>'
   };
 
   export default{
@@ -650,7 +590,7 @@ export class MyAppModule {}
     <section class="questions">
       <h2>Any questions?</h2>
       <p>
-        Contact us at <span>hello@filerobot.com</span>, our experts will be
+        Contact us at <span>hello@cloudimage.io</span>, our experts will be
         happy to help!
       </p>
       <div class="github-issue">
@@ -663,8 +603,19 @@ export class MyAppModule {}
         </a>
       </div>
     </section>
-
-    <section class="footer">
+    <div id="device-pixel-ratio" class="device-pixel-ratio">
+      <div class="label">Your device pixel ratio:
+        <div class="window-width-box">
+          <span>---</span>
+        </div>
+      </div>
+      <div class="label">Your device width:
+        <div class="window-width-box">
+          <span>---</span>
+        </div>
+      </div>
+    </div>
+    <section class="footer" id="footer-section">
       <div class="accordion-wrapper">
         <div>
           <div class="filerobot-accordion">

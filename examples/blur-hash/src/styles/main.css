@@ -1,3 +1,56 @@
+img[ci-src] {
+  opacity: 0;
+}
+
+div.ci-image-wrapper {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+img.ci-image {
+  display: block;
+  width: 100%;
+  padding: 0 !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: auto;
+}
+
+img.ci-image-loaded {
+  opacity: 1;
+}
+
+img.ci-image-ratio.ci-image-preview {
+  height: 100%;
+}
+
+.ci-bg {
+  position: relative;
+}
+
+.ci-bg > * {
+  position: relative;
+}
+
+.ci-bg:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: inherit;
+  filter: blur(0);
+  transition: filter 0.4s ease-in-out;
+}
+
+.ci-bg.ci-bg-animation:before {
+  filter: blur(10px);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -342,42 +395,6 @@ body {
   min-width: calc(100% - (471px + 32px));
 }
 
-.demo-gallery .image-wrapper p {
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 400;
-  color: #4d5c74;
-  width: 100%;
-}
-
-.demo-gallery .image-wrapper a {
-  color: #3daba4;
-  font-size: 16px;
-  line-height: 20px;
-  padding-left: 12px;
-  font-weight: 600;
-}
-
-.demo-gallery .original-size-text a {
-  color: #3daba4;
-  font-size: 16px;
-  line-height: 20px;
-  padding-left: 12px;
-  font-weight: 600;
-}
-
-.demo-gallery .image-wrapper .square-img-text {
-  margin-top: 9px;
-}
-
-.demo-gallery .image-wrapper .circle-image-text-wrapper {
-  text-align: center;
-}
-
-.demo-gallery .image-wrapper .original-size-text {
-  margin-top: 4px;
-}
-
 .demo-gallery .image-wrapper .square-with-circle-img {
   display: flex;
   column-gap: 22.48px;
@@ -395,17 +412,6 @@ body {
 
 .mobile-screen-horizontal-image {
   display: none;
-}
-
-.demo-gallery .mobile-screen-horizontal-image p {
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 400;
-  color: #4d5c74;
-}
-
-.demo-gallery .mobile-screen-horizontal-image .square-img-text {
-  margin-top: 9px;
 }
 
 .crop-images-section {
@@ -518,6 +524,7 @@ body {
   font-family: "Inter";
   color: #4d5c74;
   overflow-x: scroll;
+  margin-top: 24px;
 }
 
 .crop-images-section .original-image-code-block::-webkit-scrollbar {
@@ -965,6 +972,63 @@ body {
   margin: 0 auto;
 }
 
+.device-pixel-ratio {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 16px;
+  right: 18px;
+  width: 314px;
+  height: 112px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 2px 41px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  row-gap: 8px;
+  z-index: 100;
+  transition: 1s ease-in-out;
+}
+
+.device-pixel-ratio .label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  line-height: 24px;
+  color: #4D5C74;
+  font-weight: 400;
+}
+
+.device-pixel-ratio .label span {
+  font-size: 16px;
+  line-height: 24px;
+  color: #203254;
+  font-weight: 600;
+}
+
+.device-pixel-ratio .window-width-box:nth-child(1) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6.4px 27.12px 6.4px 28px;
+  background-color:  #F2F7FA;
+  border-radius: 4px;
+  width: 90px;
+  height: 32px;
+}
+
+.device-pixel-ratio .window-width-box:nth-child(2) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7.2px 12px 6.4px 13px;
+  background-color:  #F2F7FA;
+  border-radius: 4px;
+  width: 90px;
+  height: 32px;
+  margin-top: 8px
+}
+
 .footer .accordion-wrapper {
   display: flex;
   flex-direction: column;
@@ -1146,6 +1210,39 @@ body {
   color: #4d5c74;
 }
 
+.image-size-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 13px;
+}
+
+.image-size-wrapper::before {
+  content: "";
+  height: 14px;
+  border: 1px solid #BEC6D2;
+  border-top: none;
+  border-right: none;
+  width: 50%;
+}
+
+.image-size-wrapper::after {
+  content: "";
+  height: 14px;
+  border: 1px solid #BEC6D2;
+  border-top: none;
+  border-left: none;
+  width: 50%;
+}
+
+.text {
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: #4d5c74;
+  margin: 0 12px;
+}
+
 @media(max-width: 1229px){
   .content-wrapper .features-wrapper .features {
     margin-top: 54px;
@@ -1315,16 +1412,6 @@ body {
   .demo-gallery .image-wrapper {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .demo-gallery .image-wrapper .square-img-text {
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  .demo-gallery .image-wrapper .original-size-text {
-    text-align: left;
-    white-space: nowrap;
   }
 
   .demo-gallery .image-wrapper a {
@@ -1571,3 +1658,5 @@ body {
     display: none;
   }
 }
+
+/*# sourceMappingURL=main.css.map*/
