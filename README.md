@@ -492,6 +492,12 @@ It is recommended to set this parameter to prevent page layout jumping. It is us
 
 To see the full Cloudimage documentation, [click here](https://docs.cloudimage.io/go/cloudimage-documentation).
 
+### ci-do-not-replace-url (or data-ci-do-not-replace-url)
+
+###### Type: **Boolean** | _optional_ | Default: **false**
+
+If set to true, the plugin will only add query parameters to the provided image source URL.
+
 ### ci-not-lazy (or data-ci-not-lazy)
 
 ###### Type: **Bool**

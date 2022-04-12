@@ -471,6 +471,12 @@ adds possibility to use fixed height or width and change dynamically other dimen
 **NOTE:** if size is not set, the plugin uses a special algorithm to
 detect the width of image container and set the image size accordingly. This is the recommended way of using the Cloudimage Responsive plugin.
 
+### ci-do-not-replace-url (or data-ci-do-not-replace-url)
+
+###### Type: **Boolean** | _optional_ | Default: **false**
+
+If set to true, the plugin will only add query parameters to the provided image source URL.
+
 ### ci-not-lazy (or data-ci-not-lazy)
 
 ###### Type: **Bool**

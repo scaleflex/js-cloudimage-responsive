@@ -24,7 +24,8 @@ const getCommonImageProps = (image) => ({
   isLazyCanceled: (attr(image, 'ci-not-lazy') !== null || attr(image, 'data-ci-not-lazy') !== null) || undefined,
   preserveSize: (attr(image, 'ci-preserve-size') !== null || attr(image, 'data-preserve-size') !== null) || undefined,
   imgNodeWidth: attr(image, 'width'),
-  imgNodeHeight: attr(image, 'height')
+  imgNodeHeight: attr(image, 'height'),
+  doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url')
 });
 
 export const getParams = (params) => {
@@ -82,7 +83,8 @@ export const getImageProps = (image, imgSelector) => {
     ...getCommonImageProps(image),
     imgNodeSRC: attr(image, imgSelector) || undefined
   };
- const params = {
+
+  const params = {
     ...getParamsFromURL(props.imgNodeSRC || ''),
     ...props.params
   };
@@ -117,6 +119,13 @@ export const getBackgroundImageProps = (image, bgSelector) => {
 const getURLWithoutQueryParams = (url = '') => url.split('?')[0];
 
 const attr = (element, attribute) => element.getAttribute(attribute);
+
+const isTrue = (element, attribute) => {
+  const imgProp = attr(element, attribute);
+  const imgDataProp = attr(element, `data-${attribute}`);
+
+  return (imgProp !== null && imgProp !== 'false') || (imgDataProp !== null && imgDataProp !== 'false');
+};
 
 export const addClass = (elem, className) => {
   if (!(elem.className.indexOf(className) > -1)) {
