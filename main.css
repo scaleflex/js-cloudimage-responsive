@@ -596,6 +596,7 @@ body {
   align-items: center;
   column-gap: 4px;
   cursor: pointer;
+  z-index: 99;
 }
 
 .background-images-section .images-code-wrapper .copy-wrapper img {
