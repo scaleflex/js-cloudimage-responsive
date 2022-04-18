@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.8.7 - 2022-04-18
+### Added
+- possibility to add `doNotReplaceURL` to single image
+
 ## 4.8.6 - 2022-03-29
 ### Fixed
 - remove token from custom CNAME

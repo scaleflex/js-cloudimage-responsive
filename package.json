@@ -1,6 +1,6 @@
 {
   "name": "js-cloudimage-responsive",
-  "version": "4.8.6",
+  "version": "4.8.7",
   "main": "dist/low-preview/index.js",
   "description": "Cloudimage Responsive will smartly resize, compress and accelerate images across the World in your site for all devices. The plugin supports lazy loading technique with fancy animation on image load.",
   "author": "scaleflex",
@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "blurhash": "^1.1.3",
-    "cloudimage-responsive-utils": "^2.4.4",
+    "cloudimage-responsive-utils": "^2.4.5",
     "core-js": "^3.15.2",
     "throttle-debounce": "^2.1.0"
   },
