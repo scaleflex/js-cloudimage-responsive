@@ -448,7 +448,7 @@ In case you load some images dynamically you need to trigger `ciResponsive.proce
 <script>
 const ciResponsive = new window.CIResponsive({
    token: 'demo',
-   baseUrl: 'https://cdn.scaleflex.it/demo/', // optional
+   baseUrl: 'https:/cdn/.scaleflex.it/demo/', // optional
    lazyLoading: true                                       // optional
 });
 

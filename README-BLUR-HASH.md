@@ -358,7 +358,7 @@ Default:
 ```javascript
 const cloudimageConfig = {
   token: 'demo',
-  baseURL: 'https://jolipage.airstore.io/',
+  baseURL: 'https:/cdn/.scaleflex.it/',
   ...
   presets: {
       xs: '(max-width: 575px)', // up to 575    PHONE

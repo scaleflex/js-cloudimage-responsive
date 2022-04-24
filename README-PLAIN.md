@@ -96,7 +96,7 @@ Cloudimage, contact us at
 ## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the
-[Demo page](https://scaleflex.airstore.io/plugins/js-cloudimage-responsive/demo/plain/index.html?v=28.04.2020).
+[Demo page](https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/demo/plain/index.html?func=proxy).
 Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
