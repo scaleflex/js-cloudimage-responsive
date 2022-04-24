@@ -1,4 +1,4 @@
-[![Release](https://img.shields.io/badge/release-v4.8.8-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v4.8.9-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -11,16 +11,9 @@
 * [__Plain (CSS free)__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-PLAIN.md)
 
 <p align="center">
-	<a href="https://www.cloudimage.io/#gh-light-mode-only">
-		<img
+<img
 			alt="cloudimage logo"
 			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/LOGO+WITH+SCALEFLEX-01.png?vh=f6080d&w=350">
-	</a>
-		<a href="https://www.cloudimage.io/#gh-dark-mode-only">
-		<img
-			alt="cloudimage logo"
-			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/cloudimage-logo-light.png?vh=b798ab&w=350">
-	</a>
 </p>
 
 <h1 align="center">
@@ -62,9 +55,16 @@ you can check our all-in-one Digital Asset Management solution
 [Filerobot](https://www.filerobot.com/).
 
 <p align="center">
-	<img
-		alt="The Lounge"
-		src="https://cdn.scaleflex.it/filerobot/cloudimage-process.jpg">
+	<a href="https://www.cloudimage.io/#gh-light-mode-only">
+		<img
+			alt="cloudimage logo"
+			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/LOGO+WITH+SCALEFLEX-01.png?vh=f6080d&w=350">
+	</a>
+		<a href="https://www.cloudimage.io/#gh-dark-mode-only">
+		<img
+			alt="cloudimage logo"
+			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/cloudimage-logo-light.png?vh=b798ab&w=350">
+	</a>
 </p>
 
 ## <a name="table_of_contents"></a> Table of contents
@@ -141,13 +141,13 @@ You have to pay attention to the following things:
 Add a style tag with CDN link to js-cloudimage-responsive in the head of your site
 
 ```javascript
-<link rel="stylesheet" href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"></link>
+<link rel="stylesheet" href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.9/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"></link>
 ```
 
 Add a script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.9/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -542,7 +542,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.9/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 

@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.8.9 - 2022-04-25
+### Changed
+- update documentation
+
 ## 4.8.8 - 2022-04-25
 ### Changed
 - update documentation
