@@ -1,9 +1,9 @@
-[![Release](https://img.shields.io/badge/release-v4.8.7-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v4.8.8-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.com/en/home)
-
+[![Cloudimage](https://img.shields.io/badge/Powered%20by-cloudimage-blue)](https://www.cloudimage.io/en/home)
 ## VERSIONS
 
 * __Low Quality Preview__
@@ -31,16 +31,16 @@
    (low quality image placeholder)
 </h3>
 
-[Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
-
 <p align="center">
 	<strong>
 		<a href="#table_of_contents">Docs</a>
 		•
+    <a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md" target="_blank">Documentation for v2 | Cloudimage v6</a>
+    •
 		<a href="https://scaleflex.github.io/js-cloudimage-responsive/" target="_blank">Demo</a>
 		•
-		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
-		•
+		<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-zc1ekf" target="_blank">Code Sandbox</a>
+    •
 		<a href="https://medium.com/@dmitry_82269/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074" target="_blank">Why?</a>
 	</strong>
 </p>
@@ -64,15 +64,13 @@ you can check our all-in-one Digital Asset Management solution
 <p align="center">
 	<img
 		alt="The Lounge"
-		src="https://demo.cloudimg.io/width/1400/n/https://scaleflex.airstore.io/filerobot/cloudimage-process.jpg?sanitize=true">
+		src="https://cdn.scaleflex.it/filerobot/cloudimage-process.jpg">
 </p>
-
-powered by [Cloudimage](https://www.cloudimage.io/)
-([Watch the video here](https://www.youtube.com/watch?time_continue=2&v=JFZSE1vYb0k))
 
 ## <a name="table_of_contents"></a> Table of contents
 
 * [Demo](#demo)
+* [Responsive plugins family](#plugin_family)
 * [Requirements](#requirements)
 * [Step 1: Installation](#installation)
 * [Step 2: Initialize](#initialize)
@@ -96,6 +94,28 @@ Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
 loading time.
+
+## <a name="plugin_family"></a> Responsive plugins family
+In order to use Cloudimage responsive plugins on your single-page application, please check out Cloudimage responsive plugins for the most popular Javascript frameworks.
+
+<details>
+<summary>React</summary>
+<a href="https://github.com/scaleflex/react-cloudimage-responsive">React Cloudimage Responsive (Low Quality Preview)</a><br/>
+<a href="https://github.com/scaleflex/react-cloudimage-responsive-blur-hash">React Cloudimage Responsive (Blur-hash)</a><br/>
+<a href="https://github.com/scaleflex/react-cloudimage-responsive-plain">React Cloudimage Responsive (Plain)</a>
+</details>
+
+<details>
+<summary>Vue.js</summary>
+<a href="https://github.com/scaleflex/vue-cloudimage-responsive">Vue Cloudimage Responsive (Low Quality Preview)</a><br/>
+<a href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash">Vue Cloudimage Responsive (Blur-hash)</a><br/>
+<a href="https://github.com/scaleflex/vue-cloudimage-responsive-plain">Vue Cloudimage Responsive (Plain)</a>
+</details>
+
+<details>
+<summary>Angular</summary>
+<a href="https://github.com/scaleflex/ng-cloudimage-responsive">Angular Cloudimage Responsive (Low Quality Preview)</a><br/>
+</details>
 
 ## <a name="requirements"/> Requirements
 
@@ -121,13 +141,13 @@ You have to pay attention to the following things:
 Add a style tag with CDN link to js-cloudimage-responsive in the head of your site
 
 ```javascript
-<link rel="stylesheet" href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.7/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"></link>
+<link rel="stylesheet" href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"></link>
 ```
 
 Add a script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.7/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -175,7 +195,7 @@ Finally, just use `ci-src` instead of the `src` attribute in image tag:
 
 NOTE: setting "ci-ratio" is recommended to prevent page layout jumping. The parameter is used to calculate the image height to hold the image position while the image is loading.
 
-<a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-p5r309"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ### background image
 
@@ -185,7 +205,7 @@ Use `ci-bg-url` instead of the CSS background-image property `background-image: 
 <div ci-bg-url="magnus-lindvall.jpg"></div>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-v06ifw"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ## <a name="configuration"></a> Configuration
 
@@ -498,6 +518,8 @@ To see the full Cloudimage documentation, [click here](https://docs.cloudimage.i
 
 If set to true, the plugin will only add query parameters to the provided image source URL.
 
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-86inco"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+
 ### ci-not-lazy (or data-ci-not-lazy)
 
 ###### Type: **Bool**
@@ -511,7 +533,7 @@ Lazy loading is not included into js-cloudimage-responsive by default. If you [e
 The example below uses the [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
 
-[Code Sandbox example](https://codesandbox.io/s/6jkovjvkxz)
+[Code Sandbox example](https://codesandbox.io/s/js-cloudimage-responsive-example-zc1ekf)
 
 add the following scripts right after js-cloudimage-responsive script
 
@@ -520,7 +542,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.7/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
@@ -578,12 +600,10 @@ manually add the [IntersectionObserver polyfill](https://github.com/w3c/Intersec
 for cross-browser support.
 
 ## <a name="ui_family"></a>Filerobot UI Familiy
-
-* [React Cloudimage Responsive](https://github.com/scaleflex/react-cloudimage-responsive)
-* [Angular Cloudimage Responsive](https://github.com/scaleflex/ng-cloudimage-responsive)
+* [Cloudimage Responsive](https://github.com/scaleflex/js-cloudimage-responsive)
 * [JS Cloudimage 360 view](https://github.com/scaleflex/js-cloudimage-360-view)
 * [Image Editor](https://github.com/scaleflex/filerobot-image-editor)
-* [Uploader](https://github.com/scaleflex/filerobot-uploader)
+* [Filerobot Media Asset Widget](https://scaleflex.cloudimg.io/v7/plugins/filerobot-widget/demo/index.html?vh=d6c246&func=proxy)
 
 ## <a name="contributing"></a>Contributing!
 

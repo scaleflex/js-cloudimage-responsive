@@ -1,14 +1,21 @@
-[![Release](https://img.shields.io/badge/release-v2.3.0-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v4.8.8-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.com/en/home)
+[![Cloudimage](https://img.shields.io/badge/Powered%20by-cloudimage-blue)](https://www.cloudimage.io/en/home)
 
 <p align="center">
-	<img
-		height="175"
-		alt="The Lounge"
-		src="https://demo.cloudimg.io/height/350/n/https://scaleflex.airstore.io/filerobot/filerobot-cloudimage.png?sanitize=true">
+		<a href="https://www.cloudimage.io/#gh-light-mode-only">
+		<img
+			alt="cloudimage logo"
+			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/LOGO+WITH+SCALEFLEX-01.png?vh=f6080d&w=350">
+	</a>
+		<a href="https://www.cloudimage.io/#gh-dark-mode-only">
+		<img
+			alt="cloudimage logo"
+			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/cloudimage-logo-light.png?vh=b798ab&w=350">
+	</a>
 </p>
 
 <h1 align="center">
@@ -21,7 +28,7 @@
 		•
 		<a href="https://scaleflex.github.io/js-cloudimage-responsive/" target="_blank">Demo</a>
 		•
-		<a href="https://codesandbox.io/s/6jkovjvkxz" target="_blank">Code Sandbox</a>
+		<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-zc1ekf" target="_blank">Code Sandbox</a>
 		•
 		<a href="https://medium.com/@dmitry_82269/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074" target="_blank">Why?</a>
 	</strong>
@@ -46,7 +53,7 @@ Cloudimage, contact us at
 <p align="center">
 	<img
 		alt="The Lounge"
-		src="https://demo.cloudimg.io/width/1400/n/https://scaleflex.airstore.io/filerobot/cloudimage-process.jpg?sanitize=true">
+		src="https://cdn.scaleflex.it/filerobot/cloudimage-process.jpg">
 </p>
 
 powered by [Cloudimage](https://www.cloudimage.io/)
@@ -115,7 +122,7 @@ After adding the js-cloudimage-responsive lib, simply iniatialize it with your *
 <script>
     const ciResponsive = new window.CIResponsive({
       token: 'demo',
-      baseUrl: 'https://cloudimage.public.airstore.io/demo/' // optional
+      baseURL: 'https://cdn.scaleflex.it/demo/' // optional
     });
 </script>
 ```
@@ -144,7 +151,7 @@ Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 
 NOTE: "ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold the image position while image is loading.
 
-<a href="https://codesandbox.io/s/6jkovjvkxz"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-p5r309"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ### background image
 
@@ -154,7 +161,7 @@ Use the `ci-bg` instead of CSS background-image property `background-image: url(
 <div ci-bg="magnus-lindvall.jpg"></div>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-v06ifw"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ## <a name="configuration"></a> Config
 
@@ -393,9 +400,11 @@ To see the full cloudimage documentation [click here](https://docs.cloudimage.io
 
 ### ci-do-not-replace-url (or data-ci-do-not-replace-url)
 
-###### Type: **Boolean** | _optional_ | Default: **false**
+###### Type: **Boolean** | Default: **false** | _optional_
 
 If set to true, the plugin will only add query parameters to the provided image source URL.
+
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-86inco"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ## <a name="lazy_loading"></a> Lazy Loading
 

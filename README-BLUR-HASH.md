@@ -1,8 +1,9 @@
-[![Release](https://img.shields.io/badge/release-v4.8.7-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
+[![Release](https://img.shields.io/badge/release-v4.8.8-blue.svg)](https://github.com/scaleflex/js-cloudimage-responsive/releases)
 [![Free plan](https://img.shields.io/badge/price-includes%20free%20plan-green.svg)](https://www.cloudimage.io/en/home#b38181a6-b9c8-4015-9742-7b1a1ad382d5)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](#contributing)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Scaleflex team](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-the%20Scaleflex%20team-6986fa.svg)](https://www.scaleflex.com/en/home)
+[![Cloudimage](https://img.shields.io/badge/Powered%20by-cloudimage-blue)](https://www.cloudimage.io/en/home)
 
 ## VERSIONS
 
@@ -39,7 +40,7 @@
 		•
 		<a href="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-responsive/demo/blur-hash/index.html?func=proxy" target="_blank">Demo</a>
 		•
-		<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-lopvu" target="_blank">Code Sandbox</a>
+		<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-jczsym" target="_blank">Code Sandbox</a>
 		•
 		<a href="https://medium.com/@dmitry_82269/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074" target="_blank">Why?</a>
 	</strong>
@@ -64,7 +65,7 @@ Cloudimage, contact us at
 <p align="center">
 	<img
 		alt="The Lounge"
-		src="https://demo.cloudimg.io/width/1400/n/https://scaleflex.airstore.io/filerobot/cloudimage-process.jpg?sanitize=true">
+		src="https://cdn.scaleflex.it/filerobot/cloudimage-process.jpg">
 </p>
 
 powered by [Cloudimage](https://www.cloudimage.io/)
@@ -73,6 +74,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## <a name="table_of_contents"></a> Table of contents
 
 * [Demo](#demo)
+* [Responsive plugins family](#plugin_family)
 * [Requirements](#requirements)
 * [Step 1: Installation](#installation)
 * [Step 2: Initialize](#initialize)
@@ -98,6 +100,27 @@ Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
 loading time.
 
+## <a name="plugin_family"></a> Responsive plugins family
+In order to use Cloudimage responsive plugins on your single-page application, please check out Cloudimage responsive plugins for the most popular Javascript frameworks.
+
+<details>
+<summary>React</summary>
+<a href="https://github.com/scaleflex/react-cloudimage-responsive">React Cloudimage Responsive (Low Quality Preview)</a><br/>
+<a href="https://github.com/scaleflex/react-cloudimage-responsive-blur-hash">React Cloudimage Responsive (Blur-hash)</a><br/>
+<a href="https://github.com/scaleflex/react-cloudimage-responsive-plain">React Cloudimage Responsive (Plain)</a>
+</details>
+
+<details>
+<summary>Vue.js</summary>
+<a href="https://github.com/scaleflex/vue-cloudimage-responsive">Vue Cloudimage Responsive (Low Quality Preview)</a><br/>
+<a href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash">Vue Cloudimage Responsive (Blur-hash)</a><br/>
+<a href="https://github.com/scaleflex/vue-cloudimage-responsive-plain">Vue Cloudimage Responsive (Plain)</a>
+</details>
+
+<details>
+<summary>Angular</summary>
+<a href="https://github.com/scaleflex/ng-cloudimage-responsive">Angular Cloudimage Responsive (Low Quality Preview)</a><br/>
+</details>
 ## <a name="requirements"/> Requirements
 
 ### Cloudimage account
@@ -122,7 +145,7 @@ You have to pay attention on the following things:
 Add script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.7/blur-hash/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/blur-hash/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -174,7 +197,7 @@ NOTE:
 
 "ci-blur-hash" is A very compact representation of a placeholder for an image. <a href="https://github.com/woltapp/blurhash">read more</a>
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-lopvu"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-f0r2w2"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ### background image
 
@@ -184,7 +207,7 @@ Use the `ci-bg-url` instead of CSS background-image property `background-image: 
 <div ci-bg-url="magnus-lindvall.jpg"></div>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-background-imxdm"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-9howpv"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ## <a name="prevent_styles"></a>Step 4: Prevent seeing broken images
 
@@ -491,6 +514,7 @@ To see the full cloudimage documentation [click here](https://docs.cloudimage.io
 
 If set to true, the plugin will only add query parameters to the provided image source URL.
 
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-10uxe4"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 ### ci-not-lazy (or data-ci-not-lazy)
 
 ###### Type: **Bool**
@@ -504,7 +528,7 @@ Lazy loading is not included into js-cloudimage-responsive by default. If you [e
 The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
 
-[Code Sandbox example](https://codesandbox.io/s/6jkovjvkxz)
+[Code Sandbox example](https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-jczsym)
 
 add the following scripts right after js-cloudimage-responsive script
 
@@ -513,7 +537,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.7/blur-hash/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.8/blur-hash/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
