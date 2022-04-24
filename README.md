@@ -11,9 +11,16 @@
 * [__Plain (CSS free)__](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/README-PLAIN.md)
 
 <p align="center">
-<img
+<a href="https://www.cloudimage.io/#gh-light-mode-only">
+		<img
 			alt="cloudimage logo"
 			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/LOGO+WITH+SCALEFLEX-01.png?vh=f6080d&w=350">
+	</a>
+		<a href="https://www.cloudimage.io/#gh-dark-mode-only">
+		<img
+			alt="cloudimage logo"
+			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/cloudimage-logo-light.png?vh=b798ab&w=350">
+	</a>
 </p>
 
 <h1 align="center">
