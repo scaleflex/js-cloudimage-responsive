@@ -62,16 +62,9 @@ you can check our all-in-one Digital Asset Management solution
 [Filerobot](https://www.filerobot.com/).
 
 <p align="center">
-	<a href="https://www.cloudimage.io/#gh-light-mode-only">
-		<img
-			alt="cloudimage logo"
-			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/LOGO+WITH+SCALEFLEX-01.png?vh=f6080d&w=350">
-	</a>
-		<a href="https://www.cloudimage.io/#gh-dark-mode-only">
-		<img
-			alt="cloudimage logo"
-			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/cloudimage-logo-light.png?vh=b798ab&w=350">
-	</a>
+	<img
+		alt="The Lounge"
+		src="https://cdn.scaleflex.it/filerobot/cloudimage-process.jpg">
 </p>
 
 ## <a name="table_of_contents"></a> Table of contents
