@@ -40,7 +40,7 @@
 		•
 		<a href="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-responsive/demo/blur-hash/index.html?func=proxy" target="_blank">Demo</a>
 		•
-		<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-jczsym" target="_blank">Code Sandbox</a>
+		<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-bjxkev" target="_blank">Code Sandbox</a>
 		•
 		<a href="https://medium.com/@dmitry_82269/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074" target="_blank">Why?</a>
 	</strong>
@@ -197,7 +197,7 @@ NOTE:
 
 "ci-blur-hash" is A very compact representation of a placeholder for an image. <a href="https://github.com/woltapp/blurhash">read more</a>
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-f0r2w2"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-k35ttt"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ### background image
 
@@ -207,7 +207,7 @@ Use the `ci-bg-url` instead of CSS background-image property `background-image: 
 <div ci-bg-url="magnus-lindvall.jpg"></div>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-9howpv"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-bx3c3o"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ## <a name="prevent_styles"></a>Step 4: Prevent seeing broken images
 
@@ -514,7 +514,7 @@ To see the full cloudimage documentation [click here](https://docs.cloudimage.io
 
 If set to true, the plugin will only add query parameters to the provided image source URL.
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-blur-hash-10uxe4"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-rp524l"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 ### ci-not-lazy (or data-ci-not-lazy)
 
 ###### Type: **Bool**
@@ -528,7 +528,7 @@ Lazy loading is not included into js-cloudimage-responsive by default. If you [e
 The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
 
-[Code Sandbox example](https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-jczsym)
+[Code Sandbox example](https://codesandbox.io/s/js-cloudimage-responsive-example-blur-hash-bjxkev)
 
 add the following scripts right after js-cloudimage-responsive script
 
