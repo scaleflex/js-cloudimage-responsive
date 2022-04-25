@@ -84,7 +84,6 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 * [Image properties](#image_properties)
 * [Lazy loading](#lazy_loading)
 * [Process dynamically loaded images](#dynamically-loaded)
-* [Examples & workarounds](#examples_workarounds)
 * [Browser support](#browser_support)
 * [Filerobot UI Family](#ui_family)
 * [Contributing](#contributing)
@@ -572,11 +571,6 @@ window.lazySizes.init();
 ciResponsive.process(); -> call when you need to process dynamically loaded images
 </script>
 ```
-
-## <a name="examples_workarounds"></a> Examples & workarounds
-* [See all](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/examples/EXAMPLES.md)
-* [Cropping](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/examples/EXAMPLES.md#cropping)
-
 
 ## <a name="browser_support"></a> Browser support
 

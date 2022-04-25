@@ -79,7 +79,6 @@ you can check our all-in-one Digital Asset Management solution
 * [Image properties](#image_properties)
 * [Lazy loading](#lazy_loading)
 * [Process dynamically loaded images](#dynamically-loaded)
-* [Examples & workarounds](#examples_workarounds)
 * [Browser support](#browser_support)
 * [Filerobot UI Family](#ui_family)
 * [Contributing](#contributing)
@@ -579,11 +578,6 @@ ciResponsive.process(); // -> call when you need to process dynamically loaded i
 ```
 
 The process function accepts a second argument. It expects an [HTML Element](https://developer.mozilla.org/fr/docs/Web/API/HTMLElement), if provided it will be used as the root for the images lookup.
-
-## <a name="examples_workarounds"></a> Examples & workarounds
-* [See all](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/examples/EXAMPLES.md)
-* [Cropping](https://github.com/scaleflex/js-cloudimage-responsive/blob/master/examples/EXAMPLES.md#cropping)
-
 
 ## <a name="browser_support"></a> Browser support
 
