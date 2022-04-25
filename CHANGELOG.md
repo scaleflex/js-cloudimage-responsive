@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.8.10 - 2022-04-25
+### Fixed
+- Image width (w) param.
+
 ## 4.8.9 - 2022-04-25
 ### Changed
 - update documentation
