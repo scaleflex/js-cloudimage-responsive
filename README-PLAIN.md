@@ -38,7 +38,7 @@
 		•
 		<a href="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-responsive/demo/plain/index.html?func=proxy" target="_blank">Demo</a>
 		•
-		<a href="https://codesandbox.io/s/js-cloudimage-responsive-plain-e3rm8n" target="_blank">Code Sandbox</a>
+		<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-plain-53c873" target="_blank">Code Sandbox</a>
 		•
 		<a href="https://medium.com/@dmitry_82269/responsive-images-in-2019-now-easier-than-ever-b76e5a43c074" target="_blank">Why?</a>
 	</strong>
@@ -183,7 +183,7 @@ Finally, just use the `ci-src` instead of the `src` attribute in image tag:
 <img ci-src="magnus-lindvall.jpg"/>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-plain-dbn2p2"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-plain-lmbq1m"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ### background image
 
@@ -193,7 +193,7 @@ Use the `ci-bg-url` instead of CSS background-image property `background-image: 
 <div ci-bg-url="magnus-lindvall.jpg"></div>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-plain-0z7bjl"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-plain-k4kxm8"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
 ## <a name="prevent_styles"></a>Step 4: Prevent seeing broken images
 
@@ -491,7 +491,7 @@ detect the width of image container and set the image size accordingly. This is 
 
 If set to true, the plugin will only add query parameters to the provided image source URL.
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-plain-gtwwtt"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-plain-yo062m"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ### ci-not-lazy (or data-ci-not-lazy)
 
@@ -506,7 +506,7 @@ Lazy loading is not included into js-cloudimage-responsive by default. If you [e
 The example below uses [lazysizes](https://github.com/aFarkas/lazysizes)
 library using Intersection Observer API.
 
-[Code Sandbox example](https://codesandbox.io/s/js-cloudimage-responsive-plain-e3rm8n)
+[Code Sandbox example](https://codesandbox.io/s/js-cloudimage-responsive-example-plain-53c873)
 
 add the following scripts right after js-cloudimage-responsive script
 
