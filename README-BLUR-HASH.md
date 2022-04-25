@@ -32,11 +32,11 @@
    (blur-hash version)
 </h3>
 
-[Documentation for v2 | Cloudimage v6](https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md)
-
 <p align="center">
 	<strong>
 		<a href="#table_of_contents">Docs</a>
+		•
+		<a href="https://github.com/scaleflex/js-cloudimage-responsive/blob/v7/README_v6.md">Documentation for v2 | Cloudimage v6</a>
 		•
 		<a href="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-responsive/demo/blur-hash/index.html?func=proxy" target="_blank">Demo</a>
 		•
