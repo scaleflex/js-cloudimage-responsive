@@ -6,7 +6,9 @@ import {
   isLazy,
   setBackgroundSrc,
   setSrc,
-  setSrcset
+  setSrcset,
+  createZoomIcons,
+  displayModalImg
 } from '../common/ci.utils';
 import { isLowQualityPreview } from 'cloudimage-responsive-utils/dist/utils/is-low-quality-preview';
 import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
@@ -56,9 +58,9 @@ export default class CIResponsive {
   }
 
   process(isUpdate, rootElement = document) {
-    const { imgSelector, bgSelector } = this.config;
+    const { imgSelector, bgSelector, imgZoomSelector } = this.config;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
-    let [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
+    let [images, backgroundImages, imagesToZoom] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector, imgZoomSelector);
 
     if (images.length > -1) {
       images.forEach(imgNode => {
@@ -70,6 +72,30 @@ export default class CIResponsive {
       backgroundImages.forEach(imgNode => {
         this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background');
       });
+    }
+
+    createZoomIcons(isUpdate, imagesToZoom);
+
+    // Store every zoom icon in an array
+    const zoomIconsArr = Array.from(document.getElementsByClassName("zoom-icon"));
+
+    // EventListener for every zoom icon
+    zoomIconsArr.forEach((icon, index) => {
+      icon.addEventListener("click", () => {
+        displayModalImg(imagesToZoom[index]);
+      })
+    })
+
+    const modalEl = document.querySelector(".modal");
+
+    // Close modal
+    if (modalEl) {
+      modalEl.addEventListener("click", (e) => {
+        if (e.target.classList.contains("modal-img")) {
+          return;
+        }
+        modalEl.close();
+      })
     }
   }
 

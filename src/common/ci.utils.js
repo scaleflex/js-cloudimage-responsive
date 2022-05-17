@@ -175,8 +175,8 @@ export const setBackgroundSrc = (image, url, lazy, imgSrc, isSVG, dataSrcAttr) =
   }
 };
 
-export const getFreshCIElements = (isUpdate, rootElement, imgSelector, bgSelector) => {
-  let images, backgroundImages;
+export const getFreshCIElements = (isUpdate, rootElement, imgSelector, bgSelector, imgZoomSelector) => {
+  let images, backgroundImages, imagesToZoom;
 
   if (rootElement !== document && !(rootElement instanceof HTMLElement)) {
     throw new TypeError('rootElement should be an HTMLElement');
@@ -185,15 +185,48 @@ export const getFreshCIElements = (isUpdate, rootElement, imgSelector, bgSelecto
   if (isUpdate) {
     images = rootElement.querySelectorAll(`img[${imgSelector}]`);
     backgroundImages = rootElement.querySelectorAll(`[${bgSelector}]`);
+    imagesToZoom = rootElement.querySelectorAll(`img[${imgZoomSelector}]`);
   } else {
     images = filterImages(rootElement.querySelectorAll(`img[${imgSelector}]`), 'ci-image');
     backgroundImages = filterImages(rootElement.querySelectorAll(`[${bgSelector}]`), 'ci-bg');
+    imagesToZoom = filterImages(rootElement.querySelectorAll(`img[${imgZoomSelector}]`), 'ci-image');
   }
 
-  return [images, backgroundImages];
+  return [images, backgroundImages, imagesToZoom];
 };
 
 export const destroyNodeImgSize = imgNode => {
   imgNode.removeAttribute("height");
   imgNode.removeAttribute("width");
 };
+
+// Check if document has attribute [ci-zoom]
+const ciZoomCheck = document.querySelector('[ci-zoom]');
+
+if (ciZoomCheck) {
+  // Create modal
+  const modalEl = document.createElement("dialog");
+  modalEl.classList.add("modal");
+  document.body.appendChild(modalEl);
+}
+
+// Create zoom icons for imagesToZoom
+export const createZoomIcons = (isUpdate, imagesToZoom) => {
+  // To call function once to avoid create another 'span' element when call function again because isUpdate
+  if(isUpdate) return
+  imagesToZoom.forEach(imgZoom => {
+    const zoomIcon = document.createElement('span');
+    zoomIcon.classList.add("zoom-icon");
+    zoomIcon.innerHTML = `<img src="../src/common/assets/zoom-icon.png" alt=""/>`;
+    imgZoom.after(zoomIcon);
+  })
+}
+
+// Display image in a modal in full screen
+export const displayModalImg = (image) => {
+  const modalEl = document.querySelector(".modal");
+  modalEl.innerHTML = `
+    <button class="close-btn">[x] Close</button>
+    <img class="modal-img" src=${image.src} alt="" />`;
+  modalEl.showModal();
+}
