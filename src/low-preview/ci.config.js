@@ -35,8 +35,7 @@ export const getInitialConfigLowPreview = (config) => {
     } = {},
 
     // callback
-    onImageLoad = null,
-    imgZoomSelector = 'ci-zoom'
+    onImageLoad = null
   } = config;
 
   return {
@@ -77,6 +76,5 @@ export const getInitialConfigLowPreview = (config) => {
     processOnlyWidth,
     onImageLoad,
     //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-    imgZoomSelector
   };
 };

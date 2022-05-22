@@ -6,9 +6,7 @@ import {
   isLazy,
   setBackgroundSrc,
   setSrc,
-  setSrcset,
-  createZoomIcons,
-  displayModalImg
+  setSrcset
 } from '../common/ci.utils';
 import { isLowQualityPreview } from 'cloudimage-responsive-utils/dist/utils/is-low-quality-preview';
 import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
@@ -58,9 +56,9 @@ export default class CIResponsive {
   }
 
   process(isUpdate, rootElement = document) {
-    const { imgSelector, bgSelector, imgZoomSelector } = this.config;
+    const { imgSelector, bgSelector } = this.config;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
-    let [images, backgroundImages, imagesToZoom] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector, imgZoomSelector);
+    let [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
 
     if (images.length > -1) {
       images.forEach(imgNode => {
@@ -72,30 +70,6 @@ export default class CIResponsive {
       backgroundImages.forEach(imgNode => {
         this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background');
       });
-    }
-
-    createZoomIcons(isUpdate, imagesToZoom);
-
-    // Store every zoom icon in an array
-    const zoomIconsArr = Array.from(document.getElementsByClassName("zoom-icon"));
-
-    // EventListener for every zoom icon
-    zoomIconsArr.forEach((icon, index) => {
-      icon.addEventListener("click", () => {
-        displayModalImg(imagesToZoom[index]);
-      })
-    })
-
-    const modalEl = document.querySelector(".modal");
-
-    // Close modal
-    if (modalEl) {
-      modalEl.addEventListener("click", (e) => {
-        if (e.target.classList.contains("modal-img")) {
-          return;
-        }
-        modalEl.close();
-      })
     }
   }
 
@@ -182,6 +156,67 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
+
+      // Create modal overlay for image
+      const modalOverlay = (imgSrc) => {
+        const modalOverlay = document.createElement('div');
+        modalOverlay.classList.add('modal-overlay');
+
+        const closeIconDiv = document.createElement("div");
+        closeIconDiv.classList.add('close-icon')
+        const closeIcon = new Image()
+        closeIcon.src = `../src/common/assets/close-icon.png`
+        closeIconDiv.append(closeIcon)
+        modalOverlay.append(closeIconDiv)
+
+        const modalImgContainer = document.createElement('div')
+        modalImgContainer.classList.add('modal-img-container')
+        
+        const modalImg = new Image()
+        modalImg.src = imgSrc
+        modalImg.classList.add('modal-img')
+
+        modalImgContainer.append(modalImg)
+        modalOverlay.append(modalImgContainer)
+
+        return modalOverlay;
+      }
+
+      // Add modal overlay to image wrapper
+      const createModalOverlay = (imgSrc, imgWrapper) => {
+        const modal = modalOverlay(imgSrc)
+        imgWrapper.append(modal)
+        return modal
+      }
+
+      // Create zoom icon for image
+      const createZoomIcon = (imgWrapper) => {
+        const zoomIconDiv = document.createElement('div')
+        zoomIconDiv.classList.add('zoom-icon')
+
+        const zoomIcon = new Image()
+        zoomIcon.src = '../src/common/assets/zoom-icon.png'
+
+        zoomIconDiv.append(zoomIcon)
+        imgWrapper.append(zoomIconDiv)
+
+        return zoomIconDiv
+      }
+
+      // If image has 'ci-zoom' add modal to its container
+      if (imgProps.ciZoom) {
+        const zoomIcon = createZoomIcon(wrapper)
+        const modal = createModalOverlay(cloudimageSrcset[2].url, wrapper)
+
+        zoomIcon.addEventListener('click', () => {
+          modal.style.display = 'block'
+        })
+
+        modal.addEventListener('click', (e) => {
+          if (e.target.classList.contains('modal-img')) return
+          modal.style.display = 'none'
+        })
+      }
 
       if (config.destroyNodeImgSize) {
         destroyNodeImgSize(imgNode);
