@@ -26,7 +26,7 @@ const getCommonImageProps = (image) => ({
   imgNodeWidth: attr(image, 'width'),
   imgNodeHeight: attr(image, 'height'),
   doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
-  ciZoom: isTrue(image, 'ci-zoom') // Define property ciZoom & check if image has ci-zoom attribute
+  ciZoom: isTrue(image, 'ci-zoom')
 });
 
 export const getParams = (params) => {
@@ -198,3 +198,41 @@ export const destroyNodeImgSize = imgNode => {
   imgNode.removeAttribute("height");
   imgNode.removeAttribute("width");
 };
+
+const createImage = (imageSrc) => {
+  const image = new Image();
+  image.src = imageSrc;
+
+  return image;
+}
+
+export const createIcon = (className, iconImageSrc) => {
+  const icon = document.createElement('div');
+  const iconImage = createImage(iconImageSrc)
+
+  icon.classList.add(className);
+  icon.append(iconImage);
+
+  return icon;
+}
+
+const createModalImageWrapper = (modalImageSrc) => {
+  const modalImageWrapper = document.createElement('div');
+  const modalImage = createImage(modalImageSrc);
+
+  modalImage.classList.add('ci-modal-image')
+  modalImageWrapper.classList.add('ci-modal-image-wrapper');
+  modalImageWrapper.append(modalImage);
+
+  return modalImageWrapper;
+}
+
+export const createModal = (modalImageSrc) => {
+  const modal = document.createElement('div');
+  const modalImageWrapper = createModalImageWrapper(modalImageSrc);
+
+  modal.classList.add('ci-modal');
+  modal.append(modalImageWrapper);
+
+  return modal;
+}
