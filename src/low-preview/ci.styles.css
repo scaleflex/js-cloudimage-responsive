@@ -60,8 +60,8 @@ img.ci-image-ratio.ci-image-preview {
 }
 
 .ci-close-icon {
-  top: 5px;
-  right: 5px;
+  top: 0;
+  right: 0;
 }
 
 /* Zoom icon */
@@ -69,7 +69,7 @@ img.ci-image-ratio.ci-image-preview {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 999;
+  z-index: 900;
   background-color: #e3e3e3;
   opacity: 0;
   transition: opacity 200ms ease-in;
@@ -91,7 +91,9 @@ img.ci-image-ratio.ci-image-preview {
 }
 
 .ci-modal[data-modal="open"] {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ci-modal[data-modal="close"] {
@@ -99,8 +101,20 @@ img.ci-image-ratio.ci-image-preview {
 }
 
 .ci-modal-image-wrapper {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 80%;
+}
+
+.ci-modal-image-wrapper .ci-modal-image,
+.ci-modal-image-wrapper .ci-image-wrapper {
+  height: 90vh !important;
+}
+
+/* prevent image shifting up when viewport get changed */
+.ci-modal-image-wrapper .ci-image-wrapper {
+  padding-bottom: 0 !important;
+}
+
+.ci-modal-image-wrapper .ci-modal-image {
+  max-width: 100% !important;
+  object-fit: contain;
 }

@@ -206,7 +206,7 @@ const createImage = (imageSrc) => {
   return image;
 }
 
-export const createIcon = (className, iconImageSrc) => {
+export const createIcon = (iconImageSrc, className) => {
   const icon = document.createElement('div');
   const iconImage = createImage(iconImageSrc)
 
@@ -216,9 +216,11 @@ export const createIcon = (className, iconImageSrc) => {
   return icon;
 }
 
-const createModalImageWrapper = (modalImageSrc) => {
+const createModalImageWrapper = (imgSelector, imgNodeSRC) => {
   const modalImageWrapper = document.createElement('div');
-  const modalImage = createImage(modalImageSrc);
+  const modalImage = new Image()
+
+  modalImage.setAttribute(imgSelector, imgNodeSRC)
 
   modalImage.classList.add('ci-modal-image')
   modalImageWrapper.classList.add('ci-modal-image-wrapper');
@@ -227,9 +229,9 @@ const createModalImageWrapper = (modalImageSrc) => {
   return modalImageWrapper;
 }
 
-export const createModal = (modalImageSrc) => {
+export const createModal = (imgSelector, imgNodeSRC) => {
   const modal = document.createElement('div');
-  const modalImageWrapper = createModalImageWrapper(modalImageSrc);
+  const modalImageWrapper = createModalImageWrapper(imgSelector, imgNodeSRC);
 
   modal.classList.add('ci-modal');
   modal.append(modalImageWrapper);

@@ -123,7 +123,7 @@ export default class CIResponsive {
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, imgNodeSRC, imgSelector
     };
 
     if (isImage) {
@@ -146,7 +146,9 @@ export default class CIResponsive {
       src,
       preserveSize,
       cloudimageSrcset,
-      isAdaptive
+      isAdaptive,
+      imgNodeSRC,
+      imgSelector
     } = props;
     const { params, ciZoom } = imgProps;
     const { width, ratio } = containerProps;
@@ -160,25 +162,24 @@ export default class CIResponsive {
       initImageClasses({ imgNode, lazy });
 
       if (ciZoom) {
-        const zoomIcon = createIcon('ci-zoom-icon', '../src/common/assets/zoom-icon.png');
-        const modal = createModal(cloudimageSrcset[2].url);
-        const closeIcon = createIcon('ci-close-icon', '../src/common/assets/close-icon.png');
+        const zoomIcon = createIcon('../src/common/assets/zoom-icon.png', 'ci-zoom-icon');
+        const modal = createModal(imgSelector, imgNodeSRC);
+        const closeIcon = createIcon('../src/common/assets/close-icon.png', 'ci-close-icon');
         wrapper.append(zoomIcon);
         modal.append(closeIcon);
 
         const openModal = () => {
           wrapper.append(modal);
           modal.dataset.modal = 'open';
+          this.process(false, modal)
         }
 
-        const closeModal = (event) => {
-          if (event.target.className === 'ci-modal-image') return;
+        const closeModal = () => {
           modal.dataset.modal = 'close';
         }
 
         zoomIcon.onclick = openModal;
         closeIcon.onclick = closeModal;
-        modal.onclick = closeModal;
       }
 
       if (config.destroyNodeImgSize) {
