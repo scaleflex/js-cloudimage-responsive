@@ -169,13 +169,12 @@ export default class CIResponsive {
         modal.append(closeIcon);
 
         const openModal = () => {
-          wrapper.append(modal);
-          modal.dataset.modal = 'open';
-          this.process(false, modal)
+          document.body.append(modal);
+          this.process(false, modal);
         }
 
         const closeModal = () => {
-          modal.dataset.modal = 'close';
+          modal.remove();
         }
 
         zoomIcon.onclick = openModal;

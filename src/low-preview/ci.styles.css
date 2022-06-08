@@ -92,7 +92,8 @@ img.ci-image-ratio.ci-image-preview {
 
 .ci-modal[data-modal="open"] {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -106,7 +107,7 @@ img.ci-image-ratio.ci-image-preview {
 
 .ci-modal-image-wrapper .ci-modal-image,
 .ci-modal-image-wrapper .ci-image-wrapper {
-  height: 90vh !important;
+  height: 80vh !important;
 }
 
 /* prevent image shifting up when viewport get changed */
