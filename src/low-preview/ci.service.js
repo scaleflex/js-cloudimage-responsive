@@ -154,6 +154,33 @@ export default class CIResponsive {
       { isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps }
     );
 
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(record => {
+        if (record.type == 'attributes') {
+          const changedImage = record.target;
+          const changedAttribute = record.attributeName;
+          const newCiSrcValue = changedImage.getAttribute(changedAttribute);
+          const lowPreviewDiv = changedImage.previousElementSibling;
+          const newImage = new Image();
+
+          wrapper.removeChild(changedImage);
+          wrapper.removeChild(lowPreviewDiv);
+
+          newImage.setAttribute('ci-src', newCiSrcValue);
+          wrapper.appendChild(newImage);
+
+          this.process(false, wrapper);
+
+          wrapper.style.paddingBottom = 0;
+        }
+      })
+    })
+
+    observer.observe(imgNode, {
+      attributes: true,
+      attributeFilter: ['ci-src']
+    })
+
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
 
