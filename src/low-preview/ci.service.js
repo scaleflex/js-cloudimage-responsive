@@ -214,16 +214,32 @@ export default class CIResponsive {
     }
   }
 
-  setSrc(image, src) {
-    const {config} = this;
-    const newImage = new Image();
-    const wrapper = image.previousElementSibling.parentElement;
-    const wrapperContainer = wrapper.parentElement;
+  setSrc(src, element) {
+    const {imgSelector, bgSelector} = this.config;
+    const isImage = element.hasAttribute(imgSelector);
+    const isBackground = element.hasAttribute(bgSelector);
 
-    wrapperContainer.removeChild(wrapper);
-    wrapperContainer.insertAdjacentElement('afterbegin', newImage);
-    newImage.setAttribute(config.imgSelector, src);
+    if (isImage) {
+      const elementParent = element.parentNode;
 
-    this.process(false, wrapperContainer);
+      element.classList.remove('ci-image-loaded');
+      element.classList.remove('lazyloaded');
+      element.classList.remove('ci-image');
+
+      element.setAttribute(imgSelector, src);
+      elementParent.parentNode.replaceChild(element, elementParent);
+      this.getBasicInfo(element, false, false, 'image');
+    }
+
+    if (isBackground) {
+      const lowPreviewDiv = element.children[0];
+      const contentBox = element.children[1];
+
+      element.replaceChild(...contentBox.children, contentBox);
+      element.removeChild(lowPreviewDiv);
+
+      element.setAttribute(bgSelector, src);
+      this.getBasicInfo(element, false, false, 'background');
+    }
   }
 }
