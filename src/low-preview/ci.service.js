@@ -216,19 +216,26 @@ export default class CIResponsive {
 
   setSrc(src, element) {
     const {imgSelector, bgSelector} = this.config;
+    const isProcessed = element.classList.contains('ci-image');
     const isImage = element.hasAttribute(imgSelector);
     const isBackground = element.hasAttribute(bgSelector);
 
     if (isImage) {
-      const elementParent = element.parentNode;
 
-      element.classList.remove('ci-image-loaded');
-      element.classList.remove('lazyloaded');
-      element.classList.remove('ci-image');
+      if (isProcessed) {
+        const elementParent = element.parentNode;
+        element.classList.remove('ci-image-loaded');
+        element.classList.remove('lazyloaded');
+        element.classList.remove('ci-image');
 
-      element.setAttribute(imgSelector, src);
-      elementParent.parentNode.replaceChild(element, elementParent);
-      this.getBasicInfo(element, false, false, 'image');
+        element.setAttribute(imgSelector, src);
+        elementParent.parentNode.replaceChild(element, elementParent);
+        this.getBasicInfo(element, false, false, 'image');
+      }
+
+      if (!isProcessed) {
+        this.getBasicInfo(element, false, false, 'image');
+      }
     }
 
     if (isBackground) {
