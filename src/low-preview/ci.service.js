@@ -216,11 +216,13 @@ export default class CIResponsive {
 
   setSrc(src, element) {
     const {imgSelector, bgSelector} = this.config;
-    const isProcessed = element.classList.contains('ci-image');
     const isImage = element.hasAttribute(imgSelector);
     const isBackground = element.hasAttribute(bgSelector);
 
+    let isProcessed;
+
     if (isImage) {
+      isProcessed = element.classList.contains('ci-image');
 
       if (isProcessed) {
         const elementParent = element.parentNode;
@@ -230,22 +232,29 @@ export default class CIResponsive {
 
         element.setAttribute(imgSelector, src);
         elementParent.parentNode.replaceChild(element, elementParent);
-        this.getBasicInfo(element, false, false, 'image');
       }
 
-      if (!isProcessed) {
-        this.getBasicInfo(element, false, false, 'image');
-      }
+      this.getBasicInfo(element, false, false, 'image');
     }
 
     if (isBackground) {
       const lowPreviewDiv = element.children[0];
-      const contentBox = element.children[1];
 
-      element.replaceChild(...contentBox.children, contentBox);
-      element.removeChild(lowPreviewDiv);
+      if (!lowPreviewDiv) {
+        isProcessed = false;
+      } else {
+        isProcessed = lowPreviewDiv.classList.contains('ci-image-loaded') ||lowPreviewDiv.getAttribute('ci-preview');
+      }
 
-      element.setAttribute(bgSelector, src);
+      if (isProcessed || isProcessed === 'true') {
+        const contentBox = element.children[1];
+
+        element.replaceChild(...contentBox.children, contentBox);
+        element.removeChild(lowPreviewDiv);
+
+        element.setAttribute(bgSelector, src);
+      }
+
       this.getBasicInfo(element, false, false, 'background');
     }
   }
