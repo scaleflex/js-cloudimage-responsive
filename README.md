@@ -140,13 +140,13 @@ You have to pay attention to the following things:
 Add a style tag with CDN link to js-cloudimage-responsive in the head of your site
 
 ```javascript
-<link rel="stylesheet" href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.12/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"></link>
+<link rel="stylesheet" href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/latest/js-cloudimage-responsive.min.css?vh=a076ef&func=proxy"></link>
 ```
 
 Add a script tag with CDN link to js-cloudimage-responsive
 
 ```javascript
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.12/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/latest/js-cloudimage-responsive.min.js"></script>
 ```
 
 or using npm
@@ -541,7 +541,7 @@ add the following scripts right after js-cloudimage-responsive script
   window.lazySizesConfig = window.lazySizesConfig || {};
   window.lazySizesConfig.init = false;
 </script>
-<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/4.8.12/js-cloudimage-responsive.min.js"></script>
+<script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/latest/js-cloudimage-responsive.min.js"></script>
 <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
 ```
 
