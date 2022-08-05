@@ -60,9 +60,9 @@
     semver "^6.3.0"
 
 "@babel/generator@^7.18.10":
-  version "7.18.10"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.18.10.tgz#794f328bfabdcbaf0ebf9bf91b5b57b61fa77a2a"
-  integrity sha512-0+sW7e3HjQbiHbj1NeU/vN8ornohYlacAfZIaXhdoGweQqgcNy69COVciYYqEXJ/v+9OBA7Frxm4CVAuNqKeNA==
+  version "7.18.12"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.18.12.tgz#fa58daa303757bd6f5e4bbca91b342040463d9f4"
+  integrity sha512-dfQ8ebCN98SvyL7IxNMCUtZQSq5R7kxgN+r8qYTGDmmSion1hX2C0zq2yo1bsCDhXixokv1SAWTZUMYbO/V5zg==
   dependencies:
     "@babel/types" "^7.18.10"
     "@jridgewell/gen-mapping" "^0.3.2"
@@ -2311,10 +2311,10 @@ clone@^1.0.0, clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==
 
-cloudimage-responsive-utils@^2.4.10:
-  version "2.4.10"
-  resolved "https://registry.yarnpkg.com/cloudimage-responsive-utils/-/cloudimage-responsive-utils-2.4.10.tgz#6ade58ddc2379511b0f12f7eca373ceff0dba611"
-  integrity sha512-8Z9334Qh6I3Zhpdz/sefrpXyC6n4ZPzvOtQJ9Uf5FpX7/aIN0mUxcZ+S3BicAPoV6OW2JJvxrvXcBvfOWWCkcA==
+cloudimage-responsive-utils@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/cloudimage-responsive-utils/-/cloudimage-responsive-utils-2.5.1.tgz#1ee6a82aee3920140431d4a3ecadea9356a98a8d"
+  integrity sha512-yY49lNwREkcU1dIBgO6NLsqnEbONX4+yyu9TATEg4Tdc14vpXbktKE9jkIDfv3KpqV9rlApzHv3Xt4XjzcKnVw==
 
 coa@^2.0.2:
   version "2.0.2"

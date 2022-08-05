@@ -5,6 +5,7 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
+  setAlt,
   setBackgroundSrc,
   setSrc,
   setSrcset
@@ -17,6 +18,7 @@ import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-
 import { getInitialConfigPlain } from './ci.config';
 import { initImageClasses, loadBackgroundImage } from './ci.utils';
 import { debounce } from 'throttle-debounce';
+import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
 
 
 export default class CIResponsive {
@@ -69,7 +71,7 @@ export default class CIResponsive {
     } = config;
     const imgProps = isImage ?
         getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
-    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
+    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt } = imgProps;
 
     if (!imgNodeSRC) return;
 
@@ -107,7 +109,9 @@ export default class CIResponsive {
         generateURL({ src, params, config, containerProps, devicePixelRatio, processURL, processQueryString, service });
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
-    const props = { imgNode, isUpdate, imgProps, lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize };
+    const props = { imgNode, isUpdate, imgProps,
+      lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize, alt: alt || generateAlt(src)
+    };
 
     if (isImage) {
       this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
@@ -117,12 +121,13 @@ export default class CIResponsive {
   }
 
   processImage(props) {
-    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src, cloudimageSrcset } = props;
+    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src, cloudimageSrcset, alt } = props;
     const { config } = this;
     const { dataSrcAttr, onImageLoad } = config;
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
+      setAlt(imgNode, alt);
     }
 
     if (config.destroyNodeImgSize) {

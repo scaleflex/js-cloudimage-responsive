@@ -127,7 +127,7 @@ export const loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) 
 };
 
 export const applyOrUpdateWrapper = props => {
-  const { isUpdate, imgNode, isPreview, lazy } = props;
+  const { isUpdate, imgNode, isPreview, lazy, alt } = props;
   let wrapper, previewImgNode = null, previewWrapper = null;
 
   if (!isUpdate) {
@@ -145,7 +145,7 @@ export const applyOrUpdateWrapper = props => {
       previewWrapper.style.position = 'absolute';
       previewWrapper.style.top = '0';
       previewWrapper.style.left = '0';
-      previewImgNode.alt = `Low quality preview for ${imgNode.alt || (imgNode.src || '').split('.')[0]}`;
+      previewImgNode.alt = `Low quality preview for ${alt}`;
       previewWrapper.appendChild(previewImgNode);
       wrapper.insertBefore(previewWrapper, imgNode);
       addClass(wrapper, 'ci-with-preview-image');

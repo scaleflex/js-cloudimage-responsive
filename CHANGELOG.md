@@ -27,7 +27,7 @@ Types of changes:
 -------------
 ## 4.8.13 - 2022-08-05
 ### Fixed
-- Undefined host name when add relative src
+- Undefined hostname when adding relative src
 
 ## 4.8.12 - 2022-05-10
 ### Fixed

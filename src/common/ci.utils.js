@@ -25,7 +25,8 @@ const getCommonImageProps = (image) => ({
   preserveSize: (attr(image, 'ci-preserve-size') !== null || attr(image, 'data-preserve-size') !== null) || undefined,
   imgNodeWidth: attr(image, 'width'),
   imgNodeHeight: attr(image, 'height'),
-  doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url')
+  doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
+  alt: attr(image, 'alt'),
 });
 
 export const getParams = (params) => {
@@ -196,4 +197,8 @@ export const getFreshCIElements = (isUpdate, rootElement, imgSelector, bgSelecto
 export const destroyNodeImgSize = imgNode => {
   imgNode.removeAttribute("height");
   imgNode.removeAttribute("width");
+};
+
+export const setAlt = (imgNode, alt) => {
+  imgNode.setAttribute('alt', alt);
 };

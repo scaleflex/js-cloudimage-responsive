@@ -4,6 +4,7 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
+  setAlt,
   setBackgroundSrc,
   setSrc,
   setSrcset
@@ -26,6 +27,7 @@ import {
   onImageLoad
 } from './ci.utils';
 import { debounce } from 'throttle-debounce';
+import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
 
 
 export default class CIResponsive {
@@ -76,8 +78,9 @@ export default class CIResponsive {
     const { baseURL, lazyLoading, presets, devicePixelRatioList, imgSelector, bgSelector } = config;
     const imgProps = isImage ?
         getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
-    const { params, imgNodeSRC, blurHash, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
-
+    const { params, imgNodeSRC, blurHash,
+      isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt
+    } = imgProps;
     if (!imgNodeSRC) return;
 
     const [src, isSVG] = getImgSRC(imgNodeSRC, baseURL);
@@ -121,7 +124,8 @@ export default class CIResponsive {
       isSVG,
       src,
       preserveSize,
-      isAdaptive
+      isAdaptive,
+      alt: alt || generateAlt(src)
     };
 
     if (isImage) {
@@ -132,7 +136,10 @@ export default class CIResponsive {
   }
 
   processImage(props) {
-    const { config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl, isSVG, src, preserveSize, cloudimageSrcset, isAdaptive } = props;
+    const {
+      config, isUpdate, imgNode, containerProps, imgProps, lazy, blurHash, cloudimageUrl,
+      isSVG, src, preserveSize, cloudimageSrcset, isAdaptive, alt
+    } = props;
     const { ratio } = containerProps;
     const { dataSrcAttr } = config;
     const wrapper = applyOrUpdateWrapper({ isUpdate, imgNode, ratio, ...imgProps });
@@ -140,6 +147,7 @@ export default class CIResponsive {
     if (!isUpdate) {
       initImageClasses(imgNode, lazy);
       initImageStyles(imgNode);
+      setAlt(imgNode, alt);
 
       if (config.destroyNodeImgSize) {
         destroyNodeImgSize(imgNode);

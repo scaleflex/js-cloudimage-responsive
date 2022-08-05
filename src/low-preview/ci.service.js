@@ -4,6 +4,7 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
+  setAlt,
   setBackgroundSrc,
   setSrc,
   setSrcset
@@ -15,6 +16,7 @@ import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url
 import { getPreviewSRC } from 'cloudimage-responsive-utils/dist/utils/get-preview-src';
 import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakpoint';
 import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
+import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
   applyBackgroundStyles,
@@ -79,7 +81,7 @@ export default class CIResponsive {
     const { baseURL, lazyLoading, presets, devicePixelRatioList, minLowQualityWidth, imgSelector, bgSelector } = config;
     const imgProps = isImage ?
         getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
-    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth } = imgProps;
+    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt } = imgProps;
 
     if (!imgNodeSRC) return;
 
@@ -121,7 +123,7 @@ export default class CIResponsive {
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, alt: alt || generateAlt(src)
     };
 
     if (isImage) {
@@ -144,18 +146,20 @@ export default class CIResponsive {
       src,
       preserveSize,
       cloudimageSrcset,
-      isAdaptive
+      isAdaptive,
+      alt
     } = props;
     const { params } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
     const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper(
-      { isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps }
+      { isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps, alt }
     );
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
+      setAlt(imgNode, alt);
 
       if (config.destroyNodeImgSize) {
         destroyNodeImgSize(imgNode);
