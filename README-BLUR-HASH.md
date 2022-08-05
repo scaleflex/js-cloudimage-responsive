@@ -17,7 +17,7 @@
 			alt="cloudimage logo"
 			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/LOGO+WITH+SCALEFLEX-01.png?vh=f6080d&w=350">
 	</a>
-		<a href="https://www.cloudimage.io/#gh-dark-mode-only">
+  <a href="https://www.cloudimage.io/#gh-dark-mode-only">
 		<img
 			alt="cloudimage logo"
 			src="https://scaleflex.cloudimg.io/v7/cloudimage.io/cloudimage-logo-light.png?vh=b798ab&w=350">
@@ -107,6 +107,11 @@ In order to use Cloudimage responsive plugins on your single-page application, p
 <a href="https://github.com/scaleflex/react-cloudimage-responsive">React Cloudimage Responsive (Low Quality Preview)</a><br/>
 <a href="https://github.com/scaleflex/react-cloudimage-responsive-blur-hash">React Cloudimage Responsive (Blur-hash)</a><br/>
 <a href="https://github.com/scaleflex/react-cloudimage-responsive-plain">React Cloudimage Responsive (Plain)</a>
+</details>
+
+<details>
+<summary>Next.js</summary>
+<a href="https://github.com/scaleflex/next-cloudimage-responsive">Vue Cloudimage Responsive (Low Quality Preview)</a><br/>
 </details>
 
 <details>

@@ -103,6 +103,11 @@ In order to use Cloudimage responsive plugins on your single-page application, p
 <a href="https://github.com/scaleflex/react-cloudimage-responsive-blur-hash">React Cloudimage Responsive (Blur-hash)</a><br/>
 <a href="https://github.com/scaleflex/react-cloudimage-responsive-plain">React Cloudimage Responsive (Plain)</a>
 </details>
+<details>
+
+<summary>Next.js</summary>
+<a href="https://github.com/scaleflex/next-cloudimage-responsive">Vue Cloudimage Responsive (Low Quality Preview)</a><br/>
+</details>
 
 <details>
 <summary>Vue.js</summary>
