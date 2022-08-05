@@ -8,7 +8,7 @@ const banner = `
  ${pkg.name} v${pkg.version} with blur hash placeholder technique
  ${pkg.repository.url}
 
- Copyright (c) 2019 ${pkg.author}
+ Copyright (c) 2022 ${pkg.author}
  Released under the ${pkg.license} license
 
  Date: ${now.toISOString()}

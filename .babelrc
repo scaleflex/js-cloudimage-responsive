@@ -31,10 +31,12 @@
     "@babel/plugin-proposal-numeric-separator",
     "@babel/plugin-proposal-throw-expressions"
   ],
+  "comments": false,
   "env": {
-    "production": {
+    "minify": {
       "presets": [
-        "minify"
+        "@babel/preset-env",
+        ["babel-preset-minify", { "builtIns": false }]
       ]
     }
   }

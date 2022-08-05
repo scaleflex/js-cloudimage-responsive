@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const pkg = require('../../package');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const isDist = process.env.NODE_ENV === 'dist';
 
 const now = new Date();
@@ -11,7 +10,7 @@ const banner = `
  ${pkg.name} v${pkg.version} with low quality image placeholder technique
  ${pkg.repository.url}
 
- Copyright (c) 2019 ${pkg.author}
+ Copyright (c) 2022 ${pkg.author}
  Released under the ${pkg.license} license
 
  Date: ${now.toISOString()}
