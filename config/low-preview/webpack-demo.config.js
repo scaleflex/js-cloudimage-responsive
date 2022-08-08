@@ -6,11 +6,12 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
   template: path.join(__dirname, "../../examples/low-preview/src/index.html"),
   filename: "./index.html"
 });
+
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
   // Options similar to the same options in webpackOptions.output
   // both options are optional
   filename: "[name].css",
-  chunkFilename: "[id].css"
+  chunkFilename: "[id].css",
 })
 module.exports = {
   entry: path.resolve(__dirname, "../../examples/low-preview/src/index.js"),

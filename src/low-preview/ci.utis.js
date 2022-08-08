@@ -152,11 +152,6 @@ export const applyOrUpdateWrapper = props => {
     }
   } else {
     wrapper = getWrapper(imgNode);
-
-    // TODO: remove in next release
-    //if (ratio) {
-    //  wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
-    //}
   }
 
   return { wrapper, previewImgNode, previewWrapper };

@@ -5,14 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="image is responsive" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="https://cdn.jolipage.co/5c1376c5-e4cd-4250-b760-4c810d7f5fdd/fdf058fa-5faf-4c83-bffa-4faa42b6d252/dc8ef1f26116405e2b275c5020ad8ce1ac071f86bf2134f143c23e692e396f76.png">
     <link
       rel="stylesheet"
       href="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/latest/js-cloudimage-responsive.min.css?func=proxy"/></link>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://cdn.jolipage.co/5c1376c5-e4cd-4250-b760-4c810d7f5fdd/fdf058fa-5faf-4c83-bffa-4faa42b6d252/dc8ef1f26116405e2b275c5020ad8ce1ac071f86bf2134f143c23e692e396f76.png"
+    >
     <title>JS Cloudimage Responsive</title>
   </head>
 
@@ -21,7 +27,12 @@
       <header class="header">
         <div class="header-logo">
           <a href="https://www.scaleflex.com/en/home" target="_blank">
-            <img src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/Logo.svg" alt="scaleflex logo" />
+            <img
+            src="https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/Logo.svg"
+            alt="scaleflex logo"
+            width="170"
+            height="43"
+            />
           </a>
           <a
             class="cloud-img-title"
@@ -91,6 +102,9 @@
             id="hero-section-image"
             ci-params="ci_info=2"
             ci-src="Main+image.jpg"
+            width="3490"
+            height="1254"
+            ci-ratio="2.783"
             alt="sea-coast"
           />
           <div class="image-size-wrapper">
@@ -190,8 +204,11 @@
             <img
               ci-src="House+img.jpg"
               alt="img"
+              width="1885"
+              height="2000"
               id="left-column-image"
               ci-params="ci_info=2"
+              ci-ratio="0.942"
             />
             <div class="image-size-wrapper">
               <div class="text">
@@ -206,7 +223,10 @@
                   ci-src="Church+square+img.jpg"
                   alt="img"
                   id="right-column-first-image"
+                  width="1261"
+                  height="1260"
                   ci-params="ci_info=2"
+                  ci-ratio="1"
                 />
                 <div class="image-size-wrapper">
                   <p class="text">
@@ -218,6 +238,8 @@
                 <img
                   class="ellipse-image"
                   ci-src="Girl+img.jpg"
+                  width="1162"
+                  height="1676"
                   alt="img"
                   ci-params="w=265&h=265&gravity=north"
                   id="right-column-second-image"
@@ -236,7 +258,10 @@
               <img
                 id="first-horizontal-image"
                 ci-src="Dresses+img.jpg"
+                width="2008"
+                height="696"
                 alt="img"
+                ci-ratio="2.885"
                 ci-params="ci_info=2"
               />
               <div class="image-size-wrapper">
@@ -251,6 +276,7 @@
           <img
             ci-src="Dresses+img.jpg"
             alt="img"
+            ci-ratio="2.885"
             id="second-horizontal-image"
             ci-params="ci_info=2"
           />
@@ -276,6 +302,9 @@
             <img
               ci-params="func=fit&w=400&h=400&bg_colour=f2f7fa"
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg"
+              width="400"
+              height="400"
+              ci-ratio="1"
               alt="car-image"
             />
             <pre class="original-image-code-block">
@@ -292,6 +321,9 @@
             <img
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg"
               ci-params="func=crop&w=400&h=400"
+              width="400"
+              height="400"
+              ci-ratio="1"
               alt="unsplash-image"
             />
             <pre class="original-image-code-block">
@@ -310,6 +342,10 @@
             <img
               ci-params="w=400&h=400&func=crop&gravity=auto"
               ci-src="shayna-douglas-VibRcV8tMDM-unsplash.jpg"
+              ci-ratio="0.666"
+              width="400"
+              height="400"
+              ci-ratio="1"
               alt="car-image"
             />
             <pre class="original-image-code-block">
@@ -775,7 +811,7 @@ export class MyAppModule {}
         </div>
       </div>
     </section>
-    <script src="https://cdn.scaleflex.it/plugins/js-cloudimage-responsive/latest/js-cloudimage-responsive.min.js"></script>
+    <script async defer src="https://<sub>.twic.pics/?v1"></script>
     <script src="https://cdn.scaleflex.it/filerobot/js-cloudimage-responsive/lazysizes.min.js"></script>
   </body>
 </html>

@@ -7,6 +7,7 @@
 body {
   font-family: "Inter";
   overflow-x: hidden;
+  font-display: optional;
 }
 
 .container {
@@ -112,6 +113,7 @@ body {
   margin-top: 8px;
   max-width: 775px;
   text-align: center;
+  min-height: 150px;
 }
 
 .content-wrapper .content .github-sandbox-buttons-wrapper {
@@ -977,6 +979,12 @@ body {
   margin-top: 8px
 }
 
+.device-pixel-ratio .label span {
+  display: inline-block;
+  min-width: 49px;
+  text-align: center  ;
+}
+
 .footer .accordion-wrapper {
   display: flex;
   flex-direction: column;
@@ -1189,6 +1197,12 @@ body {
   font-weight: 600;
   color: #4d5c74;
   margin: 0 12px;
+  min-width: 53px;
+}
+
+.text span span {
+  display: inline-block;
+  min-width: 31px;
 }
 
 @media(max-width: 1229px){
