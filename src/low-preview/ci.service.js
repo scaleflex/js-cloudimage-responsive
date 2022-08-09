@@ -4,8 +4,10 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
+  removeClassNames,
   setAlt,
   setBackgroundSrc,
+  setOptions,
   setSrc,
   setSrcset
 } from '../common/ci.utils';
@@ -31,6 +33,7 @@ import {
   updateSizeWithPixelRatio
 } from './ci.utis';
 import { debounce } from 'throttle-debounce';
+import { bgContentAttr, loadedImageClassNames, processedAttr } from '../common/ci.constants';
 
 
 export default class CIResponsive {
@@ -40,6 +43,7 @@ export default class CIResponsive {
     if (this.config.init) this.init();
 
     this.innerWidth = window.innerWidth;
+    this.set = this.set;
   }
 
   init() {
@@ -196,6 +200,8 @@ export default class CIResponsive {
     const { dataSrcAttr } = config;
 
     if (!isUpdate) {
+      imgNode.setAttribute(processedAttr, true);
+
       if (isPreview) {
         const previewImgURL = getPreviewSRC({ src, params, config, containerProps });
         const [previewBox, contentBox] = wrapBackgroundContainer(imgNode);
@@ -216,5 +222,50 @@ export default class CIResponsive {
     } else {
       setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
     }
+  }
+
+  set(src, node, options) {
+    const {imgSelector, bgSelector} = this.config;
+
+    const isImage = node.hasAttribute(imgSelector);
+    const isBackground = node.hasAttribute(bgSelector);
+    const elementParentNode = node.parentNode;
+
+    if (options && typeof options === 'object') {
+      node = setOptions(node, options);
+    }
+
+    if (isImage) {
+      const isProcessed = node.classList.contains('ci-image');
+
+      if (src) {
+        node.setAttribute(imgSelector, src);
+      }
+
+      if (isProcessed) {
+        let adaptedImageNode = removeClassNames(node, loadedImageClassNames);
+
+        elementParentNode.parentNode.replaceChild(adaptedImageNode, elementParentNode);
+      }
+    }
+
+    if (isBackground) {
+      const isProcessed = node.getAttribute(processedAttr);
+
+      if (src) {
+        node.setAttribute(bgSelector, src);
+      }
+
+      if (isProcessed) {
+        const contentBox  = node.querySelector(`[${bgContentAttr}]`);
+        const contentBoxInner = contentBox.firstChild;
+
+        node.removeAttribute(processedAttr);
+        node.innerHTML = '';
+        node.appendChild(contentBoxInner);
+      }
+    }
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
   }
 }
