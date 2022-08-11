@@ -43,7 +43,6 @@ export default class CIResponsive {
     if (this.config.init) this.init();
 
     this.innerWidth = window.innerWidth;
-    this.set = this.set;
   }
 
   init() {
@@ -224,7 +223,9 @@ export default class CIResponsive {
     }
   }
 
-  set(src, node, options) {
+  updateImage(src, node, options) {
+    if (!node) return;
+
     const {imgSelector, bgSelector} = this.config;
 
     const isImage = node.hasAttribute(imgSelector);
