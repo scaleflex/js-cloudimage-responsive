@@ -223,7 +223,7 @@ export default class CIResponsive {
     }
   }
 
-  updateImage(src, node, options) {
+  updateImage(node, src, options) {
     if (!node) return;
 
     const {imgSelector, bgSelector} = this.config;

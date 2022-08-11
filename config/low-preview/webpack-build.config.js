@@ -44,9 +44,6 @@ module.exports = {
   optimization: {
     minimizer: [
       new CssMinimizerPlugin(),
-      new UglifyJsPlugin({
-        include: /\.min\.js$/
-      })
     ],
   },
   resolve: {

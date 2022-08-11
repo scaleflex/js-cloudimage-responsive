@@ -165,7 +165,7 @@ export default class CIResponsive {
     setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
   }
 
-  updateImage(src, node, options) {
+  updateImage(node, src, options) {
     if (!node) return;
 
     const {imgSelector, bgSelector} = this.config;

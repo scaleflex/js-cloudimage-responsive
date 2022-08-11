@@ -76,6 +76,7 @@ Cloudimage, contact us at
 * [Step 3: Implement](#implement)
 * [Step 4: Prevent seeing broken images](#prevent_styles)
 * [Configuration](#configuration)
+* [Methods](#methods)
 * [Image properties](#image_properties)
 * [Lazy loading](#lazy_loading)
 * [Process dynamically loaded images](#dynamically-loaded)
@@ -381,7 +382,7 @@ Breakpoints shortcuts to use in image size property, can be overwridden.
 
 If width and height attributes are set:
 
-**use** - width & height attributes values will be used to calculate image size (according to user's DPR) and **ratio**. 
+**use** - width & height attributes values will be used to calculate image size (according to user's DPR) and **ratio**.
 
 **take-ratio** - width & height attributes values will be used only to calculate **ratio**.
 
@@ -390,6 +391,78 @@ If width and height attributes are set:
 If width and height attributes are NOT set, image container size will be detected to calculate result image size (according to user's DPR)
 
 *Note*: If only width or height attributes is set, ratio is going to be taken from ci-ratio image attribute
+## <a name="methods"></a> methods
+
+#### `updateImage`
+
+<u>Type:</u> `function updateImage(newSrc, imgNode, options)`
+
+arguments:
+
+`imgNode: HTMLElement` The image node to be updated.<br/>
+`newSrc: String` The new image src.<br/>
+`options: Object` Options that you need to add on the image, All the <a href="#image_properties">image properties</a> can be added in options.
+
+Example:
+
+```js
+  const image = document.getElementById('cloudimage-image-example');
+  const options = { 'ci-params': 'grey=1', alt: 'dress' };
+
+  window.ciResponsive.updateImage(image, 'dresses-img.jpg', options);
+```
+beside using this method to update image src or options. you can use it to for background images.
+
+Example:
+```js
+  const bgImage = document.getElementById('cloudimage-bg-example');
+  const options = { 'ci-params': 'grey=1', alt: 'house' };
+
+  window.ciResponsive.updateImage(bgImage, 'house-img.jpg', options);
+```
+
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-8mk13l"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+
+#### `addImage`
+
+<u>Type:</u> `function updateImage(newSrc, imgNode, options)`
+
+arguments:
+
+`imgNode: HTMLElement` The image node to be added.<br/>
+
+<u>Supported version: +v4.9.0</u>
+
+Example:
+
+```js
+  const image = document.createElement('img');
+
+  image.setAttribute('ci-src', 'dresses-img.jpg');
+  image.setAttribute('ci-params', 'gery=1');
+
+  document.body.appendChild(image);
+  window.ciResponsive.addImage(image);
+```
+beside using this method to update image src or options. you can use it to for background images.
+
+Example:
+
+```js
+  const bgImage = document.createElement('section');
+  const paragraph = document.createElement('p');
+
+  bgImage.setAttribute('ci-bg-url', 'house-img.jpg');
+  bgImage.setAttribute('ci-params', 'gery=1');
+
+  paragraph.innerHTML = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas a nulla dictum';
+
+  bgImage.appendChild(paragraph);
+  document.body.appendChild(bgImage);
+  window.ciResponsive.addImage(bgImage);
+```
+
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-8mk13l"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ## <a name="image_properties"></a> Image properties
 
