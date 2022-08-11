@@ -245,4 +245,13 @@ export default class CIResponsive {
 
     this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
   }
+
+  addImage(node) {
+    if (!node) return;
+
+    const { imgSelector } = this.config;
+    const isImage = node.hasAttribute(imgSelector);
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
+  }
 }
