@@ -1,4 +1,5 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const pkg = require('../../package');
 const isDist = process.env.NODE_ENV === 'dist';
@@ -28,14 +29,20 @@ module.exports = {
         use: "babel-loader",
         exclude: /node_modules/
       },
-      {
+    {
         test: /\.css$/,
         use: ["style-loader", "css-loader"]
       }
     ]
   },
+  optimization: {
+    minimizer: [new TerserPlugin({ extractComments: false })],
+  },
   plugins: [
-    new webpack.BannerPlugin(banner),
+    new webpack.BannerPlugin({
+      banner,
+      entryOnly: true
+    }),
   ],
   resolve: {
     extensions: [".js", ".jsx"]
