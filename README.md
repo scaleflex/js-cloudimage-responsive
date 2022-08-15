@@ -441,7 +441,7 @@ Example:
   window.ciResponsive.updateImage(bgImage, 'house-img.jpg', options);
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-8mk13l"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-cnm8z9"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 #### `addImage`
 
