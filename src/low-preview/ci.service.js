@@ -4,8 +4,10 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
+  removeClassNames,
   setAlt,
   setBackgroundSrc,
+  setOptions,
   setSrc,
   setSrcset
 } from '../common/ci.utils';
@@ -31,6 +33,7 @@ import {
   updateSizeWithPixelRatio
 } from './ci.utis';
 import { debounce } from 'throttle-debounce';
+import { bgContentAttr, loadedImageClassNames, processedAttr } from '../common/ci.constants';
 
 
 export default class CIResponsive {
@@ -196,6 +199,8 @@ export default class CIResponsive {
     const { dataSrcAttr } = config;
 
     if (!isUpdate) {
+      imgNode.setAttribute(processedAttr, true);
+
       if (isPreview) {
         const previewImgURL = getPreviewSRC({ src, params, config, containerProps });
         const [previewBox, contentBox] = wrapBackgroundContainer(imgNode);
@@ -216,5 +221,66 @@ export default class CIResponsive {
     } else {
       setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
     }
+  }
+
+  updateImage(node, src, options) {
+    if (!node) return;
+
+    const {imgSelector, bgSelector} = this.config;
+
+    const isImage = node.hasAttribute(imgSelector);
+    const isBackground = node.hasAttribute(bgSelector);
+    const elementParentNode = node.parentNode;
+
+    if (options && typeof options === 'object') {
+      node = setOptions(node, options);
+    }
+
+    if (isImage) {
+      const isProcessed = node.classList.contains('ci-image');
+
+      if (src) {
+        node.setAttribute(imgSelector, src);
+      }
+
+      if (isProcessed) {
+        let adaptedImageNode = removeClassNames(node, loadedImageClassNames);
+
+        elementParentNode.parentNode.replaceChild(adaptedImageNode, elementParentNode);
+      }
+    }
+
+    if (isBackground) {
+      const isProcessed = node.getAttribute(processedAttr);
+      const oldNode = node;
+
+      if (src) {
+        node.setAttribute(bgSelector, src);
+      }
+
+      if (isProcessed) {
+        const contentBox  = node.querySelector(`[${bgContentAttr}]`);
+
+        if (contentBox) {
+          const contentBoxInner = contentBox.firstChild;
+          node.removeAttribute(processedAttr);
+          node.innerHTML = '';
+          node.appendChild(contentBoxInner);
+        } else {
+          node.parentNode.replaceChild(node, oldNode); // replace the old node if isPreview is false
+        }
+      }
+    }
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
+  }
+
+  addImage(node) {
+    if (!node) return;
+
+    const { imgSelector } = this.config;
+    const isImage = node.hasAttribute(imgSelector);
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
   }
 }

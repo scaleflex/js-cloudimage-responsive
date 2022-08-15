@@ -1,3 +1,4 @@
+import { canvasAttr } from '../common/ci.constants';
 import { addClass, getWrapper } from '../common/ci.utils';
 import { decode } from './blurHash';
 
@@ -116,6 +117,7 @@ export const applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
   if (!canvas && blurHash) {
     canvas = document.createElement("canvas");
 
+    canvas.setAttribute(canvasAttr, true);
     const pixels = decode(blurHash, 32, 32);
     canvas.width = 32;
     canvas.height = 32;
