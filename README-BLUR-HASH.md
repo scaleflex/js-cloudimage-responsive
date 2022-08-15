@@ -126,6 +126,7 @@ In order to use Cloudimage responsive plugins on your single-page application, p
 <summary>Angular</summary>
 <a href="https://github.com/scaleflex/ng-cloudimage-responsive">Angular Cloudimage Responsive (Low Quality Preview)</a><br/>
 </details>
+
 ## <a name="requirements"/> Requirements
 
 ### Cloudimage account
