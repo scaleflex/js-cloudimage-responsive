@@ -252,6 +252,7 @@ export default class CIResponsive {
 
     if (isBackground) {
       const isProcessed = node.getAttribute(processedAttr);
+      const oldNode = node;
 
       if (src) {
         node.setAttribute(bgSelector, src);
@@ -259,11 +260,15 @@ export default class CIResponsive {
 
       if (isProcessed) {
         const contentBox  = node.querySelector(`[${bgContentAttr}]`);
-        const contentBoxInner = contentBox.firstChild;
 
-        node.removeAttribute(processedAttr);
-        node.innerHTML = '';
-        node.appendChild(contentBoxInner);
+        if (contentBox) {
+          const contentBoxInner = contentBox.firstChild;
+          node.removeAttribute(processedAttr);
+          node.innerHTML = '';
+          node.appendChild(contentBoxInner);
+        } else {
+          node.parentNode.replaceChild(node, oldNode); // replace the old node if isPreview is false
+        }
       }
     }
 
