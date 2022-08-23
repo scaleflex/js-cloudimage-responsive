@@ -216,7 +216,8 @@ Use `ci-bg-url` instead of the CSS background-image property `background-image: 
 <div ci-bg-url="magnus-lindvall.jpg"></div>
 ```
 
-<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-8mk13l"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
+<a href="https://codesandbox.io/s/js-cloudimage-responsive-example-8mk13l"><img src="https://
+.io/static/img/play-codesandbox.svg" alt="edit in codesandbox"/></a>
 
 ## <a name="configuration"></a> Configuration
 
