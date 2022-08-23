@@ -158,7 +158,13 @@ Add a script tag with CDN link to js-cloudimage-responsive
 or using npm
 
 ```
-$ npm install --save js-cloudimage-responsive
+$ npm install js-cloudimage-responsive
+```
+
+or using yarn
+
+```
+$ yarn add js-cloudimage-responsive
 ```
 
 ## <a name="initialize"></a>Step 2: Initialize
