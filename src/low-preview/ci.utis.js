@@ -1,3 +1,4 @@
+import { bgContentAttr } from '../common/ci.constants';
 import { addClass, getWrapper, getCommonImageProps, attr } from '../common/ci.utils';
 
 
@@ -18,6 +19,7 @@ export const applyBackgroundStyles = ({ imgNode, previewBox, contentBox, lazy, w
   imgNode.style.position = 'relative';
 
   contentBox.style.position = 'relative';
+  contentBox.setAttribute(bgContentAttr, true);
 
   previewBox.className = `${imgNode.className}${lazy ? ' lazyload' : ''}`;
   previewBox.setAttribute('ci-preview', true);

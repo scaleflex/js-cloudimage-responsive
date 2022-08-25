@@ -204,3 +204,21 @@ export const destroyNodeImgSize = imgNode => {
 export const setAlt = (imgNode, alt) => {
   imgNode.setAttribute('alt', alt);
 };
+
+export const removeClassNames = (node, classNames) => {
+  classNames.forEach((className) => {
+    if (node.classList.contains(className)) {
+      node.classList.remove(className);
+    }
+  });
+
+  return node
+}
+
+export const setOptions = (node, options) => {
+  Object.entries(options).forEach(([key, value]) => {
+    node.setAttribute(key, value);
+  });
+
+  return node;
+}
