@@ -13,6 +13,56 @@ const isTrue = (element, attribute) => {
   return (imgProp !== null && imgProp !== 'false') || (imgDataProp !== null && imgDataProp !== 'false');
 };
 
+export const getCommonImageProps = (image) => ({
+  sizes: getSize(attr(image, 'ci-sizes') || attr(image, 'data-ci-size') || {}) || undefined,
+  params: getParams(attr(image, 'ci-params') || attr(image, 'data-ci-params') || {}),
+  imgNodeRatio: attr(image, 'ci-ratio') || attr(image, 'data-ci-ratio') || undefined,
+  blurHash: attr(image, 'ci-blur-hash') || attr(image, 'data-ci-blur-hash') || undefined,
+  isLazyCanceled: (attr(image, 'ci-not-lazy') !== null || attr(image, 'data-ci-not-lazy') !== null) || undefined,
+  preserveSize: (attr(image, 'ci-preserve-size') !== null || attr(image, 'data-preserve-size') !== null) || undefined,
+  imgNodeWidth: attr(image, 'width'),
+  imgNodeHeight: attr(image, 'height'),
+  doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
+  alt: attr(image, 'alt'),
+  zoom: attr(image, 'ci-zoom') || undefined,
+  gallery: attr(image, 'ci-gallery') || undefined,
+});
+
+const getParams = (params) => {
+  let resultParams = undefined;
+
+  try {
+    let temp = params.replace(/(\w+:)|(\w+ :)/g, function (matchedStr) {
+      return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
+    });
+
+    resultParams = JSON.parse(temp);
+  } catch (e) {}
+
+  if (!resultParams) {
+    try {
+      resultParams = JSON.parse('{"' + decodeURI(params.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+    } catch (e) {}
+  }
+
+  return resultParams;
+}
+
+const filterImages = (images, type) => {
+  const filtered = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    const isProcessed = image.className.includes(type);
+
+    if (!isProcessed) {
+      filtered.push(image);
+    }
+  }
+
+  return filtered;
+};
+
 const getSize = (sizes) => {
   let resultSizes = null;
 
@@ -40,53 +90,7 @@ const getSize = (sizes) => {
   }
 
   return resultSizes;
-};
-
-const getParams = (params) => {
-  let resultParams;
-
-  try {
-    const temp = params.replace(/(\w+:)|(\w+ :)/g, (matchedStr) => `"${matchedStr.substring(0, matchedStr.length - 1)}":`);
-
-    resultParams = JSON.parse(temp);
-  } catch (e) {}
-
-  if (!resultParams) {
-    try {
-      resultParams = JSON.parse(`{"${decodeURI(params.replace(/&/g, '","').replace(/=/g, '":"'))}"}`);
-    } catch (e) {}
-  }
-
-  return resultParams;
-};
-
-export const getCommonImageProps = (image) => ({
-  sizes: getSize(attr(image, 'ci-sizes') || attr(image, 'data-ci-size') || {}) || undefined,
-  params: getParams(attr(image, 'ci-params') || attr(image, 'data-ci-params') || {}),
-  imgNodeRatio: attr(image, 'ci-ratio') || attr(image, 'data-ci-ratio') || undefined,
-  blurHash: attr(image, 'ci-blur-hash') || attr(image, 'data-ci-blur-hash') || undefined,
-  isLazyCanceled: (attr(image, 'ci-not-lazy') !== null || attr(image, 'data-ci-not-lazy') !== null) || undefined,
-  preserveSize: (attr(image, 'ci-preserve-size') !== null || attr(image, 'data-preserve-size') !== null) || undefined,
-  imgNodeWidth: attr(image, 'width'),
-  imgNodeHeight: attr(image, 'height'),
-  doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
-  alt: attr(image, 'alt'),
-});
-
-const filterImages = (images, type) => {
-  const filtered = [];
-
-  for (let i = 0; i < images.length; i++) {
-    const image = images[i];
-    const isProcessed = image.className.includes(type);
-
-    if (!isProcessed) {
-      filtered.push(image);
-    }
-  }
-
-  return filtered;
-};
+}
 
 const getImageProps = (image, imgSelector) => {
   const props = {
