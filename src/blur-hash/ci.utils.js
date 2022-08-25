@@ -2,13 +2,21 @@ import { addClass, getWrapper } from '../common/ci.utils';
 import { decode } from './blurHash';
 
 
+export const finishAnimation = (image, canvas) => {
+  if (canvas && canvas.style) {
+    canvas.style.opacity = '0';
+  }
+
+  addClass(image, 'ci-image-loaded');
+};
+
 export const loadBackgroundImage = (event) => {
   const bgContainer = event.target;
   const bg = bgContainer.getAttribute('data-bg');
   const ciBlurHash = bgContainer.getAttribute('ci-blur-hash');
 
   if (bg) {
-    let optimizedImage = new Image();
+    const optimizedImage = new Image();
 
     optimizedImage.onload = () => {
       const bgCanvas = bgContainer.querySelector('canvas');
@@ -16,34 +24,18 @@ export const loadBackgroundImage = (event) => {
       finishAnimation(bgContainer, ciBlurHash && bgCanvas);
       bgContainer.removeAttribute('data-bg');
       bgContainer.removeAttribute('ci-preview');
-    }
+    };
 
     optimizedImage.src = bg;
 
-    bgContainer.style.backgroundImage = 'url(' + bg + ')';
+    bgContainer.style.backgroundImage = `url(${bg})`;
   }
 };
 
-export const applyOrUpdateWrapper = props => {
-  const { isUpdate, imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize } = props;
-  let wrapper;
-
-  if (!isUpdate) {
-    wrapper = wrapImage({ imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize });
-  } else {
-    wrapper = getWrapper(imgNode);
-
-    // TODO: remove in next release
-    // if (ratio) {
-    //   wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
-    // }
-  }
-
-  return wrapper;
-}
-
 export const wrapImage = (props) => {
-  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize } = props;
+  const {
+    imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize,
+  } = props;
   let { wrapper } = props;
 
   wrapper = wrapper || document.createElement('div');
@@ -56,7 +48,7 @@ export const wrapImage = (props) => {
   wrapper.style.position = 'relative';
 
   if (ratio) {
-    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
+    wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / ratio}%`;
   }
 
   if (imgNode.nextSibling) {
@@ -70,12 +62,26 @@ export const wrapImage = (props) => {
   return wrapper;
 };
 
-export const finishAnimation = (image, canvas) => {
-  if (canvas && canvas.style) {
-    canvas.style.opacity = '0';
+export const applyOrUpdateWrapper = (props) => {
+  const {
+    isUpdate, imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize,
+  } = props;
+  let wrapper;
+
+  if (!isUpdate) {
+    wrapper = wrapImage({
+      imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize,
+    });
+  } else {
+    wrapper = getWrapper(imgNode);
+
+    // TODO: remove in next release
+    // if (ratio) {
+    //   wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
+    // }
   }
 
-  addClass(image, 'ci-image-loaded');
+  return wrapper;
 };
 
 export const initImageBackgroundClasses = (image, lazy) => {
@@ -87,8 +93,8 @@ export const initImageBackgroundClasses = (image, lazy) => {
 };
 
 export const initImageBackgroundStyles = (image) => {
-  image.style.position = (!image.style.position || image.style.position === 'static') ?
-    'relative' : image.style.position;
+  image.style.position = (!image.style.position || image.style.position === 'static')
+    ? 'relative' : image.style.position;
 };
 
 export const initImageClasses = (imgNode, lazy) => {
@@ -99,7 +105,7 @@ export const initImageClasses = (imgNode, lazy) => {
   }
 };
 
-export const initImageStyles = imgNode => {
+export const initImageStyles = (imgNode) => {
   imgNode.style.display = 'block';
   imgNode.style.width = '100%';
   imgNode.style.padding = '0';
@@ -114,12 +120,12 @@ export const applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
   let canvas = wrapper.querySelector('canvas');
 
   if (!canvas && blurHash) {
-    canvas = document.createElement("canvas");
+    canvas = document.createElement('canvas');
 
     const pixels = decode(blurHash, 32, 32);
     canvas.width = 32;
     canvas.height = 32;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     const imageData = ctx.getImageData(0, 0, 32, 32);
     imageData.data.set(pixels);
     ctx.putImageData(imageData, 0, 0);
@@ -140,12 +146,14 @@ export const applyOrUpdateBlurHashCanvas = (wrapper, blurHash) => {
   return canvas;
 };
 
-export const onImageLoad = ({ wrapper, imgNode, canvas, preserveSize, ratio, isAdaptive }) => {
+export const onImageLoad = ({
+  wrapper, imgNode, canvas, preserveSize, ratio, isAdaptive,
+}) => {
   wrapper.style.background = 'transparent';
 
   if (!ratio || isAdaptive) {
-    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ((imgNode.width / imgNode.height) || 1)) + '%';
+    wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / ((imgNode.width / imgNode.height) || 1)}%`;
   }
 
-  finishAnimation(imgNode, canvas)
+  finishAnimation(imgNode, canvas);
 };

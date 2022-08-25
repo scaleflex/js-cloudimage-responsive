@@ -1,9 +1,27 @@
 import { addClass, getWrapper } from '../common/ci.utils';
 
 
+const wrapAll = (wrapper, elms) => {
+  const el = elms.length ? elms[0] : elms;
+  const parent = el.parentNode;
+  const sibling = el.nextSibling;
+
+  wrapper.appendChild(el);
+
+  while (elms.length) {
+    wrapper.appendChild(elms[0]);
+  }
+
+  if (sibling) {
+    parent.insertBefore(wrapper, sibling);
+  } else {
+    parent.appendChild(wrapper);
+  }
+};
+
 export const wrapBackgroundContainer = (imgNode) => {
-  let previewBox = document.createElement('div');
-  let contentBox = document.createElement('div');
+  const previewBox = document.createElement('div');
+  const contentBox = document.createElement('div');
 
   if (imgNode.children && imgNode.children.length > 0) {
     wrapAll(contentBox, imgNode.children);
@@ -11,10 +29,12 @@ export const wrapBackgroundContainer = (imgNode) => {
 
   imgNode.prepend(previewBox);
 
-  return [previewBox, contentBox]
+  return [previewBox, contentBox];
 };
 
-export const applyBackgroundStyles = ({ imgNode, previewBox, contentBox, lazy, width }) => {
+export const applyBackgroundStyles = ({
+  imgNode, previewBox, contentBox, lazy, width,
+}) => {
   imgNode.style.position = 'relative';
 
   contentBox.style.position = 'relative';
@@ -71,7 +91,7 @@ export const onImageLoad = (wrapper, previewImg, imgNode, ratio, preserveSize, i
   wrapper.style.background = 'transparent';
 
   if (!ratio || isAdaptive) {
-    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / (width / height)) + '%';
+    wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / (width / height)}%`;
   }
 
   finishAnimation(imgNode);
@@ -83,7 +103,37 @@ export const onPreviewImageLoad = (wrapper, previewImg, ratio, preserveSize) => 
   wrapper.style.background = 'transparent';
 
   if (!ratio) {
-    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / (naturalWidth / naturalHeight)) + '%';
+    wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / (naturalWidth / naturalHeight)}%`;
+  }
+};
+
+export const loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) => {
+  if (bg) {
+    const optimizedImage = new Image();
+
+    if (isPreview) {
+      const previewImage = new Image();
+
+      optimizedImage.onload = () => {
+        finishAnimation(bgContainer, true);
+        bgContainer.parentNode.removeAttribute('ci-optimized-url');
+        bgContainer.removeAttribute('data-bg');
+        bgContainer.removeAttribute('ci-preview');
+      };
+
+      bgContainer.parentNode.style.backgroundImage = `url(${ciOptimizedUrl})`;
+      optimizedImage.src = ciOptimizedUrl;
+      previewImage.src = bg;
+    } else {
+      optimizedImage.onload = () => {
+        bgContainer.removeAttribute('data-bg');
+        bgContainer.removeAttribute('ci-preview');
+      };
+
+      optimizedImage.src = bg;
+    }
+
+    bgContainer.style.backgroundImage = `url(${bg})`;
   }
 };
 
@@ -94,41 +144,45 @@ export const onLazyBeforeUnveil = (event) => {
   const ciOptimizedUrl = (isPreview ? bgContainer.parentNode : bgContainer).getAttribute('ci-optimized-url');
 
   loadBackgroundImage(bg, isPreview, bgContainer, ciOptimizedUrl);
-}
-
-export const loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) => {
-  if (bg) {
-    let optimizedImage = new Image();
-
-    if (isPreview) {
-      let previewImage = new Image();
-
-      optimizedImage.onload = () => {
-        finishAnimation(bgContainer, true);
-        bgContainer.parentNode.removeAttribute('ci-optimized-url');
-        bgContainer.removeAttribute('data-bg');
-        bgContainer.removeAttribute('ci-preview');
-      }
-
-      bgContainer.parentNode.style.backgroundImage = 'url(' + ciOptimizedUrl + ')';
-      optimizedImage.src = ciOptimizedUrl;
-      previewImage.src = bg;
-    } else {
-      optimizedImage.onload = () => {
-        bgContainer.removeAttribute('data-bg');
-        bgContainer.removeAttribute('ci-preview');
-      }
-
-      optimizedImage.src = bg;
-    }
-
-    bgContainer.style.backgroundImage = 'url(' + bg + ')';
-  }
 };
 
-export const applyOrUpdateWrapper = props => {
-  const { isUpdate, imgNode, isPreview, lazy, alt } = props;
-  let wrapper, previewImgNode = null, previewWrapper = null;
+export const wrapImage = (props) => {
+  const {
+    imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize, placeholderBackground,
+  } = props;
+  let { wrapper } = props;
+
+  wrapper = wrapper || document.createElement('div');
+
+  addClass(wrapper, 'ci-image-wrapper');
+  wrapper.style.background = placeholderBackground;
+  wrapper.style.display = 'block';
+  wrapper.style.width = preserveSize ? imgNodeWidth : '100%';
+  wrapper.style.height = preserveSize ? imgNodeHeight : 'auto';
+  wrapper.style.overflow = 'hidden';
+  wrapper.style.position = 'relative';
+
+  if (ratio) {
+    wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / ratio}%`;
+  }
+
+  if (imgNode.nextSibling) {
+    imgNode.parentNode.insertBefore(wrapper, imgNode.nextSibling);
+  } else {
+    imgNode.parentNode.appendChild(wrapper);
+  }
+
+  wrapper.appendChild(imgNode);
+
+  return wrapper;
+};
+
+export const applyOrUpdateWrapper = (props) => {
+  const {
+    isUpdate, imgNode, isPreview, lazy, alt,
+  } = props;
+  let wrapper; let previewImgNode = null; let
+    previewWrapper = null;
 
   if (!isUpdate) {
     wrapper = wrapImage(props);
@@ -157,35 +211,6 @@ export const applyOrUpdateWrapper = props => {
   return { wrapper, previewImgNode, previewWrapper };
 };
 
-export const wrapImage = (props) => {
-  const { imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize, placeholderBackground } = props;
-  let { wrapper } = props;
-
-  wrapper = wrapper || document.createElement('div');
-
-  addClass(wrapper, 'ci-image-wrapper');
-  wrapper.style.background = placeholderBackground;
-  wrapper.style.display = 'block';
-  wrapper.style.width = preserveSize ? imgNodeWidth : '100%';
-  wrapper.style.height = preserveSize ? imgNodeHeight : 'auto';
-  wrapper.style.overflow = 'hidden';
-  wrapper.style.position = 'relative';
-
-  if (ratio) {
-    wrapper.style.paddingBottom = preserveSize ? 'none' : (100 / ratio) + '%';
-  }
-
-  if (imgNode.nextSibling) {
-    imgNode.parentNode.insertBefore(wrapper, imgNode.nextSibling);
-  } else {
-    imgNode.parentNode.appendChild(wrapper);
-  }
-
-  wrapper.appendChild(imgNode);
-
-  return wrapper;
-};
-
 export const initImageClasses = ({ imgNode, lazy }) => {
   addClass(imgNode, 'ci-image');
 
@@ -201,27 +226,10 @@ export const updateSizeWithPixelRatio = (size, devicePixelRatio) => {
   const splittedSizes = size.toString().split('x');
   const result = [];
 
-  [].forEach.call(splittedSizes, size => {
-    size ? result.push(Math.floor(size * ((devicePixelRatio || window.devicePixelRatio).toFixed(1) || 1))) : '';
+  [].forEach.call(splittedSizes, (_size) => {
+    // eslint-disable-next-line no-unused-expressions
+    _size ? result.push(Math.floor(_size * ((devicePixelRatio || window.devicePixelRatio).toFixed(1) || 1))) : '';
   });
 
   return result.join('x');
-};
-
-const wrapAll = function(wrapper, elms) {
-  const el = elms.length ? elms[0] : elms;
-  const parent  = el.parentNode;
-  const sibling = el.nextSibling;
-
-  wrapper.appendChild(el);
-
-  while (elms.length) {
-    wrapper.appendChild(elms[0]);
-  }
-
-  if (sibling) {
-    parent.insertBefore(wrapper, sibling);
-  } else {
-    parent.appendChild(wrapper);
-  }
 };

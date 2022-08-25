@@ -1,3 +1,12 @@
+import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
+import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
+import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
+import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakpoint';
+import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
+import { debounce } from 'throttle-debounce';
+import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
+import { getInitialConfigPlain } from './ci.config';
+import { initImageClasses, loadBackgroundImage } from './ci.utils';
 import {
   addClass,
   destroyNodeImgSize,
@@ -8,17 +17,8 @@ import {
   setAlt,
   setBackgroundSrc,
   setSrc,
-  setSrcset
+  setSrcset,
 } from '../common/ci.utils';
-import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
-import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
-import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
-import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakpoint';
-import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
-import { getInitialConfigPlain } from './ci.config';
-import { initImageClasses, loadBackgroundImage } from './ci.utils';
-import { debounce } from 'throttle-debounce';
-import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
 
 
 export default class CIResponsive {
@@ -48,16 +48,16 @@ export default class CIResponsive {
   process(isUpdate, rootElement = document) {
     const { imgSelector, bgSelector } = this.config;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
-    let [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
+    const [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
 
     if (images.length > -1) {
-      images.forEach(imgNode => {
+      images.forEach((imgNode) => {
         this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image');
       });
     }
 
     if (backgroundImages.length > -1) {
-      backgroundImages.forEach(imgNode => {
+      backgroundImages.forEach((imgNode) => {
         this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background');
       });
     }
@@ -67,11 +67,13 @@ export default class CIResponsive {
     const isImage = type === 'image';
     const { config } = this;
     const {
-      baseURL, lazyLoading, presets, devicePixelRatioList, imgSelector, bgSelector, processURL, processQueryString
+      baseURL, lazyLoading, presets, devicePixelRatioList, imgSelector, bgSelector, processURL, processQueryString,
     } = config;
-    const imgProps = isImage ?
-        getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
-    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt } = imgProps;
+    const imgProps = isImage
+      ? getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
+    const {
+      params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt,
+    } = imgProps;
 
     if (!imgNodeSRC) return;
 
@@ -83,7 +85,7 @@ export default class CIResponsive {
       if (isImage) {
         imgNode.src = src;
       } else {
-        imgNode.style.backgroundImage = 'url(' + src + ')';
+        imgNode.style.backgroundImage = `url(${src})`;
       }
 
       return;
@@ -96,21 +98,31 @@ export default class CIResponsive {
 
     if (isAdaptive) {
       size = getBreakpoint(sizes, presets);
-    } else {
-      if (isUpdate && !windowScreenBecomesBigger) return;
-    }
+    } else if (isUpdate && !windowScreenBecomesBigger) return;
 
-    const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
+    const containerProps = determineContainerProps({
+      ...imgProps, size, imgNode, config,
+    });
     const service = {
       props: { imgNode, imgProps, config },
-      methods: {}
+      methods: {},
     };
-    const generateURLbyDPR = devicePixelRatio =>
-        generateURL({ src, params, config, containerProps, devicePixelRatio, processURL, processQueryString, service });
+    const generateURLbyDPR = (devicePixelRatio) => generateURL({
+      src, params, config, containerProps, devicePixelRatio, processURL, processQueryString, service,
+    });
     const cloudimageUrl = generateURLbyDPR();
-    const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
-    const props = { imgNode, isUpdate, imgProps,
-      lazy, containerProps, isSVG, cloudimageUrl, src, preserveSize, alt: alt || generateAlt(src)
+    const cloudimageSrcset = devicePixelRatioList.map((dpr) => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
+    const props = {
+      imgNode,
+      isUpdate,
+      imgProps,
+      lazy,
+      containerProps,
+      isSVG,
+      cloudimageUrl,
+      src,
+      preserveSize,
+      alt: alt || generateAlt(src),
     };
 
     if (isImage) {
@@ -118,10 +130,12 @@ export default class CIResponsive {
     } else {
       this.processBackgroundImage(props);
     }
-  }
+  };
 
   processImage(props) {
-    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src, cloudimageSrcset, alt } = props;
+    const {
+      imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src, cloudimageSrcset, alt,
+    } = props;
     const { config } = this;
     const { dataSrcAttr, onImageLoad } = config;
 
@@ -135,7 +149,7 @@ export default class CIResponsive {
     }
 
     if (config.processOnlyWidth) {
-      imgNode.removeAttribute("height");
+      imgNode.removeAttribute('height');
     }
 
     imgNode.onload = () => {
@@ -150,7 +164,9 @@ export default class CIResponsive {
   }
 
   processBackgroundImage(props) {
-    const { imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src } = props;
+    const {
+      imgNode, isUpdate, lazy, isSVG, cloudimageUrl, src,
+    } = props;
     const { config } = this;
     const { dataSrcAttr } = config;
 

@@ -1,14 +1,3 @@
-import {
-  destroyNodeImgSize,
-  getBackgroundImageProps,
-  getFreshCIElements,
-  getImageProps,
-  isLazy,
-  setAlt,
-  setBackgroundSrc,
-  setSrc,
-  setSrcset
-} from '../common/ci.utils';
 import { isLowQualityPreview } from 'cloudimage-responsive-utils/dist/utils/is-low-quality-preview';
 import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
 import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
@@ -17,6 +6,7 @@ import { getPreviewSRC } from 'cloudimage-responsive-utils/dist/utils/get-previe
 import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakpoint';
 import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
 import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
+import { debounce } from 'throttle-debounce';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
   applyBackgroundStyles,
@@ -28,9 +18,19 @@ import {
   onPreviewImageLoad,
   setAnimation,
   wrapBackgroundContainer,
-  updateSizeWithPixelRatio
+  updateSizeWithPixelRatio,
 } from './ci.utis';
-import { debounce } from 'throttle-debounce';
+import {
+  destroyNodeImgSize,
+  getBackgroundImageProps,
+  getFreshCIElements,
+  getImageProps,
+  isLazy,
+  setAlt,
+  setBackgroundSrc,
+  setSrc,
+  setSrcset,
+} from '../common/ci.utils';
 
 
 export default class CIResponsive {
@@ -60,16 +60,16 @@ export default class CIResponsive {
   process(isUpdate, rootElement = document) {
     const { imgSelector, bgSelector } = this.config;
     const windowScreenBecomesBigger = this.innerWidth < window.innerWidth;
-    let [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
+    const [images, backgroundImages] = getFreshCIElements(isUpdate, rootElement, imgSelector, bgSelector);
 
     if (images.length > -1) {
-      images.forEach(imgNode => {
+      images.forEach((imgNode) => {
         this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image');
       });
     }
 
     if (backgroundImages.length > -1) {
-      backgroundImages.forEach(imgNode => {
+      backgroundImages.forEach((imgNode) => {
         this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background');
       });
     }
@@ -78,10 +78,14 @@ export default class CIResponsive {
   getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
     const isImage = type === 'image';
     const { config } = this;
-    const { baseURL, lazyLoading, presets, devicePixelRatioList, minLowQualityWidth, imgSelector, bgSelector } = config;
-    const imgProps = isImage ?
-        getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
-    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt } = imgProps;
+    const {
+      baseURL, lazyLoading, presets, devicePixelRatioList, minLowQualityWidth, imgSelector, bgSelector,
+    } = config;
+    const imgProps = isImage
+      ? getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
+    const {
+      params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt,
+    } = imgProps;
 
     if (!imgNodeSRC) return;
 
@@ -93,7 +97,7 @@ export default class CIResponsive {
       if (isImage) {
         imgNode.src = src;
       } else {
-        imgNode.style.backgroundImage = 'url(' + src + ')';
+        imgNode.style.backgroundImage = `url(${src})`;
       }
 
       return;
@@ -112,18 +116,20 @@ export default class CIResponsive {
           [src, isSVG] = getImgSRC(size.params.src, baseURL);
         }
       }
-    } else {
-      if (isUpdate && !windowScreenBecomesBigger) return;
-    }
+    } else if (isUpdate && !windowScreenBecomesBigger) return;
 
-    const containerProps = determineContainerProps({ ...imgProps, size, imgNode, config });
+    const containerProps = determineContainerProps({
+      ...imgProps, size, imgNode, config,
+    });
     const { width } = containerProps;
     const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
-    const generateURLbyDPR = devicePixelRatio => generateURL({ src, params, config, containerProps, devicePixelRatio })
+    const generateURLbyDPR = (devicePixelRatio) => generateURL({
+      src, params, config, containerProps, devicePixelRatio,
+    });
     const cloudimageUrl = generateURLbyDPR();
-    const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
+    const cloudimageSrcset = devicePixelRatioList.map((dpr) => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, alt: alt || generateAlt(src)
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, alt: alt || generateAlt(src),
     };
 
     if (isImage) {
@@ -131,7 +137,7 @@ export default class CIResponsive {
     } else {
       this.processBackgroundImage(props);
     }
-  }
+  };
 
   processImage(props) {
     const {
@@ -147,14 +153,16 @@ export default class CIResponsive {
       preserveSize,
       cloudimageSrcset,
       isAdaptive,
-      alt
+      alt,
     } = props;
     const { params } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
     const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper(
-      { isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps, alt }
+      {
+        isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps, alt,
+      },
     );
 
     if (!isUpdate) {
@@ -166,14 +174,16 @@ export default class CIResponsive {
       }
 
       if (isPreview) {
-        const previewImgURL = getPreviewSRC({ src, params, config, containerProps });
+        const previewImgURL = getPreviewSRC({
+          src, params, config, containerProps,
+        });
 
         setAnimation(previewWrapper, previewImgNode, updateSizeWithPixelRatio(width));
         setSrc(previewImgNode, previewImgURL, 'data-src', lazy, src, isSVG, dataSrcAttr);
 
         previewImgNode.onload = () => {
           onPreviewImageLoad(wrapper, previewImgNode, ratio, preserveSize);
-        }
+        };
       }
     }
 
@@ -189,7 +199,9 @@ export default class CIResponsive {
   }
 
   processBackgroundImage(props) {
-    const { imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src } = props;
+    const {
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src,
+    } = props;
     const { params } = imgProps;
     const { width } = containerProps;
     const { config } = this;
@@ -197,10 +209,14 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       if (isPreview) {
-        const previewImgURL = getPreviewSRC({ src, params, config, containerProps });
+        const previewImgURL = getPreviewSRC({
+          src, params, config, containerProps,
+        });
         const [previewBox, contentBox] = wrapBackgroundContainer(imgNode);
 
-        applyBackgroundStyles({ imgNode, previewBox, contentBox, lazy, width });
+        applyBackgroundStyles({
+          imgNode, previewBox, contentBox, lazy, width,
+        });
 
         if (lazy) {
           imgNode.setAttribute('ci-optimized-url', cloudimageUrl);
