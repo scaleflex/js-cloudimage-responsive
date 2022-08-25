@@ -6,17 +6,17 @@ export const loadBackgroundImage = (event) => {
   const bg = bgContainer.getAttribute('data-bg');
 
   if (bg) {
-    let optimizedImage = new Image();
+    const optimizedImage = new Image();
 
     optimizedImage.onload = () => {
       addClass(bgContainer, 'ci-image-loaded');
       bgContainer.removeAttribute('data-bg');
       bgContainer.removeAttribute('ci-preview');
-    }
+    };
 
     optimizedImage.src = bg;
 
-    bgContainer.style.backgroundImage = 'url(' + bg + ')';
+    bgContainer.style.backgroundImage = `url(${bg})`;
   }
 };
 
