@@ -14,11 +14,14 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
+  removeClassNames,
   setAlt,
   setBackgroundSrc,
+  setOptions,
   setSrc,
   setSrcset,
 } from '../common/ci.utils';
+import { loadedImageClassNames, processedAttr } from '../common/ci.constants';
 
 
 export default class CIResponsive {
@@ -172,8 +175,59 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       imgNode.className = `${imgNode.className}${lazy ? ' lazyload' : ''}`;
+      imgNode.setAttribute(processedAttr, true);
     }
 
     setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
+  }
+
+  updateImage(node, src, options) {
+    if (!node) return;
+
+    const { imgSelector, bgSelector } = this.config;
+
+    const isImage = node.hasAttribute(imgSelector);
+    const isBackground = node.hasAttribute(bgSelector);
+
+    if (options && typeof options === 'object') {
+      node = setOptions(node, options);
+    }
+
+    if (isImage) {
+      const isProcessed = node.classList.contains('ci-image');
+
+      if (src) {
+        node.setAttribute(imgSelector, src);
+      }
+
+      if (isProcessed) {
+        const adaptedImageNode = removeClassNames(node, loadedImageClassNames);
+
+        node.parentNode.replaceChild(adaptedImageNode, node);
+      }
+    }
+
+    if (isBackground) {
+      const isProcessed = node.getAttribute(processedAttr);
+
+      if (src) {
+        node.setAttribute(bgSelector, src);
+      }
+
+      if (isProcessed) {
+        removeClassNames(node, loadedImageClassNames);
+      }
+    }
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
+  }
+
+  addImage(node) {
+    if (!node) return;
+
+    const { imgSelector } = this.config;
+    const isImage = node.hasAttribute(imgSelector);
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
   }
 }

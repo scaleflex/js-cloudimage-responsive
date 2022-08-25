@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
 import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
 import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
@@ -6,6 +5,20 @@ import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakp
 import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
 import { debounce } from 'throttle-debounce';
 import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
+import { canvasAttr, loadedImageClassNames, processedAttr } from '../common/ci.constants';
+import {
+  destroyNodeImgSize,
+  getBackgroundImageProps,
+  getFreshCIElements,
+  getImageProps,
+  isLazy,
+  removeClassNames,
+  setAlt,
+  setBackgroundSrc,
+  setOptions,
+  setSrc,
+  setSrcset,
+} from '../common/ci.utils';
 import { getInitialConfigBlurHash } from './ci.config';
 import {
   applyOrUpdateBlurHashCanvas,
@@ -18,17 +31,6 @@ import {
   loadBackgroundImage,
   onImageLoad,
 } from './ci.utils';
-import {
-  destroyNodeImgSize,
-  getBackgroundImageProps,
-  getFreshCIElements,
-  getImageProps,
-  isLazy,
-  setAlt,
-  setBackgroundSrc,
-  setSrc,
-  setSrcset,
-} from '../common/ci.utils';
 
 
 export default class CIResponsive {
@@ -157,6 +159,8 @@ export default class CIResponsive {
       initImageStyles(imgNode);
       setAlt(imgNode, alt);
 
+      imgNode.setAttribute(processedAttr, true);
+
       if (config.destroyNodeImgSize) {
         destroyNodeImgSize(imgNode);
       }
@@ -189,6 +193,8 @@ export default class CIResponsive {
 
       const canvas = applyOrUpdateBlurHashCanvas(imgNode, blurHash);
 
+      imgNode.setAttribute(processedAttr, true);
+
       if (!lazy) {
         const tempImage = new Image();
 
@@ -201,5 +207,62 @@ export default class CIResponsive {
     }
 
     setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
+  }
+
+  updateImage(node, src, options) {
+    if (!node) return;
+
+    const { imgSelector, bgSelector } = this.config;
+
+    const isImage = node.hasAttribute(imgSelector);
+    const isBackground = node.hasAttribute(bgSelector);
+    const elementParentNode = node.parentNode;
+
+    if (options && typeof options === 'object') {
+      node = setOptions(node, options);
+    }
+
+    if (isImage) {
+      const isProcessed = node.classList.contains('ci-image');
+
+      if (src) {
+        node.setAttribute(imgSelector, src);
+      }
+
+      if (isProcessed) {
+        const adaptedImageNode = removeClassNames(node, loadedImageClassNames);
+
+        elementParentNode.parentNode.replaceChild(adaptedImageNode, elementParentNode);
+      }
+    }
+
+    if (isBackground) {
+      const isProcessed = node.getAttribute(processedAttr);
+
+      if (src) {
+        node.setAttribute(bgSelector, src);
+      }
+
+      if (isProcessed) {
+        removeClassNames(node, loadedImageClassNames);
+
+        const canvas = node.querySelector(`[${canvasAttr}]`);
+
+        if (canvas) {
+          canvas.parentNode.removeChild(canvas);
+        }
+      }
+    }
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
+  }
+
+  addImage(node) {
+    if (!node) return;
+
+    const { imgSelector } = this.config;
+    const isImage = node.hasAttribute(imgSelector);
+
+    this.getBasicInfo(node, false, false, isImage ? 'image' : 'background');
   }
 }

@@ -204,6 +204,23 @@ const setAlt = (imgNode, alt) => {
   imgNode.setAttribute('alt', alt);
 };
 
+const removeClassNames = (node, classNames) => {
+  classNames.forEach((className) => {
+    if (node.classList.contains(className)) {
+      node.classList.remove(className);
+    }
+  });
+
+  return node;
+};
+
+const setOptions = (node, options) => {
+  Object.entries(options).forEach(([key, value]) => {
+    node.setAttribute(key, value);
+  });
+
+  return node;
+};
 
 export {
   getParams,
@@ -219,4 +236,6 @@ export {
   getFreshCIElements,
   destroyNodeImgSize,
   setAlt,
+  removeClassNames,
+  setOptions,
 };

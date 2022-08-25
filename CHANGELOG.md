@@ -25,6 +25,14 @@ Types of changes:
 - ...
 
 -------------
+## 4.9.1 - 2022-08-15
+### Fixed
+- `updateImage` method when image doesn't have low-preivew.
+
+## 4.9.0 - 2022-08-11
+### Added
+- Possibility to change ci-src and process image.
+
 ## 4.8.13 - 2022-08-05
 ### Fixed
 - Undefined hostname when adding relative src
