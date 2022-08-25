@@ -1,4 +1,4 @@
-import { addClass, getWrapper } from '../common/ci.utils';
+import { addClass, getWrapper, getCommonImageProps, attr } from '../common/ci.utils';
 
 
 export const wrapBackgroundContainer = (imgNode) => {
@@ -94,6 +94,149 @@ export const onLazyBeforeUnveil = (event) => {
   const ciOptimizedUrl = (isPreview ? bgContainer.parentNode : bgContainer).getAttribute('ci-optimized-url');
 
   loadBackgroundImage(bg, isPreview, bgContainer, ciOptimizedUrl);
+}
+
+export const galleryMainImage = (imgSelector, imgNodeSRC) => {
+  const image = new Image();
+
+  image.setAttribute(imgSelector, imgNodeSRC);
+
+  return image;
+}
+
+const createGalleryMainImg = (imgSelector, imgProps) => {
+  const {imgNodeSRC } = imgProps;
+
+  const imageWrapper = document.createElement('div');
+  const image = galleryMainImage(imgSelector, imgNodeSRC);
+
+  imageWrapper.style.width = '85%';
+  imageWrapper.style.height = '100%';
+
+  imageWrapper.classList.add('ci-gallery-main-image-wrapper');
+
+  imageWrapper.append(image);
+
+  return imageWrapper;
+}
+
+const createGalleryImgs = (images, imgSelector, galleryName) => {
+  const galleryImgs = [];
+
+  images.forEach((img) => {
+    const { gallery } = getCommonImageProps(img);
+
+    if (gallery === galleryName){
+      galleryImgs.push(img);
+    }
+  });
+
+  const galleryImgsContainer = document.createElement('div');
+  galleryImgsContainer.classList.add('ci-gallery-images-wrapper');
+
+  galleryImgs.forEach((img) => {
+    const imgWrapper = document.createElement('div');
+    const image = new Image();
+
+    image.setAttribute(imgSelector, attr(img, imgSelector));
+
+    imgWrapper.classList.add('ci-gallery-bottom-img');
+    imgWrapper.append(image);
+
+    galleryImgsContainer.append(imgWrapper);
+  })
+
+  return galleryImgsContainer;
+}
+
+export const createGalleryModal = (imgSelector, imgProps, images, galleryName) => {
+  const galleryModal = document.createElement('div');
+  const upperPart = document.createElement('div');
+
+  const galleryMainImg = createGalleryMainImg(imgSelector, imgProps);
+  const galleryImgs = createGalleryImgs(images, imgSelector, galleryName);
+
+  upperPart.classList.add('gallery-upper-part');
+  galleryModal.classList.add('ci-gallery-modal');
+
+  upperPart.append(galleryMainImg);
+
+  galleryModal.append(upperPart);
+  galleryModal.append(galleryImgs);
+
+  return galleryModal;
+}
+
+export const creatIcon = (iconClassName, iconSRC) => {
+  const iconWrapper = document.createElement('div');
+  const icon = new Image();
+
+  icon.setAttribute('src', iconSRC);
+  icon.style.width = '30px';
+  icon.style.height = '30px';
+
+  iconWrapper.classList.add(iconClassName);
+  iconWrapper.append(icon);
+
+  return iconWrapper;
+}
+
+export const markCurrentImage = (galleryWrapperChildren, currentIndex) => {
+  galleryWrapperChildren.forEach((imgWrapper, index) => {
+    imgWrapper.querySelector('img').style.border= '1px solid grey';
+
+    if(index === currentIndex) {
+      imgWrapper.querySelector('img').style.border = '1px solid white';
+    }
+  });
+}
+
+export const setGalleryAnimation = (image) => {
+  image.style.transform = 'scale(1.1)';
+  image.style.transition = 'transform 0.5s ease';
+  image.style.zIndex = '2';
+}
+
+export const finishGalleryAnimation = (image) => {
+  image.style.transform = 'scale(1)';
+  image.style.zIndex = '1';
+}
+
+export const updateDimensions = (wrapper, imgProps) => {
+  const { imgNodeHeight, imgNodeWidth } = imgProps;
+
+  const imageWrapper = wrapper.firstElementChild;
+  const outerImage = imageWrapper.querySelector('.ci-image');
+  const innerImage = imageWrapper.querySelector('.ci-image-ratio');
+
+  imageWrapper.style.width = '100%';
+  imageWrapper.style.height = '100%';
+
+  outerImage.style.maxWidth = 'unset';
+  outerImage.style.top = 'unset';
+
+  if(innerImage){
+    innerImage.style.maxWidth = 'unset';
+  }
+
+  if((imgNodeHeight / imgNodeWidth) > 1 || !imgNodeHeight){
+    if(innerImage){
+      innerImage.style.width = '100%';
+      innerImage.style.height = 'auto';
+    }
+
+    outerImage.style.width = '100%';
+    outerImage.style.height = 'auto';
+  }
+  else{
+    if(innerImage){
+      innerImage.style.width = 'auto';
+      innerImage.style.height = '100%';
+    }
+
+    outerImage.style.width = 'auto';
+    outerImage.style.height = '100%';
+  }
 }
 
 export const loadBackgroundImage = (bg, isPreview, bgContainer, ciOptimizedUrl) => {

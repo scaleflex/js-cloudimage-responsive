@@ -16,7 +16,7 @@ export const filterImages = (images, type) => {
   return filtered;
 };
 
-const getCommonImageProps = (image) => ({
+export const getCommonImageProps = (image) => ({
   sizes: getSize(attr(image, 'ci-sizes') || attr(image, 'data-ci-size') || {}) || undefined,
   params: getParams(attr(image, 'ci-params') || attr(image, 'data-ci-params') || {}),
   imgNodeRatio: attr(image, 'ci-ratio') || attr(image, 'data-ci-ratio') || undefined,
@@ -27,6 +27,8 @@ const getCommonImageProps = (image) => ({
   imgNodeHeight: attr(image, 'height'),
   doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
   alt: attr(image, 'alt'),
+  zoom: attr(image, 'ci-zoom') || undefined,
+  gallery: attr(image, 'ci-gallery') || undefined,
 });
 
 export const getParams = (params) => {
@@ -119,7 +121,7 @@ export const getBackgroundImageProps = (image, bgSelector) => {
 
 const getURLWithoutQueryParams = (url = '') => url.split('?')[0];
 
-const attr = (element, attribute) => element.getAttribute(attribute);
+export const attr = (element, attribute) => element.getAttribute(attribute);
 
 const isTrue = (element, attribute) => {
   const imgProp = attr(element, attribute);

@@ -28,7 +28,14 @@ import {
   onPreviewImageLoad,
   setAnimation,
   wrapBackgroundContainer,
-  updateSizeWithPixelRatio
+  updateSizeWithPixelRatio,
+  setGalleryAnimation,
+  finishGalleryAnimation,
+  createGalleryModal,
+  galleryMainImage,
+  markCurrentImage,
+  updateDimensions,
+  creatIcon,
 } from './ci.utis';
 import { debounce } from 'throttle-debounce';
 
@@ -64,24 +71,25 @@ export default class CIResponsive {
 
     if (images.length > -1) {
       images.forEach(imgNode => {
-        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image');
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image', images);
       });
     }
 
     if (backgroundImages.length > -1) {
       backgroundImages.forEach(imgNode => {
-        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background');
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'background', images);
       });
     }
   }
 
-  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
+  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type, images) => {
     const isImage = type === 'image';
     const { config } = this;
     const { baseURL, lazyLoading, presets, devicePixelRatioList, minLowQualityWidth, imgSelector, bgSelector } = config;
     const imgProps = isImage ?
         getImageProps(imgNode, imgSelector) : getBackgroundImageProps(imgNode, bgSelector);
-    const { params, imgNodeSRC, isLazyCanceled, sizes, isAdaptive, preserveSize, minWindowWidth, alt } = imgProps;
+    const { params, imgNodeSRC, isLazyCanceled,
+      sizes, isAdaptive, preserveSize, minWindowWidth, alt } = imgProps;
 
     if (!imgNodeSRC) return;
 
@@ -123,14 +131,71 @@ export default class CIResponsive {
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map(dpr => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, alt: alt || generateAlt(src)
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, imgSelector, imgNodeSRC, alt: alt || generateAlt(src)
     };
 
     if (isImage) {
-      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
+      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset, images });
     } else {
       this.processBackgroundImage(props);
     }
+  }
+
+  closeModal = (event) => {
+    event.stopPropagation();
+    const modal = document.querySelector('.ci-gallery-modal');
+    if(modal) {
+      modal.remove();
+    }
+  }
+
+  openModal = (props, isGallery) => {
+    const {
+      wrapper,
+      modal,
+      imgSelector,
+      imgNodeSRC,
+      galleryWrapperChildren,
+      imgProps,
+    } = props;
+
+    const mainImageWrapper = modal.querySelector('.ci-gallery-main-image-wrapper');
+    const currentImage = galleryMainImage(imgSelector, imgNodeSRC);
+
+    wrapper.append(modal);
+
+    mainImageWrapper.removeChild(mainImageWrapper.firstElementChild);
+    mainImageWrapper.append(currentImage);
+
+    if(isGallery){
+      const currentImageIndex = this.getCurrentImage(galleryWrapperChildren, mainImageWrapper);
+
+      galleryWrapperChildren.forEach((imgWrapper, index) => {
+        if(index === currentImageIndex) {
+          markCurrentImage(galleryWrapperChildren, index);
+        }
+
+        this.process(false, imgWrapper);
+      });
+    }
+
+    this.process(false, mainImageWrapper);
+    updateDimensions(mainImageWrapper, imgProps);
+  }
+
+  getCurrentImage = (galleryWrapperChildren, mainImageWrapper) => {
+    let currentIndex = null;
+
+    galleryWrapperChildren.forEach((imgWrapper, index) => {
+      const mainImg = mainImageWrapper.querySelector('[ci-src]').getAttribute('ci-src');
+      const galleryImg = imgWrapper.querySelector('[ci-src]').getAttribute('ci-src');
+
+      if(mainImg === galleryImg){
+        currentIndex = index;
+      }
+    });
+
+    return currentIndex;
   }
 
   processImage(props) {
@@ -147,9 +212,12 @@ export default class CIResponsive {
       preserveSize,
       cloudimageSrcset,
       isAdaptive,
+      imgSelector,
+      imgNodeSRC,
+      images,
       alt
     } = props;
-    const { params } = imgProps;
+    const { params, gallery, zoom } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
@@ -160,6 +228,101 @@ export default class CIResponsive {
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
       setAlt(imgNode, alt);
+
+      if(zoom && !gallery){
+        const zoomModal = createGalleryModal(imgSelector, imgProps, images);
+      
+        const closeIcon = creatIcon('ci-close-icon', 'https://icon-library.com/icon/svg-close-icon-4.html.html>Svg Close Icon # 150236');
+
+        const zoomIcon = creatIcon('ci-zoom-icon-wrapper', 'https://icon-library.com/icon/svg-close-icon-4.html.html>Svg Close Icon # 150236');
+
+        zoomModal.append(closeIcon);
+
+        const props = { wrapper, modal: zoomModal, imgSelector, imgNodeSRC, imgNode, imgProps };
+
+        const displayZoomIcon = () => {
+          wrapper.append(zoomIcon);
+        }
+
+        const destroyZoomIcon = (event) => {
+          event.stopPropagation();
+          const zoomIcon = wrapper.querySelector('.ci-zoom-icon-wrapper');
+
+          if (zoomIcon){
+            zoomIcon.remove();
+          }
+        }
+        
+        wrapper.onclick = (event) => this.openModal(event, {...props});
+        closeIcon.onclick = this.closeModal;
+        wrapper.onmouseenter = displayZoomIcon;
+        wrapper.onmouseout = destroyZoomIcon;
+      }
+
+      if(gallery){
+        const galleryModal = createGalleryModal(imgSelector, imgProps, images, gallery);
+      
+        const closeIcon = creatIcon('ci-close-icon', 'https://icon-library.com/icon/svg-close-icon-4.html.html>Svg Close Icon # 150236');
+      
+        const rightArrow = creatIcon('ci-right-arrow-icon', 'https://icon-library.com/icon/svg-close-icon-4.html.html>Svg Close Icon # 150236');
+      
+        const leftArrow = creatIcon('ci-left-arrow-icon', 'https://icon-library.com/icon/svg-close-icon-4.html.html>Svg Close Icon # 150236');
+
+        galleryModal.append(closeIcon, rightArrow, leftArrow);
+
+        const mainImageWrapper = galleryModal.querySelector('.ci-gallery-main-image-wrapper');
+        const galleryImagesWrapper = galleryModal.querySelector('.ci-gallery-images-wrapper');
+        const galleryWrapperChildren = [...galleryImagesWrapper.children];
+
+        const props = { wrapper, modal : galleryModal, imgSelector,
+        imgNodeSRC, galleryWrapperChildren, imgNode, imgProps };
+
+        const processNextImage = (nextIndex) => {
+          const nextImageSrc = galleryWrapperChildren[nextIndex].querySelector('[ci-src]').getAttribute('ci-src');
+          const nextImage = galleryMainImage(imgSelector, nextImageSrc);
+
+          mainImageWrapper.removeChild(mainImageWrapper.firstElementChild);
+          mainImageWrapper.append(nextImage);
+
+          markCurrentImage(galleryWrapperChildren, nextIndex);
+
+          this.process(false, mainImageWrapper);
+          updateDimensions(mainImageWrapper, imgProps);
+        }
+
+        const arrowNavigation = (event, direction) => {
+          event.stopPropagation(); 
+
+          if(galleryWrapperChildren.length > 1){
+            let nextIndex = null;
+            const currentIndex = this.getCurrentImage(galleryWrapperChildren, mainImageWrapper);
+
+            if(direction === 'right'){
+              if(currentIndex < galleryWrapperChildren.length - 1){
+                nextIndex = currentIndex + 1;
+              } else {
+                nextIndex = 0;
+              }
+            }
+            else{
+              if(currentIndex > 0){
+                nextIndex = currentIndex - 1;
+              } else {
+                nextIndex = galleryWrapperChildren.length - 1;
+              }
+            }
+
+            processNextImage(nextIndex);
+          }
+        }
+
+        wrapper.onclick = () => this.openModal({...props}, true);
+        wrapper.onmouseenter = () => setGalleryAnimation(imgNode);
+        wrapper.onmouseout = () => finishGalleryAnimation(imgNode);
+        closeIcon.onclick = this.closeModal;
+        rightArrow.onclick = (event) => arrowNavigation(event, "right");
+        leftArrow.onclick = (event) => arrowNavigation(event, "left");
+      }
 
       if (config.destroyNodeImgSize) {
         destroyNodeImgSize(imgNode);
