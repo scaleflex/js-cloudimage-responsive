@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
 import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
 import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
