@@ -1,8 +1,11 @@
-if(window.CanvasPixelArray) {
-  CanvasPixelArray.prototype.set = function(arr) {
-    var l=this.length, i=0;
+/* eslint-disable */
 
-    for(;i<l;i++) {
+if (window.CanvasPixelArray) {
+  CanvasPixelArray.prototype.set = function (arr) {
+    const l = this.length; let
+      i = 0;
+
+    for (;i < l; i++) {
       this[i] = arr[i];
     }
   };
@@ -11,8 +14,9 @@ if(window.CanvasPixelArray) {
   try {
     new window.ImageData(new Uint8ClampedArray([0, 0, 0, 0]), 1, 1);
   } catch (e) {
-    function ImageDataPolyfill () {
-      let args = [...arguments], data;
+    function ImageDataPolyfill() {
+      const args = [...arguments]; let
+        data;
 
       if (args.length < 2) {
         throw new TypeError(`
@@ -36,15 +40,15 @@ if(window.CanvasPixelArray) {
         }
       }
 
-      const width = args[0],
-        height = args[1],
-        canvas = document.createElement('canvas'),
-        ctx = canvas.getContext('2d'),
-        imageData = ctx.createImageData(width, height);
+      const width = args[0];
+      const height = args[1];
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.createImageData(width, height);
 
       if (data) imageData.data.set(data);
       return imageData;
-    };
+    }
 
     window.ImageData = ImageDataPolyfill;
   }

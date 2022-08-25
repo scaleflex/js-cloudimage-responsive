@@ -1,3 +1,4 @@
+/* eslint-disable */
 window.onload = function() {
   var carousels = $('.carousel');
   var number = $('.carousel').length;

@@ -1,5 +1,5 @@
-import { getParams } from '../common/ci.utils';
 import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
+import { getParams } from '../common/ci.utils';
 
 
 export const getInitialConfigPlain = (config) => {
@@ -31,7 +31,7 @@ export const getInitialConfigPlain = (config) => {
     onImageLoad = null,
     // methods
     processURL = null,
-    processQueryString = null
+    processQueryString = null,
   } = config;
 
   return {
@@ -42,14 +42,13 @@ export const getInitialConfigPlain = (config) => {
     lazyLoading,
     baseURL: baseUrl || baseURL,
     exactSize,
-    presets: presets ? presets :
-      {
-        xs: '(max-width: 575px)',  // to 575       PHONE
-        sm: '(min-width: 576px)',  // 576 - 767    PHABLET
-        md: '(min-width: 768px)',  // 768 - 991    TABLET
-        lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
-        xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
-      },
+    presets: presets || {
+      xs: '(max-width: 575px)', // to 575       PHONE
+      sm: '(min-width: 576px)', // 576 - 767    PHABLET
+      md: '(min-width: 768px)', // 768 - 991    TABLET
+      lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
+      xl: '(min-width: 1200px)', // from 1200    USUALSCREEN
+    },
     params: getParams(params),
     apiVersion,
     customDomain,
@@ -67,7 +66,7 @@ export const getInitialConfigPlain = (config) => {
     processOnlyWidth,
     onImageLoad,
     processURL,
-    processQueryString
-    //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+    processQueryString,
+    // isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };

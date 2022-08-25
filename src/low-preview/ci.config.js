@@ -1,5 +1,5 @@
-import { getParams } from '../common/ci.utils';
 import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
+import { getParams } from '../common/ci.utils';
 
 
 export const getInitialConfigLowPreview = (config) => {
@@ -31,11 +31,11 @@ export const getInitialConfigLowPreview = (config) => {
     processOnlyWidth = false,
     devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
     lowQualityPreview: {
-      minImgWidth = 400
+      minImgWidth = 400,
     } = {},
 
     // callback
-    onImageLoad = null
+    onImageLoad = null,
   } = config;
 
   return {
@@ -49,14 +49,13 @@ export const getInitialConfigLowPreview = (config) => {
     baseURL: baseUrl || baseURL,
     ratio,
     exactSize,
-    presets: presets ? presets :
-      {
-        xs: '(max-width: 575px)',  // to 575       PHONE
-        sm: '(min-width: 576px)',  // 576 - 767    PHABLET
-        md: '(min-width: 768px)',  // 768 - 991    TABLET
-        lg: '(min-width: 992px)',  // 992 - 1199   SMALL_LAPTOP_SCREEN
-        xl: '(min-width: 1200px)'  // from 1200    USUALSCREEN
-      },
+    presets: presets || {
+      xs: '(max-width: 575px)', // to 575       PHONE
+      sm: '(min-width: 576px)', // 576 - 767    PHABLET
+      md: '(min-width: 768px)', // 768 - 991    TABLET
+      lg: '(min-width: 992px)', // 992 - 1199   SMALL_LAPTOP_SCREEN
+      xl: '(min-width: 1200px)', // from 1200    USUALSCREEN
+    },
     params: getParams(params),
     apiVersion,
     customDomain,
@@ -74,7 +73,7 @@ export const getInitialConfigLowPreview = (config) => {
     saveNodeImgRatio,
     detectImageNodeCSS,
     processOnlyWidth,
-    onImageLoad
-    //isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+    onImageLoad,
+    // isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };

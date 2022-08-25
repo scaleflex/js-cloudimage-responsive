@@ -1,6 +1,7 @@
-import { decode83 } from "./base83";
-import { sRGBToLinear, signPow, linearTosRGB } from "./utils";
-import { ValidationError } from "./error";
+/* eslint-disable */
+import { decode83 } from './base83';
+import { sRGBToLinear, signPow, linearTosRGB } from './utils';
+import { ValidationError } from './error';
 
 /**
  * Returns an error message if invalid or undefined if valid
@@ -9,7 +10,7 @@ import { ValidationError } from "./error";
 const validateBlurhash = (blurhash) => {
   if (!blurhash || blurhash.length < 6) {
     throw new ValidationError(
-      "The blurhash string must be at least 6 characters"
+      'The blurhash string must be at least 6 characters',
     );
   }
 
@@ -21,7 +22,7 @@ const validateBlurhash = (blurhash) => {
     throw new ValidationError(
       `blurhash length mismatch: length is ${
         blurhash.length
-        } but it should be ${4 + 2 * numX * numY}`
+      } but it should be ${4 + 2 * numX * numY}`,
     );
   }
 };
@@ -51,7 +52,7 @@ const decodeAC = (value, maximumValue) => {
   const rgb = [
     signPow((quantR - 9) / 9, 2.0) * maximumValue,
     signPow((quantG - 9) / 9, 2.0) * maximumValue,
-    signPow((quantB - 9) / 9, 2.0) * maximumValue
+    signPow((quantB - 9) / 9, 2.0) * maximumValue,
   ];
 
   return rgb;
@@ -60,7 +61,7 @@ const decodeAC = (value, maximumValue) => {
 const decode = (blurhash, width, height, punch) => {
   validateBlurhash(blurhash);
 
-  punch = punch | 1;
+  punch |= 1;
 
   const sizeFlag = decode83(blurhash[0]);
   const numY = Math.floor(sizeFlag / 9) + 1;
@@ -92,19 +93,18 @@ const decode = (blurhash, width, height, punch) => {
 
       for (let j = 0; j < numY; j++) {
         for (let i = 0; i < numX; i++) {
-          const basis =
-            Math.cos((Math.PI * x * i) / width) *
-            Math.cos((Math.PI * y * j) / height);
-          let color = colors[i + j * numX];
+          const basis = Math.cos((Math.PI * x * i) / width)
+            * Math.cos((Math.PI * y * j) / height);
+          const color = colors[i + j * numX];
           r += color[0] * basis;
           g += color[1] * basis;
           b += color[2] * basis;
         }
       }
 
-      let intR = linearTosRGB(r);
-      let intG = linearTosRGB(g);
-      let intB = linearTosRGB(b);
+      const intR = linearTosRGB(r);
+      const intG = linearTosRGB(g);
+      const intB = linearTosRGB(b);
 
       pixels[4 * x + 0 + y * bytesPerRow] = intR;
       pixels[4 * x + 1 + y * bytesPerRow] = intG;

@@ -1,5 +1,7 @@
+/* eslint-disable */
+
 (function (arr) {
-  arr.forEach(function (item) {
+  arr.forEach((item) => {
     if (item.hasOwnProperty('prepend')) {
       return;
     }
@@ -8,16 +10,16 @@
       enumerable: true,
       writable: true,
       value: function prepend() {
-        var argArr = Array.prototype.slice.call(arguments),
-          docFrag = document.createDocumentFragment();
+        const argArr = Array.prototype.slice.call(arguments);
+        const docFrag = document.createDocumentFragment();
 
-        argArr.forEach(function (argItem) {
-          var isNode = argItem instanceof Node;
+        argArr.forEach((argItem) => {
+          const isNode = argItem instanceof Node;
           docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
         });
 
         this.insertBefore(docFrag, this.firstChild);
-      }
+      },
     });
   });
-})([Element.prototype, Document.prototype, DocumentFragment.prototype]);
+}([Element.prototype, Document.prototype, DocumentFragment.prototype]));

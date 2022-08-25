@@ -10,5 +10,5 @@ export {
   processedAttr,
   bgContentAttr,
   canvasAttr,
-  loadedImageClassNames
-}
+  loadedImageClassNames,
+};
