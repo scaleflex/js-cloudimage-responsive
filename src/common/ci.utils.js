@@ -341,6 +341,23 @@ const getCurrentImage = (mainImageWrapper, galleryModal) => {
   return currentIndex;
 }
 
+const displayZoomIcon = (wrapper, imgProps) => {
+  const { zoom, gallery } = imgProps;
+
+  if(zoom && !gallery){
+    const zoomIcon = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-zoom-button');
+    wrapper.append(zoomIcon);
+  }
+}
+
+const destroyZoomIcon = (wrapper) => {
+  const zoomIcon = wrapper.querySelector('.ci-gallery-zoom-button');
+
+  if (zoomIcon){
+    zoomIcon.remove();
+  }
+}
+
 export {
   getParams,
   filterImages,
@@ -363,5 +380,7 @@ export {
   createThmbnailsModule,
   createGalleryModal,
   markCurrentImage,
-  getCurrentImage
+  getCurrentImage,
+  displayZoomIcon,
+  destroyZoomIcon,
 };

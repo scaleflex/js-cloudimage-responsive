@@ -26,6 +26,8 @@ import {
   galleryPreviewImage,
   createGalleryPreviewModule,
   createIcon,
+  displayZoomIcon,
+  destroyZoomIcon,
 } from '../common/ci.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -193,7 +195,18 @@ export default class CIResponsive {
   }
 
   handleClickWrapper(imgSelector, imgProps, images){
-    const { gallery } = imgProps;
+    const { gallery, zoom } = imgProps;
+
+    if(zoom && !gallery) {
+      const galleryModal = createGalleryModal();
+      const previewModule = createGalleryPreviewModule(imgSelector, imgProps, galleryModal);
+
+      galleryModal.appendChild(previewModule);
+
+      document.body.appendChild(galleryModal);
+
+      this.process(false, previewModule);
+    }
 
     if(gallery) {
       const galleryModal = createGalleryModal();
@@ -272,6 +285,8 @@ export default class CIResponsive {
       }
 
       wrapper.onclick = this.handleClickWrapper.bind(this, imgSelector, imgProps, images);
+      wrapper.onmouseenter = () => displayZoomIcon(wrapper, imgProps);
+      wrapper.onmouseout = () => destroyZoomIcon(wrapper);
 
       onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
     };
