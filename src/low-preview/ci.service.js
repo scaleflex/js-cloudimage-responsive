@@ -19,6 +19,13 @@ import {
   setOptions,
   setSrc,
   setSrcset,
+  getCurrentImage,
+  markCurrentImage,
+  createGalleryModal,
+  createThmbnailsModule,
+  galleryPreviewImage,
+  createGalleryPreviewModule,
+  createIcon,
 } from '../common/ci.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -67,7 +74,7 @@ export default class CIResponsive {
 
     if (images.length > -1) {
       images.forEach((imgNode) => {
-        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image');
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image', images);
       });
     }
 
@@ -78,7 +85,7 @@ export default class CIResponsive {
     }
   }
 
-  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
+  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type, images) => {
     const isImage = type === 'image';
     const { config } = this;
     const {
@@ -132,15 +139,82 @@ export default class CIResponsive {
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map((dpr) => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, alt: alt || generateAlt(src),
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, imgSelector, alt: alt || generateAlt(src),
     };
 
     if (isImage) {
-      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
+      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset, images});
     } else {
       this.processBackgroundImage(props);
     }
   };
+
+  processNextImage = (nextIndex, galleryThmbnailsModule, imgSelector, galleryModal) => {
+    const nextImageSrc = galleryThmbnailsModule[nextIndex].querySelector('[ci-src]').getAttribute('ci-src');
+    const nextImage = galleryPreviewImage(imgSelector, nextImageSrc);
+
+    const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+
+    previewModule.removeChild(previewModule.firstElementChild);
+    previewModule.append(nextImage);
+
+    markCurrentImage(galleryThmbnailsModule, nextIndex);
+
+    this.process(false, previewModule);
+  }
+
+  arrowNavigation = (direction, galleryModal, imgSelector) => {
+    const mainImageWrapper = galleryModal.querySelector('.ci-gallery-preview-module');
+    const galleryThmbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
+    const galleryThmbnails = [...galleryThmbnailsModule.children];
+    
+
+    if(galleryThmbnails.length > 1){
+      let nextIndex = null;
+      const currentIndex = getCurrentImage(mainImageWrapper, galleryModal);
+
+      if(direction === 'right'){
+        if(currentIndex < galleryThmbnails.length - 1){
+          nextIndex = currentIndex + 1;
+        } else {
+          nextIndex = 0;
+        }
+      }
+      else{
+        if(currentIndex > 0){
+          nextIndex = currentIndex - 1;
+        } else {
+          nextIndex = galleryThmbnails.length - 1;
+        }
+      }
+
+      this.processNextImage(nextIndex, galleryThmbnails, imgSelector, galleryModal);
+    }
+  }
+
+  handleClickWrapper(imgSelector, imgProps, images){
+    const { gallery } = imgProps;
+
+    if(gallery) {
+      const galleryModal = createGalleryModal();
+      const previewModule = createGalleryPreviewModule(imgSelector, imgProps, galleryModal);
+      const thumbnailsModule = createThmbnailsModule(images, imgSelector, gallery, galleryModal);
+      const rightArrow = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-right-arrow-button');
+      const leftArrow = createIcon('../public/left-arrow-icon.svg', 'ci-gallery-left-arrow-button');
+
+      galleryModal.appendChild(previewModule);
+      galleryModal.appendChild(thumbnailsModule);
+      galleryModal.append(rightArrow);
+      galleryModal.append(leftArrow);
+
+      document.body.appendChild(galleryModal);
+
+      this.process(false, previewModule);
+
+      rightArrow.onclick = this.arrowNavigation.bind(this, "right", galleryModal, imgSelector);
+      leftArrow.onclick = this.arrowNavigation.bind(this, "left", galleryModal, imgSelector);
+    }
+  }
 
   processImage(props) {
     const {
@@ -156,6 +230,8 @@ export default class CIResponsive {
       preserveSize,
       cloudimageSrcset,
       isAdaptive,
+      imgSelector,
+      images,
       alt,
     } = props;
     const { params } = imgProps;
@@ -194,6 +270,9 @@ export default class CIResponsive {
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
         config.onImageLoad(imgNode);
       }
+
+      wrapper.onclick = this.handleClickWrapper.bind(this, imgSelector, imgProps, images);
+
       onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
     };
 

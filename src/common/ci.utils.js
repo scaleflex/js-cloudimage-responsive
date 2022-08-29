@@ -71,6 +71,8 @@ const getCommonImageProps = (image) => ({
   imgNodeHeight: attr(image, 'height'),
   doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
   alt: attr(image, 'alt'),
+  zoom: attr(image, 'ci-zoom') || undefined,
+  gallery: attr(image, 'ci-gallery') || undefined,
 });
 
 const filterImages = (images, type) => {
@@ -222,6 +224,123 @@ const setOptions = (node, options) => {
   return node;
 };
 
+const createIcon = (iconSrc, className) => {
+  const iconWrapper = document.createElement('div');
+  const icon = new Image();
+
+  icon.src = iconSrc;
+
+  if(className){
+    iconWrapper.classList.add(className);
+  }
+
+  iconWrapper.appendChild(icon);
+
+  return iconWrapper;
+}
+
+const destroyGallery = (galleryModal) => {
+  galleryModal.parentNode.removeChild(galleryModal);
+}
+
+const createGalleryPreviewModule = (imgSelector, imgProps, galleryModal) => {
+  const {imgNodeSRC } = imgProps;
+
+  const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+
+  const image = new Image();
+
+  image.setAttribute(imgSelector, imgNodeSRC);
+
+  previewModule.appendChild(image);
+
+  return previewModule;
+}
+
+const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
+  const image = new Image();
+
+  image.setAttribute(imgSelector, imgNodeSRC);
+
+  return image;
+}
+
+const createThmbnailsModule = (images, imgSelector, galleryName, galleryModal) => {
+  const galleryThmbnails = images.filter((image) => {
+    const { gallery } = getCommonImageProps(image);
+
+    if (gallery === galleryName){
+      return image;
+    }
+  });
+
+  const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
+
+  galleryThmbnails.forEach((img) => {
+    const thmbnailContainer = document.createElement('div');
+    thmbnailContainer.classList.add('ci-gallery-thmbnail-container');
+
+    const image = img.cloneNode();
+    image.classList.remove('ci-image');
+    image.style.width = '100%';
+    image.style.height = '100%';
+
+    thmbnailContainer.append(image);
+
+    thumbnailsModule.append(thmbnailContainer);
+  })
+
+  return thumbnailsModule;
+}
+
+const createGalleryModal = () => {
+  const galleryModal = document.createElement('div');
+  const previewModule = document.createElement('div');
+  const thumbnailsModule = document.createElement('div');
+  const closeIcon = createIcon('../public/close-icon.svg', 'ci-gallery-close-button');
+
+  galleryModal.classList.add('ci-gallery-modal');
+  previewModule.classList.add('ci-gallery-preview-module');
+  thumbnailsModule.classList.add('ci-gallery-thumbnail-module');
+
+  galleryModal.append(previewModule);
+  galleryModal.append(thumbnailsModule);
+  galleryModal.append(closeIcon);
+
+  closeIcon.onclick = destroyGallery.bind(this, galleryModal);
+
+  return galleryModal;
+}
+
+const markCurrentImage = (galleryThmbnails, currentIndex) => {
+  galleryThmbnails.forEach((imgWrapper, index) => {
+    imgWrapper.querySelector('img').style.border= '1px solid grey';
+
+    if(index === currentIndex) {
+      imgWrapper.querySelector('img').style.border = '1px solid white';
+    }
+  });
+}
+
+const getCurrentImage = (mainImageWrapper, galleryModal) => {
+  const galleryThmbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
+  const galleryThmbnails = [...galleryThmbnailsModule.children];
+
+  let currentIndex = null;
+
+  galleryThmbnails.forEach((imgWrapper, index) => {
+    const mainImg = mainImageWrapper.querySelector('[ci-src]').getAttribute('ci-src');
+    const galleryImg = imgWrapper.querySelector('[ci-src]').getAttribute('ci-src');
+
+    if(mainImg === galleryImg){
+      currentIndex = index;
+      markCurrentImage(galleryThmbnails, index);
+    }
+  });
+
+  return currentIndex;
+}
+
 export {
   getParams,
   filterImages,
@@ -238,4 +357,11 @@ export {
   setAlt,
   removeClassNames,
   setOptions,
+  createIcon,
+  createGalleryPreviewModule,
+  galleryPreviewImage,
+  createThmbnailsModule,
+  createGalleryModal,
+  markCurrentImage,
+  getCurrentImage
 };
