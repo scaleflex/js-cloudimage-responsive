@@ -170,6 +170,92 @@ const setSrcset = (image, urls, propertyName, lazy, imgSrc, isSVG, dataSrcAttr) 
   );
 };
 
+const createIcon = (iconSrc, className) => {
+  const iconWrapper = document.createElement('div');
+  const icon = new Image();
+
+  icon.src = iconSrc;
+
+  if(className){
+    iconWrapper.classList.add(className);
+  }
+
+  iconWrapper.appendChild(icon);
+
+  return iconWrapper;
+}
+
+const destroyGallery = (galleryModal) => {
+  galleryModal.parentNode.removeChild(galleryModal);
+}
+
+export const createGalleryPreviewModule = (imgSelector, imgProps, galleryModal) => {
+  const {imgNodeSRC } = imgProps;
+
+  const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+
+  const image = new Image();
+
+  image.setAttribute(imgSelector, imgNodeSRC);
+
+  previewModule.appendChild(image);
+
+  return previewModule;
+}
+
+export const createThmbnailsModule = (images, imgSelector, galleryName, galleryModal) => {
+  const galleryThmbnails = [];
+
+  images.forEach((image) => {
+    const { gallery } = getCommonImageProps(image);
+
+    if (gallery === galleryName){
+      galleryThmbnails.push(image);
+    }
+  });
+
+  const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
+
+  galleryThmbnails.forEach((img) => {
+    const thmbnailContainer = document.createElement('div');
+    thmbnailContainer.classList.add('ci-gallery-thmbnail-container');
+
+    const image = img.cloneNode();
+    image.classList.remove('ci-image');
+    image.style.width = '100%';
+    image.style.height = '100%';
+
+    thmbnailContainer.append(image);
+
+    thumbnailsModule.append(thmbnailContainer);
+  })
+
+  return thumbnailsModule;
+}
+
+export const createGalleryModal = () => {
+  const galleryModal = document.createElement('div');
+  const previewModule = document.createElement('div');
+  const thumbnailsModule = document.createElement('div');
+  const closeIcon = createIcon('../public/close-icon.svg', 'ci-gallery-close-button');
+  const rightArrow = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-right-arrow-button');
+  const leftArrow = createIcon('../public/left-arrow-icon.svg', 'ci-gallery-left-arrow-button');
+
+  galleryModal.classList.add('ci-gallery-modal');
+  previewModule.classList.add('ci-gallery-preview-module');
+  thumbnailsModule.classList.add('ci-gallery-thumbnail-module');
+
+  galleryModal.append(previewModule);
+  galleryModal.append(thumbnailsModule);
+  galleryModal.append(closeIcon);
+  galleryModal.append(rightArrow);
+  galleryModal.append(leftArrow);
+
+  closeIcon.onclick = destroyGallery.bind(this, galleryModal);
+
+  return galleryModal;
+}
+
 const setBackgroundSrc = (image, url, lazy, imgSrc, isSVG, dataSrcAttr) => {
   const resultLink = isSVG ? imgSrc : url;
 

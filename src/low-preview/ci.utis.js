@@ -109,58 +109,58 @@ export const onPreviewImageLoad = (wrapper, previewImg, ratio, preserveSize) => 
   }
 };
 
-export const galleryMainImage = (imgSelector, imgNodeSRC) => {
-  const image = new Image();
+// export const galleryMainImage = (imgSelector, imgNodeSRC) => {
+//   const image = new Image();
 
-  image.setAttribute(imgSelector, imgNodeSRC);
+//   image.setAttribute(imgSelector, imgNodeSRC);
 
-  return image;
-}
+//   return image;
+// }
 
-const createGalleryMainImg = (imgSelector, imgProps) => {
-  const {imgNodeSRC } = imgProps;
+// const createGalleryMainImg = (imgSelector, imgProps) => {
+//   const {imgNodeSRC } = imgProps;
 
-  const imageWrapper = document.createElement('div');
-  const image = galleryMainImage(imgSelector, imgNodeSRC);
+//   const imageWrapper = document.createElement('div');
+//   const image = galleryMainImage(imgSelector, imgNodeSRC);
 
-  imageWrapper.style.width = '85%';
-  imageWrapper.style.height = '100%';
+//   imageWrapper.style.width = '85%';
+//   imageWrapper.style.height = '100%';
 
-  imageWrapper.classList.add('ci-gallery-main-image-wrapper');
+//   imageWrapper.classList.add('ci-gallery-main-image-wrapper');
 
-  imageWrapper.append(image);
+//   imageWrapper.append(image);
 
-  return imageWrapper;
-}
+//   return imageWrapper;
+// }
 
-const createGalleryImgs = (images, imgSelector, galleryName) => {
-  const galleryImgs = [];
+// const createGalleryImgs = (images, imgSelector, galleryName) => {
+//   const galleryImgs = [];
 
-  images.forEach((img) => {
-    const { gallery } = getCommonImageProps(img);
+//   images.forEach((img) => {
+//     const { gallery } = getCommonImageProps(img);
 
-    if (gallery === galleryName){
-      galleryImgs.push(img);
-    }
-  });
+//     if (gallery === galleryName){
+//       galleryImgs.push(img);
+//     }
+//   });
 
-  const galleryImgsContainer = document.createElement('div');
-  galleryImgsContainer.classList.add('ci-gallery-images-wrapper');
+//   const galleryImgsContainer = document.createElement('div');
+//   galleryImgsContainer.classList.add('ci-gallery-images-wrapper');
 
-  galleryImgs.forEach((img) => {
-    const imgWrapper = document.createElement('div');
-    const image = new Image();
+//   galleryImgs.forEach((img) => {
+//     const imgWrapper = document.createElement('div');
+//     const image = new Image();
 
-    image.setAttribute(imgSelector, attr(img, imgSelector));
+//     image.setAttribute(imgSelector, attr(img, imgSelector));
 
-    imgWrapper.classList.add('ci-gallery-bottom-img');
-    imgWrapper.append(image);
+//     imgWrapper.classList.add('ci-gallery-bottom-img');
+//     imgWrapper.append(image);
 
-    galleryImgsContainer.append(imgWrapper);
-  })
+//     galleryImgsContainer.append(imgWrapper);
+//   })
 
-  return galleryImgsContainer;
-}
+//   return galleryImgsContainer;
+// }
 
 export const createGalleryModal = (imgSelector, imgProps, images, galleryName) => {
   const galleryModal = document.createElement('div');
