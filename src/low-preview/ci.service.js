@@ -28,6 +28,10 @@ import {
   createIcon,
   displayZoomIcon,
   destroyZoomIcon,
+  getGalleryImages,
+  createGalleryArrows,
+  getGalleryLengthAndIndex,
+  setGalleryIndex,
 } from '../common/ci.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -165,33 +169,27 @@ export default class CIResponsive {
     this.process(false, previewModule);
   }
 
-  arrowNavigation = (direction, galleryModal, imgSelector) => {
-    const mainImageWrapper = galleryModal.querySelector('.ci-gallery-preview-module');
-    const galleryThmbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
-    const galleryThmbnails = [...galleryThmbnailsModule.children];
-    
+  handleArrowClick(direction) {
+    let nextIndex = 0;
+    const [length, index] = getGalleryLengthAndIndex();
 
-    if(galleryThmbnails.length > 1){
-      let nextIndex = null;
-      const currentIndex = getCurrentImage(mainImageWrapper, galleryModal);
+    nextIndex = +index;
 
-      if(direction === 'right'){
-        if(currentIndex < galleryThmbnails.length - 1){
-          nextIndex = currentIndex + 1;
-        } else {
-          nextIndex = 0;
-        }
+    if (direction === 'left') {
+      nextIndex -= 1;
+
+      if ((length -1 + nextIndex) <= 0) {
+        nextIndex = length - 1;
       }
-      else{
-        if(currentIndex > 0){
-          nextIndex = currentIndex - 1;
-        } else {
-          nextIndex = galleryThmbnails.length - 1;
-        }
-      }
+    } else {
+      nextIndex += 1;
 
-      this.processNextImage(nextIndex, galleryThmbnails, imgSelector, galleryModal);
+      if ((length -1 + nextIndex) > length) {
+        nextIndex = 0;
+      }
     }
+
+    setGalleryIndex(nextIndex);
   }
 
   handleClickWrapper(imgSelector, imgProps, images){
@@ -208,24 +206,18 @@ export default class CIResponsive {
       this.process(false, previewModule);
     }
 
-    if(gallery) {
-      const galleryModal = createGalleryModal();
+    if (gallery) {
+      const galleryImages = getGalleryImages(images, gallery);
+      const galleryModal = createGalleryModal(galleryImages.length);
       const previewModule = createGalleryPreviewModule(imgSelector, imgProps, galleryModal);
-      const thumbnailsModule = createThmbnailsModule(images, imgSelector, gallery, galleryModal);
-      const rightArrow = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-right-arrow-button');
-      const leftArrow = createIcon('../public/left-arrow-icon.svg', 'ci-gallery-left-arrow-button');
+      const thumbnailsModule = createThmbnailsModule(galleryImages, galleryModal);
+      const galleryArrows = createGalleryArrows(this.handleArrowClick);
 
       galleryModal.appendChild(previewModule);
       galleryModal.appendChild(thumbnailsModule);
-      galleryModal.append(rightArrow);
-      galleryModal.append(leftArrow);
+      galleryModal.append(...galleryArrows);
 
       document.body.appendChild(galleryModal);
-
-      this.process(false, previewModule);
-
-      rightArrow.onclick = this.arrowNavigation.bind(this, "right", galleryModal, imgSelector);
-      leftArrow.onclick = this.arrowNavigation.bind(this, "left", galleryModal, imgSelector);
     }
   }
 
