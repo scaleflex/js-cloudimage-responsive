@@ -19,19 +19,15 @@ import {
   setOptions,
   setSrc,
   setSrcset,
-  getCurrentImage,
-  markCurrentImage,
   createGalleryModal,
   createThmbnailsModule,
-  galleryPreviewImage,
-  createGalleryPreviewModule,
-  createIcon,
   displayZoomIcon,
   destroyZoomIcon,
   getGalleryImages,
   createGalleryArrows,
   getGalleryLengthAndIndex,
   setGalleryIndex,
+  getGalleryPreviewModule,
 } from '../common/ci.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -149,27 +145,27 @@ export default class CIResponsive {
     };
 
     if (isImage) {
-      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset, images});
+      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset, images });
     } else {
       this.processBackgroundImage(props);
     }
   };
 
-  processNextImage = (nextIndex, galleryThmbnailsModule, imgSelector, galleryModal) => {
-    const nextImageSrc = galleryThmbnailsModule[nextIndex].querySelector('[ci-src]').getAttribute('ci-src');
-    const nextImage = galleryPreviewImage(imgSelector, nextImageSrc);
+  // processNextImage = (nextIndex, galleryThmbnailsModule, imgSelector, galleryModal) => {
+  //   const nextImageSrc = galleryThmbnailsModule[nextIndex].querySelector('[ci-src]').getAttribute('ci-src');
+  //   const nextImage = galleryPreviewImage(imgSelector, nextImageSrc);
 
-    const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+  //   const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
 
-    previewModule.removeChild(previewModule.firstElementChild);
-    previewModule.append(nextImage);
+  //   previewModule.removeChild(previewModule.firstElementChild);
+  //   previewModule.append(nextImage);
 
-    markCurrentImage(galleryThmbnailsModule, nextIndex);
+  //   markCurrentImage(galleryThmbnailsModule, nextIndex);
 
-    this.process(false, previewModule);
-  }
+  //   this.process(false, previewModule);
+  // }
 
-  handleArrowClick(direction) {
+  handleArrowClick(galleryImages, direction) {
     let nextIndex = 0;
     const [length, index] = getGalleryLengthAndIndex();
 
@@ -178,26 +174,53 @@ export default class CIResponsive {
     if (direction === 'left') {
       nextIndex -= 1;
 
-      if ((length -1 + nextIndex) <= 0) {
+      if ((length - 1 + nextIndex) <= 0) { // left button
         nextIndex = length - 1;
       }
     } else {
       nextIndex += 1;
 
-      if ((length -1 + nextIndex) > length) {
+      if ((length - 1 + nextIndex) > length) { // right button
         nextIndex = 0;
       }
     }
 
+    this.processGalleryPreviewImage(galleryImages[nextIndex])
     setGalleryIndex(nextIndex);
   }
 
-  handleClickWrapper(imgSelector, imgProps, images){
-    const { gallery, zoom } = imgProps;
+  processGalleryPreviewImage(imgNode) {
+    const _imgNode = imgNode.cloneNode();
+    const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
+    const previewModule = getGalleryPreviewModule();
 
-    if(zoom && !gallery) {
+    adaptedImageNode.style = {};
+    adaptedImageNode.setAttribute('data-ci-processed-gallery', true);
+    previewModule.innerHTML = '';
+    previewModule.appendChild(adaptedImageNode);
+
+    this.process(false, previewModule);
+  }
+
+  handleClickThumbnail(galleryImages, event) {
+    const thumbnail = event.currentTarget;
+    const thumbnailIndex = thumbnail.getAttribute('data-ci-gallery-index');
+    const [, index] = getGalleryLengthAndIndex();
+
+    if (thumbnailIndex !== index) {
+      setGalleryIndex(thumbnailIndex);
+      this.processGalleryPreviewImage(galleryImages[thumbnailIndex])
+    }
+  }
+
+  handleClickWrapper(imgProps, images) {
+    const { gallery, zoom, isProcessedByGallery } = imgProps;
+
+    if (isProcessedByGallery) return;
+
+    if (zoom && !gallery) {
       const galleryModal = createGalleryModal();
-      const previewModule = createGalleryPreviewModule(imgSelector, imgProps, galleryModal);
+      const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
 
       galleryModal.appendChild(previewModule);
 
@@ -209,15 +232,21 @@ export default class CIResponsive {
     if (gallery) {
       const galleryImages = getGalleryImages(images, gallery);
       const galleryModal = createGalleryModal(galleryImages.length);
-      const previewModule = createGalleryPreviewModule(imgSelector, imgProps, galleryModal);
-      const thumbnailsModule = createThmbnailsModule(galleryImages, galleryModal);
-      const galleryArrows = createGalleryArrows(this.handleArrowClick);
+      const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+      const thumbnailsModule = createThmbnailsModule(
+        galleryImages,
+        galleryModal,
+        this.handleClickThumbnail.bind(this, galleryImages)
+      );
+
+      const galleryArrows = createGalleryArrows(this.handleArrowClick.bind(this, galleryImages));
 
       galleryModal.appendChild(previewModule);
       galleryModal.appendChild(thumbnailsModule);
       galleryModal.append(...galleryArrows);
 
       document.body.appendChild(galleryModal);
+      this.processGalleryPreviewImage(galleryImages[0]);
     }
   }
 
@@ -276,7 +305,7 @@ export default class CIResponsive {
         config.onImageLoad(imgNode);
       }
 
-      wrapper.onclick = this.handleClickWrapper.bind(this, imgSelector, imgProps, images);
+      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
       wrapper.onmouseenter = () => displayZoomIcon(wrapper, imgProps);
       wrapper.onmouseout = () => destroyZoomIcon(wrapper);
 

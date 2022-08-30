@@ -27,14 +27,14 @@ const getSize = (sizes) => {
     // change single quotes to double quotes
     temp = temp.replace(/'/g, '"').replace(/-"width":/g, '-width:');
     resultSizes = JSON.parse(temp);
-  } catch (e) {}
+  } catch (e) { }
 
   if (resultSizes) {
     Object.keys(resultSizes).forEach((key) => {
       if (typeof resultSizes[key] === 'string') {
         try {
           resultSizes[key] = JSON.parse(`{"${decodeURI(resultSizes[key].replace(/&/g, '","').replace(/=/g, '":"'))}"}`);
-        } catch (e) {}
+        } catch (e) { }
       }
     });
   }
@@ -49,12 +49,12 @@ const getParams = (params) => {
     const temp = params.replace(/(\w+:)|(\w+ :)/g, (matchedStr) => `"${matchedStr.substring(0, matchedStr.length - 1)}":`);
 
     resultParams = JSON.parse(temp);
-  } catch (e) {}
+  } catch (e) { }
 
   if (!resultParams) {
     try {
       resultParams = JSON.parse(`{"${decodeURI(params.replace(/&/g, '","').replace(/=/g, '":"'))}"}`);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   return resultParams;
@@ -94,6 +94,7 @@ const getImageProps = (image, imgSelector) => {
   const props = {
     ...getCommonImageProps(image),
     imgNodeSRC: attr(image, imgSelector) || undefined,
+    isProcessedByGallery: isTrue(image, 'data-ci-processed-gallery')
   };
 
   const params = {
@@ -236,7 +237,7 @@ const createIcon = (iconSrc, className) => {
 
   icon.src = iconSrc;
 
-  if(className){
+  if (className) {
     iconWrapper.classList.add(className);
   }
 
@@ -249,19 +250,6 @@ const destroyGallery = (galleryModal) => {
   galleryModal.parentNode.removeChild(galleryModal);
 };
 
-const createGalleryPreviewModule = (imgSelector, imgProps, galleryModal) => {
-  const {imgNodeSRC } = imgProps;
-  const image = new Image();
-
-  const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
-
-  image.setAttribute(imgSelector, imgNodeSRC);
-
-  previewModule.appendChild(image);
-
-  return previewModule;
-}
-
 const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
   const image = new Image();
 
@@ -270,17 +258,22 @@ const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
   return image;
 }
 
-const adaptGalleryThumbnails = (thumbnails = []) => thumbnails.map((thumbnail, index) => {
+const adaptGalleryThumbnails = (thumbnails = [], onClick) => thumbnails.map((thumbnail, index) => {
   const thmbnailContainer = document.createElement('div');
   const image = thumbnail.cloneNode();
 
   image.classList.remove('ci-image');
+  image.style = {};
   image.style.width = '100%';
   image.style.height = '100%';
 
   thmbnailContainer.classList.add('ci-gallery-thmbnail-container');
-  thmbnailContainer.setAttribute('data-gallery-index', index);
+  thmbnailContainer.setAttribute('data-ci-gallery-index', index);
   thmbnailContainer.append(image);
+
+  if (onClick) {
+    thmbnailContainer.onclick = onClick;
+  }
 
   return thmbnailContainer;
 });
@@ -291,9 +284,9 @@ const appendGalleryThumbnails = (thumbnails = [], thumbnailsContainer) => {
   })
 };
 
-const createThmbnailsModule = (images, galleryModal) => {
+const createThmbnailsModule = (images, galleryModal, onClick) => {
   const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
-  const adaptedGalleryThumbnails = adaptGalleryThumbnails(images);
+  const adaptedGalleryThumbnails = adaptGalleryThumbnails(images, onClick);
 
   appendGalleryThumbnails(adaptedGalleryThumbnails, thumbnailsModule)
 
@@ -318,6 +311,12 @@ const getGalleryLengthAndIndex = () => {
   const galleryIndex = galleryModal.getAttribute('data-ci-gallery-index');
 
   return [galleryLength, galleryIndex]
+}
+
+const getGalleryPreviewModule = () => {
+  const galleryModal = document.body.querySelector('[data-ci-gallery]');
+
+  return galleryModal.querySelector('.ci-gallery-preview-module')
 }
 
 const setGalleryIndex = (index) => {
@@ -350,9 +349,9 @@ const createGalleryModal = (galleryLength) => {
 
 const markCurrentImage = (galleryThmbnails, currentIndex) => {
   galleryThmbnails.forEach((imgWrapper, index) => {
-    imgWrapper.querySelector('img').style.border= '1px solid grey';
+    imgWrapper.querySelector('img').style.border = '1px solid grey';
 
-    if(index === currentIndex) {
+    if (index === currentIndex) {
       imgWrapper.querySelector('img').style.border = '1px solid white';
     }
   });
@@ -368,7 +367,7 @@ const getCurrentImage = (mainImageWrapper, galleryModal) => {
     const mainImg = mainImageWrapper.querySelector('[ci-src]').getAttribute('ci-src');
     const galleryImg = imgWrapper.querySelector('[ci-src]').getAttribute('ci-src');
 
-    if(mainImg === galleryImg){
+    if (mainImg === galleryImg) {
       currentIndex = index;
       markCurrentImage(galleryThmbnails, index);
     }
@@ -380,7 +379,7 @@ const getCurrentImage = (mainImageWrapper, galleryModal) => {
 const displayZoomIcon = (wrapper, imgProps) => {
   const { zoom, gallery } = imgProps;
 
-  if(zoom && !gallery){
+  if (zoom && !gallery) {
     const zoomIcon = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-zoom-button');
     wrapper.append(zoomIcon);
   }
@@ -389,7 +388,7 @@ const displayZoomIcon = (wrapper, imgProps) => {
 const destroyZoomIcon = (wrapper) => {
   const zoomIcon = wrapper.querySelector('.ci-gallery-zoom-button');
 
-  if (zoomIcon){
+  if (zoomIcon) {
     zoomIcon.remove();
   }
 }
@@ -411,7 +410,6 @@ export {
   removeClassNames,
   setOptions,
   createIcon,
-  createGalleryPreviewModule,
   galleryPreviewImage,
   createThmbnailsModule,
   createGalleryModal,
@@ -422,5 +420,6 @@ export {
   getGalleryImages,
   createGalleryArrows,
   getGalleryLengthAndIndex,
-  setGalleryIndex
+  setGalleryIndex,
+  getGalleryPreviewModule
 };

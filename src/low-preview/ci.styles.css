@@ -23,10 +23,6 @@ img.ci-image-loaded {
   opacity: 1;
 }
 
-img.ci-image-ratio.ci-image-preview {
-  height: 100%;
-}
-
 .ci-bg {
   position: relative;
 }
@@ -58,7 +54,7 @@ img.ci-image-ratio.ci-image-preview {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 110; 
+  z-index: 110;
 }
 
 .ci-gallery-preview-module {
@@ -67,6 +63,7 @@ img.ci-image-ratio.ci-image-preview {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .ci-gallery-thumbnail-module {
