@@ -201,7 +201,7 @@ export default class CIResponsive {
     previewModule.innerHTML = '';
     previewModule.appendChild(adaptedImageNode);
 
-    this.process(false, previewModule);
+    this.getBasicInfo(adaptedImageNode, false, false, 'image');
   }
 
   handleClickThumbnail(galleryImages, event) {
