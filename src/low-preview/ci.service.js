@@ -220,17 +220,6 @@ export default class CIResponsive {
 
     if (isProcessedByGallery) return;
 
-    if (zoom && !gallery) {
-      const galleryModal = createGalleryModal();
-      const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
-
-      galleryModal.appendChild(previewModule);
-
-      document.body.appendChild(galleryModal);
-
-      this.process(false, previewModule);
-    }
-
     if (gallery) {
       const clickedImage = event.currentTarget.lastChild;
       const galleryImages = getGalleryImages(images, gallery);
@@ -254,6 +243,17 @@ export default class CIResponsive {
       this.processGalleryPreviewImage(galleryImages[clickedImageIndex]);
       setGalleryIndex(clickedImageIndex);
     }
+
+    if (zoom && !gallery) {
+      const galleryModal = createGalleryModal();
+      const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+
+      galleryModal.appendChild(previewModule);
+
+      document.body.appendChild(galleryModal);
+
+      this.process(false, previewModule);
+    }
   }
 
   processImage(props) {
@@ -273,7 +273,7 @@ export default class CIResponsive {
       images,
       alt,
     } = props;
-    const { params } = imgProps;
+    const { params, gallery, isProcessedByGallery } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
@@ -308,6 +308,10 @@ export default class CIResponsive {
     imgNode.onload = () => {
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
         config.onImageLoad(imgNode);
+      }
+
+      if (gallery && !isProcessedByGallery) {
+        wrapper.style.cursor = 'pointer';
       }
 
       wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
