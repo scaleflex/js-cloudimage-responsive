@@ -28,6 +28,7 @@ import {
   getGalleryLengthAndIndex,
   setGalleryIndex,
   getGalleryPreviewModule,
+  getZoomImage,
 } from '../common/ci.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -43,6 +44,10 @@ import {
   updateSizeWithPixelRatio,
 } from './ci.utis';
 import { bgContentAttr, loadedImageClassNames, processedAttr } from '../common/ci.constants';
+import closeIconSvg from '../public/close-icon.svg';
+import rightArrowSvg from '../public/right-arrow-icon.svg';
+import leftArrowSvg from '../public/left-arrow-icon.svg';
+import zoomIconSvg from '../public/zoom-icon.svg';
 
 
 export default class CIResponsive {
@@ -220,7 +225,9 @@ export default class CIResponsive {
   }
 
   handleClickWrapper(imgProps, images, event) {
-    const { gallery, zoom, isProcessedByGallery } = imgProps;
+    const {
+      gallery, zoom, isProcessedByGallery, imgNodeSRC,
+    } = imgProps;
 
     if (isProcessedByGallery) return;
 
@@ -229,7 +236,7 @@ export default class CIResponsive {
       const galleryImages = getGalleryImages(images, gallery);
       const clickedImageIndex = galleryImages.indexOf(clickedImage);
 
-      const galleryModal = createGalleryModal(galleryImages.length);
+      const galleryModal = createGalleryModal(galleryImages.length, closeIconSvg, true);
       const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
       const thumbnailsModule = createThmbnailsModule(
         galleryImages,
@@ -237,7 +244,11 @@ export default class CIResponsive {
         this.handleClickThumbnail.bind(this, galleryImages),
       );
 
-      const galleryArrows = createGalleryArrows(this.handleArrowClick.bind(this, galleryImages));
+      const galleryArrows = createGalleryArrows(
+        leftArrowSvg,
+        rightArrowSvg,
+        this.handleArrowClick.bind(this, galleryImages),
+      );
 
       galleryModal.appendChild(previewModule);
       galleryModal.appendChild(thumbnailsModule);
@@ -328,7 +339,7 @@ export default class CIResponsive {
       }
 
       wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
-      wrapper.onmouseenter = () => displayZoomIcon(wrapper, imgProps);
+      wrapper.onmouseenter = () => displayZoomIcon(wrapper, imgProps, zoomIconSvg);
       wrapper.onmouseout = () => destroyZoomIcon(wrapper);
 
       onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);

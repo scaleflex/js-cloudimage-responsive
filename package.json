@@ -81,6 +81,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.2",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^6.2.0",
     "gh-pages": "^2.2.0",
     "highlight.js": "^11.1.0",
     "html-webpack-plugin": "^5.5.0",

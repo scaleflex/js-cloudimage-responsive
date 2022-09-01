@@ -225,20 +225,30 @@ const setOptions = (node, options) => {
   return node;
 };
 
+const getZoomImage = (images, imgSrc) => images.filter((image) => imgSrc === image.getAttribute('ci-src'));
+
 const getGalleryImages = (images = [], galleryName) => images.filter((image) => {
   const { gallery } = getCommonImageProps(image);
 
   return gallery === galleryName;
 });
 
-const createIcon = (iconSrc, className) => {
+const createIcon = (iconSrc, className, iconStyles) => {
+  const { color, width = 15, height = 15 } = iconStyles;
+
   const iconWrapper = document.createElement('div');
   const icon = new Image();
 
   icon.src = iconSrc;
+  icon.width = width;
+  icon.height = height;
 
   if (className) {
     iconWrapper.classList.add(className);
+  }
+
+  if (color) {
+    iconWrapper.style.backgroundColor = color;
   }
 
   iconWrapper.appendChild(icon);
@@ -293,9 +303,11 @@ const createThmbnailsModule = (images, galleryModal, onClick) => {
   return thumbnailsModule;
 };
 
-const createGalleryArrows = (onClick) => {
-  const leftArrow = createIcon('../public/left-arrow-icon.svg', 'ci-gallery-left-arrow-button');
-  const rightArrow = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-right-arrow-button');
+const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
+  const iconStyles = { color: 'rgba(255,255,255,0.5)' };
+
+  const leftArrow = createIcon(leftArrowIcon, 'ci-gallery-left-arrow-button', iconStyles);
+  const rightArrow = createIcon(rightArrowIcon, 'ci-gallery-right-arrow-button', iconStyles);
 
   if (onClick) {
     leftArrow.onclick = onClick.bind(this, 'left');
@@ -325,21 +337,26 @@ const setGalleryIndex = (index) => {
   galleryModal.setAttribute('data-ci-gallery-index', index);
 };
 
-const createGalleryModal = (galleryLength) => {
+const createGalleryModal = (galleryLength, closeIconSrc, isGallery) => {
+  const iconStyles = { color: 'rgba(255,255,255,0.5)' };
+
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
-  const thumbnailsModule = document.createElement('div');
-  const closeIcon = createIcon('../public/close-icon.svg', 'ci-gallery-close-button');
+  const closeIcon = createIcon(closeIconSrc, 'ci-gallery-close-button', iconStyles);
 
   galleryModal.classList.add('ci-gallery-modal');
   previewModule.classList.add('ci-gallery-preview-module');
-  thumbnailsModule.classList.add('ci-gallery-thumbnail-module');
+
+  if (isGallery) {
+    const thumbnailsModule = document.createElement('div');
+    thumbnailsModule.classList.add('ci-gallery-thumbnail-module');
+    galleryModal.setAttribute('data-ci-gallery-length', galleryLength);
+    galleryModal.setAttribute('data-ci-gallery-index', 0);
+    galleryModal.append(thumbnailsModule);
+  }
 
   galleryModal.setAttribute('data-ci-gallery', true);
-  galleryModal.setAttribute('data-ci-gallery-length', galleryLength);
-  galleryModal.setAttribute('data-ci-gallery-index', 0);
   galleryModal.append(previewModule);
-  galleryModal.append(thumbnailsModule);
   galleryModal.append(closeIcon);
 
   closeIcon.onclick = destroyGallery.bind(this, galleryModal);
@@ -376,11 +393,12 @@ const getCurrentImage = (mainImageWrapper, galleryModal) => {
   return currentIndex;
 };
 
-const displayZoomIcon = (wrapper, imgProps) => {
+const displayZoomIcon = (wrapper, imgProps, zoomIconSrc) => {
   const { zoom, gallery } = imgProps;
+  const iconStyles = { width: 35, height: 35 };
 
   if (zoom && !gallery) {
-    const zoomIcon = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-zoom-button');
+    const zoomIcon = createIcon(zoomIconSrc, 'ci-gallery-zoom-button', iconStyles);
     wrapper.append(zoomIcon);
   }
 };
@@ -422,4 +440,5 @@ export {
   getGalleryLengthAndIndex,
   setGalleryIndex,
   getGalleryPreviewModule,
+  getZoomImage,
 };
