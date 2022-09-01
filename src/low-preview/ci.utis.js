@@ -150,7 +150,7 @@ export const onLazyBeforeUnveil = (event) => {
 
 export const wrapImage = (props) => {
   const {
-    imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize, placeholderBackground,
+    imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize, placeholderBackground, isGalleryImg,
   } = props;
   let { wrapper } = props;
 
@@ -164,7 +164,11 @@ export const wrapImage = (props) => {
   wrapper.style.overflow = 'hidden';
   wrapper.style.position = 'relative';
 
-  if (ratio) {
+  if (isGalleryImg) {
+    wrapper.style.height = '100%';
+  }
+
+  if (ratio && !isGalleryImg) {
     wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / ratio}%`;
   }
 

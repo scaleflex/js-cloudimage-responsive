@@ -87,7 +87,7 @@ export default class CIResponsive {
     }
   }
 
-  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type, images) => {
+  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type, images = [], isGalleryImg) => {
     const isImage = type === 'image';
     const { config } = this;
     const {
@@ -146,7 +146,11 @@ export default class CIResponsive {
 
     if (isImage) {
       this.processImage({
-        ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset, images,
+        ...props,
+        cloudimageUrl: generateURLbyDPR(1),
+        cloudimageSrcset,
+        images,
+        isGalleryImg,
       });
     } else {
       this.processBackgroundImage(props);
@@ -201,7 +205,7 @@ export default class CIResponsive {
     previewModule.innerHTML = '';
     previewModule.appendChild(adaptedImageNode);
 
-    this.getBasicInfo(adaptedImageNode, false, false, 'image');
+    this.getBasicInfo(adaptedImageNode, false, false, 'image', undefined, true);
   }
 
   handleClickThumbnail(galleryImages, event) {
@@ -220,7 +224,7 @@ export default class CIResponsive {
 
     if (isProcessedByGallery) return;
 
-    if (gallery) {
+    if (gallery && images) {
       const clickedImage = event.currentTarget.lastChild;
       const galleryImages = getGalleryImages(images, gallery);
       const clickedImageIndex = galleryImages.indexOf(clickedImage);
@@ -272,16 +276,25 @@ export default class CIResponsive {
       isAdaptive,
       images,
       alt,
+      isGalleryImg,
     } = props;
+
     const { params, gallery, isProcessedByGallery } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
-    const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper(
-      {
-        isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps, alt,
-      },
-    );
+    const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper({
+      isUpdate,
+      imgNode,
+      ratio,
+      lazy,
+      placeholderBackground,
+      preserveSize,
+      isPreview,
+      isGalleryImg,
+      ...imgProps,
+      alt,
+    });
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });

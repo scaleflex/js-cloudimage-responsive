@@ -58,12 +58,23 @@ img.ci-image-loaded {
 }
 
 .ci-gallery-preview-module {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: 800px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+.ci-gallery-preview-module img.ci-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ci-gallery-preview-module img.ci-image-preview {
+  width: 100%;
+  height: 100%;
 }
 
 .ci-gallery-thumbnail-module {
