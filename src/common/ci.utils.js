@@ -225,7 +225,7 @@ const setOptions = (node, options) => {
   return node;
 };
 
-const getGalleryImages = (images = [], galleryName) => images.filter((image) => {
+const getGalleryImages = (images, galleryName) => images && images.filter((image) => {
   const { gallery } = getCommonImageProps(image);
 
   return gallery === galleryName;
@@ -393,6 +393,29 @@ const destroyZoomIcon = (wrapper) => {
   }
 };
 
+const getImageFitStyles = (naturalWidth, naturalHeight) => {
+  let shouldFitHorizontally;
+  const imageStyles = {};
+  const previewModule = document.body.querySelector('.ci-gallery-preview-module');
+
+  if (naturalWidth && previewModule) {
+    const imageAspectRatio = naturalWidth / naturalHeight;
+    const renderWidth = previewModule.offsetHeight * imageAspectRatio;
+    shouldFitHorizontally = (imageAspectRatio < 1)
+      || (renderWidth <= previewModule.offsetWidth);
+  }
+
+  if (shouldFitHorizontally) {
+    imageStyles.width = 'auto';
+    imageStyles.height = '100%';
+  } else {
+    imageStyles.width = '100%';
+    imageStyles.height = 'auto';
+  }
+
+  return imageStyles;
+};
+
 export {
   getParams,
   filterImages,
@@ -422,4 +445,5 @@ export {
   getGalleryLengthAndIndex,
   setGalleryIndex,
   getGalleryPreviewModule,
+  getImageFitStyles,
 };
