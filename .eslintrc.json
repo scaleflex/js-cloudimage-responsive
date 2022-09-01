@@ -18,6 +18,7 @@
       "error",
       "prefer-double"
     ],
+    "default-param-last": "off",
     "max-lines": [
       "warn",
       {

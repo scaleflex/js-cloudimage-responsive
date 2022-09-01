@@ -94,7 +94,7 @@ const getImageProps = (image, imgSelector) => {
   const props = {
     ...getCommonImageProps(image),
     imgNodeSRC: attr(image, imgSelector) || undefined,
-    isProcessedByGallery: isTrue(image, 'data-ci-processed-gallery')
+    isProcessedByGallery: isTrue(image, 'data-ci-processed-gallery'),
   };
 
   const params = {
@@ -256,7 +256,7 @@ const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
   image.setAttribute(imgSelector, imgNodeSRC);
 
   return image;
-}
+};
 
 const adaptGalleryThumbnails = (thumbnails = [], onClick) => thumbnails.map((thumbnail, index) => {
   const thmbnailContainer = document.createElement('div');
@@ -280,18 +280,18 @@ const adaptGalleryThumbnails = (thumbnails = [], onClick) => thumbnails.map((thu
 
 const appendGalleryThumbnails = (thumbnails = [], thumbnailsContainer) => {
   thumbnails.forEach((thumbnail) => {
-    thumbnailsContainer.append(thumbnail)
-  })
+    thumbnailsContainer.append(thumbnail);
+  });
 };
 
 const createThmbnailsModule = (images, galleryModal, onClick) => {
   const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
   const adaptedGalleryThumbnails = adaptGalleryThumbnails(images, onClick);
 
-  appendGalleryThumbnails(adaptedGalleryThumbnails, thumbnailsModule)
+  appendGalleryThumbnails(adaptedGalleryThumbnails, thumbnailsModule);
 
   return thumbnailsModule;
-}
+};
 
 const createGalleryArrows = (onClick) => {
   const leftArrow = createIcon('../public/left-arrow-icon.svg', 'ci-gallery-left-arrow-button');
@@ -299,31 +299,31 @@ const createGalleryArrows = (onClick) => {
 
   if (onClick) {
     leftArrow.onclick = onClick.bind(this, 'left');
-    rightArrow.onclick = onClick.bind(this, 'right')
+    rightArrow.onclick = onClick.bind(this, 'right');
   }
 
   return [leftArrow, rightArrow];
-}
+};
 
 const getGalleryLengthAndIndex = () => {
   const galleryModal = document.body.querySelector('[data-ci-gallery]');
   const galleryLength = galleryModal.getAttribute('data-ci-gallery-length');
   const galleryIndex = galleryModal.getAttribute('data-ci-gallery-index');
 
-  return [galleryLength, galleryIndex]
-}
+  return [galleryLength, galleryIndex];
+};
 
 const getGalleryPreviewModule = () => {
   const galleryModal = document.body.querySelector('[data-ci-gallery]');
 
-  return galleryModal.querySelector('.ci-gallery-preview-module')
-}
+  return galleryModal.querySelector('.ci-gallery-preview-module');
+};
 
 const setGalleryIndex = (index) => {
   const galleryModal = document.body.querySelector('[data-ci-gallery]');
 
-  galleryModal.setAttribute('data-ci-gallery-index', index)
-}
+  galleryModal.setAttribute('data-ci-gallery-index', index);
+};
 
 const createGalleryModal = (galleryLength) => {
   const galleryModal = document.createElement('div');
@@ -345,7 +345,7 @@ const createGalleryModal = (galleryLength) => {
   closeIcon.onclick = destroyGallery.bind(this, galleryModal);
 
   return galleryModal;
-}
+};
 
 const markCurrentImage = (galleryThmbnails, currentIndex) => {
   galleryThmbnails.forEach((imgWrapper, index) => {
@@ -355,7 +355,7 @@ const markCurrentImage = (galleryThmbnails, currentIndex) => {
       imgWrapper.querySelector('img').style.border = '1px solid white';
     }
   });
-}
+};
 
 const getCurrentImage = (mainImageWrapper, galleryModal) => {
   const galleryThmbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
@@ -374,7 +374,7 @@ const getCurrentImage = (mainImageWrapper, galleryModal) => {
   });
 
   return currentIndex;
-}
+};
 
 const displayZoomIcon = (wrapper, imgProps) => {
   const { zoom, gallery } = imgProps;
@@ -383,7 +383,7 @@ const displayZoomIcon = (wrapper, imgProps) => {
     const zoomIcon = createIcon('../public/right-arrow-icon.svg', 'ci-gallery-zoom-button');
     wrapper.append(zoomIcon);
   }
-}
+};
 
 const destroyZoomIcon = (wrapper) => {
   const zoomIcon = wrapper.querySelector('.ci-gallery-zoom-button');
@@ -391,7 +391,7 @@ const destroyZoomIcon = (wrapper) => {
   if (zoomIcon) {
     zoomIcon.remove();
   }
-}
+};
 
 export {
   getParams,
@@ -421,5 +421,5 @@ export {
   createGalleryArrows,
   getGalleryLengthAndIndex,
   setGalleryIndex,
-  getGalleryPreviewModule
+  getGalleryPreviewModule,
 };

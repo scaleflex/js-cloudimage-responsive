@@ -145,7 +145,9 @@ export default class CIResponsive {
     };
 
     if (isImage) {
-      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset, images });
+      this.processImage({
+        ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset, images,
+      });
     } else {
       this.processBackgroundImage(props);
     }
@@ -185,7 +187,7 @@ export default class CIResponsive {
       }
     }
 
-    this.processGalleryPreviewImage(galleryImages[nextIndex])
+    this.processGalleryPreviewImage(galleryImages[nextIndex]);
     setGalleryIndex(nextIndex);
   }
 
@@ -209,11 +211,11 @@ export default class CIResponsive {
 
     if (thumbnailIndex !== index) {
       setGalleryIndex(thumbnailIndex);
-      this.processGalleryPreviewImage(galleryImages[thumbnailIndex])
+      this.processGalleryPreviewImage(galleryImages[thumbnailIndex]);
     }
   }
 
-  handleClickWrapper(imgProps, images) {
+  handleClickWrapper(imgProps, images, event) {
     const { gallery, zoom, isProcessedByGallery } = imgProps;
 
     if (isProcessedByGallery) return;
@@ -230,13 +232,16 @@ export default class CIResponsive {
     }
 
     if (gallery) {
+      const clickedImage = event.currentTarget.lastChild;
       const galleryImages = getGalleryImages(images, gallery);
+      const clickedImageIndex = galleryImages.indexOf(clickedImage);
+
       const galleryModal = createGalleryModal(galleryImages.length);
       const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
       const thumbnailsModule = createThmbnailsModule(
         galleryImages,
         galleryModal,
-        this.handleClickThumbnail.bind(this, galleryImages)
+        this.handleClickThumbnail.bind(this, galleryImages),
       );
 
       const galleryArrows = createGalleryArrows(this.handleArrowClick.bind(this, galleryImages));
@@ -244,9 +249,10 @@ export default class CIResponsive {
       galleryModal.appendChild(previewModule);
       galleryModal.appendChild(thumbnailsModule);
       galleryModal.append(...galleryArrows);
-
       document.body.appendChild(galleryModal);
-      this.processGalleryPreviewImage(galleryImages[0]);
+
+      this.processGalleryPreviewImage(galleryImages[clickedImageIndex]);
+      setGalleryIndex(clickedImageIndex);
     }
   }
 
@@ -264,7 +270,6 @@ export default class CIResponsive {
       preserveSize,
       cloudimageSrcset,
       isAdaptive,
-      imgSelector,
       images,
       alt,
     } = props;
