@@ -157,6 +157,7 @@ export const wrapImage = (props) => {
   wrapper = wrapper || document.createElement('div');
 
   addClass(wrapper, 'ci-image-wrapper');
+
   wrapper.style.background = placeholderBackground;
   wrapper.style.display = 'block';
   wrapper.style.width = preserveSize ? imgNodeWidth : '100%';
@@ -166,9 +167,8 @@ export const wrapImage = (props) => {
 
   if (isGalleryImg) {
     wrapper.style.height = '100%';
-  }
-
-  if (ratio && !isGalleryImg) {
+    wrapper.style.background = '';
+  } else if (ratio) {
     wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / ratio}%`;
   }
 

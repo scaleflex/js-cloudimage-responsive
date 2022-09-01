@@ -28,6 +28,7 @@ import {
   getGalleryLengthAndIndex,
   setGalleryIndex,
   getGalleryPreviewModule,
+  getImageFitStyles,
   getZoomImage,
 } from '../common/ci.utils';
 import { getInitialConfigLowPreview } from './ci.config';
@@ -139,7 +140,7 @@ export default class CIResponsive {
       ...imgProps, size, imgNode, config,
     });
     const { width } = containerProps;
-    const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
+    const isPreview = !isGalleryImg && isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
     const generateURLbyDPR = (devicePixelRatio) => generateURL({
       src, params, config, containerProps, devicePixelRatio,
     });
@@ -161,20 +162,6 @@ export default class CIResponsive {
       this.processBackgroundImage(props);
     }
   };
-
-  // processNextImage = (nextIndex, galleryThmbnailsModule, imgSelector, galleryModal) => {
-  //   const nextImageSrc = galleryThmbnailsModule[nextIndex].querySelector('[ci-src]').getAttribute('ci-src');
-  //   const nextImage = galleryPreviewImage(imgSelector, nextImageSrc);
-
-  //   const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
-
-  //   previewModule.removeChild(previewModule.firstElementChild);
-  //   previewModule.append(nextImage);
-
-  //   markCurrentImage(galleryThmbnailsModule, nextIndex);
-
-  //   this.process(false, previewModule);
-  // }
 
   handleArrowClick(galleryImages, direction) {
     let nextIndex = 0;
@@ -328,6 +315,17 @@ export default class CIResponsive {
         };
       }
     }
+
+    const dimInterval = setInterval(() => {
+      if (imgNode.naturalWidth) {
+        clearInterval(dimInterval);
+        const imageFitStyles = getImageFitStyles(imgNode.naturalWidth, imgNode.naturalHeight);
+
+        imgNode.style.width = imageFitStyles.width;
+        imgNode.style.height = imageFitStyles.height;
+        imgNode.style.opacity = 1;
+      }
+    }, 10);
 
     imgNode.onload = () => {
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
