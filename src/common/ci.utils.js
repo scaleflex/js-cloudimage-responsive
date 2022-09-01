@@ -225,7 +225,7 @@ const setOptions = (node, options) => {
   return node;
 };
 
-const getGalleryImages = (images, galleryName) => images.filter((image) => {
+const getGalleryImages = (images = [], galleryName) => images.filter((image) => {
   const { gallery } = getCommonImageProps(image);
 
   return gallery === galleryName;
