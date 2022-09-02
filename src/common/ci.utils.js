@@ -1,5 +1,6 @@
 /* eslint-disable no-empty */
 import { getParamsFromURL } from 'cloudimage-responsive-utils/dist/utils/get-params-from-url';
+import { previewContainer } from './ci.constants';
 
 
 const attr = (element, attribute) => element.getAttribute(attribute);
@@ -227,7 +228,7 @@ const setOptions = (node, options) => {
 
 const getZoomImage = (images, imgSrc) => images.filter((image) => imgSrc === image.getAttribute('ci-src'));
 
-const getGalleryImages = (images, galleryName) => images && images.filter((image) => {
+const getGalleryImages = (images, galleryName) => images && [...images].filter((image) => {
   const { gallery } = getCommonImageProps(image);
 
   return gallery === galleryName;
@@ -257,7 +258,11 @@ const createIcon = (iconSrc, className, iconStyles) => {
 };
 
 const destroyGallery = (galleryModal) => {
-  galleryModal.parentNode.removeChild(galleryModal);
+  galleryModal.style.animation = 'fadeOut 0.7s';
+
+  setTimeout(() => {
+    galleryModal.parentNode.removeChild(galleryModal);
+  }, 700);
 };
 
 const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
@@ -393,21 +398,50 @@ const getCurrentImage = (mainImageWrapper, galleryModal) => {
   return currentIndex;
 };
 
-const displayZoomIcon = (wrapper, imgProps, zoomIconSrc) => {
-  const { zoom, gallery } = imgProps;
-  const iconStyles = { width: 35, height: 35 };
+const handleHoveringWrapper = (wrapper, imgProps, imgNode, zoomIconSrc) => {
+  const isPreviewWrapper = wrapper.parentNode.className === 'ci-gallery-preview-module';
 
-  if (zoom && !gallery) {
-    const zoomIcon = createIcon(zoomIconSrc, 'ci-gallery-zoom-button', iconStyles);
-    wrapper.append(zoomIcon);
+  if (!isPreviewWrapper) {
+    const { zoom, gallery } = imgProps;
+
+    if (zoom && !gallery) {
+      const iconStyles = { width: 35, height: 35 };
+      const zoomIcon = createIcon(zoomIconSrc, 'ci-gallery-zoom-button', iconStyles);
+
+      zoomIcon.style.animation = 'fadeIn 0.3s';
+
+      wrapper.append(zoomIcon);
+    }
+
+    if (gallery) {
+      wrapper.style.transform = 'scale(1.05)';
+      wrapper.style.transition = 'transform 0.5s ease';
+      wrapper.style.zIndex = '2';
+    }
   }
 };
 
-const destroyZoomIcon = (wrapper) => {
-  const zoomIcon = wrapper.querySelector('.ci-gallery-zoom-button');
+const handleUnHoveringWrapper = (wrapper, imgProps, imgNode) => {
+  const isPreviewWrapper = wrapper.parentNode.className === previewContainer;
 
-  if (zoomIcon) {
-    zoomIcon.remove();
+  if (!isPreviewWrapper) {
+    const { zoom, gallery } = imgProps;
+
+    if (zoom && !gallery) {
+      const zoomIcon = wrapper.querySelector('.ci-gallery-zoom-button');
+      zoomIcon.style.animation = 'fadeOut 0.4s';
+
+      setTimeout(() => {
+        if (zoomIcon) {
+          zoomIcon.remove();
+        }
+      }, 300);
+    }
+
+    if (gallery) {
+      wrapper.style.transform = 'scale(1)';
+      wrapper.style.zIndex = '1';
+    }
   }
 };
 
@@ -456,8 +490,8 @@ export {
   createGalleryModal,
   markCurrentImage,
   getCurrentImage,
-  displayZoomIcon,
-  destroyZoomIcon,
+  handleHoveringWrapper,
+  handleUnHoveringWrapper,
   getGalleryImages,
   createGalleryArrows,
   getGalleryLengthAndIndex,

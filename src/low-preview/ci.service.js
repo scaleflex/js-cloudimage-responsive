@@ -21,8 +21,8 @@ import {
   setSrcset,
   createGalleryModal,
   createThmbnailsModule,
-  displayZoomIcon,
-  destroyZoomIcon,
+  handleHoveringWrapper,
+  handleUnHoveringWrapper,
   getGalleryImages,
   createGalleryArrows,
   getGalleryLengthAndIndex,
@@ -44,7 +44,9 @@ import {
   wrapBackgroundContainer,
   updateSizeWithPixelRatio,
 } from './ci.utis';
-import { bgContentAttr, loadedImageClassNames, processedAttr } from '../common/ci.constants';
+import {
+  bgContentAttr, loadedImageClassNames, processedAttr, previewContainer,
+} from '../common/ci.constants';
 import closeIconSvg from '../public/close-icon.svg';
 import rightArrowSvg from '../public/right-arrow-icon.svg';
 import leftArrowSvg from '../public/left-arrow-icon.svg';
@@ -183,14 +185,18 @@ export default class CIResponsive {
       }
     }
 
-    this.processGalleryPreviewImage(galleryImages[nextIndex]);
+    this.processGalleryPreviewImage(galleryImages[nextIndex], direction);
     setGalleryIndex(nextIndex);
   }
 
-  processGalleryPreviewImage(imgNode) {
+  processGalleryPreviewImage(imgNode, direction) {
     const _imgNode = imgNode.cloneNode();
     const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
     const previewModule = getGalleryPreviewModule();
+
+    if (direction) {
+      adaptedImageNode.setAttribute('ci-direction', direction);
+    }
 
     adaptedImageNode.style = {};
     adaptedImageNode.setAttribute('data-ci-processed-gallery', true);
@@ -241,6 +247,8 @@ export default class CIResponsive {
       galleryModal.appendChild(thumbnailsModule);
       galleryModal.append(...galleryArrows);
       document.body.appendChild(galleryModal);
+
+      galleryModal.style.animation = 'fadeIn 0.7s';
 
       this.processGalleryPreviewImage(galleryImages[clickedImageIndex]);
       setGalleryIndex(clickedImageIndex);
@@ -336,9 +344,18 @@ export default class CIResponsive {
         wrapper.style.cursor = 'pointer';
       }
 
+      if (gallery && wrapper.parentNode.className === previewContainer) {
+        if (wrapper.firstChild.getAttribute('ci-direction') === 'right') {
+          wrapper.style.animation = 'rightPop 0.5s';
+        }
+        if (wrapper.firstChild.getAttribute('ci-direction') === 'left') {
+          wrapper.style.animation = 'leftPop 0.5s';
+        }
+      }
+
       wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
-      wrapper.onmouseenter = () => displayZoomIcon(wrapper, imgProps, zoomIconSvg);
-      wrapper.onmouseout = () => destroyZoomIcon(wrapper);
+      wrapper.onmouseenter = () => handleHoveringWrapper(wrapper, imgProps, imgNode, zoomIconSvg);
+      wrapper.onmouseout = () => handleUnHoveringWrapper(wrapper, imgProps, imgNode);
 
       onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
     };

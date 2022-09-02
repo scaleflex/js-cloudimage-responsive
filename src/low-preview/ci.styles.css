@@ -146,6 +146,7 @@ img.ci-image-loaded {
 .ci-gallery-zoom-button {
   width: 100%;
   height: 100%;
+  cursor: pointer;
   position: absolute;
   top: 0;
   left: 0;
@@ -153,4 +154,32 @@ img.ci-image-loaded {
   justify-content: center;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes rightPop {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes leftPop {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
