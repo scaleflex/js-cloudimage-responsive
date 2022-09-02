@@ -13,24 +13,25 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
-  removeClassNames,
   setAlt,
   setBackgroundSrc,
   setOptions,
   setSrc,
   setSrcset,
+} from '../common/ci.utils';
+import {
   createGalleryModal,
-  createThmbnailsModule,
   handleHoveringWrapper,
   handleUnHoveringWrapper,
-  getGalleryImages,
+  getGalleryPreviewModule,
+  setGalleryIndex,
   createGalleryArrows,
   getGalleryLengthAndIndex,
-  setGalleryIndex,
-  getGalleryPreviewModule,
+  removeClassNames,
+  createThmbnailsModule,
+  getGalleryImages,
   getImageFitStyles,
-  getZoomImage,
-} from '../common/ci.utils';
+} from './gallery.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
   applyBackgroundStyles,
@@ -219,7 +220,7 @@ export default class CIResponsive {
 
   handleClickWrapper(imgProps, images, event) {
     const {
-      gallery, zoom, isProcessedByGallery, imgNodeSRC,
+      gallery, zoom, isProcessedByGallery,
     } = imgProps;
 
     if (isProcessedByGallery) return;
@@ -354,8 +355,8 @@ export default class CIResponsive {
       }
 
       wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
-      wrapper.onmouseenter = () => handleHoveringWrapper(wrapper, imgProps, imgNode, zoomIconSvg);
-      wrapper.onmouseout = () => handleUnHoveringWrapper(wrapper, imgProps, imgNode);
+      wrapper.onmouseenter = handleHoveringWrapper.bind(this, wrapper, imgProps, zoomIconSvg);
+      wrapper.onmouseout = handleUnHoveringWrapper.bind(this, wrapper, imgProps);
 
       onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
     };
