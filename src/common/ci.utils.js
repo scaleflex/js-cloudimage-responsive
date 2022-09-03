@@ -215,6 +215,13 @@ const setOptions = (node, options) => {
   return node;
 };
 
+const swapArrayPositions = (array = [], a, b) => {
+  const clonedArray = [...array];
+  [clonedArray[a], clonedArray[b]] = [clonedArray[b], clonedArray[a]];
+
+  return clonedArray;
+};
+
 export {
   getParams,
   filterImages,
@@ -231,4 +238,5 @@ export {
   destroyNodeImgSize,
   setAlt,
   setOptions,
+  swapArrayPositions,
 };

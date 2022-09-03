@@ -1,4 +1,4 @@
-import { getCommonImageProps } from '../common/ci.utils';
+import { getCommonImageProps, swapArrayPositions } from '../common/ci.utils';
 import { previewContainer } from '../common/ci.constants';
 
 
@@ -161,25 +161,31 @@ const removeClassNames = (node, classNames) => {
   return node;
 };
 
-const adaptGalleryThumbnails = (thumbnails = [], onClick) => thumbnails.map((thumbnail, index) => {
-  const thmbnailContainer = document.createElement('div');
-  const image = thumbnail.cloneNode();
+const adaptGalleryThumbnails = (clickedImage, thumbnails = [], onClick) => {
+  const indexOfClickedImage = thumbnails.indexOf(clickedImage);
 
-  image.classList.remove('ci-image');
-  image.style = {};
-  image.style.width = '100%';
-  image.style.height = '100%';
+  const _thumbnails = swapArrayPositions(thumbnails, indexOfClickedImage, 0);
 
-  thmbnailContainer.classList.add('ci-gallery-thmbnail-container');
-  thmbnailContainer.setAttribute('data-ci-gallery-index', index);
-  thmbnailContainer.append(image);
+  return _thumbnails.map((thumbnail, index) => {
+    const thmbnailContainer = document.createElement('div');
+    const image = thumbnail.cloneNode();
 
-  if (onClick) {
-    thmbnailContainer.onclick = onClick;
-  }
+    image.classList.remove('ci-image');
+    image.style = {};
+    image.style.width = '100%';
+    image.style.height = '100%';
 
-  return thmbnailContainer;
-});
+    thmbnailContainer.classList.add('ci-gallery-thmbnail-container');
+    thmbnailContainer.setAttribute('data-ci-gallery-index', index);
+    thmbnailContainer.append(image);
+
+    if (onClick) {
+      thmbnailContainer.onclick = onClick;
+    }
+
+    return thmbnailContainer;
+  });
+};
 
 const appendGalleryThumbnails = (thumbnails = [], thumbnailsContainer) => {
   thumbnails.forEach((thumbnail) => {
@@ -187,16 +193,16 @@ const appendGalleryThumbnails = (thumbnails = [], thumbnailsContainer) => {
   });
 };
 
-const createThmbnailsModule = (images, galleryModal, onClick) => {
+const createThmbnailsModule = (clickedImage, images, galleryModal, onClick) => {
   const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
-  const adaptedGalleryThumbnails = adaptGalleryThumbnails(images, onClick);
+  const adaptedGalleryThumbnails = adaptGalleryThumbnails(clickedImage, images, onClick);
 
   appendGalleryThumbnails(adaptedGalleryThumbnails, thumbnailsModule);
 
   return thumbnailsModule;
 };
 
-const getGalleryImages = (images, galleryName) => images && images.filter((image) => {
+const getGalleryImages = (images, galleryName) => [...images].filter((image) => {
   const { gallery } = getCommonImageProps(image);
 
   return gallery === galleryName;
@@ -210,8 +216,8 @@ const getImageFitStyles = (naturalWidth, naturalHeight) => {
   if (naturalWidth && previewModule) {
     const imageAspectRatio = naturalWidth / naturalHeight;
     const renderWidth = previewModule.offsetHeight * imageAspectRatio;
-    shouldFitHorizontally = (imageAspectRatio < 1)
-        || (renderWidth <= previewModule.offsetWidth);
+    shouldFitHorizontally = (imageAspectRatio <= 1)
+        && (renderWidth < previewModule.offsetWidth);
   }
 
   if (shouldFitHorizontally) {
@@ -252,6 +258,19 @@ const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
   return image;
 };
 
+const getDimAndFit = (imgNode) => {
+  const dimInterval = setInterval(() => {
+    if (imgNode.naturalWidth) {
+      clearInterval(dimInterval);
+      const imageFitStyles = getImageFitStyles(imgNode.naturalWidth, imgNode.naturalHeight);
+
+      imgNode.style.width = imageFitStyles.width;
+      imgNode.style.height = imageFitStyles.height;
+      imgNode.style.opacity = 1;
+    }
+  }, 10);
+};
+
 export {
   createGalleryModal,
   handleHoveringWrapper,
@@ -266,4 +285,5 @@ export {
   getImageFitStyles,
   getCurrentImage,
   galleryPreviewImage,
+  getDimAndFit,
 };

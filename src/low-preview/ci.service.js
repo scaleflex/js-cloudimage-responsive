@@ -30,7 +30,7 @@ import {
   removeClassNames,
   createThmbnailsModule,
   getGalleryImages,
-  getImageFitStyles,
+  getDimAndFit,
 } from './gallery.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -46,7 +46,7 @@ import {
   updateSizeWithPixelRatio,
 } from './ci.utis';
 import {
-  bgContentAttr, loadedImageClassNames, processedAttr, previewContainer,
+  bgContentAttr, loadedImageClassNames, processedAttr,
 } from '../common/ci.constants';
 import closeIconSvg from '../public/close-icon.svg';
 import rightArrowSvg from '../public/right-arrow-icon.svg';
@@ -96,7 +96,14 @@ export default class CIResponsive {
     }
   }
 
-  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type, images = [], isGalleryImg) => {
+  getBasicInfo = (
+    imgNode,
+    isUpdate,
+    windowScreenBecomesBigger,
+    type,
+    images,
+    isGalleryImg,
+  ) => {
     const isImage = type === 'image';
     const { config } = this;
     const {
@@ -137,7 +144,11 @@ export default class CIResponsive {
           [src, isSVG] = getImgSRC(size.params.src, baseURL);
         }
       }
-    } else if (isUpdate && !windowScreenBecomesBigger) return;
+    } else if (isUpdate && !windowScreenBecomesBigger) {
+      getDimAndFit(imgNode);
+
+      return;
+    }
 
     const containerProps = determineContainerProps({
       ...imgProps, size, imgNode, config,
@@ -233,6 +244,7 @@ export default class CIResponsive {
       const galleryModal = createGalleryModal(galleryImages.length, closeIconSvg, true);
       const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
       const thumbnailsModule = createThmbnailsModule(
+        clickedImage,
         galleryImages,
         galleryModal,
         this.handleClickThumbnail.bind(this, galleryImages),
@@ -249,22 +261,20 @@ export default class CIResponsive {
       galleryModal.append(...galleryArrows);
       document.body.appendChild(galleryModal);
 
-      galleryModal.style.animation = 'fadeIn 0.7s';
-
       this.processGalleryPreviewImage(galleryImages[clickedImageIndex]);
       setGalleryIndex(clickedImageIndex);
     }
 
-    if (zoom && !gallery) {
-      const galleryModal = createGalleryModal();
-      const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+    // if (zoom && !gallery) {
+    //   const galleryModal = createGalleryModal();
+    //   const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
 
-      galleryModal.appendChild(previewModule);
+    //   galleryModal.appendChild(previewModule);
 
-      document.body.appendChild(galleryModal);
+    //   document.body.appendChild(galleryModal);
 
-      this.process(false, previewModule);
-    }
+    //   this.process(false, previewModule);
+    // }
   }
 
   processImage(props) {
@@ -325,16 +335,9 @@ export default class CIResponsive {
       }
     }
 
-    const dimInterval = setInterval(() => {
-      if (imgNode.naturalWidth) {
-        clearInterval(dimInterval);
-        const imageFitStyles = getImageFitStyles(imgNode.naturalWidth, imgNode.naturalHeight);
+    getDimAndFit(imgNode);
 
-        imgNode.style.width = imageFitStyles.width;
-        imgNode.style.height = imageFitStyles.height;
-        imgNode.style.opacity = 1;
-      }
-    }, 10);
+    wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
 
     imgNode.onload = () => {
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
@@ -345,20 +348,12 @@ export default class CIResponsive {
         wrapper.style.cursor = 'pointer';
       }
 
-      if (gallery && wrapper.parentNode.className === previewContainer) {
-        if (wrapper.firstChild.getAttribute('ci-direction') === 'right') {
-          wrapper.style.animation = 'rightPop 0.5s';
-        }
-        if (wrapper.firstChild.getAttribute('ci-direction') === 'left') {
-          wrapper.style.animation = 'leftPop 0.5s';
-        }
-      }
-
-      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
       wrapper.onmouseenter = handleHoveringWrapper.bind(this, wrapper, imgProps, zoomIconSvg);
       wrapper.onmouseout = handleUnHoveringWrapper.bind(this, wrapper, imgProps);
 
-      onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
+      if (!isProcessedByGallery) {
+        onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
+      }
     };
 
     setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
