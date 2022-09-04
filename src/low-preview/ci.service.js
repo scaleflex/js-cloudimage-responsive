@@ -177,13 +177,13 @@ export default class CIResponsive {
     }
   };
 
-  handleArrowClick(galleryImages, direction) {
+  handleClickArrows(galleryImages, direction) {
     let nextIndex = 0;
     const [length, index] = getGalleryLengthAndIndex();
-
+    const leftDirection = direction === 'left';
     nextIndex = +index;
 
-    if (direction === 'left') {
+    if (leftDirection) {
       nextIndex -= 1;
 
       if ((length - 1 + nextIndex) <= 0) { // left button
@@ -197,21 +197,57 @@ export default class CIResponsive {
       }
     }
 
-    this.processGalleryPreviewImage(galleryImages[nextIndex], direction);
+    this.processGalleryPreviewImage(galleryImages[nextIndex], nextIndex, direction);
     setGalleryIndex(nextIndex);
   }
 
-  processGalleryPreviewImage(imgNode, direction) {
+  animatePreviewModule(previewModule, nextIndex, direction) {
+    const currentIndex = previewModule.getAttribute('data-ci-active-image-index');
+    const leftDirection = direction === 'left';
+    let transform = 1000;
+    let scale = 0.8;
+
+    if (leftDirection || (!direction && nextIndex < currentIndex)) {
+      transform = -1000;
+    }
+
+    const scaleAnimation = setInterval(() => { // Scale preview image
+      scale += 0.01;
+
+      if (scale >= 1) {
+        clearInterval(scaleAnimation);
+      }
+
+      previewModule.style.transform = `scale(${scale}) translate(${transform}px)`;
+    }, 10);
+
+    const transformAnimation = setInterval(() => { // Transform preview image
+      if (leftDirection || (!direction && nextIndex < currentIndex)) {
+        transform += 20;
+      } else {
+        transform -= 20;
+      }
+
+      if (transform === 0) {
+        clearInterval(transformAnimation);
+      }
+
+      previewModule.style.transform = `scale(${scale}) translate(${transform}px)`;
+    }, 5);
+  }
+
+  processGalleryPreviewImage(imgNode, imageIndex, direction, intial) {
     const _imgNode = imgNode.cloneNode();
     const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
     const previewModule = getGalleryPreviewModule();
 
-    if (direction) {
-      adaptedImageNode.setAttribute('ci-direction', direction);
+    if (!intial) {
+      this.animatePreviewModule(previewModule, imageIndex, direction);
     }
 
     adaptedImageNode.style = {};
     adaptedImageNode.setAttribute('data-ci-processed-gallery', true);
+    previewModule.setAttribute('data-ci-active-image-index', imageIndex);
     previewModule.innerHTML = '';
     previewModule.appendChild(adaptedImageNode);
 
@@ -225,7 +261,7 @@ export default class CIResponsive {
 
     if (thumbnailIndex !== index) {
       setGalleryIndex(thumbnailIndex);
-      this.processGalleryPreviewImage(galleryImages[thumbnailIndex]);
+      this.processGalleryPreviewImage(galleryImages[thumbnailIndex], thumbnailIndex);
     }
   }
 
@@ -253,7 +289,7 @@ export default class CIResponsive {
       const galleryArrows = createGalleryArrows(
         leftArrowSvg,
         rightArrowSvg,
-        this.handleArrowClick.bind(this, galleryImages),
+        this.handleClickArrows.bind(this, galleryImages),
       );
 
       galleryModal.appendChild(previewModule);
@@ -261,7 +297,7 @@ export default class CIResponsive {
       galleryModal.append(...galleryArrows);
       document.body.appendChild(galleryModal);
 
-      this.processGalleryPreviewImage(galleryImages[clickedImageIndex]);
+      this.processGalleryPreviewImage(galleryImages[clickedImageIndex], clickedImageIndex, undefined, true);
       setGalleryIndex(clickedImageIndex);
     }
 
@@ -337,15 +373,15 @@ export default class CIResponsive {
 
     getDimAndFit(imgNode);
 
-    wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
+
+    if (gallery && !isProcessedByGallery) {
+      wrapper.style.cursor = 'pointer';
+      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
+    }
 
     imgNode.onload = () => {
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
         config.onImageLoad(imgNode);
-      }
-
-      if (gallery && !isProcessedByGallery) {
-        wrapper.style.cursor = 'pointer';
       }
 
       wrapper.onmouseenter = handleHoveringWrapper.bind(this, wrapper, imgProps, zoomIconSvg);
