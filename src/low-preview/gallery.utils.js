@@ -29,7 +29,9 @@ const destroyGallery = (galleryModal) => {
   galleryModal.style.animation = 'fadeOut 0.7s';
 
   setTimeout(() => {
-    galleryModal.parentNode.removeChild(galleryModal);
+    if (galleryModal && galleryModal.parentNode) {
+      galleryModal.parentNode.removeChild(galleryModal);
+    }
   }, 600);
 };
 
@@ -281,6 +283,7 @@ const getDimAndFit = (imgNode) => {
 };
 
 export {
+  destroyGallery,
   createGalleryModal,
   handleHoveringWrapper,
   handleUnHoveringWrapper,

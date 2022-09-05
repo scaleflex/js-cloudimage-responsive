@@ -20,6 +20,7 @@ import {
   setSrcset,
 } from '../common/ci.utils';
 import {
+  destroyGallery,
   createGalleryModal,
   handleHoveringWrapper,
   handleUnHoveringWrapper,
@@ -69,6 +70,22 @@ export default class CIResponsive {
     window.addEventListener('resize', debounce(100, this.onUpdateDimensions.bind(this)));
 
     this.process();
+  }
+
+  handleArrowEvents(galleryImages, isGallery, event) {
+    const galleryModal = document.querySelector('.ci-gallery-modal');
+
+    if (event.key === 'ArrowRight' && isGallery) {
+      this.handleClickArrows(galleryImages, 'right');
+    }
+    if (event.key === 'ArrowLeft' && isGallery) {
+      this.handleClickArrows(galleryImages, 'left');
+    }
+    if (event.key === 'Escape') {
+      destroyGallery(galleryModal);
+    }
+
+    event.preventDefault();
   }
 
   onUpdateDimensions() {
@@ -311,6 +328,8 @@ export default class CIResponsive {
       galleryModal.append(...galleryArrows);
       document.body.appendChild(galleryModal);
 
+      document.onkeydown = this.handleArrowEvents.bind(this, galleryImages, true);
+
       this.processGalleryPreviewImage(galleryImages[clickedImageIndex], clickedImageIndex, undefined, true);
       setGalleryIndex(clickedImageIndex);
     }
@@ -326,6 +345,8 @@ export default class CIResponsive {
       galleryModal.appendChild(previewModule);
 
       document.body.appendChild(galleryModal);
+
+      document.onkeydown = this.handleArrowEvents.bind(this, images, false);
 
       this.processZoomPreviewImage(zoomImages[clickedImageIndex]);
     }
