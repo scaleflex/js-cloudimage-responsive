@@ -22,6 +22,8 @@ import {
 import {
   destroyGallery,
   createGalleryModal,
+  appendGalleryImageName,
+  destroyGalleryImageName,
   handleHoveringWrapper,
   handleUnHoveringWrapper,
   getGalleryPreviewModule,
@@ -268,12 +270,23 @@ export default class CIResponsive {
   }
 
   processGalleryPreviewImage(imgNode, imageIndex, direction, intial) {
+    const { imgSelector } = this.config;
+    const { galleryImgName } = getImageProps(imgNode, imgSelector);
+
+    const galleryModal = document.querySelector('.ci-gallery-modal');
     const _imgNode = imgNode.cloneNode();
     const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
     const previewModule = getGalleryPreviewModule();
 
     if (!intial) {
       this.animatePreviewModule(previewModule, imageIndex, direction);
+    }
+
+    destroyGalleryImageName();
+
+    if (galleryImgName) {
+      const imageName = appendGalleryImageName(galleryImgName);
+      galleryModal.append(imageName);
     }
 
     adaptedImageNode.style = {};

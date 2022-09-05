@@ -91,6 +91,17 @@ img.ci-image-loaded {
   background-color: black;
 }
 
+.ci-gallery-image-name {
+  color: white;
+  padding: 10px;
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
 .ci-gallery-close-button {
   width: 23px;
   height: 23px;

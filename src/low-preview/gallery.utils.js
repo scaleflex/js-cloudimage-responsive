@@ -62,6 +62,22 @@ const createGalleryModal = (galleryLength, closeIconSrc, isGallery) => {
   return galleryModal;
 };
 
+const appendGalleryImageName = (imageName) => {
+  const galleryImageName = document.createElement('div');
+  galleryImageName.classList.add('ci-gallery-image-name');
+  galleryImageName.innerText = imageName;
+
+  return galleryImageName;
+};
+
+const destroyGalleryImageName = () => {
+  const galleryImageName = document.querySelector('.ci-gallery-image-name');
+
+  if (galleryImageName) {
+    galleryImageName.parentNode.removeChild(galleryImageName);
+  }
+};
+
 const handleHoveringWrapper = (wrapper, imgProps, zoomIconSrc) => {
   const isPreviewWrapper = wrapper.parentNode.className === previewContainer;
 
@@ -285,6 +301,8 @@ const getDimAndFit = (imgNode) => {
 export {
   destroyGallery,
   createGalleryModal,
+  appendGalleryImageName,
+  destroyGalleryImageName,
   handleHoveringWrapper,
   handleUnHoveringWrapper,
   getGalleryPreviewModule,
