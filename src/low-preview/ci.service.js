@@ -204,13 +204,13 @@ export default class CIResponsive {
     if (leftDirection) {
       nextIndex -= 1;
 
-      if ((length - 1 + nextIndex) <= 0) { // left button
+      if (nextIndex < 0) { // left button
         nextIndex = length - 1;
       }
     } else {
       nextIndex += 1;
 
-      if ((length - 1 + nextIndex) > length) { // right button
+      if (nextIndex === Number(length)) { // right button
         nextIndex = 0;
       }
     }
