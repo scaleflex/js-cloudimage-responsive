@@ -30,7 +30,7 @@ const destroyGallery = (galleryModal) => {
 
   setTimeout(() => {
     galleryModal.parentNode.removeChild(galleryModal);
-  }, 700);
+  }, 600);
 };
 
 const createGalleryModal = (galleryLength, closeIconSrc, isGallery) => {
@@ -91,10 +91,13 @@ const handleUnHoveringWrapper = (wrapper, imgProps) => {
 
     if (zoom && !gallery) {
       const zoomIcon = wrapper.querySelector('.ci-gallery-zoom-button');
-      zoomIcon.style.animation = 'fadeOut 0.4s';
+
+      if (zoomIcon) {
+        zoomIcon.style.animation = 'fadeOut 0.4s';
+      }
 
       setTimeout(() => {
-        if (zoomIcon) {
+        if (zoomIcon && zoomIcon.parentNode) {
           zoomIcon.parentNode.removeChild(zoomIcon);
         }
       }, 300);
@@ -208,6 +211,12 @@ const getGalleryImages = (images, galleryName) => [...images].filter((image) => 
   return gallery === galleryName;
 });
 
+const getZoomImages = (images) => [...images].filter((image) => {
+  const { zoom } = getCommonImageProps(image);
+
+  return zoom === 'true';
+});
+
 const getImageFitStyles = (naturalWidth, naturalHeight) => {
   let shouldFitHorizontally;
   const imageStyles = {};
@@ -282,6 +291,7 @@ export {
   removeClassNames,
   createThmbnailsModule,
   getGalleryImages,
+  getZoomImages,
   getImageFitStyles,
   getCurrentImage,
   galleryPreviewImage,

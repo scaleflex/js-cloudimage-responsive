@@ -30,6 +30,7 @@ import {
   removeClassNames,
   createThmbnailsModule,
   getGalleryImages,
+  getZoomImages,
   getDimAndFit,
 } from './gallery.utils';
 import { getInitialConfigLowPreview } from './ci.config';
@@ -236,6 +237,19 @@ export default class CIResponsive {
     }, 5);
   }
 
+  processZoomPreviewImage(imgNode) {
+    const _imgNode = imgNode.cloneNode();
+    const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
+    const previewModule = getGalleryPreviewModule();
+
+    adaptedImageNode.style = {};
+    adaptedImageNode.setAttribute('data-ci-processed-gallery', true);
+    previewModule.innerHTML = '';
+    previewModule.appendChild(adaptedImageNode);
+
+    this.getBasicInfo(adaptedImageNode, false, false, 'image', undefined, true);
+  }
+
   processGalleryPreviewImage(imgNode, imageIndex, direction, intial) {
     const _imgNode = imgNode.cloneNode();
     const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
@@ -301,16 +315,20 @@ export default class CIResponsive {
       setGalleryIndex(clickedImageIndex);
     }
 
-    // if (zoom && !gallery) {
-    //   const galleryModal = createGalleryModal();
-    //   const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
+    if (zoom && !gallery) {
+      const clickedImage = event.currentTarget.querySelector('img[ci-src]');
+      const zoomImages = getZoomImages(images);
+      const clickedImageIndex = zoomImages.indexOf(clickedImage);
 
-    //   galleryModal.appendChild(previewModule);
+      const galleryModal = createGalleryModal(0, closeIconSvg, false);
+      const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
 
-    //   document.body.appendChild(galleryModal);
+      galleryModal.appendChild(previewModule);
 
-    //   this.process(false, previewModule);
-    // }
+      document.body.appendChild(galleryModal);
+
+      this.processZoomPreviewImage(zoomImages[clickedImageIndex]);
+    }
   }
 
   processImage(props) {
@@ -332,7 +350,9 @@ export default class CIResponsive {
       isGalleryImg,
     } = props;
 
-    const { params, gallery, isProcessedByGallery } = imgProps;
+    const {
+      params, zoom, gallery, isProcessedByGallery,
+    } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
@@ -374,7 +394,7 @@ export default class CIResponsive {
     getDimAndFit(imgNode);
 
 
-    if (gallery && !isProcessedByGallery) {
+    if ((zoom || gallery) && !isProcessedByGallery) {
       wrapper.style.cursor = 'pointer';
       wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
     }
