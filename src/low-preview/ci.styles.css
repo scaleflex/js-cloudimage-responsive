@@ -138,6 +138,7 @@ img.ci-image-loaded {
 }
 
 .ci-gallery-thmbnail-container {
+  display: flex;
   width: 40px;
   height: 40px;
   border: 1px solid #888;
