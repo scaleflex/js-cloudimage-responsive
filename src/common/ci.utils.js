@@ -73,7 +73,7 @@ const getCommonImageProps = (image) => ({
   alt: attr(image, 'alt'),
   zoom: attr(image, 'ci-zoom') || undefined,
   gallery: attr(image, 'ci-gallery') || undefined,
-  galleryImgName: attr(image, 'ci-gallery-img-name') || undefined,
+  imageName: attr(image, 'ci-image-name') || undefined,
 });
 
 const filterImages = (images, type) => {

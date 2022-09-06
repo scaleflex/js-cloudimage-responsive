@@ -1,4 +1,4 @@
-import { getCommonImageProps, swapArrayPositions } from '../common/ci.utils';
+import { getCommonImageProps, swapArrayPositions, addClass } from '../common/ci.utils';
 import { previewContainer } from '../common/ci.constants';
 
 
@@ -25,25 +25,27 @@ const createIcon = (iconSrc, className, iconStyles) => {
   return iconWrapper;
 };
 
-const destroyGallery = (galleryModal) => {
-  galleryModal.style.animation = 'fadeOut 0.7s';
+const destroyGallery = () => {
+  const galleryModal = document.querySelector('.ci-gallery-modal');
 
-  setTimeout(() => {
-    if (galleryModal && galleryModal.parentNode) {
-      galleryModal.parentNode.removeChild(galleryModal);
-    }
-  }, 600);
+  if (galleryModal) {
+    galleryModal.parentElement.removeChild(galleryModal);
+  }
 };
 
-const createGalleryModal = (galleryLength, closeIconSrc, isGallery) => {
+const createGalleryModal = (closeIconSrc, galleryLength, isGallery) => {
   const iconStyles = { color: 'rgba(255,255,255,0.5)' };
-
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
   const closeIcon = createIcon(closeIconSrc, 'ci-gallery-close-button', iconStyles);
 
+  galleryModal.tabIndex = 0;
   galleryModal.classList.add('ci-gallery-modal');
   previewModule.classList.add('ci-gallery-preview-module');
+  galleryModal.setAttribute('data-ci-gallery', true);
+  galleryModal.append(previewModule);
+  galleryModal.append(closeIcon);
+  closeIcon.onclick = destroyGallery;
 
   if (isGallery) {
     const thumbnailsModule = document.createElement('div');
@@ -53,28 +55,25 @@ const createGalleryModal = (galleryLength, closeIconSrc, isGallery) => {
     galleryModal.append(thumbnailsModule);
   }
 
-  galleryModal.setAttribute('data-ci-gallery', true);
-  galleryModal.append(previewModule);
-  galleryModal.append(closeIcon);
-
-  closeIcon.onclick = destroyGallery.bind(this, galleryModal);
-
   return galleryModal;
 };
 
-const appendGalleryImageName = (imageName) => {
-  const galleryImageName = document.createElement('div');
-  galleryImageName.classList.add('ci-gallery-image-name');
-  galleryImageName.innerText = imageName;
+const createImageNameWrapper = (imageName, galleryModal) => {
+  const imageNameContainer = document.createElement('p');
 
-  return galleryImageName;
+  imageNameContainer.innerHTML = imageName;
+  addClass(imageNameContainer, 'ci-gallery-image-name');
+
+  galleryModal.appendChild(imageNameContainer);
 };
 
-const destroyGalleryImageName = () => {
-  const galleryImageName = document.querySelector('.ci-gallery-image-name');
+const updateOrCreateImageNameWrapper = (imageName, galleryModal) => {
+  const imageNameContainer = galleryModal.querySelector('.ci-gallery-image-name');
 
-  if (galleryImageName) {
-    galleryImageName.parentNode.removeChild(galleryImageName);
+  if (imageNameContainer) {
+    imageNameContainer.innerHTML = imageName;
+  } else {
+    createImageNameWrapper(imageName, galleryModal);
   }
 };
 
@@ -87,8 +86,6 @@ const handleHoveringWrapper = (wrapper, imgProps, zoomIconSrc) => {
     if (zoom && !gallery) {
       const iconStyles = { width: 35, height: 35 };
       const zoomIcon = createIcon(zoomIconSrc, 'ci-gallery-zoom-button', iconStyles);
-
-      zoomIcon.style.animation = 'fadeIn 0.3s';
 
       wrapper.append(zoomIcon);
     }
@@ -169,7 +166,7 @@ const getGalleryLengthAndIndex = () => {
   const galleryLength = galleryModal.getAttribute('data-ci-gallery-length');
   const galleryIndex = galleryModal.getAttribute('data-ci-gallery-index');
 
-  return [galleryLength, galleryIndex];
+  return [+galleryLength, galleryIndex];
 };
 
 const removeClassNames = (node, classNames) => {
@@ -232,7 +229,7 @@ const getGalleryImages = (images, galleryName) => [...images].filter((image) => 
 const getZoomImages = (images) => [...images].filter((image) => {
   const { zoom } = getCommonImageProps(image);
 
-  return zoom === 'true';
+  return zoom;
 });
 
 const getImageFitStyles = (naturalWidth, naturalHeight) => {
@@ -299,10 +296,9 @@ const getDimAndFit = (imgNode) => {
 };
 
 export {
-  destroyGallery,
   createGalleryModal,
-  appendGalleryImageName,
-  destroyGalleryImageName,
+  destroyGallery,
+  updateOrCreateImageNameWrapper,
   handleHoveringWrapper,
   handleUnHoveringWrapper,
   getGalleryPreviewModule,
