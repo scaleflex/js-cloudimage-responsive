@@ -138,12 +138,21 @@ img.ci-image-loaded {
 }
 
 .ci-gallery-thmbnail-container {
-  display: flex;
+  position: relative;
   width: 40px;
   height: 40px;
   border: 1px solid #888;
   cursor: pointer;
 }
+
+.ci-gallery-thmbnail-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: auto;
+  transform: translate(-50%, -50%);
+}
+
 
 .ci-gallery-right-arrow-button {
   width: 25px;
