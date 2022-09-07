@@ -169,7 +169,7 @@ img.ci-image-loaded {
 }
 
 .ci-gallery-transition {
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease-in-out;
 }
 
 .ci-gallery-thmbnail-container img {
@@ -210,11 +210,10 @@ img.ci-image-loaded {
 }
 
 .ci-image-wrapper:hover > .ci-gallery-zoom-button {
-  visibility: visible;
+  transform: translateY(0);
 }
 
 .ci-gallery-zoom-button {
-  visibility: hidden;
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -224,7 +223,9 @@ img.ci-image-loaded {
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: translateY(1000px);
   background-color: rgba(255, 255, 255, 0.5);
+  transition: transform 300ms ease-in-out;
 }
 
 @keyframes slideVertical {
