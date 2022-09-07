@@ -1,5 +1,4 @@
 import { getCommonImageProps, swapArrayPositions, addClass } from '../common/ci.utils';
-import { previewContainer } from '../common/ci.constants';
 
 
 const createIcon = (iconSrc, className, iconStyles) => {
@@ -77,54 +76,6 @@ const updateOrCreateImageNameWrapper = (imageName, galleryModal) => {
   }
 };
 
-const handleHoveringWrapper = (wrapper, imgProps, zoomIconSrc) => {
-  const isPreviewWrapper = wrapper.parentNode.className === previewContainer;
-
-  if (!isPreviewWrapper) {
-    const { zoom, gallery } = imgProps;
-
-    if (zoom && !gallery) {
-      const iconStyles = { width: 35, height: 35 };
-      const zoomIcon = createIcon(zoomIconSrc, 'ci-gallery-zoom-button', iconStyles);
-
-      wrapper.append(zoomIcon);
-    }
-
-    if (gallery) {
-      wrapper.style.transform = 'scale(1.05)';
-      wrapper.style.transition = 'transform 0.5s ease';
-      wrapper.style.zIndex = '2';
-    }
-  }
-};
-
-const handleUnHoveringWrapper = (wrapper, imgProps) => {
-  const isPreviewWrapper = wrapper.parentNode.className === previewContainer;
-
-  if (!isPreviewWrapper) {
-    const { zoom, gallery } = imgProps;
-
-    if (zoom && !gallery) {
-      const zoomIcon = wrapper.querySelector('.ci-gallery-zoom-button');
-
-      if (zoomIcon) {
-        zoomIcon.style.animation = 'fadeOut 0.4s';
-      }
-
-      setTimeout(() => {
-        if (zoomIcon && zoomIcon.parentNode) {
-          zoomIcon.parentNode.removeChild(zoomIcon);
-        }
-      }, 300);
-    }
-
-    if (gallery) {
-      wrapper.style.transform = 'scale(1)';
-      wrapper.style.zIndex = '1';
-    }
-  }
-};
-
 const getGalleryPreviewModule = () => {
   const galleryModal = document.body.querySelector('[data-ci-gallery]');
 
@@ -135,16 +86,6 @@ const setGalleryIndex = (index) => {
   const galleryModal = document.body.querySelector('[data-ci-gallery]');
 
   galleryModal.setAttribute('data-ci-gallery-index', index);
-};
-
-const markCurrentImage = (galleryThmbnails, currentIndex) => {
-  galleryThmbnails.forEach((imgWrapper, index) => {
-    imgWrapper.querySelector('img').style.border = '1px solid grey';
-
-    if (index === currentIndex) {
-      imgWrapper.querySelector('img').style.border = '1px solid white';
-    }
-  });
 };
 
 const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
@@ -184,7 +125,9 @@ const adaptGalleryThumbnails = (clickedImage, thumbnails = [], onClick) => {
 
   const _thumbnails = swapArrayPositions(thumbnails, indexOfClickedImage, 0);
 
-  return _thumbnails.map((thumbnail, index) => {
+  const loadedThmbnails = _thumbnails.filter((thmbnail) => thmbnail.naturalWidth !== 0);
+
+  return loadedThmbnails.map((thumbnail, index) => {
     const thmbnailContainer = document.createElement('div');
     const image = thumbnail.cloneNode();
 
@@ -255,25 +198,6 @@ const getImageFitStyles = (naturalWidth, naturalHeight) => {
   return imageStyles;
 };
 
-const getCurrentImage = (mainImageWrapper, galleryModal) => {
-  const galleryThmbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
-  const galleryThmbnails = [...galleryThmbnailsModule.children];
-
-  let currentIndex = null;
-
-  galleryThmbnails.forEach((imgWrapper, index) => {
-    const mainImg = mainImageWrapper.querySelector('[ci-src]').getAttribute('ci-src');
-    const galleryImg = imgWrapper.querySelector('[ci-src]').getAttribute('ci-src');
-
-    if (mainImg === galleryImg) {
-      currentIndex = index;
-      markCurrentImage(galleryThmbnails, index);
-    }
-  });
-
-  return currentIndex;
-};
-
 const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
   const image = new Image();
 
@@ -296,11 +220,10 @@ const getDimAndFit = (imgNode) => {
 };
 
 export {
+  createIcon,
   createGalleryModal,
   destroyGallery,
   updateOrCreateImageNameWrapper,
-  handleHoveringWrapper,
-  handleUnHoveringWrapper,
   getGalleryPreviewModule,
   setGalleryIndex,
   createGalleryArrows,
@@ -310,7 +233,6 @@ export {
   getGalleryImages,
   getZoomImages,
   getImageFitStyles,
-  getCurrentImage,
   galleryPreviewImage,
   getDimAndFit,
 };

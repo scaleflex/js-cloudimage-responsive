@@ -20,10 +20,9 @@ import {
   setSrcset,
 } from '../common/ci.utils';
 import {
+  createIcon,
   destroyGallery,
   createGalleryModal,
-  handleHoveringWrapper,
-  handleUnHoveringWrapper,
   getGalleryPreviewModule,
   setGalleryIndex,
   createGalleryArrows,
@@ -424,19 +423,23 @@ export default class CIResponsive {
 
     getDimAndFit(imgNode);
 
-
-    if ((zoom || gallery) && !isProcessedByGallery) {
+    if ((gallery || zoom) && !isProcessedByGallery) {
       wrapper.style.cursor = 'pointer';
       wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
+
+      if (gallery) {
+        wrapper.classList.add('ci-gallery-animation', 'ci-gallery-transition');
+      } else {
+        const iconStyles = { width: 35, height: 35 };
+        const zoomIcon = createIcon(zoomIconSvg, 'ci-gallery-zoom-button', iconStyles);
+        wrapper.append(zoomIcon);
+      }
     }
 
     imgNode.onload = () => {
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
         config.onImageLoad(imgNode);
       }
-
-      wrapper.onmouseenter = handleHoveringWrapper.bind(this, wrapper, imgProps, zoomIconSvg);
-      wrapper.onmouseout = handleUnHoveringWrapper.bind(this, wrapper, imgProps);
 
       if (!isProcessedByGallery) {
         onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
