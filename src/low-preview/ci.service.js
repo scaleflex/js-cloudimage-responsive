@@ -199,11 +199,14 @@ export default class CIResponsive {
     }
   };
 
-  handleClickArrows(galleryImages, direction) {
-    let nextIndex = 0;
+  getImageIndex(currentIndex, direction, isLoaded = true) {
+    let nextIndex = currentIndex;
     const [length, index] = getGalleryLengthAndIndex();
     const leftDirection = direction === 'left';
-    nextIndex = +index;
+
+    if (isLoaded) {
+      nextIndex = +index;
+    }
 
     if (leftDirection) {
       nextIndex -= 1;
@@ -219,8 +222,22 @@ export default class CIResponsive {
       }
     }
 
-    this.processGalleryPreviewImage(galleryImages[nextIndex], nextIndex, direction);
-    setGalleryIndex(nextIndex);
+    return nextIndex;
+  }
+
+  handleClickArrows(galleryImages, direction) {
+    let index = 0;
+    index = this.getImageIndex(0, direction);
+
+    const previewImage = galleryImages[index].previousSibling.firstChild;
+    const isLoaded = previewImage.classList.contains(CLASSNAMES.PREVIEW_LOADED);
+
+    if (!isLoaded) {
+      index = this.getImageIndex(index, direction, false);
+    }
+
+    this.processGalleryPreviewImage(galleryImages[index], index, direction);
+    setGalleryIndex(index);
   }
 
   animatePreviewModule(previewModule, nextIndex, direction) {
