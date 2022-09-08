@@ -310,7 +310,6 @@ export default class CIResponsive {
       gallery, zoom, isProcessedByGallery,
     } = imgProps;
 
-
     if (isProcessedByGallery) return;
 
     if (gallery && images) {

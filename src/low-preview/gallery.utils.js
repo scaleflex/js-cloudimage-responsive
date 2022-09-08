@@ -120,7 +120,9 @@ const adaptGalleryThumbnails = (clickedImage, thumbnails = [], onClick) => {
 
   const _thumbnails = swapArrayPositions(thumbnails, indexOfClickedImage, 0);
 
-  const loadedThmbnails = _thumbnails.filter((thmbnail) => thmbnail.naturalWidth !== 0);
+  const thumbnailImages = _thumbnails.map((thmbnail) => thmbnail.parentElement.querySelector('img'));
+
+  const loadedThmbnails = thumbnailImages.filter((thmbnail) => thmbnail.classList.contains(CLASSNAMES.PREVIEW_LOADED));
 
   return loadedThmbnails.map((thumbnail, index) => {
     const thmbnailContainer = document.createElement('div');
