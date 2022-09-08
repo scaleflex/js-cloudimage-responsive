@@ -1,4 +1,5 @@
-import { getCommonImageProps, swapArrayPositions, addClass } from '../common/ci.utils';
+import { getCommonImageProps, addClass } from '../common/ci.utils';
+import { ATTRIBUTES, CLASSNAMES, ICONS_STYLES } from '../common/ci.constants';
 
 
 const createIcon = (iconSrc, className, iconStyles) => {
@@ -33,24 +34,23 @@ const destroyGallery = () => {
 };
 
 const createGalleryModal = (closeIconSrc, galleryLength, isGallery) => {
-  const iconStyles = { color: 'rgba(255,255,255,0.5)' };
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
-  const closeIcon = createIcon(closeIconSrc, 'ci-gallery-close-button', iconStyles);
+  const closeIcon = createIcon(closeIconSrc, 'ci-gallery-close-button', ICONS_STYLES.COLOR);
 
   galleryModal.tabIndex = 0;
-  galleryModal.classList.add('ci-gallery-modal');
-  previewModule.classList.add('ci-gallery-preview-module');
-  galleryModal.setAttribute('data-ci-gallery', true);
+  galleryModal.classList.add(CLASSNAMES.GALLERY_MODAL);
+  previewModule.classList.add(CLASSNAMES.PREVIEW_MODULE);
+  galleryModal.setAttribute(ATTRIBUTES.GALLERY, true);
   galleryModal.append(previewModule);
   galleryModal.append(closeIcon);
   closeIcon.onclick = destroyGallery;
 
   if (isGallery) {
     const thumbnailsModule = document.createElement('div');
-    thumbnailsModule.classList.add('ci-gallery-thumbnail-module');
-    galleryModal.setAttribute('data-ci-gallery-length', galleryLength);
-    galleryModal.setAttribute('data-ci-gallery-index', 0);
+    thumbnailsModule.classList.add(CLASSNAMES.THUMBNAIL_MODULE);
+    galleryModal.setAttribute(ATTRIBUTES.GALLERY_LENGTH, galleryLength);
+    galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, 0);
     galleryModal.append(thumbnailsModule);
   }
 
@@ -85,14 +85,12 @@ const getGalleryPreviewModule = () => {
 const setGalleryIndex = (index) => {
   const galleryModal = document.body.querySelector('[data-ci-gallery]');
 
-  galleryModal.setAttribute('data-ci-gallery-index', index);
+  galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
 };
 
 const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
-  const iconStyles = { color: 'rgba(255,255,255,0.5)' };
-
-  const leftArrow = createIcon(leftArrowIcon, 'ci-gallery-left-arrow-button', iconStyles);
-  const rightArrow = createIcon(rightArrowIcon, 'ci-gallery-right-arrow-button', iconStyles);
+  const leftArrow = createIcon(leftArrowIcon, 'ci-gallery-left-arrow-button', ICONS_STYLES.COLOR);
+  const rightArrow = createIcon(rightArrowIcon, 'ci-gallery-right-arrow-button', ICONS_STYLES.COLOR);
 
   if (onClick) {
     leftArrow.onclick = onClick.bind(this, 'left');
@@ -110,14 +108,11 @@ const getGalleryLengthAndIndex = () => {
   return [+galleryLength, galleryIndex];
 };
 
-const removeClassNames = (node, classNames) => {
-  classNames.forEach((className) => {
-    if (node.classList.contains(className)) {
-      node.classList.remove(className);
-    }
-  });
+const swapArrayPositions = (array = [], a, b) => {
+  const clonedArray = [...array];
+  [clonedArray[a], clonedArray[b]] = [clonedArray[b], clonedArray[a]];
 
-  return node;
+  return clonedArray;
 };
 
 const adaptGalleryThumbnails = (clickedImage, thumbnails = [], onClick) => {
@@ -136,8 +131,8 @@ const adaptGalleryThumbnails = (clickedImage, thumbnails = [], onClick) => {
     image.style.width = '100%';
     image.style.height = '100%';
 
-    thmbnailContainer.classList.add('ci-gallery-thmbnail-container');
-    thmbnailContainer.setAttribute('data-ci-gallery-index', index);
+    thmbnailContainer.classList.add(CLASSNAMES.THUMBNAIL_CONTAINER);
+    thmbnailContainer.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
     thmbnailContainer.append(image);
 
     if (onClick) {
@@ -228,7 +223,6 @@ export {
   setGalleryIndex,
   createGalleryArrows,
   getGalleryLengthAndIndex,
-  removeClassNames,
   createThmbnailsModule,
   getGalleryImages,
   getZoomImages,

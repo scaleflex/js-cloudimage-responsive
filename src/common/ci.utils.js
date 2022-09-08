@@ -71,7 +71,7 @@ const getCommonImageProps = (image) => ({
   imgNodeHeight: attr(image, 'height'),
   doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
   alt: attr(image, 'alt'),
-  zoom: attr(image, 'ci-zoom') || undefined,
+  zoom: isTrue(image, 'ci-zoom'),
   gallery: attr(image, 'ci-gallery') || undefined,
   imageName: attr(image, 'ci-image-name') || undefined,
 });
@@ -216,11 +216,14 @@ const setOptions = (node, options) => {
   return node;
 };
 
-const swapArrayPositions = (array = [], a, b) => {
-  const clonedArray = [...array];
-  [clonedArray[a], clonedArray[b]] = [clonedArray[b], clonedArray[a]];
+const removeClassNames = (node, classNames) => {
+  classNames.forEach((className) => {
+    if (node.classList.contains(className)) {
+      node.classList.remove(className);
+    }
+  });
 
-  return clonedArray;
+  return node;
 };
 
 export {
@@ -239,5 +242,5 @@ export {
   destroyNodeImgSize,
   setAlt,
   setOptions,
-  swapArrayPositions,
+  removeClassNames,
 };

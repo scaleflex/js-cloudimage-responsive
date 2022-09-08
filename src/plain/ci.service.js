@@ -21,7 +21,7 @@ import {
   setSrc,
   setSrcset,
 } from '../common/ci.utils';
-import { loadedImageClassNames, processedAttr } from '../common/ci.constants';
+import { loadedImageClassNames, ATTRIBUTES } from '../common/ci.constants';
 
 
 export default class CIResponsive {
@@ -175,7 +175,7 @@ export default class CIResponsive {
 
     if (!isUpdate) {
       imgNode.className = `${imgNode.className}${lazy ? ' lazyload' : ''}`;
-      imgNode.setAttribute(processedAttr, true);
+      imgNode.setAttribute(ATTRIBUTES.PROCESSED, true);
     }
 
     setBackgroundSrc(imgNode, cloudimageUrl, lazy, src, isSVG, dataSrcAttr);
@@ -208,7 +208,7 @@ export default class CIResponsive {
     }
 
     if (isBackground) {
-      const isProcessed = node.getAttribute(processedAttr);
+      const isProcessed = node.getAttribute(ATTRIBUTES.PROCESSED);
 
       if (src) {
         node.setAttribute(bgSelector, src);

@@ -18,6 +18,7 @@ import {
   setOptions,
   setSrc,
   setSrcset,
+  removeClassNames,
 } from '../common/ci.utils';
 import {
   createIcon,
@@ -27,7 +28,6 @@ import {
   setGalleryIndex,
   createGalleryArrows,
   getGalleryLengthAndIndex,
-  removeClassNames,
   createThmbnailsModule,
   getGalleryImages,
   getZoomImages,
@@ -48,7 +48,7 @@ import {
   updateSizeWithPixelRatio,
 } from './ci.utis';
 import {
-  bgContentAttr, loadedImageClassNames, processedAttr,
+  loadedImageClassNames, ATTRIBUTES, CLASSNAMES, ICONS_STYLES,
 } from '../common/ci.constants';
 import closeIconSvg from '../public/close-icon.svg';
 import rightArrowSvg from '../public/right-arrow-icon.svg';
@@ -264,7 +264,7 @@ export default class CIResponsive {
     const previewModule = getGalleryPreviewModule();
 
     adaptedImageNode.style = {};
-    adaptedImageNode.setAttribute('data-ci-processed-gallery', true);
+    adaptedImageNode.setAttribute(ATTRIBUTES.PROCESSED_GALLERY, true);
     previewModule.innerHTML = '';
     previewModule.appendChild(adaptedImageNode);
 
@@ -282,8 +282,8 @@ export default class CIResponsive {
 
     updateOrCreateImageNameWrapper(_imageName, galleryModal);
     adaptedImageNode.style = {};
-    adaptedImageNode.setAttribute('data-ci-processed-gallery', true);
-    previewModule.setAttribute('data-ci-active-image-index', imageIndex);
+    adaptedImageNode.setAttribute(ATTRIBUTES.PROCESSED_GALLERY, true);
+    previewModule.setAttribute(ATTRIBUTES.ACTIVE_IMAGE_INDEX, imageIndex);
     previewModule.innerHTML = '';
     previewModule.appendChild(adaptedImageNode);
 
@@ -416,6 +416,7 @@ export default class CIResponsive {
         setSrc(previewImgNode, previewImgURL, 'data-src', lazy, src, isSVG, dataSrcAttr);
 
         previewImgNode.onload = () => {
+          previewImgNode.classList.add(CLASSNAMES.PREVIEW_LOADED);
           onPreviewImageLoad(wrapper, previewImgNode, ratio, preserveSize);
         };
       }
@@ -428,10 +429,9 @@ export default class CIResponsive {
       wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
 
       if (gallery) {
-        wrapper.classList.add('ci-gallery-animation', 'ci-gallery-transition');
+        wrapper.classList.add(CLASSNAMES.GALLERY_ANIMATION, CLASSNAMES.GALLERY_TRANSITION);
       } else {
-        const iconStyles = { width: 35, height: 35 };
-        const zoomIcon = createIcon(zoomIconSvg, 'ci-gallery-zoom-button', iconStyles);
+        const zoomIcon = createIcon(zoomIconSvg, 'ci-gallery-zoom-button', ICONS_STYLES.ZOOM);
         wrapper.append(zoomIcon);
       }
     }
@@ -460,7 +460,7 @@ export default class CIResponsive {
     const { dataSrcAttr } = config;
 
     if (!isUpdate) {
-      imgNode.setAttribute(processedAttr, true);
+      imgNode.setAttribute(ATTRIBUTES.PROCESSED, true);
 
       if (isPreview) {
         const previewImgURL = getPreviewSRC({
@@ -473,7 +473,7 @@ export default class CIResponsive {
         });
 
         if (lazy) {
-          imgNode.setAttribute('ci-optimized-url', cloudimageUrl);
+          imgNode.setAttribute(ATTRIBUTES.OPTIMIZED_URL, cloudimageUrl);
 
           setBackgroundSrc(previewBox, previewImgURL, lazy, src, isSVG, dataSrcAttr);
         } else {
@@ -516,7 +516,7 @@ export default class CIResponsive {
     }
 
     if (isBackground) {
-      const isProcessed = node.getAttribute(processedAttr);
+      const isProcessed = node.getAttribute(ATTRIBUTES.PROCESSED);
       const oldNode = node;
 
       if (src) {
@@ -524,11 +524,11 @@ export default class CIResponsive {
       }
 
       if (isProcessed) {
-        const contentBox = node.querySelector(`[${bgContentAttr}]`);
+        const contentBox = node.querySelector(`[${ATTRIBUTES.BG_CONTAINER}]`);
 
         if (contentBox) {
           const contentBoxInner = contentBox.firstChild;
-          node.removeAttribute(processedAttr);
+          node.removeAttribute(ATTRIBUTES.PROCESSED);
           node.innerHTML = '';
           node.appendChild(contentBoxInner);
         } else {
