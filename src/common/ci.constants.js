@@ -12,7 +12,6 @@ const ATTRIBUTES = {
   GALLERY_LENGTH: 'data-ci-gallery-length',
   GALLERY_INDEX: 'data-ci-gallery-index',
   ACTIVE_THUMBNAIL: 'data-active-thumbnail',
-  GALLERY_THUMBNAIL_INDEX: 'data-gallery-thumbnail-index',
 };
 
 const CLASSNAMES = {

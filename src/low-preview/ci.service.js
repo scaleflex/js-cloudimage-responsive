@@ -358,9 +358,12 @@ export default class CIResponsive {
       galleryModal.onkeydown = debounce(250, this.handleModalKeydown.bind(this, orderedImages));
 
       document.body.appendChild(galleryModal);
+
+      const [, orderedClickedImage] = getGalleryLengthAndIndex();
+
       galleryModal.focus();
-      this.processGalleryPreviewImage(galleryImages[clickedImageIndex], clickedImageIndex, undefined, true);
-      setGalleryIndex(clickedImageIndex);
+      this.processGalleryPreviewImage(orderedImages[orderedClickedImage], orderedClickedImage, undefined, true);
+      setGalleryIndex(orderedClickedImage);
     }
 
     if (zoom && !gallery) {

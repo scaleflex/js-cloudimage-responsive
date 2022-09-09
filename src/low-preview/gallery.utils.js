@@ -167,7 +167,6 @@ const adaptGalleryThumbnails = (images = [], onClick) => {
     image.style.height = imageFitStyles.height;
 
     thmbnailContainer.classList.add(CLASSNAMES.THUMBNAIL_CONTAINER);
-    thmbnailContainer.setAttribute(ATTRIBUTES.GALLERY_THUMBNAIL_INDEX, index);
     thmbnailContainer.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
     thmbnailContainer.append(image);
 
