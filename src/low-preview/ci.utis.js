@@ -1,4 +1,4 @@
-import { ATTRIBUTES, CLASSNAMES } from '../common/ci.constants';
+import { ATTRIBUTES } from '../common/ci.constants';
 import { addClass, getWrapper } from '../common/ci.utils';
 
 
@@ -42,7 +42,7 @@ export const applyBackgroundStyles = ({
   contentBox.setAttribute(ATTRIBUTES.BG_CONTAINER, true);
 
   previewBox.className = `${imgNode.className}${lazy ? ' lazyload' : ''}`;
-  previewBox.setAttribute(CLASSNAMES.PREVIEW, true);
+  previewBox.setAttribute(ATTRIBUTES.PREVIEW, true);
   previewBox.style.background = 'inherit';
   previewBox.style.position = 'absolute';
   previewBox.style.left = '0';

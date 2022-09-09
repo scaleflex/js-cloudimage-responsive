@@ -500,7 +500,7 @@ export default class CIResponsive {
         });
 
         if (lazy) {
-          imgNode.setAttribute(CLASSNAMES.OPTIMIZED_URL, cloudimageUrl);
+          imgNode.setAttribute(ATTRIBUTES.OPTIMIZED_URL, cloudimageUrl);
 
           setBackgroundSrc(previewBox, previewImgURL, lazy, src, isSVG, dataSrcAttr);
         } else {

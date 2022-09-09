@@ -90,13 +90,13 @@ const toggleActiveThumbnail = (galleryModal, imageIndex) => {
 };
 
 const getGalleryPreviewModule = () => {
-  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY}]`);
+  const galleryModal = document.body.querySelector(`[${ATTRIBUTES.GALLERY}]`);
 
   return galleryModal.querySelector(`.${CLASSNAMES.PREVIEW_MODULE}`);
 };
 
 const setGalleryIndex = (index) => {
-  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY}]`);
+  const galleryModal = document.body.querySelector(`[${ATTRIBUTES.GALLERY}]`);
 
   galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
 };
@@ -114,7 +114,7 @@ const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
 };
 
 const getGalleryLengthAndIndex = () => {
-  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY}]`);
+  const galleryModal = document.body.querySelector(`[${ATTRIBUTES.GALLERY}]`);
   const galleryLength = galleryModal.getAttribute(ATTRIBUTES.GALLERY_LENGTH);
   const galleryIndex = galleryModal.getAttribute(ATTRIBUTES.GALLERY_INDEX);
 

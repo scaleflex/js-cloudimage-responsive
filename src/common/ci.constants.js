@@ -2,6 +2,8 @@ const loadedImageClassNames = ['ci-image-loaded', 'lazyloaded', 'ci-image'];
 
 const ATTRIBUTES = {
   CANVAS: 'data-ci-canvas',
+  OPTIMIZED_URL: 'ci-optimized-url',
+  PREVIEW: 'ci-preview',
   PROCESSED_GALLERY: 'data-ci-processed-gallery',
   ACTIVE_IMAGE_INDEX: 'data-ci-active-image-index',
   PROCESSED: 'data-ci-processed',
@@ -10,11 +12,10 @@ const ATTRIBUTES = {
   GALLERY_LENGTH: 'data-ci-gallery-length',
   GALLERY_INDEX: 'data-ci-gallery-index',
   ACTIVE_THUMBNAIL: 'data-active-thumbnail',
+  GALLERY_THUMBNAIL_INDEX: 'data-gallery-thumbnail-index',
 };
 
 const CLASSNAMES = {
-  OPTIMIZED_URL: 'ci-optimized-url',
-  PREVIEW: 'ci-preview',
   PREVIEW_LOADED: 'ci-preview-loaded',
   PREVIEW_MODULE: 'ci-gallery-preview-module',
   GALLERY_ANIMATION: 'ci-gallery-animation',
