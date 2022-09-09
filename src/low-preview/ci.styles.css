@@ -180,6 +180,11 @@ img.ci-image-loaded {
   transform: translate(-50%, -50%);
 }
 
+.ci-gallery-thmbnail-container[data-active-thumbnail] {
+  border: 2px solid #FFF;
+  animation: borderFade 250ms ease-in-out;
+}
+
 .ci-gallery-right-arrow-button {
   width: 25px;
   height: 25px;
@@ -229,11 +234,16 @@ img.ci-image-loaded {
 }
 
 @keyframes slideVertical {
-  0% { transform: translateY(1000px);}
-  100% {transform: translateY(0);}
+  0% { transform: translateY(1000px); }
+  100% { transform: translateY(0); }
 }
 
 @keyframes slideHorizontal {
-  0% { transform: translateX(-2000px);}
-  100% {transform: translateX(0);}
+  0% { transform: translateX(-2000px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes borderFade {
+  0% { border: 2px solid transparent }
+  0% { transform: 2px solid #FFF }
 }

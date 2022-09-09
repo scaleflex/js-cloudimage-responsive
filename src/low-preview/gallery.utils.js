@@ -76,6 +76,19 @@ const updateOrCreateImageNameWrapper = (imageName, galleryModal) => {
   }
 };
 
+const toggleActiveThumbnail = (galleryModal, imageIndex) => {
+  const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
+
+  [...thumbnailsModule.children].forEach((thumbnailContainer) => {
+    thumbnailContainer.removeAttribute(ATTRIBUTES.ACTIVE_THUMBNAIL);
+    const thumbnailContainerIndex = thumbnailContainer.getAttribute(ATTRIBUTES.GALLERY_INDEX);
+
+    if (+imageIndex === +thumbnailContainerIndex) {
+      thumbnailContainer.setAttribute(ATTRIBUTES.ACTIVE_THUMBNAIL, true);
+    }
+  });
+};
+
 const getGalleryPreviewModule = () => {
   const galleryModal = document.body.querySelector('[data-ci-gallery]');
 
@@ -130,6 +143,7 @@ const adaptGalleryThumbnails = (images = [], onClick) => {
     image.style.height = '100%';
 
     thmbnailContainer.classList.add(CLASSNAMES.THUMBNAIL_CONTAINER);
+    thmbnailContainer.setAttribute(ATTRIBUTES.GALLERY_THUMBNAIL_INDEX, index);
     thmbnailContainer.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
     thmbnailContainer.append(image);
 
@@ -228,4 +242,5 @@ export {
   galleryPreviewImage,
   getDimAndFit,
   swapArrayPositions,
+  toggleActiveThumbnail,
 };

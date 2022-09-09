@@ -34,6 +34,7 @@ import {
   getDimAndFit,
   updateOrCreateImageNameWrapper,
   swapArrayPositions,
+  toggleActiveThumbnail,
 } from './gallery.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -299,6 +300,7 @@ export default class CIResponsive {
     const _imageName = imageName || alt || generateAlt(alt);
 
     updateOrCreateImageNameWrapper(_imageName, galleryModal);
+    toggleActiveThumbnail(galleryModal, imageIndex);
     adaptedImageNode.style = {};
     adaptedImageNode.setAttribute(ATTRIBUTES.PROCESSED_GALLERY, true);
     previewModule.setAttribute(ATTRIBUTES.ACTIVE_IMAGE_INDEX, imageIndex);
