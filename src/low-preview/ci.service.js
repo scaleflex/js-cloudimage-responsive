@@ -355,7 +355,7 @@ export default class CIResponsive {
       galleryModal.appendChild(previewModule);
       galleryModal.appendChild(thumbnailsModule);
       galleryModal.append(...galleryArrows);
-      galleryModal.onkeydown = debounce(100, this.handleModalKeydown.bind(this, orderedImages));
+      galleryModal.onkeydown = debounce(250, this.handleModalKeydown.bind(this, orderedImages));
 
       document.body.appendChild(galleryModal);
       galleryModal.focus();
