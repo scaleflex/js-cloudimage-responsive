@@ -323,17 +323,18 @@ export default class CIResponsive {
     }
   }
 
-  handleClickWrapper(imgProps, images, event) {
+  createGallery(imgProps, images, event) {
     const {
       gallery, zoom, isProcessedByGallery,
     } = imgProps;
-
     if (isProcessedByGallery) return;
 
-    if (gallery && images) {
+    const galleryImages = getGalleryImages(images, gallery);
+
+    if (gallery && galleryImages) {
       const clickedImage = event.currentTarget.lastChild;
-      const clickedImageIndex = images.indexOf(clickedImage);
-      const orderedImages = swapArrayPositions(images, clickedImageIndex, 0)
+      const clickedImageIndex = galleryImages.indexOf(clickedImage);
+      const orderedImages = swapArrayPositions(galleryImages, clickedImageIndex, 0)
         .filter((image) => image.classList.contains(CLASSNAMES.IMAGE_LOADED));
       const galleryModal = createGalleryModal(closeIconSvg, orderedImages.length, true);
       const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
@@ -356,7 +357,7 @@ export default class CIResponsive {
 
       document.body.appendChild(galleryModal);
       galleryModal.focus();
-      this.processGalleryPreviewImage(images[clickedImageIndex], clickedImageIndex, undefined, true);
+      this.processGalleryPreviewImage(galleryImages[clickedImageIndex], clickedImageIndex, undefined, true);
       setGalleryIndex(clickedImageIndex);
     }
 
@@ -370,10 +371,19 @@ export default class CIResponsive {
 
       galleryModal.tabIndex = 0;
       galleryModal.appendChild(previewModule);
-      galleryModal.onkeydown = debounce(100, this.handleModalKeydown.bind(this));
+      galleryModal.onkeydown = debounce(100, this.handleModalKeydown.bind(this, undefined));
 
       document.body.appendChild(galleryModal);
+      galleryModal.focus();
       this.processZoomPreviewImage(zoomImages[clickedImageIndex]);
+    }
+  }
+
+  handleClickWrapper(imgProps, images, event) {
+    const { gallery, zoom, isProcessedByGallery } = imgProps;
+
+    if ((gallery || zoom) && !isProcessedByGallery) {
+      this.createGallery(imgProps, images, event);
     }
   }
 
@@ -440,14 +450,8 @@ export default class CIResponsive {
     }
 
     getDimAndFit(imgNode);
-
     if ((gallery || zoom) && !isProcessedByGallery) {
-      const galleryImages = getGalleryImages(images, gallery);
-
       wrapper.style.cursor = 'pointer';
-
-      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, galleryImages);
-
       if (gallery) {
         wrapper.classList.add(CLASSNAMES.GALLERY_ANIMATION, CLASSNAMES.GALLERY_TRANSITION);
       } else {
@@ -456,6 +460,7 @@ export default class CIResponsive {
       }
     }
 
+    wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
     imgNode.onload = () => {
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
         config.onImageLoad(imgNode);
