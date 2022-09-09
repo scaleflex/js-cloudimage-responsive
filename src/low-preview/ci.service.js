@@ -33,6 +33,7 @@ import {
   getZoomImages,
   getDimAndFit,
   updateOrCreateImageNameWrapper,
+  swapArrayPositions,
 } from './gallery.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
@@ -331,32 +332,31 @@ export default class CIResponsive {
 
     if (gallery && images) {
       const clickedImage = event.currentTarget.lastChild;
-      const galleryImages = getGalleryImages(images, gallery);
-      const clickedImageIndex = galleryImages.indexOf(clickedImage);
-
-      const galleryModal = createGalleryModal(closeIconSvg, galleryImages.length, true);
+      const clickedImageIndex = images.indexOf(clickedImage);
+      const orderedImages = swapArrayPositions(images, clickedImageIndex, 0)
+        .filter((image) => image.classList.contains(CLASSNAMES.IMAGE_LOADED));
+      const galleryModal = createGalleryModal(closeIconSvg, orderedImages.length, true);
       const previewModule = galleryModal.querySelector('.ci-gallery-preview-module');
       const thumbnailsModule = createThmbnailsModule(
-        clickedImage,
-        galleryImages,
+        orderedImages,
         galleryModal,
-        this.handleClickThumbnail.bind(this, galleryImages),
+        this.handleClickThumbnail.bind(this, orderedImages),
       );
 
       const galleryArrows = createGalleryArrows(
         leftArrowSvg,
         rightArrowSvg,
-        this.handleClickArrows.bind(this, galleryImages),
+        this.handleClickArrows.bind(this, orderedImages),
       );
 
       galleryModal.appendChild(previewModule);
       galleryModal.appendChild(thumbnailsModule);
       galleryModal.append(...galleryArrows);
-      galleryModal.onkeydown = debounce(100, this.handleModalKeydown.bind(this, galleryImages));
+      galleryModal.onkeydown = debounce(100, this.handleModalKeydown.bind(this, orderedImages));
 
       document.body.appendChild(galleryModal);
       galleryModal.focus();
-      this.processGalleryPreviewImage(galleryImages[clickedImageIndex], clickedImageIndex, undefined, true);
+      this.processGalleryPreviewImage(images[clickedImageIndex], clickedImageIndex, undefined, true);
       setGalleryIndex(clickedImageIndex);
     }
 
@@ -402,6 +402,7 @@ export default class CIResponsive {
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
+
     const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper({
       isUpdate,
       imgNode,
@@ -441,8 +442,11 @@ export default class CIResponsive {
     getDimAndFit(imgNode);
 
     if ((gallery || zoom) && !isProcessedByGallery) {
+      const galleryImages = getGalleryImages(images, gallery);
+
       wrapper.style.cursor = 'pointer';
-      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
+
+      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, galleryImages);
 
       if (gallery) {
         wrapper.classList.add(CLASSNAMES.GALLERY_ANIMATION, CLASSNAMES.GALLERY_TRANSITION);

@@ -108,21 +108,19 @@ const getGalleryLengthAndIndex = () => {
   return [+galleryLength, galleryIndex];
 };
 
-const swapArrayPositions = (array = [], a, b) => {
+const swapArrayPositions = (array = [], a = 0, b = 0) => {
   const clonedArray = [...array];
-  [clonedArray[a], clonedArray[b]] = [clonedArray[b], clonedArray[a]];
+  if (clonedArray[a] && clonedArray[b]) {
+    [clonedArray[a], clonedArray[b]] = [clonedArray[b], clonedArray[a]];
+  }
 
   return clonedArray;
 };
 
-const adaptGalleryThumbnails = (clickedImage, images = [], onClick) => {
-  const indexOfClickedImage = images.indexOf(clickedImage);
-  const lowPreviewImages = images
-    .map((image) => image.previousSibling.firstChild)
-    .filter((thmbnail) => thmbnail.classList.contains(CLASSNAMES.PREVIEW_LOADED));
-  const _thumbnails = swapArrayPositions(lowPreviewImages, indexOfClickedImage, 0);
+const adaptGalleryThumbnails = (images = [], onClick) => {
+  const lowPreviewImages = images.map((image) => image.previousSibling.firstChild);
 
-  return _thumbnails.map((thumbnail, index) => {
+  return lowPreviewImages.map((thumbnail, index) => {
     const thmbnailContainer = document.createElement('div');
     const image = thumbnail.cloneNode();
 
@@ -149,9 +147,9 @@ const appendGalleryThumbnails = (thumbnails = [], thumbnailsContainer) => {
   });
 };
 
-const createThmbnailsModule = (clickedImage, images, galleryModal, onClick) => {
+const createThmbnailsModule = (images, galleryModal, onClick) => {
   const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
-  const adaptedGalleryThumbnails = adaptGalleryThumbnails(clickedImage, images, onClick);
+  const adaptedGalleryThumbnails = adaptGalleryThumbnails(images, onClick);
 
   appendGalleryThumbnails(adaptedGalleryThumbnails, thumbnailsModule);
 
@@ -229,4 +227,5 @@ export {
   getImageFitStyles,
   galleryPreviewImage,
   getDimAndFit,
+  swapArrayPositions,
 };

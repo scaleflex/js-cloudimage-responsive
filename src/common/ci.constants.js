@@ -21,6 +21,7 @@ const CLASSNAMES = {
   PREVIEW_MODULE: 'ci-gallery-preview-module',
   THUMBNAIL_MODULE: 'ci-gallery-thumbnail-module',
   THUMBNAIL_CONTAINER: 'ci-gallery-thmbnail-container',
+  IMAGE_LOADED: 'ci-image-loaded',
 };
 
 const ICONS_STYLES = {
