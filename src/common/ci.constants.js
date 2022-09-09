@@ -16,12 +16,21 @@ const ATTRIBUTES = {
 
 const CLASSNAMES = {
   PREVIEW_LOADED: 'ci-preview-loaded',
-  GALLERY_ANIMATION: 'ci-gallery-animation',
-  GALLERY_TRANSITION: 'ci-gallery-transition',
-  GALLERY_MODAL: 'ci-gallery-modal',
   PREVIEW_MODULE: 'ci-gallery-preview-module',
+  GALLERY_ANIMATION: 'ci-gallery-animation',
+  GALLERY_MODAL: 'ci-gallery-modal',
+  GALLERY_DATA: 'data-ci-gallery',
+  GALLERY_LENGTH: 'data-ci-gallery-length',
+  GALLERY_INDEX: 'data-ci-gallery-index',
+  ACTIVE_IMAGE_INDEX: 'data-ci-active-image-index',
   THUMBNAIL_MODULE: 'ci-gallery-thumbnail-module',
   THUMBNAIL_CONTAINER: 'ci-gallery-thmbnail-container',
+  CLOSE_BTN: 'ci-gallery-close-button',
+  LEFT_ARROW_BTN: 'ci-gallery-left-arrow-button',
+  RIGHT_ARROW_BTN: 'ci-gallery-right-arrow-button',
+  ZOOM_BTN: 'ci-gallery-zoom-button',
+  IMAGE: 'ci-image',
+  IMAGE_NAME: 'ci-gallery-image-name',
   IMAGE_LOADED: 'ci-image-loaded',
 };
 

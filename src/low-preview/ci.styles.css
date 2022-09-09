@@ -160,16 +160,17 @@ img.ci-image-loaded {
   min-width: 40px;
   min-height: 40px;
   border: 1px solid #888;
+  background-color: black;
   cursor: pointer;
+}
+
+.ci-gallery-animation {
+  transition: transform 0.5s ease-in-out;
 }
 
 .ci-gallery-animation:hover {
   transform: scale(1.05);
   z-index: 2;
-}
-
-.ci-gallery-transition {
-  transition: transform 0.5s ease-in-out;
 }
 
 .ci-gallery-thmbnail-container img {

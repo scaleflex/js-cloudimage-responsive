@@ -9,8 +9,8 @@ const createIcon = (iconSrc, className, iconStyles) => {
   const icon = new Image();
 
   icon.src = iconSrc;
-  icon.width = width;
-  icon.height = height;
+  icon.style.width = `${width}px`;
+  icon.style.height = `${height}px`;
 
   if (className) {
     iconWrapper.classList.add(className);
@@ -26,7 +26,7 @@ const createIcon = (iconSrc, className, iconStyles) => {
 };
 
 const destroyGallery = () => {
-  const galleryModal = document.querySelector('.ci-gallery-modal');
+  const galleryModal = document.querySelector(`.${CLASSNAMES.GALLERY_MODAL}`);
 
   if (galleryModal) {
     galleryModal.parentElement.removeChild(galleryModal);
@@ -36,7 +36,7 @@ const destroyGallery = () => {
 const createGalleryModal = (closeIconSrc, galleryLength, isGallery) => {
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
-  const closeIcon = createIcon(closeIconSrc, 'ci-gallery-close-button', ICONS_STYLES.COLOR);
+  const closeIcon = createIcon(closeIconSrc, CLASSNAMES.CLOSE_BTN, ICONS_STYLES.COLOR);
 
   galleryModal.tabIndex = 0;
   galleryModal.classList.add(CLASSNAMES.GALLERY_MODAL);
@@ -61,13 +61,13 @@ const createImageNameWrapper = (imageName, galleryModal) => {
   const imageNameContainer = document.createElement('p');
 
   imageNameContainer.innerHTML = imageName;
-  addClass(imageNameContainer, 'ci-gallery-image-name');
+  addClass(imageNameContainer, CLASSNAMES.IMAGE_NAME);
 
   galleryModal.appendChild(imageNameContainer);
 };
 
 const updateOrCreateImageNameWrapper = (imageName, galleryModal) => {
-  const imageNameContainer = galleryModal.querySelector('.ci-gallery-image-name');
+  const imageNameContainer = galleryModal.querySelector(`.${CLASSNAMES.IMAGE_NAME}`);
 
   if (imageNameContainer) {
     imageNameContainer.innerHTML = imageName;
@@ -77,7 +77,7 @@ const updateOrCreateImageNameWrapper = (imageName, galleryModal) => {
 };
 
 const toggleActiveThumbnail = (galleryModal, imageIndex) => {
-  const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
+  const thumbnailsModule = galleryModal.querySelector(`.${CLASSNAMES.THUMBNAIL_MODULE}`);
 
   [...thumbnailsModule.children].forEach((thumbnailContainer) => {
     thumbnailContainer.removeAttribute(ATTRIBUTES.ACTIVE_THUMBNAIL);
@@ -90,20 +90,20 @@ const toggleActiveThumbnail = (galleryModal, imageIndex) => {
 };
 
 const getGalleryPreviewModule = () => {
-  const galleryModal = document.body.querySelector('[data-ci-gallery]');
+  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY_DATA}]`);
 
-  return galleryModal.querySelector('.ci-gallery-preview-module');
+  return galleryModal.querySelector(`.${CLASSNAMES.PREVIEW_MODULE}`);
 };
 
 const setGalleryIndex = (index) => {
-  const galleryModal = document.body.querySelector('[data-ci-gallery]');
+  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY_DATA}]`);
 
   galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
 };
 
 const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
-  const leftArrow = createIcon(leftArrowIcon, 'ci-gallery-left-arrow-button', ICONS_STYLES.COLOR);
-  const rightArrow = createIcon(rightArrowIcon, 'ci-gallery-right-arrow-button', ICONS_STYLES.COLOR);
+  const leftArrow = createIcon(leftArrowIcon, CLASSNAMES.LEFT_ARROW_BTN, ICONS_STYLES.COLOR);
+  const rightArrow = createIcon(rightArrowIcon, CLASSNAMES.RIGHT_ARROW_BTN, ICONS_STYLES.COLOR);
 
   if (onClick) {
     leftArrow.onclick = onClick.bind(this, 'left');
@@ -114,9 +114,9 @@ const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
 };
 
 const getGalleryLengthAndIndex = () => {
-  const galleryModal = document.body.querySelector('[data-ci-gallery]');
-  const galleryLength = galleryModal.getAttribute('data-ci-gallery-length');
-  const galleryIndex = galleryModal.getAttribute('data-ci-gallery-index');
+  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY_DATA}]`);
+  const galleryLength = galleryModal.getAttribute(CLASSNAMES.GALLERY_LENGTH);
+  const galleryIndex = galleryModal.getAttribute(CLASSNAMES.GALLERY_INDEX);
 
   return [+galleryLength, galleryIndex];
 };
@@ -130,17 +130,41 @@ const swapArrayPositions = (array = [], a = 0, b = 0) => {
   return clonedArray;
 };
 
+const getImageFitStyles = (naturalWidth, naturalHeight) => {
+  let shouldFitHorizontally;
+  const imageStyles = {};
+  const previewModule = document.body.querySelector(`.${CLASSNAMES.PREVIEW_MODULE}`);
+
+  if (naturalWidth && previewModule) {
+    const imageAspectRatio = naturalWidth / naturalHeight;
+    const renderWidth = previewModule.offsetHeight * imageAspectRatio;
+    shouldFitHorizontally = (imageAspectRatio <= 1)
+        && (renderWidth < previewModule.offsetWidth);
+  }
+
+  if (shouldFitHorizontally) {
+    imageStyles.width = 'auto';
+    imageStyles.height = '100%';
+  } else {
+    imageStyles.width = '100%';
+    imageStyles.height = 'auto';
+  }
+
+  return imageStyles;
+};
+
 const adaptGalleryThumbnails = (images = [], onClick) => {
   const lowPreviewImages = images.map((image) => image.previousSibling.firstChild);
 
   return lowPreviewImages.map((thumbnail, index) => {
     const thmbnailContainer = document.createElement('div');
+    const imageFitStyles = getImageFitStyles(thumbnail.naturalWidth, thumbnail.naturalHeight);
     const image = thumbnail.cloneNode();
 
-    image.classList.remove('ci-image');
+    image.classList.remove(CLASSNAMES.IMAGE);
     image.style = {};
-    image.style.width = '100%';
-    image.style.height = '100%';
+    image.style.width = imageFitStyles.width;
+    image.style.height = imageFitStyles.height;
 
     thmbnailContainer.classList.add(CLASSNAMES.THUMBNAIL_CONTAINER);
     thmbnailContainer.setAttribute(ATTRIBUTES.GALLERY_THUMBNAIL_INDEX, index);
@@ -162,7 +186,7 @@ const appendGalleryThumbnails = (thumbnails = [], thumbnailsContainer) => {
 };
 
 const createThmbnailsModule = (images, galleryModal, onClick) => {
-  const thumbnailsModule = galleryModal.querySelector('.ci-gallery-thumbnail-module');
+  const thumbnailsModule = galleryModal.querySelector(`.${CLASSNAMES.THUMBNAIL_MODULE}`);
   const adaptedGalleryThumbnails = adaptGalleryThumbnails(images, onClick);
 
   appendGalleryThumbnails(adaptedGalleryThumbnails, thumbnailsModule);
@@ -181,29 +205,6 @@ const getZoomImages = (images) => [...images].filter((image) => {
 
   return zoom;
 });
-
-const getImageFitStyles = (naturalWidth, naturalHeight) => {
-  let shouldFitHorizontally;
-  const imageStyles = {};
-  const previewModule = document.body.querySelector('.ci-gallery-preview-module');
-
-  if (naturalWidth && previewModule) {
-    const imageAspectRatio = naturalWidth / naturalHeight;
-    const renderWidth = previewModule.offsetHeight * imageAspectRatio;
-    shouldFitHorizontally = (imageAspectRatio <= 1)
-        && (renderWidth < previewModule.offsetWidth);
-  }
-
-  if (shouldFitHorizontally) {
-    imageStyles.width = 'auto';
-    imageStyles.height = '100%';
-  } else {
-    imageStyles.width = '100%';
-    imageStyles.height = 'auto';
-  }
-
-  return imageStyles;
-};
 
 const galleryPreviewImage = (imgSelector, imgNodeSRC) => {
   const image = new Image();
