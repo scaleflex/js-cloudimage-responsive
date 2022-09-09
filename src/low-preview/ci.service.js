@@ -243,7 +243,7 @@ export default class CIResponsive {
   }
 
   animatePreviewModule(previewModule, nextIndex, direction) {
-    const currentIndex = previewModule.getAttribute(CLASSNAMES.ACTIVE_IMAGE_INDEX);
+    const currentIndex = previewModule.getAttribute(ATTRIBUTES.ACTIVE_IMAGE_INDEX);
     const leftDirection = direction === 'left';
     let transform = 1000;
     let scale = 0.8;
@@ -316,7 +316,7 @@ export default class CIResponsive {
 
   handleClickThumbnail(galleryImages, event) {
     const thumbnail = event.currentTarget;
-    const thumbnailIndex = thumbnail.getAttribute(CLASSNAMES.GALLERY_INDEX);
+    const thumbnailIndex = thumbnail.getAttribute(ATTRIBUTES.GALLERY_INDEX);
     const [, index] = getGalleryLengthAndIndex();
 
     if (thumbnailIndex !== index) {
@@ -457,7 +457,7 @@ export default class CIResponsive {
       if (gallery) {
         wrapper.classList.add(CLASSNAMES.GALLERY_ANIMATION);
       } else {
-        const zoomIcon = createIcon(zoomIconSvg, CLASSNAMES.ZOOM_BTN, ICONS_STYLES.ZOOM);
+        const zoomIcon = createIcon(zoomIconSvg, CLASSNAMES.ZOOM_BUTTON, ICONS_STYLES.ZOOM);
         wrapper.append(zoomIcon);
       }
     }
@@ -500,7 +500,7 @@ export default class CIResponsive {
         });
 
         if (lazy) {
-          imgNode.setAttribute(ATTRIBUTES.OPTIMIZED_URL, cloudimageUrl);
+          imgNode.setAttribute(CLASSNAMES.OPTIMIZED_URL, cloudimageUrl);
 
           setBackgroundSrc(previewBox, previewImgURL, lazy, src, isSVG, dataSrcAttr);
         } else {

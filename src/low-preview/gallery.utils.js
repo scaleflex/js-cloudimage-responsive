@@ -36,7 +36,7 @@ const destroyGallery = () => {
 const createGalleryModal = (closeIconSrc, galleryLength, isGallery) => {
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
-  const closeIcon = createIcon(closeIconSrc, CLASSNAMES.CLOSE_BTN, ICONS_STYLES.COLOR);
+  const closeIcon = createIcon(closeIconSrc, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
 
   galleryModal.tabIndex = 0;
   galleryModal.classList.add(CLASSNAMES.GALLERY_MODAL);
@@ -90,20 +90,20 @@ const toggleActiveThumbnail = (galleryModal, imageIndex) => {
 };
 
 const getGalleryPreviewModule = () => {
-  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY_DATA}]`);
+  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY}]`);
 
   return galleryModal.querySelector(`.${CLASSNAMES.PREVIEW_MODULE}`);
 };
 
 const setGalleryIndex = (index) => {
-  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY_DATA}]`);
+  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY}]`);
 
   galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
 };
 
 const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
-  const leftArrow = createIcon(leftArrowIcon, CLASSNAMES.LEFT_ARROW_BTN, ICONS_STYLES.COLOR);
-  const rightArrow = createIcon(rightArrowIcon, CLASSNAMES.RIGHT_ARROW_BTN, ICONS_STYLES.COLOR);
+  const leftArrow = createIcon(leftArrowIcon, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+  const rightArrow = createIcon(rightArrowIcon, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
 
   if (onClick) {
     leftArrow.onclick = onClick.bind(this, 'left');
@@ -114,9 +114,9 @@ const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
 };
 
 const getGalleryLengthAndIndex = () => {
-  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY_DATA}]`);
-  const galleryLength = galleryModal.getAttribute(CLASSNAMES.GALLERY_LENGTH);
-  const galleryIndex = galleryModal.getAttribute(CLASSNAMES.GALLERY_INDEX);
+  const galleryModal = document.body.querySelector(`[${CLASSNAMES.GALLERY}]`);
+  const galleryLength = galleryModal.getAttribute(ATTRIBUTES.GALLERY_LENGTH);
+  const galleryIndex = galleryModal.getAttribute(ATTRIBUTES.GALLERY_INDEX);
 
   return [+galleryLength, galleryIndex];
 };
