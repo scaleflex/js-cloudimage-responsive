@@ -334,27 +334,52 @@ export default class CIResponsive {
     const galleryImages = getGalleryImages(images, gallery);
 
     if (gallery && galleryImages) {
+      const { galleryConfigs } = this.config;
+      const {
+        thumbnails, arrowPrev, arrowNext, onOpen, onClickThumbnail,
+      } = galleryConfigs;
+
+      if (typeof onOpen === 'function') {
+        onOpen(event);
+      }
+
       const clickedImage = event.currentTarget.lastChild;
       const clickedImageIndex = galleryImages.indexOf(clickedImage);
       const orderedImages = swapArrayPositions(galleryImages, clickedImageIndex, 0)
         .filter((image) => image.classList.contains(CLASSNAMES.IMAGE_LOADED));
-      const galleryModal = createGalleryModal(closeIconSvg, orderedImages.length, true);
+      const galleryModal = createGalleryModal(closeIconSvg, galleryConfigs, orderedImages.length, true);
       const previewModule = galleryModal.querySelector(`.${CLASSNAMES.PREVIEW_MODULE}`);
-      const thumbnailsModule = createThmbnailsModule(
-        orderedImages,
-        galleryModal,
-        this.handleClickThumbnail.bind(this, orderedImages),
-      );
-
-      const galleryArrows = createGalleryArrows(
-        leftArrowSvg,
-        rightArrowSvg,
-        this.handleClickArrows.bind(this, orderedImages),
-      );
 
       galleryModal.appendChild(previewModule);
-      galleryModal.appendChild(thumbnailsModule);
-      galleryModal.append(...galleryArrows);
+
+      if (thumbnails && orderedImages.length > 1) {
+        const thumbnailsModule = createThmbnailsModule(
+          orderedImages,
+          galleryModal,
+          onClickThumbnail,
+          this.handleClickThumbnail.bind(this, orderedImages),
+        );
+
+        galleryModal.appendChild(thumbnailsModule);
+      }
+
+      if (orderedImages.length > 1) {
+        const galleryArrows = createGalleryArrows(
+          leftArrowSvg,
+          rightArrowSvg,
+          galleryConfigs,
+          this.handleClickArrows.bind(this, orderedImages),
+        );
+
+        if (arrowPrev) {
+          galleryModal.append(galleryArrows[0]);
+        }
+
+        if (arrowNext) {
+          galleryModal.append(galleryArrows[1]);
+        }
+      }
+
       galleryModal.onkeydown = debounce(250, this.handleModalKeydown.bind(this, orderedImages));
 
       document.body.appendChild(galleryModal);

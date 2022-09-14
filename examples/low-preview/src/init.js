@@ -4,9 +4,9 @@ window.ciResponsive = new window.CIResponsive({
   lazyLoading: true,
   apiVersion: null,
   lowQualityPreview: {
-    minImgWidth: 180
+    minImgWidth: 180,
   },
-  doNotReplaceURL: true
+  doNotReplaceURL: true,
 });
 
 window.lazySizes.init();

@@ -33,7 +33,7 @@ export const getInitialConfigLowPreview = (config) => {
     lowQualityPreview: {
       minImgWidth = 400,
     } = {},
-
+    gallery,
     // callback
     onImageLoad = null,
   } = config;
@@ -74,6 +74,24 @@ export const getInitialConfigLowPreview = (config) => {
     detectImageNodeCSS,
     processOnlyWidth,
     onImageLoad,
+    galleryConfigs: {
+      arrowPrevIcon: null,
+      arrowNextIcon: null,
+      closeIcon: null,
+      modalClassName: '',
+      previewClassName: '',
+      thumbnailsClassName: '',
+      arrowPrev: true,
+      arrowNext: true,
+      close: true,
+      thumbnails: true,
+      onOpen: null,
+      onClose: null,
+      onPrev: null,
+      onNext: null,
+      onClickThumbnail: null,
+      ...gallery,
+    },
     // isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };

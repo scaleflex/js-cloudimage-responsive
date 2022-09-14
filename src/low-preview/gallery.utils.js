@@ -6,9 +6,15 @@ const createIcon = (iconSrc, className, iconStyles) => {
   const { color, width = 15, height = 15 } = iconStyles;
 
   const iconWrapper = document.createElement('div');
-  const icon = new Image();
+  let icon;
 
-  icon.src = iconSrc;
+  if (iconSrc.tagName === 'IMG') {
+    icon = iconSrc;
+  } else {
+    icon = new Image();
+    icon.src = iconSrc;
+  }
+
   icon.style.width = `${width}px`;
   icon.style.height = `${height}px`;
 
@@ -25,7 +31,11 @@ const createIcon = (iconSrc, className, iconStyles) => {
   return iconWrapper;
 };
 
-const destroyGallery = () => {
+const destroyGallery = (onClose, event) => {
+  if (typeof onClose === 'function') {
+    onClose(event);
+  }
+
   const galleryModal = document.querySelector(`.${CLASSNAMES.GALLERY_MODAL}`);
 
   if (galleryModal) {
@@ -33,22 +43,52 @@ const destroyGallery = () => {
   }
 };
 
-const createGalleryModal = (closeIconSrc, galleryLength, isGallery) => {
+const createGalleryModal = (closeIconSrc, galleryConfigs, galleryLength, isGallery) => {
+  const {
+    modalClassName, previewClassName, thumbnailsClassName, closeIcon, close, onClose,
+  } = galleryConfigs;
+
+  let closeIcn = null;
+
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
-  const closeIcon = createIcon(closeIconSrc, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
+  const loader = document.createElement('div');
+
+  if (closeIcon) {
+    closeIcn = createIcon(closeIcon, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
+  } else {
+    closeIcn = createIcon(closeIconSrc, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
+  }
 
   galleryModal.tabIndex = 0;
   galleryModal.classList.add(CLASSNAMES.GALLERY_MODAL);
   previewModule.classList.add(CLASSNAMES.PREVIEW_MODULE);
   galleryModal.setAttribute(ATTRIBUTES.GALLERY, true);
+  loader.classList.add('ci-gallery-loader');
   galleryModal.append(previewModule);
-  galleryModal.append(closeIcon);
-  closeIcon.onclick = destroyGallery;
+  galleryModal.append(loader);
+
+  if (close) {
+    galleryModal.append(closeIcn);
+  }
+
+  closeIcn.onclick = destroyGallery.bind(this, onClose);
+
+  if (modalClassName) {
+    galleryModal.classList.add(modalClassName);
+  }
+
+  if (previewClassName) {
+    previewModule.classList.add(previewClassName);
+  }
 
   if (isGallery) {
     const thumbnailsModule = document.createElement('div');
     thumbnailsModule.classList.add(CLASSNAMES.THUMBNAIL_MODULE);
+
+    if (thumbnailsClassName) {
+      thumbnailsModule.classList.add(thumbnailsClassName);
+    }
     galleryModal.setAttribute(ATTRIBUTES.GALLERY_LENGTH, galleryLength);
     galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, 0);
     galleryModal.append(thumbnailsModule);
@@ -101,13 +141,36 @@ const setGalleryIndex = (index) => {
   galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
 };
 
-const createGalleryArrows = (leftArrowIcon, rightArrowIcon, onClick) => {
-  const leftArrow = createIcon(leftArrowIcon, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
-  const rightArrow = createIcon(rightArrowIcon, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+const createGalleryArrows = (leftArrowIcon, rightArrowIcon, galleryConfigs, onClick) => {
+  const {
+    arrowPrevIcon, arrowNextIcon, onPrev, onNext,
+  } = galleryConfigs;
+  let leftArrow;
+  let rightArrow;
+
+  if (arrowPrevIcon) {
+    leftArrow = createIcon(arrowPrevIcon, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+  } else {
+    leftArrow = createIcon(leftArrowIcon, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+  }
+
+  if (arrowNextIcon) {
+    rightArrow = createIcon(arrowNextIcon, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+  } else {
+    rightArrow = createIcon(rightArrowIcon, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+  }
 
   if (onClick) {
     leftArrow.onclick = onClick.bind(this, 'left');
     rightArrow.onclick = onClick.bind(this, 'right');
+  }
+
+  if (typeof onPrev === 'function') {
+    leftArrow.onclick = onPrev.bind(this);
+  }
+
+  if (typeof onNext === 'function') {
+    rightArrow.onclick = onNext.bind(this);
   }
 
   return [leftArrow, rightArrow];
@@ -153,7 +216,7 @@ const getImageFitStyles = (naturalWidth, naturalHeight) => {
   return imageStyles;
 };
 
-const adaptGalleryThumbnails = (images = [], onClick) => {
+const adaptGalleryThumbnails = (images = [], onClickThumbnail, onClick) => {
   const lowPreviewImages = images.map((image) => image.previousSibling.firstChild);
 
   return lowPreviewImages.map((thumbnail, index) => {
@@ -174,6 +237,10 @@ const adaptGalleryThumbnails = (images = [], onClick) => {
       thmbnailContainer.onclick = onClick;
     }
 
+    if (typeof onClickThumbnail === 'function') {
+      thmbnailContainer.onclick = onClickThumbnail.bind(this);
+    }
+
     return thmbnailContainer;
   });
 };
@@ -184,9 +251,9 @@ const appendGalleryThumbnails = (thumbnails = [], thumbnailsContainer) => {
   });
 };
 
-const createThmbnailsModule = (images, galleryModal, onClick) => {
+const createThmbnailsModule = (images, galleryModal, onClickThumbnail, onClick) => {
   const thumbnailsModule = galleryModal.querySelector(`.${CLASSNAMES.THUMBNAIL_MODULE}`);
-  const adaptedGalleryThumbnails = adaptGalleryThumbnails(images, onClick);
+  const adaptedGalleryThumbnails = adaptGalleryThumbnails(images, onClickThumbnail, onClick);
 
   appendGalleryThumbnails(adaptedGalleryThumbnails, thumbnailsModule);
 

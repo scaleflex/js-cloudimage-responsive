@@ -234,6 +234,18 @@ img.ci-image-loaded {
   transition: transform 300ms ease-in-out;
 }
 
+.ci-gallery-loader {
+  border: 3px solid #3498db;
+  border-top: 3px solid white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  animation: spin 2s linear infinite;
+}
+
 @keyframes slideVertical {
   0% { transform: translateY(1000px); }
   100% { transform: translateY(0); }
@@ -247,4 +259,9 @@ img.ci-image-loaded {
 @keyframes borderFade {
   0% { border: 2px solid transparent }
   0% { transform: 2px solid #FFF }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
