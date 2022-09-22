@@ -34,7 +34,6 @@ export const getInitialConfigLowPreview = (config) => {
       minImgWidth = 400,
     } = {},
     gallery,
-    // callback
     onImageLoad = null,
   } = config;
 
@@ -92,6 +91,5 @@ export const getInitialConfigLowPreview = (config) => {
       onClickThumbnail: null,
       ...gallery,
     },
-    // isChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
   };
 };
