@@ -110,20 +110,6 @@ img.ci-image-loaded {
   overflow: hidden;
 }
 
-.ci-gallery-close-button {
-  width: 23px;
-  height: 23px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 111;
-  cursor: pointer;
-}
-
 .ci-gallery-thumbnail-module {
   display: flex;
   position: absolute;
@@ -186,33 +172,44 @@ img.ci-image-loaded {
   animation: borderFade 250ms ease-in-out;
 }
 
+.ci-gallery-close-button {
+  width: 23px;
+  height: 23px;
+  top: 15px;
+  right: 15px;
+  border-radius: 50%;
+}
+
 .ci-gallery-right-arrow-button {
   width: 25px;
   height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  position: absolute;
-  position: absolute;
   top: 50%;
   right: 15px;
-  z-index: 111;
-  cursor: pointer;
+  border-radius: 50%;
 }
 
 .ci-gallery-left-arrow-button {
   width: 25px;
   height: 25px;
+  top: 50%;
+  left: 15px;
+  border-radius: 50%;
+}
+
+.ci-gallery-icon-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
   position: absolute;
-  top: 50%;
-  left: 15px;
-  z-index: 111;
   cursor: pointer;
+  z-index: 111;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.ci-gallery-close-button:hover,
+.ci-gallery-right-arrow-button:hover,
+.ci-gallery-left-arrow-button:hover {
+  background-color: rgba(255,255,255,0.8);
 }
 
 .ci-image-wrapper:hover > .ci-gallery-zoom-button {

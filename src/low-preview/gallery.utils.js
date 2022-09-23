@@ -1,23 +1,17 @@
 import { getCommonImageProps, addClass } from '../common/ci.utils';
-import { ATTRIBUTES, CLASSNAMES, ICONS_STYLES } from '../common/ci.constants';
+import { ATTRIBUTES, CLASSNAMES } from '../common/ci.constants';
 
 
 const createIcon = (iconSrc, className, iconStyles) => {
-  const { color, width = 15, height = 15 } = iconStyles;
-
   const iconWrapper = document.createElement('div');
 
   const icon = new Image();
   icon.src = iconSrc;
 
-  icon.style.width = `${width}px`;
-  icon.style.height = `${height}px`;
+  icon.style.width = `${iconStyles ? iconStyles.width : '15'}px`;
+  icon.style.height = `${iconStyles ? iconStyles.height : '15'}px`;
 
-  addClass(iconWrapper, className);
-
-  if (color) {
-    iconWrapper.style.backgroundColor = color;
-  }
+  iconWrapper.classList.add(className, CLASSNAMES.GALLERY_ICON_BUTTON);
 
   iconWrapper.appendChild(icon);
 
@@ -37,10 +31,6 @@ const destroyGallery = (onClose, event) => {
 };
 
 const createGalleryModal = (closeIconSrc, galleryConfigs, galleryLength, isGallery) => {
-  const {
-    modalClassName, previewClassName, thumbnailsClassName, closeIcon, close, onClose,
-  } = galleryConfigs;
-
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
   const loader = document.createElement('div');
@@ -53,29 +43,36 @@ const createGalleryModal = (closeIconSrc, galleryConfigs, galleryLength, isGalle
   galleryModal.append(previewModule);
   galleryModal.append(loader);
 
-  if (close) {
-    let _closeIcon = closeIcon || closeIconSrc;
-
-    if (typeof _closeIcon === 'string') {
-      _closeIcon = createIcon(_closeIcon, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
-    }
-
-    _closeIcon.onclick = destroyGallery.bind(this, onClose);
-    galleryModal.append(_closeIcon);
-  }
-
-  addClass(galleryModal, modalClassName);
-  addClass(previewModule, previewClassName);
-
   if (isGallery) {
+    const {
+      modalClassName, previewClassName, thumbnailsClassName, closeIcon, close, onClose,
+    } = galleryConfigs;
+
     const thumbnailsModule = document.createElement('div');
 
+    if (close) {
+      let _closeIcon = closeIcon || closeIconSrc;
+
+      if (typeof _closeIcon === 'string') {
+        _closeIcon = createIcon(_closeIcon, CLASSNAMES.CLOSE_BUTTON);
+      }
+
+      _closeIcon.onclick = destroyGallery.bind(this, onClose);
+      galleryModal.append(_closeIcon);
+    }
+
+    addClass(galleryModal, modalClassName);
+    addClass(previewModule, previewClassName);
     addClass(thumbnailsModule, CLASSNAMES.THUMBNAIL_MODULE);
     addClass(thumbnailsModule, thumbnailsClassName);
 
     galleryModal.setAttribute(ATTRIBUTES.GALLERY_LENGTH, galleryLength);
     galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, 0);
     galleryModal.append(thumbnailsModule);
+  } else {
+    const closeIcon = createIcon(closeIconSrc, CLASSNAMES.CLOSE_BUTTON);
+    closeIcon.onclick = destroyGallery.bind(this);
+    galleryModal.append(closeIcon);
   }
 
   return galleryModal;
@@ -132,12 +129,12 @@ const createGalleryArrows = (leftArrowIcon, rightArrowIcon, galleryConfigs, onCl
 
   let leftArrow = arrowPrevIcon || leftArrowIcon;
   if (typeof leftArrow === 'string') {
-    leftArrow = createIcon(leftArrow, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+    leftArrow = createIcon(leftArrow, CLASSNAMES.LEFT_ARROW_BUTTON);
   }
 
   let rightArrow = arrowNextIcon || rightArrowIcon;
   if (typeof rightArrow === 'string') {
-    rightArrow = createIcon(rightArrow, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+    rightArrow = createIcon(rightArrow, CLASSNAMES.RIGHT_ARROW_BUTTON);
   }
 
 

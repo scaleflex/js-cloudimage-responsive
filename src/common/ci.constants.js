@@ -22,6 +22,7 @@ const CLASSNAMES = {
   GALLERY_LOADER: 'ci-gallery-loader',
   THUMBNAIL_MODULE: 'ci-gallery-thumbnail-module',
   THUMBNAIL_CONTAINER: 'ci-gallery-thmbnail-container',
+  GALLERY_ICON_BUTTON: 'ci-gallery-icon-button',
   CLOSE_BUTTON: 'ci-gallery-close-button',
   LEFT_ARROW_BUTTON: 'ci-gallery-left-arrow-button',
   RIGHT_ARROW_BUTTON: 'ci-gallery-right-arrow-button',
@@ -33,7 +34,6 @@ const CLASSNAMES = {
 
 const ICONS_STYLES = {
   ZOOM: { width: 35, height: 35 },
-  COLOR: { color: 'rgba(255,255,255,0.5)' },
 };
 
 export {
