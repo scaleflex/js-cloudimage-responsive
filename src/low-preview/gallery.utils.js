@@ -6,21 +6,14 @@ const createIcon = (iconSrc, className, iconStyles) => {
   const { color, width = 15, height = 15 } = iconStyles;
 
   const iconWrapper = document.createElement('div');
-  let icon;
 
-  if (iconSrc.tagName === 'IMG') {
-    icon = iconSrc;
-  } else {
-    icon = new Image();
-    icon.src = iconSrc;
-  }
+  const icon = new Image();
+  icon.src = iconSrc;
 
   icon.style.width = `${width}px`;
   icon.style.height = `${height}px`;
 
-  if (className) {
-    iconWrapper.classList.add(className);
-  }
+  addClass(iconWrapper, className);
 
   if (color) {
     iconWrapper.style.backgroundColor = color;
@@ -48,47 +41,38 @@ const createGalleryModal = (closeIconSrc, galleryConfigs, galleryLength, isGalle
     modalClassName, previewClassName, thumbnailsClassName, closeIcon, close, onClose,
   } = galleryConfigs;
 
-  let closeIcn = null;
-
   const galleryModal = document.createElement('div');
   const previewModule = document.createElement('div');
   const loader = document.createElement('div');
 
-  if (closeIcon) {
-    closeIcn = createIcon(closeIcon, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
-  } else {
-    closeIcn = createIcon(closeIconSrc, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
-  }
-
   galleryModal.tabIndex = 0;
-  galleryModal.classList.add(CLASSNAMES.GALLERY_MODAL);
-  previewModule.classList.add(CLASSNAMES.PREVIEW_MODULE);
+  addClass(galleryModal, CLASSNAMES.GALLERY_MODAL);
+  addClass(previewModule, CLASSNAMES.PREVIEW_MODULE);
   galleryModal.setAttribute(ATTRIBUTES.GALLERY, true);
-  loader.classList.add('ci-gallery-loader');
+  addClass(loader, CLASSNAMES.GALLERY_LOADER);
   galleryModal.append(previewModule);
   galleryModal.append(loader);
 
   if (close) {
-    galleryModal.append(closeIcn);
+    let _closeIcon = closeIcon || closeIconSrc;
+
+    if (typeof _closeIcon === 'string') {
+      _closeIcon = createIcon(_closeIcon, CLASSNAMES.CLOSE_BUTTON, ICONS_STYLES.COLOR);
+    }
+
+    _closeIcon.onclick = destroyGallery.bind(this, onClose);
+    galleryModal.append(_closeIcon);
   }
 
-  closeIcn.onclick = destroyGallery.bind(this, onClose);
-
-  if (modalClassName) {
-    galleryModal.classList.add(modalClassName);
-  }
-
-  if (previewClassName) {
-    previewModule.classList.add(previewClassName);
-  }
+  addClass(galleryModal, modalClassName);
+  addClass(previewModule, previewClassName);
 
   if (isGallery) {
     const thumbnailsModule = document.createElement('div');
-    thumbnailsModule.classList.add(CLASSNAMES.THUMBNAIL_MODULE);
 
-    if (thumbnailsClassName) {
-      thumbnailsModule.classList.add(thumbnailsClassName);
-    }
+    addClass(thumbnailsModule, CLASSNAMES.THUMBNAIL_MODULE);
+    addClass(thumbnailsModule, thumbnailsClassName);
+
     galleryModal.setAttribute(ATTRIBUTES.GALLERY_LENGTH, galleryLength);
     galleryModal.setAttribute(ATTRIBUTES.GALLERY_INDEX, 0);
     galleryModal.append(thumbnailsModule);
@@ -145,20 +129,17 @@ const createGalleryArrows = (leftArrowIcon, rightArrowIcon, galleryConfigs, onCl
   const {
     arrowPrevIcon, arrowNextIcon, onPrev, onNext,
   } = galleryConfigs;
-  let leftArrow;
-  let rightArrow;
 
-  if (arrowPrevIcon) {
-    leftArrow = createIcon(arrowPrevIcon, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
-  } else {
-    leftArrow = createIcon(leftArrowIcon, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+  let leftArrow = arrowPrevIcon || leftArrowIcon;
+  if (typeof leftArrow === 'string') {
+    leftArrow = createIcon(leftArrow, CLASSNAMES.LEFT_ARROW_BUTTON, ICONS_STYLES.COLOR);
   }
 
-  if (arrowNextIcon) {
-    rightArrow = createIcon(arrowNextIcon, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
-  } else {
-    rightArrow = createIcon(rightArrowIcon, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
+  let rightArrow = arrowNextIcon || rightArrowIcon;
+  if (typeof rightArrow === 'string') {
+    rightArrow = createIcon(rightArrow, CLASSNAMES.RIGHT_ARROW_BUTTON, ICONS_STYLES.COLOR);
   }
+
 
   if (onClick) {
     leftArrow.onclick = onClick.bind(this, 'left');
@@ -229,7 +210,7 @@ const adaptGalleryThumbnails = (images = [], onClickThumbnail, onClick) => {
     image.style.width = imageFitStyles.width;
     image.style.height = imageFitStyles.height;
 
-    thmbnailContainer.classList.add(CLASSNAMES.THUMBNAIL_CONTAINER);
+    addClass(thmbnailContainer, CLASSNAMES.THUMBNAIL_CONTAINER);
     thmbnailContainer.setAttribute(ATTRIBUTES.GALLERY_INDEX, index);
     thmbnailContainer.append(image);
 

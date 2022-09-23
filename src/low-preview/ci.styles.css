@@ -244,6 +244,7 @@ img.ci-image-loaded {
   top: 50%;
   left: 50%;
   animation: spin 2s linear infinite;
+  z-index: -1;
 }
 
 @keyframes slideVertical {

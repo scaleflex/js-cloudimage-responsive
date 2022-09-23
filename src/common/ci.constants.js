@@ -19,6 +19,7 @@ const CLASSNAMES = {
   PREVIEW_MODULE: 'ci-gallery-preview-module',
   GALLERY_ANIMATION: 'ci-gallery-animation',
   GALLERY_MODAL: 'ci-gallery-modal',
+  GALLERY_LOADER: 'ci-gallery-loader',
   THUMBNAIL_MODULE: 'ci-gallery-thumbnail-module',
   THUMBNAIL_CONTAINER: 'ci-gallery-thmbnail-container',
   CLOSE_BUTTON: 'ci-gallery-close-button',

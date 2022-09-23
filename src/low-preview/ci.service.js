@@ -19,6 +19,7 @@ import {
   setSrc,
   setSrcset,
   removeClassNames,
+  addClass,
 } from '../common/ci.utils';
 import {
   createIcon,
@@ -348,9 +349,6 @@ export default class CIResponsive {
       const orderedImages = swapArrayPositions(galleryImages, clickedImageIndex, 0)
         .filter((image) => image.classList.contains(CLASSNAMES.IMAGE_LOADED));
       const galleryModal = createGalleryModal(closeIconSvg, galleryConfigs, orderedImages.length, true);
-      const previewModule = galleryModal.querySelector(`.${CLASSNAMES.PREVIEW_MODULE}`);
-
-      galleryModal.appendChild(previewModule);
 
       if (thumbnails && orderedImages.length > 1) {
         const thumbnailsModule = createThmbnailsModule(
@@ -364,7 +362,7 @@ export default class CIResponsive {
       }
 
       if (orderedImages.length > 1) {
-        const galleryArrows = createGalleryArrows(
+        const [leftArrow, rightArrow] = createGalleryArrows(
           leftArrowSvg,
           rightArrowSvg,
           galleryConfigs,
@@ -372,15 +370,15 @@ export default class CIResponsive {
         );
 
         if (arrowPrev) {
-          galleryModal.append(galleryArrows[0]);
+          galleryModal.append(leftArrow);
         }
 
         if (arrowNext) {
-          galleryModal.append(galleryArrows[1]);
+          galleryModal.append(rightArrow);
         }
-      }
 
-      galleryModal.onkeydown = debounce(250, this.handleModalKeydown.bind(this, orderedImages));
+        galleryModal.onkeydown = debounce(250, this.handleModalKeydown.bind(this, orderedImages));
+      }
 
       document.body.appendChild(galleryModal);
 
@@ -401,7 +399,7 @@ export default class CIResponsive {
 
       galleryModal.tabIndex = 0;
       galleryModal.appendChild(previewModule);
-      galleryModal.onkeydown = debounce(100, this.handleModalKeydown.bind(this, undefined));
+      galleryModal.onkeydown = debounce(50, this.handleModalKeydown.bind(this, undefined));
 
       document.body.appendChild(galleryModal);
       galleryModal.focus();
@@ -473,25 +471,32 @@ export default class CIResponsive {
         setSrc(previewImgNode, previewImgURL, 'data-src', lazy, src, isSVG, dataSrcAttr);
 
         previewImgNode.onload = () => {
-          previewImgNode.classList.add(CLASSNAMES.PREVIEW_LOADED);
+          addClass(previewImgNode, CLASSNAMES.PREVIEW_LOADED);
           onPreviewImageLoad(wrapper, previewImgNode, ratio, preserveSize);
         };
       }
     }
 
     getDimAndFit(imgNode);
+
     if ((gallery || zoom) && !isProcessedByGallery) {
       wrapper.style.cursor = 'pointer';
+
       if (gallery) {
-        wrapper.classList.add(CLASSNAMES.GALLERY_ANIMATION);
+        addClass(wrapper, CLASSNAMES.GALLERY_ANIMATION);
       } else {
         const zoomIcon = createIcon(zoomIconSvg, CLASSNAMES.ZOOM_BUTTON, ICONS_STYLES.ZOOM);
         wrapper.append(zoomIcon);
       }
     }
 
-    wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
     imgNode.onload = () => {
+      const loader = document.querySelector(`.${CLASSNAMES.GALLERY_LOADER}`);
+
+      if (loader) {
+        loader.parentElement.removeChild(loader);
+      }
+
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
         config.onImageLoad(imgNode);
       }
@@ -499,6 +504,8 @@ export default class CIResponsive {
       if (!isProcessedByGallery) {
         onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
       }
+
+      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
     };
 
     setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
