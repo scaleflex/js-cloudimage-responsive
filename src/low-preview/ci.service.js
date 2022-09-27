@@ -435,7 +435,7 @@ export default class CIResponsive {
     } = props;
 
     const {
-      params, zoom, gallery, isProcessedByGallery,
+      params, zoom, gallery, disableAnimation, isProcessedByGallery,
     } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
@@ -482,9 +482,9 @@ export default class CIResponsive {
     if ((gallery || zoom) && !isProcessedByGallery) {
       wrapper.style.cursor = 'pointer';
 
-      if (gallery) {
+      if (gallery && !disableAnimation) {
         addClass(wrapper, CLASSNAMES.GALLERY_ANIMATION);
-      } else {
+      } else if (zoom && !gallery) {
         const zoomIcon = createIcon(zoomIconSvg, CLASSNAMES.ZOOM_BUTTON, ICONS_STYLES.ZOOM);
         wrapper.append(zoomIcon);
       }

@@ -74,6 +74,7 @@ const getCommonImageProps = (image) => ({
   zoom: isTrue(image, 'ci-zoom'),
   gallery: attr(image, 'ci-gallery') || undefined,
   imageName: attr(image, 'ci-image-name') || undefined,
+  disableAnimation: isTrue(image, 'disableAnimation'),
 });
 
 const filterImages = (images, type) => {
