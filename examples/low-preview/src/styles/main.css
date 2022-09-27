@@ -490,6 +490,35 @@ body {
   font-weight: 500;
 }
 
+.gallery-section {
+  height: max-content;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: repeat(4, 1fr);
+  padding: 60px 25px;
+  background-color: rgb(0, 0, 0);
+  margin-bottom: 50px;
+}
+
+.gallery-section img {
+  object-fit: cover;
+}
+
+.bird {
+  grid-column: 1/3;
+  grid-row: 1/3;
+}
+
+.stellers {
+  grid-column: 4/6;
+  grid-row: 2/4;
+}
+
+.road {
+  grid-column: 2/4;
+  grid-row: 3/5;
+}
+
 .background-images-section {
   display: flex;
   flex-direction: column;
