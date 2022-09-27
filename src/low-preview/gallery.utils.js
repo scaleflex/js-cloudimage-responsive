@@ -2,14 +2,11 @@ import { getCommonImageProps, addClass } from '../common/ci.utils';
 import { ATTRIBUTES, CLASSNAMES } from '../common/ci.constants';
 
 
-const createIcon = (iconSrc, className, iconStyles) => {
+const createIcon = (iconSrc, className) => {
   const iconWrapper = document.createElement('div');
 
   const icon = new Image();
   icon.src = iconSrc;
-
-  icon.style.width = `${iconStyles ? iconStyles.width : '15'}px`;
-  icon.style.height = `${iconStyles ? iconStyles.height : '15'}px`;
 
   iconWrapper.classList.add(className, CLASSNAMES.GALLERY_ICON_BUTTON);
 

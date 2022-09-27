@@ -206,6 +206,13 @@ img.ci-image-loaded {
   background-color: rgba(255,255,255,0.5);
 }
 
+.ci-gallery-close-button img,
+.ci-gallery-right-arrow-button img,
+.ci-gallery-left-arrow-button img {
+  width: 15px;
+  height: 15px;
+}
+
 .ci-gallery-close-button:hover,
 .ci-gallery-right-arrow-button:hover,
 .ci-gallery-left-arrow-button:hover {
@@ -229,6 +236,11 @@ img.ci-image-loaded {
   transform: translateY(1000px);
   background-color: rgba(255, 255, 255, 0.5);
   transition: transform 300ms ease-in-out;
+}
+
+.ci-gallery-zoom-button img {
+  width: 35px;
+  height: 35px;
 }
 
 .ci-gallery-loader {

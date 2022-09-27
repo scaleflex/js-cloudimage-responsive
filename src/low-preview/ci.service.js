@@ -51,7 +51,7 @@ import {
   updateSizeWithPixelRatio,
 } from './ci.utis';
 import {
-  loadedImageClassNames, ATTRIBUTES, CLASSNAMES, ICONS_STYLES,
+  loadedImageClassNames, ATTRIBUTES, CLASSNAMES,
 } from '../common/ci.constants';
 import closeIconSvg from '../public/close-icon.svg';
 import rightArrowSvg from '../public/right-arrow-icon.svg';
@@ -485,7 +485,7 @@ export default class CIResponsive {
       if (gallery && !disableAnimation) {
         addClass(wrapper, CLASSNAMES.GALLERY_ANIMATION);
       } else if (zoom && !gallery) {
-        const zoomIcon = createIcon(zoomIconSvg, CLASSNAMES.ZOOM_BUTTON, ICONS_STYLES.ZOOM);
+        const zoomIcon = createIcon(zoomIconSvg, CLASSNAMES.ZOOM_BUTTON);
         wrapper.append(zoomIcon);
       }
     }

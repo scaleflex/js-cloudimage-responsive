@@ -32,13 +32,8 @@ const CLASSNAMES = {
   IMAGE_LOADED: 'ci-image-loaded',
 };
 
-const ICONS_STYLES = {
-  ZOOM: { width: 35, height: 35 },
-};
-
 export {
   loadedImageClassNames,
   ATTRIBUTES,
   CLASSNAMES,
-  ICONS_STYLES,
 };
