@@ -490,17 +490,25 @@ body {
   font-weight: 500;
 }
 
-.gallery-section {
+.gallery-section h1 {
+  font-size: 40px;
+  line-height: 54px;
+  font-weight: 400px;
+  text-align: center;
+  margin: 50px 0px 35px;
+}
+
+.gallery {
   height: max-content;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: repeat(4, 1fr);
   padding: 60px 25px;
   background-color: rgb(0, 0, 0);
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 }
 
-.gallery-section img {
+.gallery img {
   object-fit: cover;
 }
 
@@ -517,6 +525,23 @@ body {
 .road {
   grid-column: 2/4;
   grid-row: 3/5;
+}
+
+.zoom-section h1 {
+  font-size: 40px;
+  line-height: 54px;
+  font-weight: 400px;
+  text-align: center;
+  margin: 50px 0px 35px;
+}
+
+.zoom {
+  height: max-content;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 15px;
+  padding: 0px 25px;
+  margin-bottom: 100px;
 }
 
 .background-images-section {
