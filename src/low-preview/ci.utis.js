@@ -1,4 +1,4 @@
-import { bgContentAttr } from '../common/ci.constants';
+import { ATTRIBUTES } from '../common/ci.constants';
 import { addClass, getWrapper } from '../common/ci.utils';
 
 
@@ -39,10 +39,10 @@ export const applyBackgroundStyles = ({
   imgNode.style.position = 'relative';
 
   contentBox.style.position = 'relative';
-  contentBox.setAttribute(bgContentAttr, true);
+  contentBox.setAttribute(ATTRIBUTES.BG_CONTAINER, true);
 
   previewBox.className = `${imgNode.className}${lazy ? ' lazyload' : ''}`;
-  previewBox.setAttribute('ci-preview', true);
+  previewBox.setAttribute(ATTRIBUTES.PREVIEW, true);
   previewBox.style.background = 'inherit';
   previewBox.style.position = 'absolute';
   previewBox.style.left = '0';
@@ -150,13 +150,14 @@ export const onLazyBeforeUnveil = (event) => {
 
 export const wrapImage = (props) => {
   const {
-    imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize, placeholderBackground,
+    imgNode, ratio, imgNodeWidth, imgNodeHeight, preserveSize, placeholderBackground, isGalleryImg,
   } = props;
   let { wrapper } = props;
 
   wrapper = wrapper || document.createElement('div');
 
   addClass(wrapper, 'ci-image-wrapper');
+
   wrapper.style.background = placeholderBackground;
   wrapper.style.display = 'block';
   wrapper.style.width = preserveSize ? imgNodeWidth : '100%';
@@ -164,7 +165,10 @@ export const wrapImage = (props) => {
   wrapper.style.overflow = 'hidden';
   wrapper.style.position = 'relative';
 
-  if (ratio) {
+  if (isGalleryImg) {
+    wrapper.style.height = '100%';
+    wrapper.style.background = '';
+  } else if (ratio) {
     wrapper.style.paddingBottom = preserveSize ? 'none' : `${100 / ratio}%`;
   }
 

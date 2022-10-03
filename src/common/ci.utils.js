@@ -27,14 +27,14 @@ const getSize = (sizes) => {
     // change single quotes to double quotes
     temp = temp.replace(/'/g, '"').replace(/-"width":/g, '-width:');
     resultSizes = JSON.parse(temp);
-  } catch (e) {}
+  } catch (e) { }
 
   if (resultSizes) {
     Object.keys(resultSizes).forEach((key) => {
       if (typeof resultSizes[key] === 'string') {
         try {
           resultSizes[key] = JSON.parse(`{"${decodeURI(resultSizes[key].replace(/&/g, '","').replace(/=/g, '":"'))}"}`);
-        } catch (e) {}
+        } catch (e) { }
       }
     });
   }
@@ -49,12 +49,12 @@ const getParams = (params) => {
     const temp = params.replace(/(\w+:)|(\w+ :)/g, (matchedStr) => `"${matchedStr.substring(0, matchedStr.length - 1)}":`);
 
     resultParams = JSON.parse(temp);
-  } catch (e) {}
+  } catch (e) { }
 
   if (!resultParams) {
     try {
       resultParams = JSON.parse(`{"${decodeURI(params.replace(/&/g, '","').replace(/=/g, '":"'))}"}`);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   return resultParams;
@@ -71,6 +71,10 @@ const getCommonImageProps = (image) => ({
   imgNodeHeight: attr(image, 'height'),
   doNotReplaceImageUrl: isTrue(image, 'ci-do-not-replace-url'),
   alt: attr(image, 'alt'),
+  zoom: isTrue(image, 'ci-zoom'),
+  gallery: attr(image, 'ci-gallery') || undefined,
+  imageName: attr(image, 'ci-image-name') || undefined,
+  disableAnimation: isTrue(image, 'disableAnimation'),
 });
 
 const filterImages = (images, type) => {
@@ -92,6 +96,7 @@ const getImageProps = (image, imgSelector) => {
   const props = {
     ...getCommonImageProps(image),
     imgNodeSRC: attr(image, imgSelector) || undefined,
+    isProcessedByGallery: isTrue(image, 'data-ci-processed-gallery'),
   };
 
   const params = {
@@ -204,6 +209,14 @@ const setAlt = (imgNode, alt) => {
   imgNode.setAttribute('alt', alt);
 };
 
+const setOptions = (node, options) => {
+  Object.entries(options).forEach(([key, value]) => {
+    node.setAttribute(key, value);
+  });
+
+  return node;
+};
+
 const removeClassNames = (node, classNames) => {
   classNames.forEach((className) => {
     if (node.classList.contains(className)) {
@@ -214,19 +227,12 @@ const removeClassNames = (node, classNames) => {
   return node;
 };
 
-const setOptions = (node, options) => {
-  Object.entries(options).forEach(([key, value]) => {
-    node.setAttribute(key, value);
-  });
-
-  return node;
-};
-
 export {
   getParams,
   filterImages,
   getImageProps,
   getBackgroundImageProps,
+  getCommonImageProps,
   addClass,
   getWrapper,
   isLazy,
@@ -236,6 +242,6 @@ export {
   getFreshCIElements,
   destroyNodeImgSize,
   setAlt,
-  removeClassNames,
   setOptions,
+  removeClassNames,
 };

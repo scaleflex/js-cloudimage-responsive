@@ -18,6 +18,8 @@
       "error",
       "prefer-double"
     ],
+    "default-param-last": "off",
+    "class-methods-use-this": "off",
     "max-lines": [
       "warn",
       {

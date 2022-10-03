@@ -6,7 +6,7 @@ import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakp
 import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
 import { debounce } from 'throttle-debounce';
 import { generateAlt } from 'cloudimage-responsive-utils/dist/utils/generate-alt';
-import { canvasAttr, loadedImageClassNames, processedAttr } from '../common/ci.constants';
+import { ATTRIBUTES, loadedImageClassNames } from '../common/ci.constants';
 import {
   destroyNodeImgSize,
   getBackgroundImageProps,
@@ -160,7 +160,7 @@ export default class CIResponsive {
       initImageStyles(imgNode);
       setAlt(imgNode, alt);
 
-      imgNode.setAttribute(processedAttr, true);
+      imgNode.setAttribute(ATTRIBUTES.PROCESSED, true);
 
       if (config.destroyNodeImgSize) {
         destroyNodeImgSize(imgNode);
@@ -194,7 +194,7 @@ export default class CIResponsive {
 
       const canvas = applyOrUpdateBlurHashCanvas(imgNode, blurHash);
 
-      imgNode.setAttribute(processedAttr, true);
+      imgNode.setAttribute(ATTRIBUTES.PROCESSED, true);
 
       if (!lazy) {
         const tempImage = new Image();
@@ -238,7 +238,7 @@ export default class CIResponsive {
     }
 
     if (isBackground) {
-      const isProcessed = node.getAttribute(processedAttr);
+      const isProcessed = node.getAttribute(ATTRIBUTES.PROCESSED);
 
       if (src) {
         node.setAttribute(bgSelector, src);
@@ -247,7 +247,7 @@ export default class CIResponsive {
       if (isProcessed) {
         removeClassNames(node, loadedImageClassNames);
 
-        const canvas = node.querySelector(`[${canvasAttr}]`);
+        const canvas = node.querySelector(`[${ATTRIBUTES.CANVAS}]`);
 
         if (canvas) {
           canvas.parentNode.removeChild(canvas);

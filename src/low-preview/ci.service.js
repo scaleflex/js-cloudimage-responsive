@@ -13,13 +13,30 @@ import {
   getFreshCIElements,
   getImageProps,
   isLazy,
-  removeClassNames,
   setAlt,
   setBackgroundSrc,
   setOptions,
   setSrc,
   setSrcset,
+  removeClassNames,
+  addClass,
 } from '../common/ci.utils';
+import {
+  createIcon,
+  destroyGallery,
+  createGalleryModal,
+  getGalleryPreviewModule,
+  setGalleryIndex,
+  createGalleryArrows,
+  getGalleryLengthAndIndex,
+  createThmbnailsModule,
+  getGalleryImages,
+  getZoomImages,
+  getDimAndFit,
+  updateOrCreateImageNameWrapper,
+  swapArrayPositions,
+  toggleActiveThumbnail,
+} from './gallery.utils';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
   applyBackgroundStyles,
@@ -33,7 +50,13 @@ import {
   wrapBackgroundContainer,
   updateSizeWithPixelRatio,
 } from './ci.utis';
-import { bgContentAttr, loadedImageClassNames, processedAttr } from '../common/ci.constants';
+import {
+  loadedImageClassNames, ATTRIBUTES, CLASSNAMES,
+} from '../common/ci.constants';
+import closeIconSvg from '../public/close-icon.svg';
+import rightArrowSvg from '../public/right-arrow-icon.svg';
+import leftArrowSvg from '../public/left-arrow-icon.svg';
+import zoomIconSvg from '../public/zoom-icon.svg';
 
 
 export default class CIResponsive {
@@ -52,6 +75,26 @@ export default class CIResponsive {
     this.process();
   }
 
+  handleModalKeydown(galleryImages, event) {
+    const { keyCode } = event;
+    const leftKeyCodes = [37, 40]; // left and down
+    const rightKeyCodes = [39, 38]; // right and up
+
+    if (galleryImages) {
+      if (leftKeyCodes.includes(keyCode)) {
+        this.handleClickArrows(galleryImages, 'left');
+      }
+
+      if (rightKeyCodes.includes(keyCode)) {
+        this.handleClickArrows(galleryImages, 'right');
+      }
+    }
+
+    if (keyCode === 27) { // esc
+      destroyGallery();
+    }
+  }
+
   onUpdateDimensions() {
     this.process(true);
 
@@ -67,7 +110,7 @@ export default class CIResponsive {
 
     if (images.length > -1) {
       images.forEach((imgNode) => {
-        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image');
+        this.getBasicInfo(imgNode, isUpdate, windowScreenBecomesBigger, 'image', images);
       });
     }
 
@@ -78,7 +121,14 @@ export default class CIResponsive {
     }
   }
 
-  getBasicInfo = (imgNode, isUpdate, windowScreenBecomesBigger, type) => {
+  getBasicInfo = (
+    imgNode,
+    isUpdate,
+    windowScreenBecomesBigger,
+    type,
+    images,
+    isGalleryImg,
+  ) => {
     const isImage = type === 'image';
     const { config } = this;
     const {
@@ -119,28 +169,256 @@ export default class CIResponsive {
           [src, isSVG] = getImgSRC(size.params.src, baseURL);
         }
       }
-    } else if (isUpdate && !windowScreenBecomesBigger) return;
+    } else if (isUpdate && !windowScreenBecomesBigger) {
+      getDimAndFit(imgNode);
+
+      return;
+    }
 
     const containerProps = determineContainerProps({
       ...imgProps, size, imgNode, config,
     });
     const { width } = containerProps;
-    const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
+    const isPreview = !isGalleryImg && isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
     const generateURLbyDPR = (devicePixelRatio) => generateURL({
       src, params, config, containerProps, devicePixelRatio,
     });
     const cloudimageUrl = generateURLbyDPR();
     const cloudimageSrcset = devicePixelRatioList.map((dpr) => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
     const props = {
-      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, alt: alt || generateAlt(src),
+      imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, imgSelector, alt: alt || generateAlt(src),
     };
 
     if (isImage) {
-      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
+      this.processImage({
+        ...props,
+        cloudimageUrl: generateURLbyDPR(1),
+        cloudimageSrcset,
+        images,
+        isGalleryImg,
+      });
     } else {
       this.processBackgroundImage(props);
     }
   };
+
+  getImageIndex(currentIndex, direction, isLoaded = true) {
+    let nextIndex = currentIndex;
+    const [length, index] = getGalleryLengthAndIndex();
+    const leftDirection = direction === 'left';
+
+    if (isLoaded) {
+      nextIndex = +index;
+    }
+
+    if (leftDirection) {
+      nextIndex -= 1;
+
+      if (nextIndex < 0) { // reached left-end
+        nextIndex = length - 1;
+      }
+    } else {
+      nextIndex += 1;
+
+      if (nextIndex === length) { // reached right-end
+        nextIndex = 0;
+      }
+    }
+
+    return nextIndex;
+  }
+
+  handleClickArrows(galleryImages, direction) {
+    let index = 0;
+    index = this.getImageIndex(0, direction);
+
+    const previewImage = galleryImages[index].previousSibling.firstChild;
+    const isLoaded = previewImage.classList.contains(CLASSNAMES.PREVIEW_LOADED);
+
+    if (!isLoaded) {
+      index = this.getImageIndex(index, direction, false);
+    }
+
+    this.processGalleryPreviewImage(galleryImages[index], index, direction);
+    setGalleryIndex(index);
+  }
+
+  animatePreviewModule(previewModule, nextIndex, direction) {
+    const currentIndex = previewModule.getAttribute(ATTRIBUTES.ACTIVE_IMAGE_INDEX);
+    const leftDirection = direction === 'left';
+    let transform = 1000;
+    let scale = 0.8;
+
+    if (leftDirection || (!direction && nextIndex < currentIndex)) {
+      transform = -1000;
+    }
+
+    const scaleAnimation = setInterval(() => { // Scale preview image
+      scale += 0.01;
+
+      if (scale >= 1) {
+        clearInterval(scaleAnimation);
+      }
+
+      previewModule.style.transform = `scale(${scale}) translate(${transform}px)`;
+    }, 10);
+
+    const transformAnimation = setInterval(() => { // Transform preview image
+      if (leftDirection || (!direction && nextIndex < currentIndex)) {
+        transform += 20;
+      } else {
+        transform -= 20;
+      }
+
+      if (transform === 0) {
+        clearInterval(transformAnimation);
+      }
+
+      previewModule.style.transform = `scale(${scale}) translate(${transform}px)`;
+    }, 5);
+  }
+
+  processZoomPreviewImage(imgNode) {
+    const _imgNode = imgNode.cloneNode();
+    const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
+    const previewModule = getGalleryPreviewModule();
+
+    adaptedImageNode.style = {};
+    adaptedImageNode.setAttribute(ATTRIBUTES.PROCESSED_GALLERY, true);
+    previewModule.innerHTML = '';
+    previewModule.appendChild(adaptedImageNode);
+
+    this.getBasicInfo(adaptedImageNode, false, false, 'image', undefined, true);
+  }
+
+  processGalleryPreviewImage(imgNode, imageIndex, direction, intial) {
+    const { imgSelector } = this.config;
+    const { imageName, alt } = getImageProps(imgNode, imgSelector);
+    const galleryModal = document.querySelector(`.${CLASSNAMES.GALLERY_MODAL}`);
+    const thumbnailsModule = galleryModal.querySelector(`.${CLASSNAMES.THUMBNAIL_MODULE}`);
+    const _imgNode = imgNode.cloneNode();
+    const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
+    const previewModule = getGalleryPreviewModule();
+    const _imageName = imageName || alt || generateAlt(alt);
+
+    updateOrCreateImageNameWrapper(_imageName, galleryModal);
+    toggleActiveThumbnail(galleryModal, imageIndex);
+    adaptedImageNode.style = {};
+    adaptedImageNode.setAttribute(ATTRIBUTES.PROCESSED_GALLERY, true);
+    previewModule.setAttribute(ATTRIBUTES.ACTIVE_IMAGE_INDEX, imageIndex);
+    previewModule.innerHTML = '';
+    previewModule.appendChild(adaptedImageNode);
+
+    if (thumbnailsModule.scrollWidth > thumbnailsModule.clientWidth) {
+      thumbnailsModule.style.justifyContent = 'left';
+    }
+
+    if (!intial) {
+      this.animatePreviewModule(previewModule, imageIndex, direction);
+    }
+
+    this.getBasicInfo(adaptedImageNode, false, false, 'image', undefined, true);
+  }
+
+  handleClickThumbnail(galleryImages, event) {
+    const thumbnail = event.currentTarget;
+    const thumbnailIndex = thumbnail.getAttribute(ATTRIBUTES.GALLERY_INDEX);
+    const [, index] = getGalleryLengthAndIndex();
+
+    if (thumbnailIndex !== index) {
+      setGalleryIndex(thumbnailIndex);
+      this.processGalleryPreviewImage(galleryImages[thumbnailIndex], thumbnailIndex);
+    }
+  }
+
+  createGallery(imgProps, images, event) {
+    const {
+      gallery, zoom, isProcessedByGallery,
+    } = imgProps;
+    if (isProcessedByGallery) return;
+
+    const galleryImages = getGalleryImages(images, gallery);
+
+    if (gallery && galleryImages) {
+      const { galleryConfigs } = this.config;
+      const {
+        thumbnails, arrowPrev, arrowNext, onOpen, onClickThumbnail,
+      } = galleryConfigs;
+
+      if (typeof onOpen === 'function') {
+        onOpen(event);
+      }
+
+      const clickedImage = event.currentTarget.lastChild;
+      const clickedImageIndex = galleryImages.indexOf(clickedImage);
+      const orderedImages = swapArrayPositions(galleryImages, clickedImageIndex, 0)
+        .filter((image) => image.classList.contains(CLASSNAMES.IMAGE_LOADED));
+      const galleryModal = createGalleryModal(closeIconSvg, galleryConfigs, orderedImages.length, true);
+
+      if (thumbnails && orderedImages.length > 1) {
+        const thumbnailsModule = createThmbnailsModule(
+          orderedImages,
+          galleryModal,
+          onClickThumbnail,
+          this.handleClickThumbnail.bind(this, orderedImages),
+        );
+
+        galleryModal.appendChild(thumbnailsModule);
+      }
+
+      if (orderedImages.length > 1) {
+        const [leftArrow, rightArrow] = createGalleryArrows(
+          leftArrowSvg,
+          rightArrowSvg,
+          galleryConfigs,
+          this.handleClickArrows.bind(this, orderedImages),
+        );
+
+        if (arrowPrev) {
+          galleryModal.append(leftArrow);
+        }
+
+        if (arrowNext) {
+          galleryModal.append(rightArrow);
+        }
+
+        galleryModal.onkeydown = debounce(250, this.handleModalKeydown.bind(this, orderedImages));
+      }
+
+      document.body.appendChild(galleryModal);
+
+      const [, orderedClickedImage] = getGalleryLengthAndIndex();
+
+      galleryModal.focus();
+      this.processGalleryPreviewImage(orderedImages[orderedClickedImage], orderedClickedImage, undefined, true);
+      setGalleryIndex(orderedClickedImage);
+    }
+
+    if (zoom && !gallery) {
+      const clickedImage = event.currentTarget.querySelector('img[ci-src]');
+      const zoomImages = getZoomImages(images);
+      const clickedImageIndex = zoomImages.indexOf(clickedImage);
+
+      const galleryModal = createGalleryModal(closeIconSvg);
+      const previewModule = galleryModal.querySelector(`.${CLASSNAMES.PREVIEW_MODULE}`);
+
+      galleryModal.tabIndex = 0;
+      galleryModal.appendChild(previewModule);
+      galleryModal.onkeydown = debounce(50, this.handleModalKeydown.bind(this, undefined));
+
+      document.body.appendChild(galleryModal);
+      galleryModal.focus();
+      this.processZoomPreviewImage(zoomImages[clickedImageIndex]);
+    }
+  }
+
+  handleClickWrapper(imgProps, images, event) {
+    const { gallery, zoom, isProcessedByGallery } = imgProps;
+
+    if ((gallery || zoom) && !isProcessedByGallery) {
+      this.createGallery(imgProps, images, event);
+    }
+  }
 
   processImage(props) {
     const {
@@ -156,17 +434,30 @@ export default class CIResponsive {
       preserveSize,
       cloudimageSrcset,
       isAdaptive,
+      images,
       alt,
+      isGalleryImg,
     } = props;
-    const { params } = imgProps;
+
+    const {
+      params, zoom, gallery, disableAnimation, isProcessedByGallery,
+    } = imgProps;
     const { width, ratio } = containerProps;
     const { config } = this;
     const { dataSrcAttr, placeholderBackground } = config;
-    const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper(
-      {
-        isUpdate, imgNode, ratio, lazy, placeholderBackground, preserveSize, isPreview, ...imgProps, alt,
-      },
-    );
+
+    const { wrapper, previewImgNode, previewWrapper } = applyOrUpdateWrapper({
+      isUpdate,
+      imgNode,
+      ratio,
+      lazy,
+      placeholderBackground,
+      preserveSize,
+      isPreview,
+      isGalleryImg,
+      ...imgProps,
+      alt,
+    });
 
     if (!isUpdate) {
       initImageClasses({ imgNode, lazy });
@@ -185,16 +476,41 @@ export default class CIResponsive {
         setSrc(previewImgNode, previewImgURL, 'data-src', lazy, src, isSVG, dataSrcAttr);
 
         previewImgNode.onload = () => {
+          addClass(previewImgNode, CLASSNAMES.PREVIEW_LOADED);
           onPreviewImageLoad(wrapper, previewImgNode, ratio, preserveSize);
         };
       }
     }
 
+    getDimAndFit(imgNode);
+
+    if ((gallery || zoom) && !isProcessedByGallery) {
+      wrapper.style.cursor = 'pointer';
+
+      if (gallery && !disableAnimation) {
+        addClass(wrapper, CLASSNAMES.GALLERY_ANIMATION);
+      } else if (zoom && !gallery) {
+        const zoomIcon = createIcon(zoomIconSvg, CLASSNAMES.ZOOM_BUTTON);
+        wrapper.append(zoomIcon);
+      }
+    }
+
     imgNode.onload = () => {
+      const loader = document.querySelector(`.${CLASSNAMES.GALLERY_LOADER}`);
+
+      if (loader) {
+        loader.parentElement.removeChild(loader);
+      }
+
       if (config.onImageLoad && typeof config.onImageLoad === 'function') {
         config.onImageLoad(imgNode);
       }
-      onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
+
+      if (!isProcessedByGallery) {
+        onImageLoad(wrapper, previewImgNode, imgNode, ratio, preserveSize, isAdaptive);
+      }
+
+      wrapper.onclick = this.handleClickWrapper.bind(this, imgProps, images);
     };
 
     setSrcset(imgNode, cloudimageSrcset, 'data-srcset', lazy, src, isSVG, dataSrcAttr);
@@ -211,7 +527,7 @@ export default class CIResponsive {
     const { dataSrcAttr } = config;
 
     if (!isUpdate) {
-      imgNode.setAttribute(processedAttr, true);
+      imgNode.setAttribute(ATTRIBUTES.PROCESSED, true);
 
       if (isPreview) {
         const previewImgURL = getPreviewSRC({
@@ -224,7 +540,7 @@ export default class CIResponsive {
         });
 
         if (lazy) {
-          imgNode.setAttribute('ci-optimized-url', cloudimageUrl);
+          imgNode.setAttribute(ATTRIBUTES.OPTIMIZED_URL, cloudimageUrl);
 
           setBackgroundSrc(previewBox, previewImgURL, lazy, src, isSVG, dataSrcAttr);
         } else {
@@ -253,7 +569,7 @@ export default class CIResponsive {
     }
 
     if (isImage) {
-      const isProcessed = node.classList.contains('ci-image');
+      const isProcessed = node.classList.contains(CLASSNAMES.IMAGE);
 
       if (src) {
         node.setAttribute(imgSelector, src);
@@ -267,7 +583,7 @@ export default class CIResponsive {
     }
 
     if (isBackground) {
-      const isProcessed = node.getAttribute(processedAttr);
+      const isProcessed = node.getAttribute(ATTRIBUTES.PROCESSED);
       const oldNode = node;
 
       if (src) {
@@ -275,11 +591,11 @@ export default class CIResponsive {
       }
 
       if (isProcessed) {
-        const contentBox = node.querySelector(`[${bgContentAttr}]`);
+        const contentBox = node.querySelector(`[${ATTRIBUTES.BG_CONTAINER}]`);
 
         if (contentBox) {
           const contentBoxInner = contentBox.firstChild;
-          node.removeAttribute(processedAttr);
+          node.removeAttribute(ATTRIBUTES.PROCESSED);
           node.innerHTML = '';
           node.appendChild(contentBoxInner);
         } else {
