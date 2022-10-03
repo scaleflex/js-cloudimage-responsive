@@ -103,6 +103,9 @@ const toggleActiveThumbnail = (galleryModal, imageIndex) => {
 
     if (+imageIndex === +thumbnailContainerIndex) {
       thumbnailContainer.setAttribute(ATTRIBUTES.ACTIVE_THUMBNAIL, true);
+      thumbnailContainer.scrollIntoView({
+        behavior: 'smooth',
+      });
     }
   });
 };
@@ -176,7 +179,7 @@ const getImageFitStyles = (naturalWidth, naturalHeight) => {
   if (naturalWidth && previewModule) {
     const imageAspectRatio = naturalWidth / naturalHeight;
     const renderWidth = previewModule.offsetHeight * imageAspectRatio;
-    shouldFitHorizontally = (imageAspectRatio <= 1)
+    shouldFitHorizontally = (imageAspectRatio >= 1)
         && (renderWidth < previewModule.offsetWidth);
   }
 
@@ -192,7 +195,9 @@ const getImageFitStyles = (naturalWidth, naturalHeight) => {
 };
 
 const adaptGalleryThumbnails = (images = [], onClickThumbnail, onClick) => {
-  const lowPreviewImages = images.map((image) => image.previousSibling.firstChild);
+  const lowPreviewImages = images.map((image) => (
+    image.previousSibling ? image.previousSibling.firstChild : image
+  ));
 
   return lowPreviewImages.map((thumbnail, index) => {
     const thmbnailContainer = document.createElement('div');

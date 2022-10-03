@@ -295,6 +295,7 @@ export default class CIResponsive {
     const { imgSelector } = this.config;
     const { imageName, alt } = getImageProps(imgNode, imgSelector);
     const galleryModal = document.querySelector(`.${CLASSNAMES.GALLERY_MODAL}`);
+    const thumbnailsModule = galleryModal.querySelector(`.${CLASSNAMES.THUMBNAIL_MODULE}`);
     const _imgNode = imgNode.cloneNode();
     const adaptedImageNode = removeClassNames(_imgNode, loadedImageClassNames);
     const previewModule = getGalleryPreviewModule();
@@ -307,6 +308,10 @@ export default class CIResponsive {
     previewModule.setAttribute(ATTRIBUTES.ACTIVE_IMAGE_INDEX, imageIndex);
     previewModule.innerHTML = '';
     previewModule.appendChild(adaptedImageNode);
+
+    if (thumbnailsModule.scrollWidth > thumbnailsModule.clientWidth) {
+      thumbnailsModule.style.justifyContent = 'left';
+    }
 
     if (!intial) {
       this.animatePreviewModule(previewModule, imageIndex, direction);
