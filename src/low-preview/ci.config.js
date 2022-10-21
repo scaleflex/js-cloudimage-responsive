@@ -16,7 +16,7 @@ export const getInitialConfigLowPreview = (config) => {
     ratio,
     presets,
     params = 'org_if_sml=1',
-    apiVersion = 'v7',
+    apiVersion = null,
     init = true,
     exactSize = false,
     doNotReplaceURL = false,
