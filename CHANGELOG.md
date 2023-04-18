@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 4.9.2 - 2023-04-18
+### Fixed
+- Remove CVE vulnerabilities.
+
 ## 4.9.1 - 2022-08-15
 ### Fixed
 - `updateImage` method when image doesn't have low-preivew.
