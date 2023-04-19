@@ -1,20 +1,21 @@
 window.ciResponsive = new window.CIResponsive({
-  baseURL: "https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/",
-  params: 'org_if_sml=1&version=16.04.2020',
+  token: 'scaleflex',
+  baseURL: 'demo/cloudimage-responsive-demo/',
+  params: 'org_if_sml=1',
   lazyLoadOffset: 100,
   apiVersion: 'v7',
-  doNotReplaceURL: true,
+  doNotReplaceURL: false,
   lazyLoading: true,
 });
 
 setTimeout(() => {
   window.ciResponsive.process();
-}, 1000)
+}, 1000);
 setTimeout(() => {
   window.ciResponsive.process();
-}, 2000)
+}, 2000);
 setTimeout(() => {
   window.ciResponsive.process();
-}, 4000)
+}, 4000);
 
 window.lazySizes.init();
