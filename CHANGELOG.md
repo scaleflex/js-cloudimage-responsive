@@ -25,6 +25,11 @@ Types of changes:
 - ...
 
 -------------
+## 4.9.3 - 2026-05-20
+### Fixed
+- Update `cloudimage-responsive-utils` to use version `2.5.2` in able to support device pixel ratio 3
+- change devicePixelRatioList to [1, 1.5, 2, 3]
+
 ## 4.9.2 - 2023-04-18
 ### Fixed
 - Remove CVE vulnerabilities.

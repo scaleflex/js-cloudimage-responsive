@@ -63,11 +63,9 @@ npm run dist:min    # minified, .min.js extension
 
 Both scripts run `clean-dist` first, then `babel src -d dist --copy-files`. The output lands in `dist/low-preview/` (and the other flavor subtrees, copied as-is).
 
-**Windows / PowerShell caveat.** The `clean-dist` script uses `rm -rf dist`, which is POSIX and fails on stock PowerShell. `dist:min` additionally uses inline env-var syntax (`BABEL_ENV=minify ...`) that PowerShell does not parse. Options:
+**Windows / PowerShell caveat.** The `clean-dist` script uses `rm -rf dist`, which is POSIX and fails on stock PowerShell / cmd unless git's POSIX tools are on your `PATH`. If `npm run dist` / `dist:min` leaves you with a stale `dist/`, delete the folder manually before re-running, or run the script from **Git Bash** or **WSL**.
 
-- Run these commands from **Git Bash** or **WSL**, or
-- For `dist`: manually delete the `dist/` folder, then run `npx babel src -d dist --copy-files`.
-- For `dist:min`: manually delete `dist/`, then run `$env:BABEL_ENV='minify'; npx babel src -d dist --out-file-extension .min.js`.
+(The `BABEL_ENV=minify` part of `dist:min` is handled by `cross-env` and works on every shell.)
 
 ### 4. Sanity-check the build
 
