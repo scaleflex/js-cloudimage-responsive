@@ -6,3 +6,5 @@ build
 .babelrc
 .gitignore
 .idea
+.claude
+CLAUDE.md
