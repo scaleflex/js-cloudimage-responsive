@@ -1,4 +1,4 @@
-import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
+import { normalizeDevicePixelRatioList, SUPPORTED_DEVICE_PIXEL_RATIO_LIST } from '../common/ci.dpr';
 import { getParams } from '../common/ci.utils';
 
 
@@ -29,7 +29,7 @@ export const getInitialConfigLowPreview = (config) => {
     detectImageNodeCSS = false,
     customDomain = false,
     processOnlyWidth = false,
-    devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList = SUPPORTED_DEVICE_PIXEL_RATIO_LIST,
     lowQualityPreview: {
       minImgWidth = 400,
     } = {},
@@ -63,7 +63,7 @@ export const getInitialConfigLowPreview = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList,
+    devicePixelRatioList: normalizeDevicePixelRatioList(devicePixelRatioList),
     limitFactor,
     minLowQualityWidth: minImgWidth,
     ignoreNodeImgSize,

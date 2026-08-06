@@ -1,7 +1,6 @@
 import { isLowQualityPreview } from 'cloudimage-responsive-utils/dist/utils/is-low-quality-preview';
 import { determineContainerProps } from 'cloudimage-responsive-utils/dist/utils/determine-container-props';
 import { getImgSRC } from 'cloudimage-responsive-utils/dist/utils/get-img-src';
-import { generateURL } from 'cloudimage-responsive-utils/dist/utils/generate-url';
 import { getPreviewSRC } from 'cloudimage-responsive-utils/dist/utils/get-preview-src';
 import { getBreakpoint } from 'cloudimage-responsive-utils/dist/utils/get-breakpoint';
 import { isSupportedInBrowser } from 'cloudimage-responsive-utils/dist/utils/is-supported-in-browser';
@@ -20,6 +19,7 @@ import {
   setSrc,
   setSrcset,
 } from '../common/ci.utils';
+import { generateCloudimageURLs, snapDevicePixelRatio } from '../common/ci.dpr';
 import { getInitialConfigLowPreview } from './ci.config';
 import {
   applyBackgroundStyles,
@@ -126,19 +126,21 @@ export default class CIResponsive {
     });
     const { width } = containerProps;
     const isPreview = isLowQualityPreview(isAdaptive, width, isSVG, minLowQualityWidth);
-    const generateURLbyDPR = (devicePixelRatio) => generateURL({
-      src, params, config, containerProps, devicePixelRatio,
-    });
-    const cloudimageUrl = generateURLbyDPR();
-    const cloudimageSrcset = devicePixelRatioList.map((dpr) => ({ dpr: dpr.toString(), url: generateURLbyDPR(dpr) }));
+    const { generateURLbyDPR, cloudimageUrl, cloudimageSrcset } = generateCloudimageURLs({
+      src, params, config, containerProps,
+    }, devicePixelRatioList);
     const props = {
       imgNode, isUpdate, imgProps, lazy, isPreview, containerProps, isSVG, cloudimageUrl, src, preserveSize, isAdaptive, alt: alt || generateAlt(src),
     };
 
     if (isImage) {
-      this.processImage({ ...props, cloudimageUrl: generateURLbyDPR(1), cloudimageSrcset });
+      this.processImage({ ...props, cloudimageSrcset });
     } else {
-      this.processBackgroundImage(props);
+      // Backgrounds have no browser-side candidate selection - pick the ratio in JS.
+      this.processBackgroundImage({
+        ...props,
+        cloudimageUrl: generateURLbyDPR(snapDevicePixelRatio(devicePixelRatioList)),
+      });
     }
   };
 

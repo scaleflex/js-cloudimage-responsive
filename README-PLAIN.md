@@ -345,9 +345,17 @@ For example
 
 ### devicePixelRatioList
 
-###### Type: **[Number,...]** | Default: **[1, 1.5, 2]** | _optional_
+###### Type: **[Number,...]** | Default: **[1, 1.5, 2, 3]** | _optional_
 
-List of supported device pixel ratios. If there is no need to support retina devices, you should set empty array `devicePixelRatioList: []`
+List of supported device pixel ratios, used to build the image's `srcset`.
+
+Only `1`, `1.5`, `2` and `3` are supported — any other value is ignored with a console warning. Values are coerced from strings, de-duplicated and sorted ascending.
+
+If there is no need to support retina devices, set an empty array `devicePixelRatioList: []` — no `srcset` attribute will be emitted, the browser will use the plain `src`, and `ci-bg-url` backgrounds stay at 1x.
+
+`ci-bg-url` backgrounds have no `srcset`, so the ratio is chosen in JS and snapped **up** to the nearest supported value: a device reporting `2.625` is served `3x`. Combined with `limitFactor` rounding this can mean up to ~9x the pixels of a 1x background, and unlike `<img>` there is no browser-side negotiation to bring it back down. Use `devicePixelRatioList: []` if you would rather keep backgrounds at 1x.
+
+Note that `limitFactor` rounding can make two adjacent ratios resolve to the same width; identical candidates are emitted once, at the higher density.
 
 ### presets
 
