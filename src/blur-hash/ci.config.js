@@ -1,4 +1,4 @@
-import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
+import { normalizeDevicePixelRatioList, SUPPORTED_DEVICE_PIXEL_RATIO_LIST } from '../common/ci.dpr';
 import { getParams } from '../common/ci.utils';
 
 
@@ -20,7 +20,7 @@ export const getInitialConfigBlurHash = (config) => {
     exactSize = false,
     doNotReplaceURL = false,
     limitFactor = 100,
-    devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList = SUPPORTED_DEVICE_PIXEL_RATIO_LIST,
     ignoreNodeImgSize,
     imageSizeAttributes = 'use',
     ignoreStyleImgSize = false,
@@ -56,7 +56,7 @@ export const getInitialConfigBlurHash = (config) => {
     init,
     previewQualityFactor: 10,
     doNotReplaceURL,
-    devicePixelRatioList,
+    devicePixelRatioList: normalizeDevicePixelRatioList(devicePixelRatioList),
     limitFactor,
     ignoreNodeImgSize,
     ignoreStyleImgSize,

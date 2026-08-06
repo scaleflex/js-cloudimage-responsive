@@ -227,10 +227,14 @@ export const initImageClasses = ({ imgNode, lazy }) => {
 export const updateSizeWithPixelRatio = (size, devicePixelRatio) => {
   const splittedSizes = size.toString().split('x');
   const result = [];
+  // Guard against browsers with no window.devicePixelRatio - the previous
+  // `.toFixed(1) || 1` returned a string, so the fallback never applied and the
+  // whole expression threw.
+  const ratio = Number(devicePixelRatio || window.devicePixelRatio) || 1;
 
   [].forEach.call(splittedSizes, (_size) => {
     // eslint-disable-next-line no-unused-expressions
-    _size ? result.push(Math.floor(_size * ((devicePixelRatio || window.devicePixelRatio).toFixed(1) || 1))) : '';
+    _size ? result.push(Math.floor(_size * ratio)) : '';
   });
 
   return result.join('x');

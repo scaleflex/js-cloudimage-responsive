@@ -1,4 +1,4 @@
-import { DEVICE_PIXEL_RATIO_LIST } from 'cloudimage-responsive-utils/dist/constants';
+import { normalizeDevicePixelRatioList, SUPPORTED_DEVICE_PIXEL_RATIO_LIST } from '../common/ci.dpr';
 import { getParams } from '../common/ci.utils';
 
 
@@ -26,7 +26,7 @@ export const getInitialConfigPlain = (config) => {
     saveNodeImgRatio = false,
     detectImageNodeCSS = false,
     processOnlyWidth = false,
-    devicePixelRatioList = DEVICE_PIXEL_RATIO_LIST,
+    devicePixelRatioList = SUPPORTED_DEVICE_PIXEL_RATIO_LIST,
     // callbacks
     onImageLoad = null,
     // methods
@@ -55,7 +55,7 @@ export const getInitialConfigPlain = (config) => {
     innerWidth: window.innerWidth,
     init,
     doNotReplaceURL,
-    devicePixelRatioList,
+    devicePixelRatioList: normalizeDevicePixelRatioList(devicePixelRatioList),
     limitFactor,
     imageSizeAttributes,
     ignoreNodeImgSize,

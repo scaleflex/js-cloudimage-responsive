@@ -160,10 +160,18 @@ const setSrc = (image, url, propertyName, lazy, imgSrc, isSVG, dataSrcAttr) => {
 const setSrcset = (image, urls, propertyName, lazy, imgSrc, isSVG, dataSrcAttr) => {
   if (isSVG) return;
 
-  image.setAttribute(
-    lazy ? (propertyName || 'data-srcset') : (dataSrcAttr || 'srcset'),
-    urls.map(({ dpr, url }) => `${url} ${dpr}x`).join(', '),
-  );
+  const srcsetAttr = lazy ? (propertyName || 'data-srcset') : (dataSrcAttr || 'srcset');
+
+  // `devicePixelRatioList: []` is the documented retina opt-out. Emit no attribute
+  // at all - an empty srcset leaves the <img> with zero candidates instead of
+  // falling back to `src`. removeAttribute also clears a stale srcset on update.
+  if (!urls || !urls.length) {
+    image.removeAttribute(srcsetAttr);
+
+    return;
+  }
+
+  image.setAttribute(srcsetAttr, urls.map(({ dpr, url }) => `${url} ${dpr}x`).join(', '));
 };
 
 const setBackgroundSrc = (image, url, lazy, imgSrc, isSVG, dataSrcAttr) => {

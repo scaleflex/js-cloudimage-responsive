@@ -25,6 +25,21 @@ Types of changes:
 - ...
 
 -------------
+## 4.10.0 - 2026-08-06
+### Fixed
+- Regenerated the committed `build/` CDN bundles. They were still built from v4.9.2, so `<script>`-tag and CDN consumers never received the device pixel ratio 3 support announced in 4.9.3 — npm consumers were unaffected. Retina devices reporting DPR 3 now get a 3x candidate from the CDN builds too.
+- `ci-bg-url` background images are now generated at the device's pixel ratio instead of always 1x, so they are no longer blurry on retina screens. Backgrounds have no `srcset`, so the ratio is picked in JS and snapped **up** to the nearest supported value.
+  - Note the bandwidth cost: a device reporting DPR `2.625` snaps up to `3`, and with `limitFactor` rounding on top a background can request up to ~9x the pixels it did at 1x. Unlike `<img>`, backgrounds have no `srcset` for the browser to negotiate down from, so this applies unconditionally on high-DPR mobile. Set `devicePixelRatioList: []` to keep backgrounds at 1x.
+- `devicePixelRatioList` values the URL generator cannot resolve (anything other than 1, 1.5, 2 and 3) are now dropped with a console warning. Previously they silently produced a `srcset` candidate with no `w`/`h` at all, which served the **full-resolution original**. Values are also coerced from strings, de-duplicated and sorted.
+- `devicePixelRatioList: []` now omits the `srcset` attribute instead of writing an empty one, which left the `<img>` with no candidates rather than falling back to `src`. It also keeps `ci-bg-url` backgrounds at 1x.
+- Identical `srcset` candidates produced by `limitFactor` rounding are emitted once, at the highest density they cover, instead of duplicated.
+- `updateSizeWithPixelRatio` no longer throws in browsers without `window.devicePixelRatio`.
+- Corrected the documented `devicePixelRatioList` default to `[1, 1.5, 2, 3]` in all three READMEs.
+
+### Changed
+- Consolidated the per-flavor URL and `srcset` generation into `src/common/ci.dpr.js`.
+- Added `npm run verify-build`, which fails when a committed `build/` bundle doesn't match `package.json`'s version. It now runs at the end of `npm run build`, and `RELEASE.md` documents the rebuild as a mandatory release step.
+
 ## 4.9.3 - 2026-05-20
 ### Fixed
 - Update `cloudimage-responsive-utils` to use version `2.5.2` in able to support device pixel ratio 3
