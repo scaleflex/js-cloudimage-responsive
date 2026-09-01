@@ -1,12 +1,13 @@
 window.ciResponsive = new window.CIResponsive({
-  baseURL: 'https://scaleflex.cloudimg.io/v7/demo/cloudimage-responsive-demo/',
+  token: 'scaleflex',
+  baseURL: 'demo/cloudimage-responsive-demo/',
   params: 'org_if_sml=1',
   lazyLoading: true,
-  apiVersion: null,
+  apiVersion: 'v7',
   lowQualityPreview: {
-    minImgWidth: 180
+    minImgWidth: 180,
   },
-  doNotReplaceURL: true
+  doNotReplaceURL: false,
 });
 
 window.lazySizes.init();

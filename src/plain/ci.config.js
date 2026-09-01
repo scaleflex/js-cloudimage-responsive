@@ -13,7 +13,7 @@ export const getInitialConfigPlain = (config) => {
     baseURL,
     presets,
     params = 'org_if_sml=1',
-    apiVersion = 'v7',
+    apiVersion = null,
     customDomain = false,
     init = true,
     exactSize = false,

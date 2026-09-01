@@ -14,7 +14,7 @@ export const getInitialConfigBlurHash = (config) => {
     presets,
     ratio = 1.5,
     params = 'org_if_sml=1',
-    apiVersion = 'v7',
+    apiVersion = null,
     customDomain = false,
     init = true,
     exactSize = false,
